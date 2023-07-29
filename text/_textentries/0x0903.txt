@@ -1,0 +1,6 @@
+[OpenMidLeft][LoadFace][0x02][0x01]
+The Demon King killed my family[NL]
+and invaded my country![A][NL]
+[OpenMidRight][LoadFace][0x03][0x01]
+If only there was a bad enough dude[NL]
+to lead us to victory![A][NL][X]

@@ -1,0 +1,24 @@
+#ifdef _FE8_
+    #include "EAstdlib.event"
+	#include "EA Standard Library/Backward Compatibility.txt"
+	#define FreeSpace 0xefb2e0
+
+	ORG FreeSpace
+
+	#include "text/Install Text Data.event"
+
+	#include "tables/Table Definitions.txt"
+	#include "tables/Table Installer.event"
+
+	#include "engine/main.event"
+
+	#include "map/Master Map Installer.event"
+
+	#include "events/Chapter Events Installer.event"
+
+	#include "graphics/Installer.event"
+
+	#include "music/Music Installer.event"
+#else
+    ERROR You are not assembling FE8 events!
+#endif
