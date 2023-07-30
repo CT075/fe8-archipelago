@@ -1,6 +1,40 @@
+#include "global.h"
+
 #include "bmunit.h"
 
-int (*GetStatIncrase)(int growth) = &GET_STAT_INCREASE;
+// I think lyn can handle these?
+int *GetStatIncrase(int growth);
+int *GetUnitExpLevel(struct Unit*);
+
+// do something here
+int GetLevelCap() {
+    return 20;
+}
+
+s8 CanBattleUnitGainLevels(struct BattleUnit* bu) {
+    if (gBmSt.gameStateBits & 0x40)
+        return TRUE;
+
+    if (bu->unit.exp == UNIT_EXP_DISABLED && GetUnitExpLevel(&bu->unit) >= GetLevelCap())
+        return FALSE;
+
+    if (UNIT_FACTION(&bu->unit) != FACTION_BLUE)
+        return FALSE;
+
+    return TRUE;
+}
+
+void EnforceLevelCap(struct BattleUnit* bu) {
+    if (UNIT_CATTRIBUTES(&bu->unit) & CA_MAXLEVEL10) {
+        if (bu->unit.level == 10) {
+            bu->expGain -= bu->unit.exp;
+            bu->unit.exp = UNIT_EXP_DISABLED;
+        }
+    } else if (GetUnitExpLevel(&bu->unit) >= GetLevelCap()) {
+        bu->expGain -= bu->unit.exp;
+        bu->unit.exp = UNIT_EXP_DISABLED;
+    }
+}
 
 void CheckBattleUnitLevelUp(struct BattleUnit* bu) {
     if (CanBattleUnitGainLevels(bu) && bu->unit.exp >= 100) {
@@ -9,15 +43,7 @@ void CheckBattleUnitLevelUp(struct BattleUnit* bu) {
         bu->unit.exp -= 100;
         bu->unit.level++;
 
-        if (UNIT_CATTRIBUTES(&bu->unit) & CA_MAXLEVEL10) {
-            if (bu->unit.level == 10) {
-                bu->expGain -= bu->unit.exp;
-                bu->unit.exp = UNIT_EXP_DISABLED;
-            }
-        } else if (bu->unit.level == 20) {
-            bu->expGain -= bu->unit.exp;
-            bu->unit.exp = UNIT_EXP_DISABLED;
-        }
+        EnforceLevelCap(bu);
 
         growthBonus = (bu->unit.state & US_GROWTH_BOOST) ? 5: 0;
         statGainTotal = 0;

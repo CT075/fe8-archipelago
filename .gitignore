@@ -1,3 +1,13 @@
+# basic artifacts
 *.zip
 *.dmp
 *.bin
+*.elf
+*.gba
+*.lyn.event
+.cache
+obj
+
+# misc tool things
+bin/lyn/CMakeFiles
+bin/lyn/CMakeCache.txt
