@@ -9,7 +9,6 @@ $(shell mkdir -p $(CACHE_DIR) > /dev/null)
 OBJ_DIR := obj
 $(shell mkdir -p $(OBJ_DIR) > /dev/null)
 
-# CR cam: we could generate this instead of vendoring it
 FE8_SYMBOLS := $(VENDOR_DIR)/fe8-symbols.s
 
 LYN_REFERENCE := $(OBJ_DIR)/fe8-reference.o
@@ -20,7 +19,7 @@ LYN_REFERENCE := $(OBJ_DIR)/fe8-reference.o
 %.dmp: %.o
 	$(OBJCOPY) -S $< -O binary $@
 
-INCLUDE_DIRS := include $(FIREEMBLEM8U)/include
+INCLUDE_DIRS := include $(VENDOR_DIR)/fireemblem8u/include
 INCFLAGS := $(foreach dir, $(INCLUDE_DIRS), -I "$(dir)")
 
 ARCH := -mcpu=arm7tdmi -mthumb -mthumb-interwork
@@ -30,8 +29,16 @@ ASFLAGS := $(ARCH) $(INCFLAGS)
 CDEPFLAGS = -MMD -MT "$*.o" -MT "$*.asm" -MF "$(CACHE_DIR)/$(notdir $*).d" -MP
 SDEPFLAGS = --MD "$(CACHE_DIR)/$(notdir $*).d"
 
-$(LYN_REFERENCE): vendor/fe8-symbols.s
+FIREEMBLEM8U ?= $(error set FIREEMBLEM8U and build decomp to build fe8 symbols)
+
+.PHONY: fe8-symbols
+fe8-symbols:
+	python $(BIN_DIR)/elf2ref.py $(FIREEMBLEM8U)/fireemblem8.elf > $(FE8_SYMBOLS)
+
+$(LYN_REFERENCE): $(FE8_SYMBOLS)
 	$(ARM_AS) $(ASFLAGS) $(SDEPFLAGS) $< -o $@
+
+# CR cam: separate build dir
 
 %.o: %.s
 	$(ARM_AS) $(ASFLAGS) $(SDEPFLAGS) -I $(dir $<) $< -o $@

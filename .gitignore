@@ -5,9 +5,13 @@
 *.elf
 *.gba
 *.lyn.event
+*.o
 .cache
 obj
 
 # misc tool things
+bin/lyn/lyn
 bin/lyn/CMakeFiles
 bin/lyn/CMakeCache.txt
+bin/lyn/Makefile
+bin/lyn/cmake_install.cmake

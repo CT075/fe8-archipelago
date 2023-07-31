@@ -1,9 +1,7 @@
 # Build tools in bin/
 # These can be called recursively because those tools are all self-contained
 
-BIN := bin
-
-LYN_DIR := $(BIN)/lyn
+LYN_DIR := $(BIN_DIR)/lyn
 LYN := $(LYN_DIR)/lyn$(EXE)
 
 $(LYN_DIR)/Makefile:
