@@ -10,4 +10,5 @@ $(LYN_DIR)/Makefile:
 $(LYN): $(LYN_DIR)/Makefile
 	cd bin/lyn && $(MAKE)
 
+.PHONY: tools
 tools: $(LYN)

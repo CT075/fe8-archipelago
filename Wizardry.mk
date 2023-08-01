@@ -31,10 +31,6 @@ SDEPFLAGS = --MD "$(CACHE_DIR)/$(notdir $*).d"
 
 FIREEMBLEM8U ?= $(error set FIREEMBLEM8U and build decomp to build fe8 symbols)
 
-.PHONY: fe8-symbols
-fe8-symbols:
-	python $(BIN_DIR)/elf2ref.py $(FIREEMBLEM8U)/fireemblem8.elf > $(FE8_SYMBOLS)
-
 $(LYN_REFERENCE): $(FE8_SYMBOLS)
 	$(ARM_AS) $(ASFLAGS) $(SDEPFLAGS) $< -o $@
 
@@ -50,5 +46,9 @@ $(LYN_REFERENCE): $(FE8_SYMBOLS)
 	$(ARM_CC) $(CFLAGS) $(CDEPFLAGS) -S $< -o $@ -fverbose-asm
 
 .PRECIOUS: %.o;
+
+.PHONY: fe8-symbols
+fe8-symbols:
+	python $(BIN_DIR)/elf2ref.py $(FIREEMBLEM8U)/fireemblem8.elf > $(FE8_SYMBOLS)
 
 -include $(wildcard $(CACHE_DIR)/*.d)

@@ -3,5 +3,17 @@ incoming flags:
 progressive level cap (10/ -> 15/ -> 20/ -> /5 -> /10 -> /15 -> /20 = 7 = 3 bits)
 progressive weapon levels (C->B->A->S = 2 bits * 8 weapons)
 sacred weapons (can use convoy bits)
+promotion items in the pool
+
+outgoing flags:
+chapter clears
+major cutscene items (holy weapons) given
+
+qol:
+unbreakable irons
+casual mode?
+
+later:
 promotion unlocks? (more annoying, put on backburner)
+lagdou/valni%
 
