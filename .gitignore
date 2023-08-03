@@ -6,6 +6,7 @@
 *.gba
 *.lyn.event
 *.o
+*.sym
 .cache
 obj
 

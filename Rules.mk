@@ -1,11 +1,35 @@
+BASEROM := fe8.gba
 
-all: targets
+TARGET := fe8_ap.gba
+
+EVENT_MAIN := main.event
+EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
+
+SYMBOLS := $(BUILD_DIR)/$(TARGET:.gba=.sym)
+
+EVENTS := $(EVENT_MAIN)
+
+hack: $(TARGET)
+
+$(BASEROM):
+	$(error no $(BASEROM) found at build root)
+
+$(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS)
+	cd $(BUILD_DIR) && \
+		cp ../$(BASEROM) ../$(TARGET) && \
+		./ColorzCore A FE8 $(EAFLAGS)
 
 # All subdirectories
 dir := src
-#include $(dir)/Rules.mk
+include $(dir)/Rules.mk
 
-# The variables `TGT_*` and `CLEAN` get added to by subdirectory makefiles.
+# The variables `EVENTS` and `CLEAN` gets added to by subdirectory makefiles.
 
-.PHONY: targets
-targets: $(TGT_EVENTS)
+CLEAN := $(BUILD_DIR) $(CACHE_DIR) $(OBJ_DIR)
+
+.PHONY: clean
+clean:
+	rm -f $(CLEAN)
+	cd $(BIN_DIR)/lyn && make clean
+
+.SECONDARY: $(CLEAN)

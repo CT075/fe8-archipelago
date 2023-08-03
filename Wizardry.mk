@@ -17,7 +17,7 @@ LYN_REFERENCE := $(OBJ_DIR)/fe8-reference.o
 	$(LYN) $< $(LYN_REFERENCE) > $@
 
 %.dmp: %.o
-	$(OBJCOPY) -S $< -O binary $@
+	$(ARM_OBJCOPY) -S $< -O binary $@
 
 INCLUDE_DIRS := include $(VENDOR_DIR)/fireemblem8u/include
 INCFLAGS := $(foreach dir, $(INCLUDE_DIRS), -I "$(dir)")
@@ -37,6 +37,9 @@ $(LYN_REFERENCE): $(FE8_SYMBOLS)
 # CR cam: separate build dir
 
 %.o: %.s
+	$(ARM_AS) $(ASFLAGS) $(SDEPFLAGS) -I $(dir $<) $< -o $@
+
+%.o: %.asm
 	$(ARM_AS) $(ASFLAGS) $(SDEPFLAGS) -I $(dir $<) $< -o $@
 
 %.o: %.c

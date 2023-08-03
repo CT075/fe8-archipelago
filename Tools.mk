@@ -24,7 +24,7 @@ ColorzCore: $(COLORZCORE)
 
 # CR cam: Every time we change COLORZCORE_DIR we have to manually change the
 # number of `..`s here.
-$(COLORZCORE): $(EA_STD_LIB_DIR)/*
+$(COLORZCORE):
 	ln -s $(COLORZCORE_BIN) $(COLORZCORE)
 	ln -s '../$(EA_STD_LIB_DIR)/Language Raws' '$(COLORZCORE_DIR)/Language Raws'
 	ln -s '../$(EA_STD_LIB_DIR)/EA Standard Library' '$(COLORZCORE_DIR)/EA Standard Library'
