@@ -4,6 +4,8 @@ DEVKITARM ?= $(error You don't seem to have devkitARM installed, or at least $$D
 VENDOR_DIR := vendor
 BIN_DIR := bin
 
+TOOL_CACHE := $(BIN_DIR)/tool_cache
+
 .PHONY: devkit_check
 
 devkit_check:
@@ -18,5 +20,6 @@ include Wizardry.mk
 # CR cam: populate this
 clean:
 	cd $(BIN_DIR)/lyn && make clean
+	rm -rf $(TOOL_CACHE)
 	rm -rf $(CACHE_DIR)
 	rm -rf $(OBJ_DIR)

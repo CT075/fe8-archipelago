@@ -9,10 +9,10 @@
 .cache
 obj
 
-# misc tool things
+# tools
 bin/lyn/lyn
 bin/lyn/CMakeFiles
 bin/lyn/CMakeCache.txt
 bin/lyn/Makefile
 bin/lyn/cmake_install.cmake
-bin/tools_cache
+bin/tool_cache
