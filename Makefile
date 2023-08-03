@@ -4,7 +4,7 @@ DEVKITARM ?= $(error You don't seem to have devkitARM installed, or at least $$D
 VENDOR_DIR := vendor
 BIN_DIR := bin
 
-TOOL_CACHE := $(BIN_DIR)/tool_cache
+BUILD_DIR := _build
 
 .PHONY: devkit_check
 
@@ -15,7 +15,7 @@ devkit_check:
 
 include Tools.mk
 include Wizardry.mk
-#include Rules.mk
+include Rules.mk
 
 # CR cam: populate this
 clean:
