@@ -5,6 +5,8 @@
 
 #include "base.h"
 
+// TODO: this doesn't work
+
 void (* ReadSramFast)(void const * src, void * dest, u32 size);
 u32 WriteAndVerifySramFast(void const * src, void * dest, u32 size);
 
