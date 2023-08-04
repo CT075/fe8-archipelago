@@ -1,7 +1,6 @@
 #include "global.h"
 
-#include "bmsave.h"
-#include "bmunit.h"
+#include "agb_sram.h"
 
 #include "base.h"
 

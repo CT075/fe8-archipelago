@@ -96,6 +96,8 @@ gSaveBlockTypeSizeLookup:
 #define DeclSaveChunkEnd "SHORT 0xFFFF 0 0 0 0 0"
 
 #include "Src/MSaFuncs.lyn.event"
+// CR cam: this shouldn't need to live in this folder
+#include "Modules/progCaps.lyn.event"
 
 ALIGN 4
 gGameSaveChunks:
@@ -111,8 +113,8 @@ gGameSaveChunks:
 	DeclSaveChunk($0D88, $0004, MSa_SaveBonusClaim,   MSa_LoadBonusClaim,   EMS_CHUNK_BONUSCLAIMDATA)
 	DeclSaveChunk($0D8C, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
 	DeclSaveChunk($0DB0, $0018, MSa_SaveDungeonState, MSa_LoadDungeonState) // Valni/Lagdou permanent data
+  DeclSaveChunk($0DC8, PROGRESSIVE_CAPS_SIZE, saveProgCaps, loadProgCaps)
 
-	// ends at $0DC8
 	// free up to $1344 ($57C free bytes)
 
 	DeclSaveChunkEnd
@@ -122,8 +124,6 @@ gGameSaveChunks:
 // ==================
 
 #include "Src/MSuFuncs.lyn.event"
-// CR cam: this shouldn't need to live in this folder
-#include "Modules/progCaps.lyn.event"
 
 ALIGN 4
 gSuspendSaveChunks:
@@ -145,7 +145,6 @@ gSuspendSaveChunks:
 	DeclSaveChunk($1F44, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
 	DeclSaveChunk($1F68, $000C, MSu_SaveDungeonState, MSu_LoadDungeonState) // Valni/Lagdou active run data
 	DeclSaveChunk($1F74, $0004, MSu_SaveEventCounter, MSu_LoadEventCounter) // Event counter
-  DeclSaveChunk($1F78, PROGRESSIVE_CAPS_SIZE, saveProgCaps, loadProgCaps)
 
 	DeclSaveChunk(0, 0, 0, MSu_LoadClaimFlagsFromParentSave) // Load Bonus Claim flags from parent save
 
