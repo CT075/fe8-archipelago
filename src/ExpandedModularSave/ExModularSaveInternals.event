@@ -1,7 +1,7 @@
 #ifndef EXPANDED_MODULAR_SAVE_INTERNALS
 #define EXPANDED_MODULAR_SAVE_INTERNALS
 
-#include "SrcCore/MSCore.lyn.event"
+#include "Src/MSCore.lyn.event"
 
 #ifndef LynJumpDefined
 	#define LynJumpDefined
@@ -14,8 +14,8 @@ gMS_PermanentEidsChunkId: BYTE EMS_CHUNK_EIDS_PERMANENT
 gMS_ClaimFlagsChunkId:    BYTE EMS_CHUNK_BONUSCLAIMDATA
 gMS_WMDataChunkId:        BYTE EMS_CHUNK_WMDATA
 
-#include "SrcCore/MSSizeHook.lyn.event"
-#include "SrcCore/MSBWLHook.lyn.event"
+#include "Src/MSSizeHook.lyn.event"
+#include "Src/MSBWLHook.lyn.event"
 
 PUSH
 	// Checksum computation function now returns a constant

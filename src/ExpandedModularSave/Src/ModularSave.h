@@ -44,8 +44,6 @@ void LoadSavedUnit(void* source, struct Unit* unit) __attribute__((long_call));
 void SaveWMStuff(void*, void*) __attribute__((long_call));
 void LoadWMStuff(void*, void*) __attribute__((long_call));
 
-extern u8 gGMData;
-
 void StoreRNStateToActionStruct(void) __attribute__((long_call));
 void LoadRNStateFromActionStruct(void) __attribute__((long_call));
 
@@ -56,5 +54,8 @@ void PackUnitStructForSuspend(struct Unit* unit, void* target) __attribute__((lo
 void UnpackUnitStructFromSuspend(void* source, struct Unit* unit) __attribute__((long_call));
 
 void SetBonusContentClaimFlags(u32 value) __attribute__((long_call));
+
+int GetNextSuspendSaveId(void);
+void UpdateNextSuspendSaveId(void);
 
 #endif // MODULAR_SAVE_H

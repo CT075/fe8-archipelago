@@ -10,8 +10,8 @@
 *.s
 *.asm
 !src/fillAIDangerMap/FillAIDangerMap.s
-!src/ExpandedModularSave/SrcCore/*.lyn.event
-!src/ExpandedModularSave/SrcCore/*.s
+!src/ExpandedModularSave/Src/*.lyn.event
+!src/ExpandedModularSave/Src/*.s
 .cache
 obj
 

@@ -74,13 +74,6 @@ gSaveBlockTypeSizeLookup:
 #define EMS_CHUNK_BONUSCLAIMDATA 7
 #define EMS_CHUNK_WMDATA         8
 
-// ===========
-// = MODULES =
-// ===========
-
-#include "SrcCore/MSaFuncs.lyn.event" // Core save modules
-#include "SrcCore/MSuFuncs.lyn.event" // Core suspend modules
-
 // ===============
 // = SAVE CHUNKS =
 // ===============
@@ -102,28 +95,25 @@ gSaveBlockTypeSizeLookup:
 #define DeclSaveChunk(aOffset, aSize, apSaver, apLoader, aIdentifier) "SHORT (aOffset) (aSize); POIN (apSaver) (apLoader); SHORT (aIdentifier) 0"
 #define DeclSaveChunkEnd "SHORT 0xFFFF 0 0 0 0 0"
 
+#include "Src/MSaFuncs.lyn.event"
+
 ALIGN 4
 gGameSaveChunks:
 	DeclSaveChunk(0, 0, 0, $0177C4+1) // Clear units on load
 
 	DeclSaveChunk($0000, $004C, MSa_SaveChapterState, MSa_LoadChapterState, EMS_CHUNK_CHAPTERSTATE)
-	DeclSaveChunk($004C, $0008, $0A59E0+1,            $0A5A00+1)            // World map skirmish RNG state
-	DeclSaveChunk($0054, $00B0, $0A31E4+1,            $0A326C+1,            EMS_CHUNK_CONVOYITEMS)
-	DeclSaveChunk($0104, $0460, $0A4264+1,            $0A421C+1,            EMS_CHUNK_BWLENTRIES)
-	DeclSaveChunk($0564, $00C0, $0A4288+1,            $0A4248+1,            EMS_CHUNK_WINDATA)
-	DeclSaveChunk($0624, $0019, $0A3150+1,            $0A3198+1,            EMS_CHUNK_EIDS_PERMANENT)
-	DeclSaveChunk($0640, $0004, MSa_SaveBonusClaim,   MSa_LoadBonusClaim,   EMS_CHUNK_BONUSCLAIMDATA)
-	DeclSaveChunk($0644, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
-	DeclSaveChunk($0668, $0018, MSa_SaveDungeonState, MSa_LoadDungeonState) // Valni/Lagdou permanent data
+	DeclSaveChunk($004C, $072C, MSa_SaveUnits,        MSa_LoadUnits,        EMS_CHUNK_SAVEUNITS)
+	DeclSaveChunk($0778, $0008, $0A59E0+1,            $0A5A00+1)            // World map skirmish RNG state
+	DeclSaveChunk($079C, $00B0, $0A31E4+1,            $0A326C+1,            EMS_CHUNK_CONVOYITEMS)
+	DeclSaveChunk($084C, $0460, $0A4264+1,            $0A421C+1,            EMS_CHUNK_BWLENTRIES)
+	DeclSaveChunk($0CAC, $00C0, $0A4288+1,            $0A4248+1,            EMS_CHUNK_WINDATA)
+	DeclSaveChunk($0D6C, $0019, $0A3150+1,            $0A3198+1,            EMS_CHUNK_EIDS_PERMANENT)
+	DeclSaveChunk($0D88, $0004, MSa_SaveBonusClaim,   MSa_LoadBonusClaim,   EMS_CHUNK_BONUSCLAIMDATA)
+	DeclSaveChunk($0D8C, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
+	DeclSaveChunk($0DB0, $0018, MSa_SaveDungeonState, MSa_LoadDungeonState) // Valni/Lagdou permanent data
 
-	// $0680
-
-	// Save 62 blue units (62 * 0x2C = $0AA8)
-	DeclSaveChunk($0680, $0AA8, ESU_SaveGameUnits, ESU_LoadGameUnits, EMS_CHUNK_SAVEUNITS)
-
-	// $1128
-
-	// free up to $1344
+	// ends at $0DC8
+	// free up to $1344 ($57C free bytes)
 
 	DeclSaveChunkEnd
 
@@ -131,56 +121,33 @@ gGameSaveChunks:
 // = SUSPEND CHUNKS =
 // ==================
 
+#include "Src/MSuFuncs.lyn.event"
+
 ALIGN 4
 gSuspendSaveChunks:
 	DeclSaveChunk(0, 0, 0, $0177C4+1) // Clear units on load
 
 	DeclSaveChunk($0000, $004C, MSa_SaveChapterState, MSa_LoadChapterState, EMS_CHUNK_CHAPTERSTATE)
 	DeclSaveChunk($004C, $0038, MSu_SaveActionState,  MSu_LoadActionState)  // Action State
-	DeclSaveChunk($0084, $0018, MSa_SaveDungeonState, MSa_LoadDungeonState) // Valni/Lagdou permanent data
-	DeclSaveChunk($009C, $0200, $0A6370+1,            $0A638C+1)            // Trap data
-	DeclSaveChunk($029C, $00B0, $0A31E4+1,            $0A326C+1)            // Convoy Items
-	DeclSaveChunk($034C, $0460, $0A4264+1,            $0A421C+1)            // BWL Entries
-	DeclSaveChunk($07AC, $00C0, $0A4288+1,            $0A4248+1)            // Previous chapters turn count & time & stuff
-	DeclSaveChunk($086C, $0010, MSu_SaveMenuRelated,  MSu_LoadMenuRelated)  // "menu related list" related
-	// Gap here of 9 bytes, this is because of a previous mistake in allocation
-	DeclSaveChunk($0885, $0005, $0A3130+1,            $0A3170+1)            // Temporary eids
-	DeclSaveChunk($088C, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
-	DeclSaveChunk($08B0, $000C, MSu_SaveDungeonState, MSu_LoadDungeonState) // Valni/Lagdou active run data
-	DeclSaveChunk($08BC, $0004, MSu_SaveEventCounter, MSu_LoadEventCounter) // Event counter
-
-	// $08C0
-
-	// Vanilla (replaced):
-	// DeclSaveChunk($08C0, $0A5C, MSu_SavePlayerUnits,  MSu_LoadPlayerUnits)  // Player Units
-	// DeclSaveChunk($131C, $0C30, MSu_SaveOtherUnits,   MSu_LoadOtherUnits)   // Non-Player Units
-
-	// NEW STUFF
-
-	// We are almost using all of the (expanded!) space we have in suspend save
-	// Which is kind of crazy. If you *really* want more space for something,
-	// You could cut the number of saved blue units by a bit (vanilla saves 51)
-	// This saves *all* of them
-
-	// Save 62 blue units (62 * 0x34 = $0C98)
-	DeclSaveChunk($08C0, $0C98, ESU_SavePlayerSuspendUnits, ESU_LoadPlayerSuspendUnits)
-
-	// Save 50 red units (50 * 0x38 = $0AF0)
-	DeclSaveChunk($1558, $0AF0, ESU_SaveRedSuspendUnits,    ESU_LoadRedSuspendUnits)
-
-	// Save 20 green units (20 * 0x38 = $0460)
-	DeclSaveChunk($2048, $0460, ESU_SaveGreenSuspendUnits,  ESU_LoadGreenSuspendUnits)
-
-	// Save Debuffs (TODO: maybe reduce size)
-	DeclSaveChunk($24A8, DebuffTableSize, SUD_SaveDebuffs,  SUD_LoadDebuffs)
-
-	// Permanent eids (moved here because of a mistake in the previous allocation)
-	DeclSaveChunk($2DA8, $0019, $0A3150+1, $0A3198+1)
-
-	// ends at $2DC1
-	// free up to $2E78 ($B7 free bytes)
+	DeclSaveChunk($0084, $0A5C, MSu_SavePlayerUnits,  MSu_LoadPlayerUnits)  // Player Units
+	DeclSaveChunk($0AE0, $0018, MSa_SaveDungeonState, MSa_LoadDungeonState) // Valni/Lagdou permanent data
+	// there's a small gap here? $0AF8-0B14
+	DeclSaveChunk($0B14, $0C30, MSu_SaveOtherUnits,   MSu_LoadOtherUnits)   // Non-Player Units
+	DeclSaveChunk($1744, $0200, $0A6370+1,            $0A638C+1)            // Trap data
+	DeclSaveChunk($1944, $00B0, $0A31E4+1,            $0A326C+1)            // Convoy Items
+	DeclSaveChunk($19F4, $0460, $0A4264+1,            $0A421C+1)            // BWL Entries
+	DeclSaveChunk($1E54, $00C0, $0A4288+1,            $0A4248+1)            // Previous chapters turn count & time & stuff
+	DeclSaveChunk($1F14, $0010, MSu_SaveMenuRelated,  MSu_LoadMenuRelated)  // "menu related list" related
+	DeclSaveChunk($1F24, $0019, $0A3150+1,            $0A3198+1)            // Permanent eids
+	DeclSaveChunk($1F3D, $0005, $0A3130+1,            $0A3170+1)            // Temporary eids
+	DeclSaveChunk($1F44, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
+	DeclSaveChunk($1F68, $000C, MSu_SaveDungeonState, MSu_LoadDungeonState) // Valni/Lagdou active run data
+	DeclSaveChunk($1F74, $0004, MSu_SaveEventCounter, MSu_LoadEventCounter) // Event counter
 
 	DeclSaveChunk(0, 0, 0, MSu_LoadClaimFlagsFromParentSave) // Load Bonus Claim flags from parent save
+
+	// ends at $1F78
+	// free up to $2E78 ($F00 free bytes)
 
 	DeclSaveChunkEnd
 
