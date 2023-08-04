@@ -7,6 +7,9 @@ BUILD_DIR := _build
 
 .DEFAULT_GOAL := hack
 
+dummy%:
+	@:
+
 ### Standard parts
 
 include Tools.mk

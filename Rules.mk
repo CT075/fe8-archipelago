@@ -29,7 +29,7 @@ $(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS)
 	cd $(BUILD_DIR) && \
 		cp ../$(BASEROM) ../$(TARGET) && \
 		./ColorzCore A FE8 $(EAFLAGS) \
-	|| rm -f ../$(TARGET) $(SYMBOLS)
+	|| (rm -f ../$(TARGET) $(SYMBOLS) && false)
 
 CLEAN := $(BUILD_DIR)
 
