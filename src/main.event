@@ -1,4 +1,5 @@
 #include "_FE8EssentialFixes.event"
+#include "ExpandedModularSave/ExModularSave.event"
 #include "fillAIDangerMap/FillAIDangerMap.event"
 #include "levelcap/progressiveLevelCap.lyn.event"
 #include "levelcap/levelCapSave.lyn.event"
