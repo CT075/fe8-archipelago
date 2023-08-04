@@ -8,7 +8,7 @@
 int GetStatIncrease(int growth);
 int GetUnitExpLevel(struct Unit*);
 
-inline int GetLevelCap() {
+int GetLevelCap() {
     return 10 + progCaps->lvlCapStage*5;
 }
 

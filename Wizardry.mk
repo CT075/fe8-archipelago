@@ -26,7 +26,7 @@ ARCH := -mcpu=arm7tdmi -mthumb -mthumb-interwork
 CFLAGS := $(ARCH) $(INCFLAGS) -Wall -Os -mtune=arm7tdmi -ffreestanding -mlong-calls
 ASFLAGS := $(ARCH) $(INCFLAGS)
 
-CDEPFLAGS = -MMD -MT "$*.o" -MT "$*.asm" -MF "$(CACHE_DIR)/$(notdir $*).d" -MP
+CDEPFLAGS = -MMD -MT "$*.o" -MT "$*.s" -MF "$(CACHE_DIR)/$(notdir $*).d" -MP
 SDEPFLAGS = --MD "$(CACHE_DIR)/$(notdir $*).d"
 
 FIREEMBLEM8U ?= $(error set FIREEMBLEM8U and build decomp to build fe8 symbols)
@@ -36,19 +36,16 @@ $(LYN_REFERENCE): $(FE8_SYMBOLS)
 
 # CR cam: separate build dir
 
-%.o: %.s
-	$(ARM_AS) $(ASFLAGS) $(SDEPFLAGS) -I $(dir $<) $< -o $@
-
-%.o: %.asm
-	$(ARM_AS) $(ASFLAGS) $(SDEPFLAGS) -I $(dir $<) $< -o $@
-
 %.o: %.c
 	$(ARM_CC) $(CFLAGS) $(CDEPFLAGS) -g -c $< -o $@
+
+%.o: %.s
+	$(ARM_AS) $(ASFLAGS) $(SDEPFLAGS) -I $(dir $<) $< -o $@
 
 %.asm: %.c
 	$(ARM_CC) $(CFLAGS) $(CDEPFLAGS) -S $< -o $@ -fverbose-asm
 
-.PRECIOUS: %.o;
+.SECONDARY:
 
 .PHONY: fe8-symbols
 fe8-symbols:
