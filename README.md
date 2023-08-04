@@ -24,8 +24,7 @@ for vendored resources as follows:
 - [fireemblem8u](https://github.com/FireEmblemUniverse/fireemblem8u)
   decompilation symbols and headers by various contributors
 - FillAIDangerMap by hypergammaspaces, included under CC0
-- Expanded Modular Save by [stan](https://github.com/StanHash/), included under
-  CC0
+- libgba and Expanded Modular Save by [stan](https://github.com/StanHash/).
 - Project template initially forked from MysticOCE's
   [EasyBuildfile](https://github.com/MysticOCE/EasyBuildfile) taking
   inspiration from [Zane Avernathy's Sacred Stones hack rewrites](https://github.com/ZaneAvernathy/Rewrite)
