@@ -23,7 +23,7 @@ INCLUDE_DIRS := include $(VENDOR_DIR)/fireemblem8u/include
 INCFLAGS := $(foreach dir, $(INCLUDE_DIRS), -I "$(dir)")
 
 ARCH := -mcpu=arm7tdmi -mthumb -mthumb-interwork
-CFLAGS := $(ARCH) $(INCFLAGS) -Wall -Os -mtune=arm7tdmi -ffreestanding -mlong-calls
+CFLAGS := $(ARCH) $(INCFLAGS) -Wall -mtune=arm7tdmi -ffreestanding -mlong-calls
 ASFLAGS := $(ARCH) $(INCFLAGS)
 
 CDEPFLAGS = -MMD -MT "$*.o" -MT "$*.s" -MF "$(CACHE_DIR)/$(notdir $*).d" -MP
