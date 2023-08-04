@@ -5,6 +5,8 @@
 
 	ORG FreeSpace
 
+  // CR cam: it's not great to need to hardcode this
+  #include "_build/archipelagoDefs.event"
   #include "src/main.event"
 #else
     ERROR You are not assembling FE8 events!

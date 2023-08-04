@@ -1,7 +1,7 @@
 #ifndef RANDO_BASE_H
 #define RANDO_BASE_H
 
-#include "global.h"
+//#include "global.h"
 
 struct ProgressiveCaps {
   int lvlCapStage;

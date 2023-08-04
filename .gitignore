@@ -21,4 +21,5 @@ bin/lyn/CMakeFiles
 bin/lyn/CMakeCache.txt
 bin/lyn/Makefile
 bin/lyn/cmake_install.cmake
+bin/gendefs/gendefs
 _build

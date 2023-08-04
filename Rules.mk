@@ -5,9 +5,14 @@ TARGET := fe8_ap.gba
 EVENT_MAIN := main.event
 EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
 
+ARCHIPELAGO_DEFS := _build/archipelagoDefs.event
+
+$(ARCHIPELAGO_DEFS): $(GENDEFS)
+	$(GENDEFS) > $(ARCHIPELAGO_DEFS)
+
 SYMBOLS := $(BUILD_DIR)/$(TARGET:.gba=.sym)
 
-EVENTS := $(EVENT_MAIN)
+EVENTS := $(EVENT_MAIN) $(ARCHIPELAGO_DEFS)
 
 hack: $(TARGET)
 

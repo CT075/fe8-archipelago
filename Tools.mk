@@ -2,7 +2,7 @@
 # These can be called recursively because those tools are all self-contained
 
 LYN_DIR := $(BIN_DIR)/lyn
-LYN := $(LYN_DIR)/lyn$(EXE)
+LYN := $(LYN_DIR)/lyn
 
 # ColorzCore needs to be run from the directory containing the `Language Raws`
 # folder (it doesn't handle the `-raws` flag properly), so we simply copy
@@ -18,6 +18,14 @@ $(LYN_DIR)/Makefile:
 
 $(LYN): $(LYN_DIR)/Makefile
 	cd bin/lyn && $(MAKE)
+
+GENDEFS_DIR := $(BIN_DIR)/gendefs
+GENDEFS_SRC := $(GENDEFS_DIR)/gendefs.c
+GENDEFS := $(BUILD_DIR)/gendefs
+
+# CR cam: these should use `CDEPFLAGS` as well
+$(GENDEFS): $(GENDEFS_SRC) include/*
+	$(CC) $(GENDEFS_SRC) -o $(GENDEFS) $(INCFLAGS)
 
 .PHONY: ColorzCore
 ColorzCore: $(COLORZCORE)
