@@ -19,9 +19,9 @@ $(LYN_DIR)/Makefile:
 $(LYN): $(LYN_DIR)/Makefile
 	cd bin/lyn && $(MAKE)
 
-GENDEFS_DIR := $(BIN_DIR)/gendefs
-GENDEFS_SRC := $(GENDEFS_DIR)/gendefs.c
-GENDEFS := $(BUILD_DIR)/gendefs
+GENDEFS_DIR := $(BIN_DIR)/gen_ea_defs
+GENDEFS_SRC := $(GENDEFS_DIR)/gen_ea_defs.c
+GENDEFS := $(BUILD_DIR)/gen_ea_defs
 
 # CR cam: these should use `CDEPFLAGS` as well
 $(GENDEFS): $(GENDEFS_SRC) include/*
