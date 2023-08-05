@@ -1,18 +1,18 @@
 #ifndef RANDO_BASE_H
 #define RANDO_BASE_H
 
-//#include "global.h"
+#include "global.h"
 
 struct ProgressiveCaps {
-  int lvlCapStage;
-  int swordLvlStage;
-  int lanceLvlStage;
-  int axeLvlStage;
-  int bowLvlStage;
-  int animaLvlStage;
-  int lightLvlStage;
-  int darkLvlStage;
-  int staffLvlStage;
+  u8 lvlCapStage;
+  u8 swordLvlCapStage;
+  u8 lanceLvlCapStage;
+  u8 axeLvlCapStage;
+  u8 bowLvlCapStage;
+  u8 animaLvlCapStage;
+  u8 lightLvlCapStage;
+  u8 darkLvlCapStage;
+  u8 staffLvlCapStage;
 };
 
 #define PROG_CAPS_ADDR 0x02026E30
