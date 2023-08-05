@@ -81,7 +81,7 @@ class Typeable a => EnumGen a where
         emitln $ "enum " ++ show (typeRep @a) ++ " {"
         forM_ (variants @a) $ \(name, variant) ->
             emitln ("  " ++ name ++ "=" ++ show variant ++ ",")
-        emitln "};"
+        emitln "} __attribute__ ((__packed__));"
 
 instance (Show a, Enum a, Bounded a, Typeable a) => EnumGen a where
     -- CR cam: These generate NONSPACED names; it'd be cool if we could process

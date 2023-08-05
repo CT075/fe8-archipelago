@@ -15,7 +15,7 @@ enum HolyWeapon {
   AUDHULMA=7,
   IVALDI=8,
   LATONA=9,
-};
+} __attribute__ ((__packed__));
 
 enum WeaponKind {
   SWORD=0,
@@ -26,7 +26,7 @@ enum WeaponKind {
   LIGHT=5,
   DARK=6,
   STAFF=7,
-};
+} __attribute__ ((__packed__));
 
 union IncomingPayload {
   enum WeaponKind weaponKind;
@@ -42,12 +42,12 @@ enum IncomingEventKind {
   PROGRESSIVELEVELCAP=0,
   PROGRESSIVEWEAPONLEVELCAP=1,
   GETITEM=2,
-};
+} __attribute__ ((__packed__));
 
 enum OutgoingEventKind {
   GOTHOLYWEAPON=0,
   CLEAREDCHAPTER=1,
-};
+} __attribute__ ((__packed__));
 
 struct OutEvent {
   enum OutEventKind kind;
