@@ -10,6 +10,9 @@ ARCHIPELAGO_DEFS := _build/archipelagoDefs.event
 $(ARCHIPELAGO_DEFS): $(GENDEFS)
 	$(GENDEFS) > $(ARCHIPELAGO_DEFS)
 
+include/connector_types.h: $(BIN_DIR)/connector_config/Generate.hs
+	runhaskell $< -Wall > $@
+
 SYMBOLS := $(BUILD_DIR)/$(TARGET:.gba=.sym)
 
 EVENTS := $(EVENT_MAIN) $(ARCHIPELAGO_DEFS)
