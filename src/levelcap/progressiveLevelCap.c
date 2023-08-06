@@ -3,7 +3,8 @@
 #include "bmbattle.h"
 #include "bmunit.h"
 
-#include "base.h"
+#include "progressiveCaps.h"
+#include "constants.h"
 
 int GetStatIncrease(int growth);
 int GetUnitExpLevel(struct Unit*);

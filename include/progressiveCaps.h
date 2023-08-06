@@ -1,5 +1,5 @@
-#ifndef RANDO_BASE_H
-#define RANDO_BASE_H
+#ifndef PROGRESSIVE_CAPS_H
+#define PROGRESSIVE_CAPS_H
 
 #include "global.h"
 
@@ -19,7 +19,6 @@ struct ProgressiveCaps {
 
 #define progCaps ((struct ProgressiveCaps *)PROG_CAPS_ADDR)
 
-#define BLUE_UNIT_MAX 62
 #define TRUE_LEVEL_CAP 20
 
-#endif // RANDO_BASE_H
+#endif // PROGRESSIVE_CAPS_H

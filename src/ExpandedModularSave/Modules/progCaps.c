@@ -2,7 +2,7 @@
 
 #include "agb_sram.h"
 
-#include "base.h"
+#include "progressiveCaps.h"
 
 void saveProgCaps(void *target, unsigned size) {
   WriteAndVerifySramFast((void *)progCaps, target, size);
