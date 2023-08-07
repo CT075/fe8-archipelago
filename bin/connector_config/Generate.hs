@@ -1,6 +1,4 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
-{-# LANGUAGE KindSignatures #-}
-{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 {-# OPTIONS_GHC -Werror=incomplete-patterns #-}
@@ -13,22 +11,12 @@
 -- drift out of sync, and also means that this file can serve as a single point
 -- of reference for such events.
 
--- TODO: Python gen
-
-import Control.Arrow
-import Control.Monad
-import Data.Char
-import Data.Void
+import Control.Monad (forM_)
+import System.Environment (getArgs)
+import System.Exit (ExitCode (..), exitWith)
+import System.IO (hPutStrLn, stderr)
+import Text.Read (readMaybe)
 import Type.Reflection
-
--- Datatypes
---
--- Because we want a nice, uniform representation on the GBA side, we define a
--- server event to be a `(Kind, Payload)` pairing, which has a simple and
--- obvious representation as a pair of fixed-width integers.
---
--- CR cam: Doing this with Haskell-level types instead of just lists of strings
--- is _way_ overengineering things.
 
 data HolyWeapon
     = Sieglinde
@@ -43,133 +31,180 @@ data HolyWeapon
     | Latona
     deriving (Show, Enum, Bounded, Typeable)
 
-data WeaponKind = Sword | Lance | Axe | Bow | Anima | Light | Dark | Staff
-    deriving (Show, Enum, Bounded, Typeable)
+holyWeaponShort :: HolyWeapon -> String
+holyWeaponShort = show @HolyWeapon
 
-data OutgoingEventKind where
-    GotHolyWeapon :: OutgoingEventKind -- HolyWeapon
-    ClearedChapter :: OutgoingEventKind -- Int
-    deriving (Show, Enum, Bounded, Typeable)
+holyWeaponLong :: HolyWeapon -> String
+holyWeaponLong = (++ " Received") . show @HolyWeapon
 
-data IncomingEventKind where
-    ProgressiveLevelCap :: IncomingEventKind -- Void
-    ProgressiveWeaponLevelCap :: IncomingEventKind -- WeaponKind
-    GetItem :: IncomingEventKind -- Int
-    deriving (Show, Enum, Bounded, Typeable)
+data Chapter
+    = Prologue
+    | -- For now, we treat Eirika and Ephraim versions of the same map as the
+      -- same location
+      C Int
+    | C5x
+    | Endgame
+    deriving (Show, Typeable)
 
-data U8
+instance Bounded Chapter where
+    minBound = Prologue
+    maxBound = Endgame
 
--- Code generation
+instance Enum Chapter where
+    toEnum 0 = Prologue
+    toEnum 6 = C5x
+    toEnum 22 = Endgame
+    toEnum i
+        | i < 1 = error $ "invalid chapter index " ++ show i
+        | i < 6 = C i
+        | i < 22 = C (i - 1)
+        | otherwise = error $ "invalid chapter index " ++ show i
 
-class CTypeManifest ty where
-    withCTypeManifest :: Monad m => (String -> m ()) -> m ()
+    fromEnum Prologue = 0
+    fromEnum C5x = 6
+    fromEnum Endgame = 22
+    fromEnum (C i)
+        | i < 6 = i
+        | otherwise = i + 1
 
-instance {-# OVERLAPS #-} (Enum a, Bounded a, Typeable a) => CTypeManifest a where
-    withCTypeManifest = ($ "enum " ++ show (typeRep @a))
+data Location
+    = ChapterClear Chapter
+    | HolyWeaponGet HolyWeapon
+    deriving (Show, Typeable)
 
-instance CTypeManifest U8 where
-    withCTypeManifest = ($ "u8")
+instance Bounded Location where
+    minBound = ChapterClear minBound
+    maxBound = HolyWeaponGet maxBound
 
-instance CTypeManifest Void where
-    withCTypeManifest _ = return ()
+instance Enum Location where
+    toEnum i
+        | i < 0 = error $ "invalid location index " ++ show i
+        | i <= fromEnum (maxBound @Chapter) = ChapterClear $ toEnum i
+        | otherwise = HolyWeaponGet $ toEnum $ i - fromEnum (maxBound @Chapter) - 1
 
-class Typeable a => EnumGen a where
-    variants :: [(String, Int)]
+    fromEnum (ChapterClear c) = fromEnum c
+    fromEnum (HolyWeaponGet hw) = fromEnum hw + fromEnum (maxBound @Chapter) + 1
 
-    emitCEnum :: Monad m => (String -> m ()) -> m ()
-    emitCEnum emitln = do
-        emitln $ "enum " ++ show (typeRep @a) ++ " {"
-        forM_ (variants @a) $ \(name, variant) ->
-            emitln ("  " ++ name ++ "=" ++ show variant ++ ",")
-        emitln "} __attribute__ ((__packed__));"
+emitCEnum ::
+    forall a.
+    forall m.
+    (Monad m, Bounded a, Enum a, Show a, Typeable a) =>
+    (String -> m ()) ->
+    m ()
+emitCEnum emitLn = do
+    emitLn $ "enum " ++ show (typeRep @a) ++ " {"
+    forM_ [minBound @a .. maxBound] $ \v ->
+        let name = show v
+            i = show $ fromEnum v
+         in emitLn $ "  " ++ name ++ "=" ++ i ++ ","
+    emitLn "};"
 
-instance (Show a, Enum a, Bounded a, Typeable a) => EnumGen a where
-    -- CR cam: These generate NONSPACED names; it'd be cool if we could process
-    -- these to be UNDERSCORE_SPACED instead.
-    variants = map ((map toUpper . show) &&& fromEnum) (enumFrom (toEnum @a 0))
-
-class (Enum a, Bounded a) => UnionGen a where
-    unionName :: String
-    withVariantData :: Monad m => ((String, String) -> m ()) -> a -> m ()
-
--- CR cam: It'd be nice to unify all these near-identical clauses somehow
-instance UnionGen OutgoingEventKind where
-    unionName = "OutgoingPayload"
-
-    withVariantData f GotHolyWeapon = withCTypeManifest @HolyWeapon (\s -> f (s, "holyWeaponID"))
-    withVariantData f ClearedChapter = withCTypeManifest @U8 (\s -> f (s, "chapterID"))
-
-instance UnionGen IncomingEventKind where
-    unionName = "IncomingPayload"
-
-    withVariantData f ProgressiveLevelCap = withCTypeManifest @Void (\s -> f (s, "levelcap"))
-    withVariantData f ProgressiveWeaponLevelCap =
-        withCTypeManifest @WeaponKind (\s -> f (s, "weaponKind"))
-    withVariantData f GetItem = withCTypeManifest @U8 (\s -> f (s, "itemID"))
-
-emitCUnion :: forall a. forall m. (UnionGen a, Monad m) => (String -> m ()) -> m ()
-emitCUnion emitLn = do
-    emitLn $ "union " ++ unionName @a ++ " {"
-    let emitUnionField (ty, name) = emitLn $ "  " ++ ty ++ " " ++ name ++ ";"
-    forM_ (enumFrom (toEnum 0)) $ withVariantData @a emitUnionField
-    emitLn $ "};"
-
-emitCEventStruct :: Monad m => String -> (String -> m ()) -> m ()
-emitCEventStruct prefix emitLn = do
-    emitLn $ "struct " ++ prefix ++ "Event {"
-    emitLn $ "  enum " ++ prefix ++ "EventKind kind;"
-    emitLn $ "  union " ++ prefix ++ "Payload payload;"
-    emitLn $ "  bool seen;"
-    emitLn $ "};"
-
-pythonCommentPrefix = "# "
-cCommentPrefix = "// "
-
+headerLines :: [String]
 headerLines =
     [ "THIS FILE IS GENERATED, DO NOT EDIT DIRECTLY"
     , ""
     , "To change this file, see `bin/connector_config/Generate.hs` at"
     , "https://github.com/CT075/fe8-archipelago"
-    , ""
     ]
 
--- TODO: extract common structure out between python/c
+cCommentPrefix :: String
+cCommentPrefix = "// "
 
-generateCHeader :: Monad m => (String -> m ()) -> m ()
-generateCHeader emitLn = do
-    -- Generate header
-    forM_ headerLines (emitLn . (cCommentPrefix ++))
+pythonCommentPrefix :: String
+pythonCommentPrefix = "# "
+
+emitHeader :: Monad m => String -> (String -> m ()) -> m ()
+emitHeader commentPrefix emitLn =
+    forM_ headerLines $ emitLn . (commentPrefix ++)
+
+emitConfigHeader :: Monad m => (String -> m ()) -> m ()
+emitConfigHeader emitLn = do
+    emitHeader cCommentPrefix emitLn
     emitLn ""
-
-    -- Generate payload content enums
-    --
-    -- CR cam: After everything, we have no way of enforcing that we emit all
-    -- of the enums that we need to...
     emitCEnum @HolyWeapon emitLn
     emitLn ""
-    emitCEnum @WeaponKind emitLn
-    emitLn ""
+    emitLn "struct Checks {"
+    emitLn $ "  u8 found[" ++ show locationBytes ++ "];"
+    emitLn "};"
+  where
+    locationBits = length $ [minBound @Location .. maxBound]
+    locationBytesTrue = (locationBits + 7) `div` 8
+    locationBytes = ((locationBytesTrue + 3) `div` 4) * 4
 
-    -- Generate payload shape unions
-    emitCUnion @IncomingEventKind emitLn
+emitConnectorAccessorsC :: Monad m => (String -> m ()) -> m ()
+emitConnectorAccessorsC emitLn = do
+    emitHeader cCommentPrefix emitLn
     emitLn ""
-    emitCUnion @OutgoingEventKind emitLn
+    emitLn $ "#include \"connector_config.h\""
     emitLn ""
+    emitLn $ "int chapterClearFlagIndex(int chapter) {"
+    -- CR cam: it'd be nice to use some notion of the "offset" of the `Chapter`
+    -- variants instead of hardcoding 0 here.
+    emitLn $ "  return 0+chapter;"
+    emitLn $ "}"
+    emitLn ""
+    emitLn $ "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon) {"
+    emitLn $ "  switch (weapon) {"
+    forM_ [minBound @HolyWeapon .. maxBound] $ \weapon -> do
+        emitLn $ "    case " ++ show weapon ++ ":"
+        emitLn $ "      return " ++ show (fromEnum (HolyWeaponGet weapon)) ++ ";"
+    emitLn $ "  }"
+    emitLn $ "}"
 
-    -- Generate event kind enums
-    emitCEnum @IncomingEventKind emitLn
+emitPythonLocations :: Monad m => (String -> m ()) -> m ()
+emitPythonLocations emitLn = do
+    emitHeader pythonCommentPrefix emitLn
     emitLn ""
-    emitCEnum @OutgoingEventKind emitLn
-    emitLn ""
+    emitLn "location_data = ["
+    forM_ [minBound @Chapter .. maxBound] $ emitLn . ("  " ++) . formatChapterClear
+    forM_ [minBound @HolyWeapon .. maxBound] $ emitLn . ("  " ++) . formatHolyWeapon
+    emitLn "]"
+  where
+    formatHolyWeapon weap =
+        "("
+            ++ show (holyWeaponShort weap)
+            ++ ", "
+            ++ show (holyWeaponLong weap)
+            ++ ", "
+            ++ show (fromEnum $ HolyWeaponGet weap)
+            ++ "),"
 
-    -- Generate struct types
-    emitCEventStruct "Out" emitLn
-    emitLn ""
-    emitCEventStruct "In" emitLn
-    emitLn ""
+    formatChapterClear c = "(" ++ formatChapterText c ++ ", " ++ (show $ fromEnum c) ++ ")"
+      where
+        formatChapterText Prologue = "\"PrologueClear\", \"Completed Prologue\""
+        formatChapterText C5x = "\"C5xClear\", \"Completed Chapter 5x\""
+        formatChapterText (C i) =
+            "\"C" ++ show i ++ "\", Completed Chapter " ++ show i
+        formatChapterText Endgame = "\"EndgameClear\", \"Defeated Lyon\""
 
--- Generate event structs
+data GenOption
+    = CLang
+    | H
+    | Py
+
+instance Read GenOption where
+    readsPrec _ ('C' : rest) = [(CLang, rest)]
+    readsPrec _ ('H' : rest) = [(H, rest)]
+    readsPrec _ ('P' : 'y' : rest) = [(Py, rest)]
+    readsPrec _ _ = []
+
+usage :: String
+usage = "usage: ./Generate [C/H/Py]"
 
 main :: IO ()
 main = do
-    generateCHeader putStrLn
+    args <- getArgs
+    firstArg <-
+        case args of
+            [x] -> return x
+            _ -> printUsage
+    case readMaybe @GenOption firstArg of
+        Just CLang -> emitConnectorAccessorsC putStrLn
+        Just H -> emitConfigHeader putStrLn
+        Just Py -> emitPythonLocations putStrLn
+        Nothing -> printUsage
+  where
+    exitUsage = ExitFailure 64
+    printUsage = do
+        hPutStrLn stderr usage
+        exitWith exitUsage

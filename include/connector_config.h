@@ -19,4 +19,3 @@ enum HolyWeapon {
 struct Checks {
   u8 found[8];
 };
-

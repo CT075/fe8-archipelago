@@ -10,8 +10,14 @@ ARCHIPELAGO_DEFS := _build/archipelagoDefs.event
 $(ARCHIPELAGO_DEFS): $(GENDEFS)
 	$(GENDEFS) > $(ARCHIPELAGO_DEFS)
 
-include/connector_types.h: $(BIN_DIR)/connector_config/Generate.hs
-	runhaskell $< -Wall > $@
+include/connector_config.h: $(BIN_DIR)/connector_config/Generate.hs
+	runhaskell -Wall $< H > $@
+
+src/archipelago/connector_config.c: $(BIN_DIR)/connector_config/Generate.hs
+	runhaskell -Wall $< C > $@
+
+py/location_data.py: $(BIN_DIR)/connector_config/Generate.hs
+	runhaskell -Wall $< Py > $@
 
 SYMBOLS := $(BUILD_DIR)/$(TARGET:.gba=.sym)
 
