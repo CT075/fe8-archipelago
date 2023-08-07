@@ -121,11 +121,16 @@ emitConfigHeader :: Monad m => (String -> m ()) -> m ()
 emitConfigHeader emitLn = do
     emitHeader cCommentPrefix emitLn
     emitLn ""
+    emitLn $ "#ifndef CONNECTOR_CONFIG_H"
+    emitLn $ "#define CONNECTOR_CONFIG_H"
+    emitLn ""
     emitCEnum @HolyWeapon emitLn
     emitLn ""
     emitLn "struct Checks {"
     emitLn $ "  u8 found[" ++ show locationBytes ++ "];"
     emitLn "};"
+    emitLn ""
+    emitLn $ "#endif // CONNECTOR_CONFIG_H"
   where
     locationBits = length $ [minBound @Location .. maxBound]
     locationBytesTrue = (locationBits + 7) `div` 8

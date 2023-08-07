@@ -3,6 +3,9 @@
 // To change this file, see `bin/connector_config/Generate.hs` at
 // https://github.com/CT075/fe8-archipelago
 
+#ifndef CONNECTOR_CONFIG_H
+#define CONNECTOR_CONFIG_H
+
 enum HolyWeapon {
   Sieglinde=0,
   Siegmund=1,
@@ -19,3 +22,5 @@ enum HolyWeapon {
 struct Checks {
   u8 found[8];
 };
+
+#endif // CONNECTOR_CONFIG_H
