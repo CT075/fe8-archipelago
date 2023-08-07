@@ -130,6 +130,8 @@ emitConfigHeader emitLn = do
     emitLn $ "  u8 found[" ++ show locationBytes ++ "];"
     emitLn "};"
     emitLn ""
+    emitLn $ "int chapterClearFlagIndex(int chapter);"
+    emitLn $ "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon);"
     emitLn $ "#endif // CONNECTOR_CONFIG_H"
   where
     locationBits = length $ [minBound @Location .. maxBound]

@@ -23,4 +23,6 @@ struct Checks {
   u8 found[8];
 };
 
+int chapterClearFlagIndex(int chapter);
+int holyWeaponFlagIndex(enum HolyWeapon weapon);
 #endif // CONNECTOR_CONFIG_H
