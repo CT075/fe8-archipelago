@@ -15,8 +15,8 @@ void markLocation(int index) {
   checkedLocations->found[byteIndex] |= (1 << bitIndex);
 }
 
-void markChapterCleared(int chapterNum) {
-  markLocation(chapterClearFlagIndex(chapterNum));
+void markChapterCleared(int chapterId) {
+  markLocation(chapterClearFlagIndex(chapterId));
 }
 
 void markHolyWeaponGet(enum HolyWeapon weap) {

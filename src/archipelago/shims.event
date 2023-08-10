@@ -1,5 +1,5 @@
 // Location of the PlayerPhase_MainIdle pointer in the main player phase proc
-#define PLAYERPHASE_MAIN_PTR 0x0859AB54
+#define PLAYERPHASE_MAIN_PTR 0x59AB54
 
 PUSH
   ORG PLAYERPHASE_MAIN_PTR

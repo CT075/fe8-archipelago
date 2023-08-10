@@ -2,4 +2,5 @@
 #include "ExpandedModularSave/ExModularSave.event"
 #include "fillAIDangerMap/FillAIDangerMap.event"
 #include "levelcap/progressiveLevelCap.lyn.event"
+#include "archipelago/main.event"
 #include "events/main.event"

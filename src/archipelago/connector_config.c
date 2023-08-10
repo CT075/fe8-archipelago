@@ -5,8 +5,8 @@
 
 #include "connector_config.h"
 
-int chapterClearFlagIndex(int chapter) {
-  return 0+chapter;
+int chapterClearFlagIndex(int chapterId) {
+  return 0+chapterId;
 }
 
 int holyWeaponFlagIndex(enum HolyWeapon weapon) {

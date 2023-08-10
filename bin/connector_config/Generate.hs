@@ -134,6 +134,13 @@ emitConfigHeader emitLn = do
     emitLn ""
     emitLn $ "int chapterClearFlagIndex(int chapter);"
     emitLn $ "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon);"
+    emitLn ""
+    forM_ [1 .. 20] $ \i -> do
+        emitLn $ "#define Ch" ++ show i ++ "Id (" ++ show (fromEnum $ C i) ++ ")"
+    emitLn $ "#define Ch5xId (" ++ show (fromEnum $ C5x) ++ ")"
+    emitLn $ "#define PrologueId (" ++ show (fromEnum $ Prologue) ++ ")"
+    emitLn $ "#define EndgameId (" ++ show (fromEnum $ Endgame) ++ ")"
+    emitLn ""
     emitLn $ "#endif // CONNECTOR_CONFIG_H"
   where
     locationBits = length $ [minBound @Location .. maxBound]
@@ -146,10 +153,10 @@ emitConnectorAccessorsC emitLn = do
     emitLn ""
     emitLn $ "#include \"connector_config.h\""
     emitLn ""
-    emitLn $ "int chapterClearFlagIndex(int chapter) {"
+    emitLn $ "int chapterClearFlagIndex(int chapterId) {"
     -- CR cam: it'd be nice to use some notion of the "offset" of the `Chapter`
     -- variants instead of hardcoding 0 here.
-    emitLn $ "  return 0+chapter;"
+    emitLn $ "  return 0+chapterId;"
     emitLn $ "}"
     emitLn ""
     emitLn $ "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon) {"
