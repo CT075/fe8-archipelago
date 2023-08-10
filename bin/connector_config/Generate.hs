@@ -124,6 +124,8 @@ emitConfigHeader emitLn = do
     emitLn $ "#ifndef CONNECTOR_CONFIG_H"
     emitLn $ "#define CONNECTOR_CONFIG_H"
     emitLn ""
+    emitLn $ "#include \"global.h\""
+    emitLn ""
     emitCEnum @HolyWeapon emitLn
     emitLn ""
     emitLn "struct Checks {"
@@ -155,6 +157,8 @@ emitConnectorAccessorsC emitLn = do
     forM_ [minBound @HolyWeapon .. maxBound] $ \weapon -> do
         emitLn $ "    case " ++ show weapon ++ ":"
         emitLn $ "      return " ++ show (fromEnum (HolyWeaponGet weapon)) ++ ";"
+    emitLn $ "    default:"
+    emitLn $ "      return -1;"
     emitLn $ "  }"
     emitLn $ "}"
 

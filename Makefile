@@ -7,6 +7,8 @@ BUILD_DIR := _build
 
 .DEFAULT_GOAL := hack
 
+ROOT := $(CURDIR)
+
 dummy%:
 	@:
 

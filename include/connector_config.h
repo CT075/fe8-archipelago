@@ -6,6 +6,8 @@
 #ifndef CONNECTOR_CONFIG_H
 #define CONNECTOR_CONFIG_H
 
+#include "global.h"
+
 enum HolyWeapon {
   Sieglinde=0,
   Siegmund=1,
