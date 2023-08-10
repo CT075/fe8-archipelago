@@ -1,0 +1,421 @@
+#include "markEndings.lyn.event"
+
+#define Ch10EirEndingScenePtr 0x9e92fc
+#define Ch10EphEndingScenePtr 0x9ea4f4
+#define Ch11EirEndingScenePtr 0x9e944c
+#define Ch11EphEndingScenePtr 0x9ea608
+#define Ch12EirEndingScenePtr 0x9e9534
+#define Ch12EphEndingScenePtr 0x9ea718
+#define Ch13EirEndingScenePtr 0x9e9634
+#define Ch13EphEndingScenePtr 0x9ea89c
+#define Ch14EirEndingScenePtr 0x9e97fc
+#define Ch14EphEndingScenePtr 0x9eab18
+#define Ch15EirEndingScenePtr 0x9e9a4c
+#define Ch15EphEndingScenePtr 0x9ead3c
+#define Ch16EirEndingScenePtr 0x9e9b64
+#define Ch16EphEndingScenePtr 0x9eae78
+#define Ch17EirEndingScenePtr 0x9e9d00
+#define Ch17EphEndingScenePtr 0x9eb014
+#define Ch18EirEndingScenePtr 0x9e9df4
+#define Ch18EphEndingScenePtr 0x9eb108
+#define Ch19EirEndingScenePtr 0x9e9f54
+#define Ch19EphEndingScenePtr 0x9eb268
+#define Ch1EndingScenePtr 0x9e87e8
+#define Ch20EirEndingScenePtr 0x9ea078
+#define Ch20EphEndingScenePtr 0x9eb38c
+#define Ch2EndingScenePtr 0x9e8980
+#define Ch3EndingScenePtr 0x9e8a84
+#define Ch4EndingScenePtr 0x9e8b6c
+#define Ch5EndingScenePtr 0x9e8ca0
+#define Ch5xEndingScenePtr 0x9e8d58
+#define Ch6EndingScenePtr 0x9e8e10
+#define Ch7EndingScenePtr 0x9e8ebc
+#define Ch8EndingScenePtr 0x9e9030
+#define Ch9EirEndingScenePtr 0x9e918c
+#define Ch9EphEndingScenePtr 0x9ea394
+#define Final1EirEndingScenePtr 0x9ea184
+#define Final1EphEndingScenePtr 0x9eb498
+#define Final2EirEndingScenePtr 0x9ea20c
+#define Final2EphEndingScenePtr 0x9eb520
+#define PrologueEndingScenePtr 0x9e8688
+
+PUSH
+ORG Ch10EirEndingScenePtr
+POIN Ch10EirEndingScene
+POP
+
+Ch10EirEndingScene:
+#incbin "data/ch10eirEndScene.dmp"
+ASMC markCh10Clear
+ENDA
+
+PUSH
+ORG Ch10EphEndingScenePtr
+POIN Ch10EphEndingScene
+POP
+
+Ch10EphEndingScene:
+#incbin "data/ch10ephEndScene.dmp"
+ASMC markCh10Clear
+ENDA
+
+PUSH
+ORG Ch11EirEndingScenePtr
+POIN Ch11EirEndingScene
+POP
+
+Ch11EirEndingScene:
+#incbin "data/ch11eirEndScene.dmp"
+ASMC markCh11Clear
+ENDA
+
+PUSH
+ORG Ch11EphEndingScenePtr
+POIN Ch11EphEndingScene
+POP
+
+Ch11EphEndingScene:
+#incbin "data/ch11ephEndScene.dmp"
+ASMC markCh11Clear
+ENDA
+
+PUSH
+ORG Ch12EirEndingScenePtr
+POIN Ch12EirEndingScene
+POP
+
+Ch12EirEndingScene:
+#incbin "data/ch12eirEndScene.dmp"
+ASMC markCh12Clear
+ENDA
+
+PUSH
+ORG Ch12EphEndingScenePtr
+POIN Ch12EphEndingScene
+POP
+
+Ch12EphEndingScene:
+#incbin "data/ch12ephEndScene.dmp"
+ASMC markCh12Clear
+ENDA
+
+PUSH
+ORG Ch13EirEndingScenePtr
+POIN Ch13EirEndingScene
+POP
+
+Ch13EirEndingScene:
+#incbin "data/ch13eirEndScene.dmp"
+ASMC markCh13Clear
+ENDA
+
+PUSH
+ORG Ch13EphEndingScenePtr
+POIN Ch13EphEndingScene
+POP
+
+Ch13EphEndingScene:
+#incbin "data/ch13ephEndScene.dmp"
+ASMC markCh13Clear
+ENDA
+
+PUSH
+ORG Ch14EirEndingScenePtr
+POIN Ch14EirEndingScene
+POP
+
+Ch14EirEndingScene:
+#incbin "data/ch14eirEndScene.dmp"
+ASMC markCh14Clear
+ENDA
+
+PUSH
+ORG Ch14EphEndingScenePtr
+POIN Ch14EphEndingScene
+POP
+
+Ch14EphEndingScene:
+#incbin "data/ch14ephEndScene.dmp"
+ASMC markCh14Clear
+ENDA
+
+PUSH
+ORG Ch15EirEndingScenePtr
+POIN Ch15EirEndingScene
+POP
+
+Ch15EirEndingScene:
+#incbin "data/ch15eirEndScene.dmp"
+ASMC markCh15Clear
+ENDA
+
+PUSH
+ORG Ch15EphEndingScenePtr
+POIN Ch15EphEndingScene
+POP
+
+Ch15EphEndingScene:
+#incbin "data/ch15ephEndScene.dmp"
+ASMC markCh15Clear
+ENDA
+
+PUSH
+ORG Ch16EirEndingScenePtr
+POIN Ch16EirEndingScene
+POP
+
+Ch16EirEndingScene:
+#incbin "data/ch16eirEndScene.dmp"
+ASMC markCh16Clear
+ENDA
+
+PUSH
+ORG Ch16EphEndingScenePtr
+POIN Ch16EphEndingScene
+POP
+
+Ch16EphEndingScene:
+#incbin "data/ch16ephEndScene.dmp"
+ASMC markCh16Clear
+ENDA
+
+PUSH
+ORG Ch17EirEndingScenePtr
+POIN Ch17EirEndingScene
+POP
+
+Ch17EirEndingScene:
+#incbin "data/ch17eirEndScene.dmp"
+ASMC markCh17Clear
+ENDA
+
+PUSH
+ORG Ch17EphEndingScenePtr
+POIN Ch17EphEndingScene
+POP
+
+Ch17EphEndingScene:
+#incbin "data/ch17ephEndScene.dmp"
+ASMC markCh17Clear
+ENDA
+
+PUSH
+ORG Ch18EirEndingScenePtr
+POIN Ch18EirEndingScene
+POP
+
+Ch18EirEndingScene:
+#incbin "data/ch18eirEndScene.dmp"
+ASMC markCh18Clear
+ENDA
+
+PUSH
+ORG Ch18EphEndingScenePtr
+POIN Ch18EphEndingScene
+POP
+
+Ch18EphEndingScene:
+#incbin "data/ch18ephEndScene.dmp"
+ASMC markCh18Clear
+ENDA
+
+PUSH
+ORG Ch19EirEndingScenePtr
+POIN Ch19EirEndingScene
+POP
+
+Ch19EirEndingScene:
+#incbin "data/ch19eirEndScene.dmp"
+ASMC markCh19Clear
+ENDA
+
+PUSH
+ORG Ch19EphEndingScenePtr
+POIN Ch19EphEndingScene
+POP
+
+Ch19EphEndingScene:
+#incbin "data/ch19ephEndScene.dmp"
+ASMC markCh19Clear
+ENDA
+
+PUSH
+ORG Ch1EndingScenePtr
+POIN Ch1EndingScene
+POP
+
+Ch1EndingScene:
+#incbin "data/ch1EndScene.dmp"
+ASMC markCh1Clear
+ENDA
+
+PUSH
+ORG Ch20EirEndingScenePtr
+POIN Ch20EirEndingScene
+POP
+
+Ch20EirEndingScene:
+#incbin "data/ch20eirEndScene.dmp"
+ASMC markCh20Clear
+ENDA
+
+PUSH
+ORG Ch20EphEndingScenePtr
+POIN Ch20EphEndingScene
+POP
+
+Ch20EphEndingScene:
+#incbin "data/ch20ephEndScene.dmp"
+ASMC markCh20Clear
+ENDA
+
+PUSH
+ORG Ch2EndingScenePtr
+POIN Ch2EndingScene
+POP
+
+Ch2EndingScene:
+#incbin "data/ch2EndScene.dmp"
+ASMC markCh2Clear
+ENDA
+
+PUSH
+ORG Ch3EndingScenePtr
+POIN Ch3EndingScene
+POP
+
+Ch3EndingScene:
+#incbin "data/ch3EndScene.dmp"
+ASMC markCh3Clear
+ENDA
+
+PUSH
+ORG Ch4EndingScenePtr
+POIN Ch4EndingScene
+POP
+
+Ch4EndingScene:
+#incbin "data/ch4EndScene.dmp"
+ASMC markCh4Clear
+ENDA
+
+PUSH
+ORG Ch5EndingScenePtr
+POIN Ch5EndingScene
+POP
+
+Ch5EndingScene:
+#incbin "data/ch5EndScene.dmp"
+ASMC markCh5Clear
+ENDA
+
+PUSH
+ORG Ch5xEndingScenePtr
+POIN Ch5xEndingScene
+POP
+
+Ch5xEndingScene:
+#incbin "data/ch5xEndScene.dmp"
+ASMC markCh5Clear
+ENDA
+
+PUSH
+ORG Ch6EndingScenePtr
+POIN Ch6EndingScene
+POP
+
+Ch6EndingScene:
+#incbin "data/ch6EndScene.dmp"
+ASMC markCh6Clear
+ENDA
+
+PUSH
+ORG Ch7EndingScenePtr
+POIN Ch7EndingScene
+POP
+
+Ch7EndingScene:
+#incbin "data/ch7EndScene.dmp"
+ASMC markCh7Clear
+ENDA
+
+PUSH
+ORG Ch8EndingScenePtr
+POIN Ch8EndingScene
+POP
+
+Ch8EndingScene:
+#incbin "data/ch8EndScene.dmp"
+ASMC markCh8Clear
+ENDA
+
+PUSH
+ORG Ch9EirEndingScenePtr
+POIN Ch9EirEndingScene
+POP
+
+Ch9EirEndingScene:
+#incbin "data/ch9eirEndScene.dmp"
+ASMC markCh9Clear
+ENDA
+
+PUSH
+ORG Ch9EphEndingScenePtr
+POIN Ch9EphEndingScene
+POP
+
+Ch9EphEndingScene:
+#incbin "data/ch9ephEndScene.dmp"
+ASMC markCh9Clear
+ENDA
+
+PUSH
+ORG Final1EirEndingScenePtr
+POIN Final1EirEndingScene
+POP
+
+Final1EirEndingScene:
+#incbin "data/final1eirEndScene.dmp"
+ASMC markEndgameClear
+ENDA
+
+PUSH
+ORG Final1EphEndingScenePtr
+POIN Final1EphEndScene
+POP
+
+Final1EphEndScene:
+#incbin "data/final1ephEndScene.dmp"
+ASMC markEndgameClear
+ENDA
+
+PUSH
+ORG Final2EirEndingScenePtr
+POIN Final2EirEndScene
+POP
+
+Final2EirEndScene:
+#incbin "data/final2eirEndScene.dmp"
+ASMC markFormortiisClear
+ENDA
+
+PUSH
+ORG Final2EphEndingScenePtr
+POIN Final2EphEndingScene
+POP
+
+Final2EphEndingScene:
+#incbin "data/final2ephEndScene.dmp"
+ASMC markFormortiisClear
+ENDA
+
+PUSH
+ORG PrologueEndingScenePtr
+POIN PrologueEndingScene
+POP
+
+PrologueEndingScene:
+#incbin "data/prologueEndScene.dmp"
+ASMC markPrologueClear
+ENDA
+

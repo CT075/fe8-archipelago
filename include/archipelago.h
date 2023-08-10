@@ -7,4 +7,7 @@
 #define CHECKED_LOCATIONS_ADDR (0x02026E30 + sizeof(struct ProgressiveCaps))
 #define checkedLocations ((struct Checks *)(CHECKED_LOCATIONS_ADDR))
 
+void markChapterCleared(int chapterNum);
+void markHolyWeaponGet(enum HolyWeapon weap);
+
 #endif // ARCHIPELAGO_H
