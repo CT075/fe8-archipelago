@@ -98,6 +98,7 @@ gSaveBlockTypeSizeLookup:
 #include "Src/MSaFuncs.lyn.event"
 // CR cam: this shouldn't need to live in this folder
 #include "Modules/progCaps.lyn.event"
+#include "Modules/checks.lyn.event"
 
 ALIGN 4
 gGameSaveChunks:
@@ -114,6 +115,8 @@ gGameSaveChunks:
 	DeclSaveChunk($0D8C, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
 	DeclSaveChunk($0DB0, $0018, MSa_SaveDungeonState, MSa_LoadDungeonState) // Valni/Lagdou permanent data
   DeclSaveChunk($0DC8, PROGRESSIVE_CAPS_SIZE, saveProgCaps, loadProgCaps)
+  // CR cam: this is awful
+  DeclSaveChunk((0x0DC8+PROGRESSIVE_CAPS_SIZE), CHECKED_LOCATION_SIZE, saveChecks, loadChecks)
 
 	// free up to $1344 ($57C free bytes)
 
