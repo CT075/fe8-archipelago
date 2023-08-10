@@ -31,5 +31,7 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon) {
       return 31;
     case Latona:
       return 32;
+    default:
+      return -1;
   }
 }

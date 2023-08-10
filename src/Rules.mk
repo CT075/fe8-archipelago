@@ -8,7 +8,13 @@ include $(dir)/Rules.mk
 dir := $(d)/levelcap
 include $(dir)/Rules.mk
 
+dir := $(d)/archipelago
+include $(dir)/Rules.mk
+
 dir := $(d)/ExpandedModularSave
+include $(dir)/Rules.mk
+
+dir := $(d)/events
 include $(dir)/Rules.mk
 
 EVENTS_$(d) := $(d)/_FE8EssentialFixes.event $(d)/main.event
