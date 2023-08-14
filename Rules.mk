@@ -29,7 +29,7 @@ hack: $(TARGET)
 dir := src
 include $(dir)/Rules.mk
 
-# The variables `EVENTS` and `CLEAN` gets added to by subdirectory makefiles.
+# The variables `EVENTS` and `CLEAN` are populated by subdirectory makefiles.
 
 $(BASEROM):
 	$(error no $(BASEROM) found at build root)
