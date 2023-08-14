@@ -187,12 +187,12 @@ emitPythonLocations emitLn = do
             ++ show (fromEnum $ HolyWeaponGet weap)
             ++ "),"
 
-    formatChapterClear c = "(" ++ formatChapterText c ++ ", " ++ (show $ fromEnum c) ++ ")"
+    formatChapterClear c = "(" ++ formatChapterText c ++ ", " ++ (show $ fromEnum c) ++ "),"
       where
         formatChapterText Prologue = "\"PrologueClear\", \"Completed Prologue\""
         formatChapterText C5x = "\"C5xClear\", \"Completed Chapter 5x\""
         formatChapterText (C i) =
-            "\"C" ++ show i ++ "\", Completed Chapter " ++ show i
+            "\"C" ++ show i ++ "\", \"Completed Chapter " ++ show i ++ "\""
         formatChapterText Endgame = "\"EndgameClear\", \"Defeated Lyon\""
 
 data GenOption
