@@ -31,8 +31,8 @@ data HolyWeapon
     | Latona
     deriving (Show, Enum, Bounded, Typeable)
 
-holyWeaponShort :: HolyWeapon -> String
-holyWeaponShort = show @HolyWeapon
+--holyWeaponShort :: HolyWeapon -> String
+--holyWeaponShort = show @HolyWeapon
 
 holyWeaponLong :: HolyWeapon -> String
 holyWeaponLong = (++ " Received") . show @HolyWeapon
