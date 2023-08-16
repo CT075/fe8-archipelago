@@ -1,3 +1,4 @@
+#include "ap_events.event"
 #include "connector_config.lyn.event"
 #include "archipelago.lyn.event"
 #include "shims.event"

@@ -2,5 +2,6 @@
 #define CONSTANTS_H
 
 #define BLUE_UNIT_MAX 62
+#define FREE_RAM_START 0x02026E30
 
 #endif // CONSTANTS_H

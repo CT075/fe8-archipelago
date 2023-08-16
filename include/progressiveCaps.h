@@ -1,6 +1,7 @@
 #ifndef PROGRESSIVE_CAPS_H
 #define PROGRESSIVE_CAPS_H
 
+#include "constants.h"
 #include "global.h"
 
 struct ProgressiveCaps {
@@ -15,7 +16,7 @@ struct ProgressiveCaps {
   u8 staffLvlCapStage;
 };
 
-#define PROG_CAPS_ADDR 0x02026E30
+#define PROG_CAPS_ADDR FREE_RAM_START
 
 #define progCaps ((struct ProgressiveCaps *)PROG_CAPS_ADDR)
 

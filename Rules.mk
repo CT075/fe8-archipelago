@@ -16,7 +16,7 @@ include/connector_config.h: $(BIN_DIR)/connector_config/Generate.hs
 src/archipelago/connector_config.c: $(BIN_DIR)/connector_config/Generate.hs
 	runhaskell -Wall $< C > $@
 
-py/location_data.py: $(BIN_DIR)/connector_config/Generate.hs
+py/data_init.py: $(BIN_DIR)/connector_config/Generate.hs
 	runhaskell -Wall $< Py > $@
 
 SYMBOLS := $(BUILD_DIR)/$(TARGET:.gba=.sym)

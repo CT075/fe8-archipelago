@@ -52,4 +52,6 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon);
 #define PrologueId (0)
 #define EndgameId (22)
 
+const u16 *receivedItemEvent(u8 itemId);
+
 #endif // CONNECTOR_CONFIG_H

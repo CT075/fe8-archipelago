@@ -44,6 +44,7 @@ data Chapter
       C Int
     | C5x
     | Endgame
+    | Victory
     deriving (Show, Typeable)
 
 instance Bounded Chapter where
@@ -54,6 +55,7 @@ instance Enum Chapter where
     toEnum 0 = Prologue
     toEnum 6 = C5x
     toEnum 22 = Endgame
+    toEnum 23 = Victory
     toEnum i
         | i < 1 = error $ "invalid chapter index " ++ show i
         | i < 6 = C i
@@ -63,6 +65,7 @@ instance Enum Chapter where
     fromEnum Prologue = 0
     fromEnum C5x = 6
     fromEnum Endgame = 22
+    fromEnum Victory = 23
     fromEnum (C i)
         | i < 6 = i
         | otherwise = i + 1
@@ -117,8 +120,8 @@ emitHeader :: Monad m => String -> (String -> m ()) -> m ()
 emitHeader commentPrefix emitLn =
     forM_ headerLines $ emitLn . (commentPrefix ++)
 
-emitConfigHeader :: Monad m => (String -> m ()) -> m ()
-emitConfigHeader emitLn = do
+emitConnectorConfigH :: Monad m => (String -> m ()) -> m ()
+emitConnectorConfigH emitLn = do
     emitHeader cCommentPrefix emitLn
     emitLn ""
     emitLn $ "#ifndef CONNECTOR_CONFIG_H"
@@ -140,6 +143,8 @@ emitConfigHeader emitLn = do
     emitLn $ "#define Ch5xId (" ++ show (fromEnum $ C5x) ++ ")"
     emitLn $ "#define PrologueId (" ++ show (fromEnum $ Prologue) ++ ")"
     emitLn $ "#define EndgameId (" ++ show (fromEnum $ Endgame) ++ ")"
+    emitLn ""
+    emitLn $ "const u16 *receivedItemEvent(u8 itemId);"
     emitLn ""
     emitLn $ "#endif // CONNECTOR_CONFIG_H"
   where
@@ -173,15 +178,15 @@ emitPythonLocations :: Monad m => (String -> m ()) -> m ()
 emitPythonLocations emitLn = do
     emitHeader pythonCommentPrefix emitLn
     emitLn ""
-    emitLn "location_data = ["
+    emitLn "locations = ["
     forM_ [minBound @Chapter .. maxBound] $ emitLn . ("  " ++) . formatChapterClear
     forM_ [minBound @HolyWeapon .. maxBound] $ emitLn . ("  " ++) . formatHolyWeapon
     emitLn "]"
   where
     formatHolyWeapon weap =
         "("
-            ++ show (holyWeaponShort weap)
-            ++ ", "
+            -- ++ show (holyWeaponShort weap)
+            -- ++ ", "
             ++ show (holyWeaponLong weap)
             ++ ", "
             ++ show (fromEnum $ HolyWeaponGet weap)
@@ -189,11 +194,12 @@ emitPythonLocations emitLn = do
 
     formatChapterClear c = "(" ++ formatChapterText c ++ ", " ++ (show $ fromEnum c) ++ "),"
       where
-        formatChapterText Prologue = "\"PrologueClear\", \"Completed Prologue\""
-        formatChapterText C5x = "\"C5xClear\", \"Completed Chapter 5x\""
+        formatChapterText Prologue = "\"Complete Prologue\""
+        formatChapterText C5x = "\"Complete Chapter 5x\""
         formatChapterText (C i) =
-            "\"C" ++ show i ++ "\", \"Completed Chapter " ++ show i ++ "\""
-        formatChapterText Endgame = "\"EndgameClear\", \"Defeated Lyon\""
+            "\"Complete Chapter " ++ show i ++ "\""
+        formatChapterText Endgame = "\"Defeat Lyon\""
+        formatChapterText Victory = "\"Defeat Formortiis\""
 
 data GenOption
     = CLang
@@ -218,7 +224,7 @@ main = do
             _ -> printUsage
     case readMaybe @GenOption firstArg of
         Just CLang -> emitConnectorAccessorsC putStrLn
-        Just H -> emitConfigHeader putStrLn
+        Just H -> emitConnectorConfigH putStrLn
         Just Py -> emitPythonLocations putStrLn
         Nothing -> printUsage
   where
