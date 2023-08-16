@@ -31,8 +31,8 @@ data HolyWeapon
     | Latona
     deriving (Show, Enum, Bounded, Typeable)
 
---holyWeaponShort :: HolyWeapon -> String
---holyWeaponShort = show @HolyWeapon
+-- holyWeaponShort :: HolyWeapon -> String
+-- holyWeaponShort = show @HolyWeapon
 
 holyWeaponLong :: HolyWeapon -> String
 holyWeaponLong = (++ " Received") . show @HolyWeapon
@@ -87,6 +87,21 @@ instance Enum Location where
 
     fromEnum (ChapterClear c) = fromEnum c
     fromEnum (HolyWeaponGet hw) = fromEnum hw + fromEnum (maxBound @Chapter) + 1
+
+data WeaponType
+    = Sword
+    | Lance
+    | Axe
+    | Bow
+    | Anima
+    | Light
+    | Dark
+    | Staff
+
+data Item
+    = ProgressiveLevelCap
+    | ProgressiveWLvCap WeaponType
+    | HolyWeaponPut HolyWeapon
 
 emitCEnum ::
     forall a.
