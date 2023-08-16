@@ -15,6 +15,8 @@ to build the pre-randomized ROM.
 ### Organizational
 
 - Move `FillAIDangerMap` and `ExpandedModularSave` to `vendor` from `src`
+- Move various vendored tools to `vendor` from `bin`
+- Use `_build` to store intermediate artifacts (`.o` files, etc) to avoid clutter
 
 # License and Credits
 
