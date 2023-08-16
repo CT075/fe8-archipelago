@@ -8,6 +8,7 @@
   // CR cam: it's not great to need to hardcode this
   #include "_build/archipelagoDefs.event"
   #include "src/main.event"
+  #include "data/main.event"
 #else
     ERROR You are not assembling FE8 events!
 #endif

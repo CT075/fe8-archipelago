@@ -1,8 +1,10 @@
 ReceiveItemEvent:
 NoFade
+SOUN 0x5A
 SETVAL 0xB (-1)
 TUTORIALTEXTBOXSTART
-TEXTSHOW 0x0C14
+// CR cam: this hardcoded text index sucks
+TEXTSHOW 0x008B
 TEXTEND
 REMA
 ENDA

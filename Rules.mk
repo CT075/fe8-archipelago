@@ -29,12 +29,15 @@ hack: $(TARGET)
 dir := src
 include $(dir)/Rules.mk
 
+dir := data
+include $(dir)/Rules.mk
+
 # The variables `EVENTS` and `CLEAN` are populated by subdirectory makefiles.
 
 $(BASEROM):
 	$(error no $(BASEROM) found at build root)
 
-$(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS)
+$(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE)
 	cd $(BUILD_DIR) && \
 		cp ../$(BASEROM) ../$(TARGET) && \
 		./ColorzCore A FE8 $(EAFLAGS) \

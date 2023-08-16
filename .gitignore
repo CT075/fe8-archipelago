@@ -9,9 +9,11 @@
 *.sym
 *.s
 *.asm
+*.hi
 !src/fillAIDangerMap/FillAIDangerMap.s
 !src/ExpandedModularSave/Src/*.lyn.event
 !src/ExpandedModularSave/Src/*.s
+data/text/.TextEntries
 .cache
 obj
 

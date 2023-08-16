@@ -23,6 +23,13 @@ GENDEFS_DIR := $(BIN_DIR)/gen_ea_defs
 GENDEFS_SRC := $(GENDEFS_DIR)/gen_ea_defs.c
 GENDEFS := $(BUILD_DIR)/gen_ea_defs
 
+PARSEFILE_DIR := $(BIN_DIR)/ParseFile
+PARSEFILE := $(BUILD_DIR)/ParseFile
+
+$(PARSEFILE): $(PARSEFILE_DIR)/ParseFile.hs $(PARSEFILE_DIR)/FlagUtilities.hs \
+		$(PARSEFILE_DIR)/GBAUtilities.hs $(PARSEFILE_DIR)/FEParser.hs
+	ghc $< -i$(PARSEFILE_DIR) -o $@
+
 # CR cam: these should use `CDEPFLAGS` as well
 $(GENDEFS): $(GENDEFS_SRC) include/*
 	$(CC) $(GENDEFS_SRC) -o $(GENDEFS) $(INCFLAGS)
