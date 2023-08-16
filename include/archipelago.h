@@ -5,12 +5,12 @@
 
 #define sizeof_round(ty) ((sizeof(ty) + sizeof(int)-1) & ~(sizeof(int)-1))
 
-// CR cam: it would be nice to not need to do this manually
+// CR cam: it would be nice to not need to do this address bumping manually
 #define CHECKED_LOCATIONS_ADDR (FREE_RAM_START + sizeof_round(struct ProgressiveCaps))
 #define checkedLocations ((struct Checks *)(CHECKED_LOCATIONS_ADDR))
 
 struct APReceivedItem {
-  u32 eventIndex;
+  u16 eventIndex;
   u8 itemId;
   u8 filled;
 };
