@@ -1,0 +1,40 @@
+# THIS FILE IS GENERATED, DO NOT EDIT DIRECTLY
+# 
+# To change this file, see `bin/connector_config/Generate.hs` at
+# https://github.com/CT075/fe8-archipelago
+
+locations = [
+  ("Complete Prologue", 0),
+  ("Complete Chapter 1", 1),
+  ("Complete Chapter 2", 2),
+  ("Complete Chapter 3", 3),
+  ("Complete Chapter 4", 4),
+  ("Complete Chapter 5", 5),
+  ("Complete Chapter 5x", 6),
+  ("Complete Chapter 6", 7),
+  ("Complete Chapter 7", 8),
+  ("Complete Chapter 8", 9),
+  ("Complete Chapter 9", 10),
+  ("Complete Chapter 10", 11),
+  ("Complete Chapter 11", 12),
+  ("Complete Chapter 12", 13),
+  ("Complete Chapter 13", 14),
+  ("Complete Chapter 14", 15),
+  ("Complete Chapter 15", 16),
+  ("Complete Chapter 16", 17),
+  ("Complete Chapter 17", 18),
+  ("Complete Chapter 18", 19),
+  ("Complete Chapter 19", 20),
+  ("Complete Chapter 20", 21),
+  ("Defeat Lyon", 22),
+  ("Sieglinde Received", 23),
+  ("Siegmund Received", 24),
+  ("Gleipnir Received", 25),
+  ("Garm Received", 26),
+  ("Nidhogg Received", 27),
+  ("Vidofnir Received", 28),
+  ("Excalibur Received", 29),
+  ("Audhulma Received", 30),
+  ("Ivaldi Received", 31),
+  ("Latona Received", 32),
+]

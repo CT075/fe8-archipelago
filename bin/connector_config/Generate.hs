@@ -159,9 +159,7 @@ emitConnectorAccessorsC emitLn = do
     emitLn $ "#include \"connector_config.h\""
     emitLn ""
     emitLn $ "int chapterClearFlagIndex(int chapterId) {"
-    -- CR cam: it'd be nice to use some notion of the "offset" of the `Chapter`
-    -- variants instead of hardcoding 0 here.
-    emitLn $ "  return 0+chapterId;"
+    emitLn $ "  return " ++ (show $ fromEnum $ ChapterClear Prologue) ++ "+chapterId;"
     emitLn $ "}"
     emitLn ""
     emitLn $ "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon) {"
