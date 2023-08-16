@@ -133,9 +133,9 @@ struct PlaySt_30 {
     u32 tacticsRank : 3;
     u32 survivalRank : 3;
     u32 unk_F_00 : 8;
-};
+} BITPACKED;
 
-struct BITPACKED PlaySt { // Chapter Data Struct
+struct PlaySt { // Chapter Data Struct
     /* 00 */ u32 time_saved;
     /* 04 */ u32 time_chapter_started;
 
@@ -212,7 +212,7 @@ struct BITPACKED PlaySt { // Chapter Data Struct
     u8 unk4A_2 : 3;
     u8 unk4A_5 : 4;
     u8 unk4B;
-};
+} BITPACKED;
 
 /**
  * Use with PlaySt field chapterStateBits
@@ -242,13 +242,13 @@ enum PlaySt_chapterModeIndex {
     CHAPTER_MODE_EPHRAIM = 3,
 };
 
-struct TextBuffer0202A6AC
+struct MsgBuffer
 {
-    u8 buffer0202A6AC[0x555];
-    u8 buffer0202AC01[0x555];
-    u8 buffer0202B156[0x356];
-    u8 buffer0202B4AC[0x100];
-    u8 buffer0202B5AC[1];  // unknown length
+    u8 buffer1[0x555];
+    u8 buffer2[0x555];
+    u8 buffer3[0x356];
+    u8 buffer4[0x100];
+    u8 buffer5[0x100];
 };
 
 struct ActionData
