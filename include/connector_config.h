@@ -52,8 +52,6 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon);
 #define PrologueId (0)
 #define EndgameId (22)
 
-const u16 *receivedItemEvent(u8 itemId);
-
 enum WeaponType {
   Sword=0,
   Lance=1,
@@ -82,6 +80,6 @@ struct IncomingEvent {
   union Payload payload;
 };
 
-void itemIdToEvent(u16 id, struct IncomingEvent *dst);
+void unpackEventFromId(u16 id, struct IncomingEvent *dst);
 
 #endif // CONNECTOR_CONFIG_H

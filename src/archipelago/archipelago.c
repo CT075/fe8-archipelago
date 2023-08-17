@@ -39,11 +39,45 @@ const struct ProcCmd PlayerPhaseEventBlockProc[] = {
   PROC_END
 };
 
-// TODO: make this non-constant
-extern const u16 ReceiveItemEvent[];
+extern const u16 LevelUncapEvent[];
+extern const u16 SwordRankUpEvent[];
+extern const u16 LanceRankUpEvent[];
+extern const u16 AxeRankUpEvent[];
+extern const u16 BowRankUpEvent[];
+extern const u16 AnimaRankUpEvent[];
+extern const u16 LightRankUpEvent[];
+extern const u16 DarkRankUpEvent[];
+extern const u16 StaffRankUpEvent[];
 
-const u16 *receivedItemEvent(u8 itemId) {
-  return ReceiveItemEvent;
+const u16 *receivedItemEvent(struct IncomingEvent *evt) {
+  switch (evt->kind) {
+    case ProgLvlCap:
+      return LevelUncapEvent;
+    case ProgWLv:
+      switch (evt->payload.weaponType) {
+        case Sword:
+          return SwordRankUpEvent;
+        case Lance:
+          return LanceRankUpEvent;
+        case Axe:
+          return AxeRankUpEvent;
+        case Bow:
+          return BowRankUpEvent;
+        case Anima:
+          return AnimaRankUpEvent;
+        case Light:
+          return LightRankUpEvent;
+        case Dark:
+          return DarkRankUpEvent;
+        case Staff:
+          return StaffRankUpEvent;
+      };
+    case HolyWeapon:
+      // CR cam: .
+      return LevelUncapEvent;
+  };
+
+  return LevelUncapEvent;
 }
 
 void enqueueReceivedItemEvent() {
@@ -51,9 +85,13 @@ void enqueueReceivedItemEvent() {
     return;
   }
 
+  struct IncomingEvent evt;
+
   u8 inWorldMap = Proc_Find((const struct ProcCmd *)0x08A3EE74) != NULL;
-  const u16 *evt = receivedItemEvent(apReceivedItem->itemId);
-  CallEvent(evt, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
+  unpackEventFromId(apReceivedItem->itemId, &evt);
+
+  const u16 *evtscr = receivedItemEvent(&evt);
+  CallEvent(evtscr, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
 
   apReceivedItem->filled = 0;
 }

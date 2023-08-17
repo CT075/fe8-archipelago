@@ -20,4 +20,6 @@ struct APReceivedItem {
 void markChapterCleared(int chapterNum);
 void markHolyWeaponGet(enum HolyWeapon weap);
 
+const u16 *receivedItemEvent(struct IncomingEvent *evt);
+
 #endif // ARCHIPELAGO_H

@@ -209,8 +209,6 @@ emitConnectorConfigH emitLn = do
     emitLn $ "#define PrologueId (" ++ show (fromEnum $ Prologue) ++ ")"
     emitLn $ "#define EndgameId (" ++ show (fromEnum $ Endgame) ++ ")"
     emitLn ""
-    emitLn $ "const u16 *receivedItemEvent(u8 itemId);"
-    emitLn ""
     emitCEnum @WeaponType emitLn
     emitLn ""
     emitCEnum @ItemKind emitLn
@@ -222,7 +220,7 @@ emitConnectorConfigH emitLn = do
     emitLn $ "  union Payload payload;"
     emitLn $ "};"
     emitLn ""
-    emitLn $ "void itemIdToEvent(u16 id, struct IncomingEvent *dst);"
+    emitLn $ "void unpackEventFromId(u16 id, struct IncomingEvent *dst);"
     emitLn ""
     emitLn $ "#endif // CONNECTOR_CONFIG_H"
   where
@@ -250,12 +248,13 @@ emitConnectorAccessorsC emitLn = do
     emitLn $ "  }"
     emitLn $ "}"
     emitLn ""
-    emitLn $ "void itemIdToEvent(u16 id, struct IncomingEvent *dst) {"
+    emitLn $ "void unpackEventFromId(u16 id, struct IncomingEvent *dst) {"
     emitLn $ "  switch (id) {"
     forM_ [minBound @Item .. maxBound] $ \item -> do
         emitLn $ "    case " ++ show (fromEnum item) ++ ":"
         emitLn $ "      dst->kind = " ++ show (itemkind item) ++ ";"
         emitSetPayload emitLn "      dst->payload." item
+        emitLn $ "      break;"
     emitLn $ "  };"
     emitLn $ "}"
 

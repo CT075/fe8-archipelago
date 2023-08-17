@@ -1,84 +1,61 @@
 // CR cam: there's a lot of hardcoded text IDs here.
 
-// CR cam: this is the same event, copy-pasted repeatedly with a text ID
-// changed each time
+// CR cam: We could avoid needing to allocate each of these events individually
+// by setting slot 2 from the archipelago code and running an event displaying
+// that text box.
 
-ReceiveItemEvent:
+LevelUncapEvent:
 NoFade
-SOUN 0x5A
-SETVAL 0xB (-1)
-TUTORIALTEXTBOXSTART
-TEXTSHOW 0x00D4
-TEXTEND
+POPUP 0x00D4 0x5A
 REMA
 ENDA
 
+// CR cam: We should make these nicer popups that use the weapon rank icons
+
 SwordRankUpEvent:
 NoFade
-SOUN 0x5A
-SETVAL 0xB (-1)
-TUTORIALTEXTBOXSTART
-TEXTSHOW 0x00D5
-TEXTEND
+POPUP 0x00D5 0x5A
 REMA
 ENDA
 
 LanceRankUpEvent:
 NoFade
-SOUN 0x5A
-SETVAL 0xB (-1)
-TUTORIALTEXTBOXSTART
-TEXTSHOW 0x00D6
-TEXTEND
+POPUP 0x00D6 0x5A
 REMA
 ENDA
 
 AxeRankUpEvent:
 NoFade
-SOUN 0x5A
-SETVAL 0xB (-1)
-TUTORIALTEXTBOXSTART
-TEXTSHOW 0x00D7
-TEXTEND
+POPUP 0x00D7 0x5A
 REMA
 ENDA
 
 BowRankUpEvent:
 NoFade
-SOUN 0x5A
-SETVAL 0xB (-1)
-TUTORIALTEXTBOXSTART
-TEXTSHOW 0x00D8
-TEXTEND
+POPUP 0x00D8 0x5A
 REMA
 ENDA
 
 AnimaRankUpEvent:
 NoFade
-SOUN 0x5A
-SETVAL 0xB (-1)
-TUTORIALTEXTBOXSTART
-TEXTSHOW 0x00D9
-TEXTEND
+POPUP 0x00D9 0x5A
 REMA
 ENDA
 
 LightRankUpEvent:
 NoFade
-SOUN 0x5A
-SETVAL 0xB (-1)
-TUTORIALTEXTBOXSTART
-TEXTSHOW 0x00DA
-TEXTEND
+POPUP 0x00DA 0x5A
 REMA
 ENDA
 
 DarkRankUpEvent:
 NoFade
-SOUN 0x5A
-SETVAL 0xB (-1)
-TUTORIALTEXTBOXSTART
-TEXTSHOW 0x00DB
-TEXTEND
+POPUP 0x00DB 0x5A
+REMA
+ENDA
+
+StaffRankUpEvent:
+NoFade
+POPUP 0x00DC 0x5A
 REMA
 ENDA

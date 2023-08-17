@@ -36,63 +36,82 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon) {
   }
 }
 
-void itemIdToEvent(u16 id, struct IncomingEvent *dst) {
+void unpackEventFromId(u16 id, struct IncomingEvent *dst) {
   switch (id) {
     case 0:
       dst->kind = ProgLvlCap;
+      break;
     case 1:
       dst->kind = ProgWLv;
       dst->payload.weaponType = Sword;
+      break;
     case 2:
       dst->kind = ProgWLv;
       dst->payload.weaponType = Lance;
+      break;
     case 3:
       dst->kind = ProgWLv;
       dst->payload.weaponType = Axe;
+      break;
     case 4:
       dst->kind = ProgWLv;
       dst->payload.weaponType = Bow;
+      break;
     case 5:
       dst->kind = ProgWLv;
       dst->payload.weaponType = Anima;
+      break;
     case 6:
       dst->kind = ProgWLv;
       dst->payload.weaponType = Light;
+      break;
     case 7:
       dst->kind = ProgWLv;
       dst->payload.weaponType = Dark;
+      break;
     case 8:
       dst->kind = ProgWLv;
       dst->payload.weaponType = Staff;
+      break;
     case 9:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Sieglinde;
+      break;
     case 10:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Siegmund;
+      break;
     case 11:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Gleipnir;
+      break;
     case 12:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Garm;
+      break;
     case 13:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Nidhogg;
+      break;
     case 14:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Vidofnir;
+      break;
     case 15:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Excalibur;
+      break;
     case 16:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Audhulma;
+      break;
     case 17:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Ivaldi;
+      break;
     case 18:
       dst->kind = HolyWeapon;
       dst->payload.weaponType = Latona;
+      break;
   };
 }
