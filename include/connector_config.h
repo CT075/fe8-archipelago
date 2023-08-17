@@ -54,4 +54,34 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon);
 
 const u16 *receivedItemEvent(u8 itemId);
 
+enum WeaponType {
+  Sword=0,
+  Lance=1,
+  Axe=2,
+  Bow=3,
+  Anima=4,
+  Light=5,
+  Dark=6,
+  Staff=7,
+};
+
+enum ItemKind {
+  ProgLvlCap=0,
+  ProgWLv=1,
+  HolyWeapon=2,
+};
+
+union Payload {
+  // progressive levelcap has no payload
+  enum WeaponType weaponType;
+  enum HolyWeapon holyWeapon;
+};
+
+struct IncomingEvent {
+  enum ItemKind kind;
+  union Payload payload;
+};
+
+void itemIdToEvent(u16 id, struct IncomingEvent *dst);
+
 #endif // CONNECTOR_CONFIG_H

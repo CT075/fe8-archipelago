@@ -55,7 +55,6 @@ void enqueueReceivedItemEvent() {
   const u16 *evt = receivedItemEvent(apReceivedItem->itemId);
   CallEvent(evt, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
 
-  *lastReceivedEventIndex = apReceivedItem->eventIndex;
   apReceivedItem->filled = 0;
 }
 

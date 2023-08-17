@@ -97,11 +97,61 @@ data WeaponType
     | Light
     | Dark
     | Staff
+    deriving (Show, Enum, Bounded, Typeable)
 
 data Item
     = ProgressiveLevelCap
-    | ProgressiveWLvCap WeaponType
+    | ProgressiveWLv WeaponType
     | HolyWeaponPut HolyWeapon
+    deriving (Show, Typeable)
+
+instance Bounded Item where
+    minBound = ProgressiveLevelCap
+    maxBound = HolyWeaponPut maxBound
+
+instance Enum Item where
+    toEnum i
+        | i < 0 = error $ "invalid item index " ++ show i
+        | i == 0 = ProgressiveLevelCap
+        | i - 1 <= fromEnum (maxBound @WeaponType) = ProgressiveWLv $ toEnum $ i - 1
+        | otherwise = HolyWeaponPut $ toEnum $ i - fromEnum (maxBound @WeaponType) - 1 - 1
+
+    fromEnum ProgressiveLevelCap = 0
+    fromEnum (ProgressiveWLv w) = fromEnum w + 1
+    fromEnum (HolyWeaponPut hw) = fromEnum hw + (fromEnum $ maxBound @WeaponType) + 1 + 1
+
+-- XXX: We could automatically derive these from the definition of `Item`, but
+-- it's a lot of complex type-level machinery for very little gain.
+data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon
+    deriving (Show, Enum, Bounded, Typeable)
+
+itemkind :: Item -> ItemKind
+itemkind ProgressiveLevelCap = ProgLvlCap
+itemkind (ProgressiveWLv _) = ProgWLv
+itemkind (HolyWeaponPut _) = HolyWeapon
+
+progWLvName :: String
+progWLvName = "weaponType"
+
+holyWeaponKindName :: String
+holyWeaponKindName = "holyWeapon"
+
+emitSetPayload :: Monad m => (String -> m ()) -> String -> Item -> m ()
+emitSetPayload emitLn prefix item =
+    case item of
+        ProgressiveLevelCap -> return ()
+        (ProgressiveWLv weapon) ->
+            emitLn $ prefix ++ progWLvName ++ " = " ++ show weapon ++ ";"
+        (HolyWeaponPut holyWeapon) ->
+            emitLn $ prefix ++ progWLvName ++ " = " ++ show holyWeapon ++ ";"
+
+emitCPayloadUnion :: Monad m => (String -> m ()) -> m ()
+emitCPayloadUnion emitLn = do
+    emitLn $ "union Payload {"
+    emitLn $ "  // progressive levelcap has no payload"
+    emitLn $ "  enum " ++ show (typeRep @WeaponType) ++ " " ++ progWLvName ++ ";"
+    emitLn $ "  enum " ++ show (typeRep @HolyWeapon) ++ " " ++ holyWeaponKindName ++ ";"
+    emitLn $ "};"
 
 emitCEnum ::
     forall a.
@@ -161,6 +211,19 @@ emitConnectorConfigH emitLn = do
     emitLn ""
     emitLn $ "const u16 *receivedItemEvent(u8 itemId);"
     emitLn ""
+    emitCEnum @WeaponType emitLn
+    emitLn ""
+    emitCEnum @ItemKind emitLn
+    emitLn ""
+    emitCPayloadUnion emitLn
+    emitLn ""
+    emitLn $ "struct IncomingEvent {"
+    emitLn $ "  enum " ++ show (typeRep @ItemKind) ++ " kind;"
+    emitLn $ "  union Payload payload;"
+    emitLn $ "};"
+    emitLn ""
+    emitLn $ "void itemIdToEvent(u16 id, struct IncomingEvent *dst);"
+    emitLn ""
     emitLn $ "#endif // CONNECTOR_CONFIG_H"
   where
     locationBits = length $ [minBound @Location .. maxBound]
@@ -185,6 +248,15 @@ emitConnectorAccessorsC emitLn = do
     emitLn $ "    default:"
     emitLn $ "      return -1;"
     emitLn $ "  }"
+    emitLn $ "}"
+    emitLn ""
+    emitLn $ "void itemIdToEvent(u16 id, struct IncomingEvent *dst) {"
+    emitLn $ "  switch (id) {"
+    forM_ [minBound @Item .. maxBound] $ \item -> do
+        emitLn $ "    case " ++ show (fromEnum item) ++ ":"
+        emitLn $ "      dst->kind = " ++ show (itemkind item) ++ ";"
+        emitSetPayload emitLn "      dst->payload." item
+    emitLn $ "  };"
     emitLn $ "}"
 
 emitPythonLocations :: Monad m => (String -> m ()) -> m ()

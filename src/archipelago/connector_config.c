@@ -35,3 +35,64 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon) {
       return -1;
   }
 }
+
+void itemIdToEvent(u16 id, struct IncomingEvent *dst) {
+  switch (id) {
+    case 0:
+      dst->kind = ProgLvlCap;
+    case 1:
+      dst->kind = ProgWLv;
+      dst->payload.weaponType = Sword;
+    case 2:
+      dst->kind = ProgWLv;
+      dst->payload.weaponType = Lance;
+    case 3:
+      dst->kind = ProgWLv;
+      dst->payload.weaponType = Axe;
+    case 4:
+      dst->kind = ProgWLv;
+      dst->payload.weaponType = Bow;
+    case 5:
+      dst->kind = ProgWLv;
+      dst->payload.weaponType = Anima;
+    case 6:
+      dst->kind = ProgWLv;
+      dst->payload.weaponType = Light;
+    case 7:
+      dst->kind = ProgWLv;
+      dst->payload.weaponType = Dark;
+    case 8:
+      dst->kind = ProgWLv;
+      dst->payload.weaponType = Staff;
+    case 9:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Sieglinde;
+    case 10:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Siegmund;
+    case 11:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Gleipnir;
+    case 12:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Garm;
+    case 13:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Nidhogg;
+    case 14:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Vidofnir;
+    case 15:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Excalibur;
+    case 16:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Audhulma;
+    case 17:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Ivaldi;
+    case 18:
+      dst->kind = HolyWeapon;
+      dst->payload.weaponType = Latona;
+  };
+}

@@ -13,9 +13,37 @@
 
 {
 
-__TEXTPROCESS08B:
-#incbin ".TextEntries/alltext08B.fetxt.dmp"
-setText($8B, __TEXTPROCESS08B)
+__TEXTPROCESS0D4:
+#incbin ".TextEntries/alltext0D4.fetxt.dmp"
+setText($D4, __TEXTPROCESS0D4)
+
+__TEXTPROCESS0D5:
+#incbin ".TextEntries/alltext0D5.fetxt.dmp"
+setText($D5, __TEXTPROCESS0D5)
+
+__TEXTPROCESS0D6:
+#incbin ".TextEntries/alltext0D6.fetxt.dmp"
+setText($D6, __TEXTPROCESS0D6)
+
+__TEXTPROCESS0D7:
+#incbin ".TextEntries/alltext0D7.fetxt.dmp"
+setText($D7, __TEXTPROCESS0D7)
+
+__TEXTPROCESS0D8:
+#incbin ".TextEntries/alltext0D8.fetxt.dmp"
+setText($D8, __TEXTPROCESS0D8)
+
+__TEXTPROCESS0D9:
+#incbin ".TextEntries/alltext0D9.fetxt.dmp"
+setText($D9, __TEXTPROCESS0D9)
+
+__TEXTPROCESS0DA:
+#incbin ".TextEntries/alltext0DA.fetxt.dmp"
+setText($DA, __TEXTPROCESS0DA)
+
+__TEXTPROCESS0DB:
+#incbin ".TextEntries/alltext0DB.fetxt.dmp"
+setText($DB, __TEXTPROCESS0DB)
 
 }
 
