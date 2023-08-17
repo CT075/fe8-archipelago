@@ -10,8 +10,7 @@
 #define checkedLocations ((struct Checks *)(CHECKED_LOCATIONS_ADDR))
 
 struct APReceivedItem {
-  u16 eventIndex;
-  u8 itemId;
+  u16 itemId;
   u8 filled;
 };
 

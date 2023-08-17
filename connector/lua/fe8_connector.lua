@@ -28,40 +28,45 @@ local received_items = {}
 local iwram_start = 0x3000000
 local ewram_start = 0x2000000
 
--- These offsets are currently configured in some header file and need to be
--- updated manually. We could also populate this using some kind of address
--- extractor.
+-- CR cam: These offsets are currently configured by hand after inspecting the
+-- results of the build (or pulling them from the relevant header files). We
+-- should probably look towards populating them automatically eventually.
 
-local last_received_item_index_offset = 0x3778
-local flags_offset = 0x1450
-local flags_size = 0x12C
-
--- IWRAM Addresses
-local save_block_ptr_address = 0x5D8C              -- gSaveBlock1Ptr
-local cb2_address = 0x22C0 + 4                     -- gMain + offset
-
--- EWRAM Addresses
-local archipelago_received_item_address = 0x026E30  -- apReceivedItem
+local last_received_item_index_offset = 0x026E4C
+local flags_offset = 0x026E3C
+local flags_size = 8
+local archipelago_received_item_address = 0x026E44
 
 -- ROM addresses
-local slot_name_address = 0x59A03C                 -- gArchipelagoInfo
--- Bus addresses
-local cb2_overworld_func_address = 0x808605C + 1   -- CB2_Overworld + 1
+-- CR cam: .
+local slot_name_address = 0x59A03C
+
+local proc_pool_address = 0x024E68
+local num_procs = 0x40
+
+-- These two include the ROM hardware offset because we compare against them as
+-- literal values when checking if these procs are live.
+local wm_proc_address = 0x08A3EE74
+local e_player_phase_proc_address = 0x0859AAD8
 
 local bizhawk_version = client.getversion()
 local bizhawk_major, bizhawk_minor, bizhawk_patch = bizhawk_version:match("(%d+)%.(%d+)%.?(%d*)")
 bizhawk_major = tonumber(bizhawk_major)
 bizhawk_minor = tonumber(bizhawk_minor)
 
--- CR cam: Do we need this at all?
 function check_game_state ()
+    local current_proc = proc_pool_address
+    local count = 0
     local cb2_value = memory.read_u32_le(cb2_address, "IWRAM")
 
-    if (cb2_value == cb2_overworld_func_address) then
+    while count < num_procs do
+      local ptr = memory.read_u32_le(current_proc)
+      if ptr == wm_proc_address or ptr == e_player_phase_proc_address then
         current_game_state = GAME_STATE_SAFE
-    else
-        current_game_state = GAME_STATE_UNSAFE
+        return
+      end
     end
+    current_game_state = GAME_STATE_UNSAFE
 end
 
 -- Process data received from AP client
@@ -71,6 +76,8 @@ function process_data (data)
     end
 
     if (data["items"] ~= nil) then
+        -- CR cam: There's a race here where, if we receive a new batch of
+        -- items before `received_items` is emptied, we could clobber them
         received_items = data["items"]
     end
 end
@@ -83,15 +90,15 @@ function try_write_next_item ()
 
         if (is_filled ~= 0) then return end
 
-        -- CR cam: We probably shouldn't read this from the save block
-        local last_received_item_index = memory.read_u16_le(save_block_address + last_received_item_index_offset, "EWRAM")
-
-        next_item = received_items[last_received_item_index + 1]
+        -- This is, in theory, a very slow operation, but in practice the table
+        -- will be tiny and the latency here should be dwarfed by transport. If
+        -- it comes down to it, we can reverse the list when we get it and pop
+        -- off the end instead.
+        local next_item = table.remove(received_items, 1)
         if (next_item ~= nil) then
-            memory.write_u16_le(archipelago_received_item_address + 0, next_item[1],                 "EWRAM")
-            memory.write_u16_le(archipelago_received_item_address + 2, last_received_item_index + 1, "EWRAM")
-            memory.write_u8(    archipelago_received_item_address + 4, 1,                            "EWRAM")
-            memory.write_u8(    archipelago_received_item_address + 5, next_item[2],                 "EWRAM")
+            -- TODO: progression filtering?
+            memory.write_u16_le(archipelago_received_item_address + 0, next_item[1], "EWRAM")
+            memory.write_u8(archipelago_received_item_address + 3, 1, "EWRAM")
         end
     end
 end
@@ -106,11 +113,8 @@ function create_message ()
     local slot_name = memory.read_bytes_as_array(slot_name_address, 64, "ROM")
     data["slot_name"] = slot_name
 
-    -- CR cam: .
     if (current_game_state == GAME_STATE_SAFE) then
-        local save_block_address = memory.read_u32_le(save_block_ptr_address, "IWRAM") - ewram_start
-
-        local flag_bytes = memory.read_bytes_as_array(save_block_address + flags_offset, flags_size, "EWRAM")
+        local flag_bytes = memory.read_bytes_as_array(flags_offset, flags_size, "EWRAM")
         data["flag_bytes"] = flag_bytes
     end
 
