@@ -5,7 +5,7 @@ d := $(dir)
 dir := $(d)/fillAIDangerMap
 include $(dir)/Rules.mk
 
-dir := $(d)/levelcap
+dir := $(d)/progressiveCaps
 include $(dir)/Rules.mk
 
 dir := $(d)/archipelago

@@ -2,7 +2,7 @@ sp := $(sp).x
 dirstack_$(sp) := $(d)
 d := $(dir)
 
-EVENTS_$(d) := $(d)/progressiveLevelCap.lyn.event
+EVENTS_$(d) := $(d)/progressiveCaps.lyn.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
 

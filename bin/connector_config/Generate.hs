@@ -220,7 +220,7 @@ emitConnectorConfigH emitLn = do
     emitLn $ "  union Payload payload;"
     emitLn $ "};"
     emitLn ""
-    emitLn $ "void unpackEventFromId(u16 id, struct IncomingEvent *dst);"
+    emitLn $ "void unpackAPEventFromId(u16 id, struct IncomingEvent *dst);"
     emitLn ""
     emitLn $ "#endif // CONNECTOR_CONFIG_H"
   where
@@ -248,7 +248,7 @@ emitConnectorAccessorsC emitLn = do
     emitLn $ "  }"
     emitLn $ "}"
     emitLn ""
-    emitLn $ "void unpackEventFromId(u16 id, struct IncomingEvent *dst) {"
+    emitLn $ "void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {"
     emitLn $ "  switch (id) {"
     forM_ [minBound @Item .. maxBound] $ \item -> do
         emitLn $ "    case " ++ show (fromEnum item) ++ ":"

@@ -80,6 +80,6 @@ struct IncomingEvent {
   union Payload payload;
 };
 
-void unpackEventFromId(u16 id, struct IncomingEvent *dst);
+void unpackAPEventFromId(u16 id, struct IncomingEvent *dst);
 
 #endif // CONNECTOR_CONFIG_H

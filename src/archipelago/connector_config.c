@@ -36,7 +36,7 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon) {
   }
 }
 
-void unpackEventFromId(u16 id, struct IncomingEvent *dst) {
+void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {
   switch (id) {
     case 0:
       dst->kind = ProgLvlCap;

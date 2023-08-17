@@ -80,6 +80,31 @@ const u16 *receivedItemEvent(struct IncomingEvent *evt) {
   return LevelUncapEvent;
 }
 
+void giveAPEventReward(struct IncomingEvent *evt) {
+  switch (evt->kind) {
+    case ProgLvlCap:
+      bumpLevelCap();
+      break;
+    case ProgWLv:
+      // CR cam: .
+      switch (evt->payload.weaponType) {
+        case Sword:
+        case Lance:
+        case Axe:
+        case Bow:
+        case Anima:
+        case Light:
+        case Dark:
+        case Staff:
+          break;
+      };
+      break;
+    case HolyWeapon:
+      // CR cam: .
+      break;
+  };
+}
+
 void enqueueReceivedItemEvent() {
   if (!apReceivedItem->filled) {
     return;
@@ -88,7 +113,9 @@ void enqueueReceivedItemEvent() {
   struct IncomingEvent evt;
 
   u8 inWorldMap = Proc_Find((const struct ProcCmd *)0x08A3EE74) != NULL;
-  unpackEventFromId(apReceivedItem->itemId, &evt);
+  unpackAPEventFromId(apReceivedItem->itemId, &evt);
+
+  giveAPEventReward(&evt);
 
   const u16 *evtscr = receivedItemEvent(&evt);
   CallEvent(evtscr, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
