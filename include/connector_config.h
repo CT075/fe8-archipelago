@@ -51,6 +51,7 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon);
 #define Ch5xId (6)
 #define PrologueId (0)
 #define EndgameId (22)
+#define VictoryId (23)
 
 enum WeaponType {
   Sword=0,

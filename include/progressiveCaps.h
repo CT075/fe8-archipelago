@@ -22,4 +22,6 @@ struct ProgressiveCaps {
 
 #define TRUE_LEVEL_CAP 20
 
+void bumpLevelCap();
+
 #endif // PROGRESSIVE_CAPS_H

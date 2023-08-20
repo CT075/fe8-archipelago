@@ -97,7 +97,7 @@ void markEndgameClear(struct EventEngineProc *engine) {
 }
 
 void markFormortiisClear(struct EventEngineProc *engine) {
-  // TODO
+  markChapterCleared(VictoryId);
 }
 
 void markPrologueClear(struct EventEngineProc *engine) {

@@ -208,6 +208,7 @@ emitConnectorConfigH emitLn = do
     emitLn $ "#define Ch5xId (" ++ show (fromEnum $ C5x) ++ ")"
     emitLn $ "#define PrologueId (" ++ show (fromEnum $ Prologue) ++ ")"
     emitLn $ "#define EndgameId (" ++ show (fromEnum $ Endgame) ++ ")"
+    emitLn $ "#define VictoryId (" ++ show (fromEnum $ Victory) ++ ")"
     emitLn ""
     emitCEnum @WeaponType emitLn
     emitLn ""
