@@ -1,10 +1,17 @@
+// CR cam: Split this into weapon-level and regular-level files.
+
 #include "global.h"
 
 #include "bmbattle.h"
 #include "bmunit.h"
 #include "bmitem.h"
+#include "variables.h"
+#include "statscreen.h"
+#include "icon.h"
+#include "hardware.h"
 
 #include "constants.h"
+#include "archipelago.h"
 #include "progressiveCaps.h"
 
 int GetStatIncrease(int growth);
@@ -132,6 +139,148 @@ void CheckBattleUnitLevelUp(struct BattleUnit *bu) {
   }
 }
 
+u8 *weaponLvlStage(int wType) {
+  switch (wType) {
+    case ITYPE_SWORD:
+      return &progCaps->swordLvlCapStage;
+    case ITYPE_LANCE:
+      return &progCaps->lanceLvlCapStage;
+    case ITYPE_AXE:
+      return &progCaps->axeLvlCapStage;
+    case ITYPE_BOW:
+      return &progCaps->bowLvlCapStage;
+    case ITYPE_ANIMA:
+      return &progCaps->animaLvlCapStage;
+    case ITYPE_LIGHT:
+      return &progCaps->lightLvlCapStage;
+    case ITYPE_DARK:
+      return &progCaps->darkLvlCapStage;
+    case ITYPE_STAFF:
+      return &progCaps->staffLvlCapStage;
+  }
+  return &progCaps->swordLvlCapStage;
+}
+
+void bumpWeaponLevelCap(enum WeaponType wtype) {
+  // CR-someday cam: This cast takes advantage of the specific ordering of the
+  // weapon type listing in `Generate.hs`, which is not strictly a good idea,
+  // but is unlikely to actually cause issues.
+  u8 *stage = weaponLvlStage((int) wtype);
+  *stage += 1;
+}
+
+int weaponLvlStageToWExp(u8 stage) {
+  switch (stage) {
+    case 0:
+      return WPN_EXP_C;
+    case 1:
+      return WPN_EXP_B;
+    case 2:
+      return WPN_EXP_A;
+    default:
+      return WPN_EXP_S;
+  }
+}
+
+int partyWeaponLevel(int wType) {
+  return weaponLvlStageToWExp(*weaponLvlStage(wType));
+}
+
 int GetItemAwardedExp(int item) {
   return 0;
+}
+
+int getUnitWeaponRank(struct Unit *unit, int wType) {
+  // !!x = 0 for x = 0 and 1 otherwise, so a weapon is usable iff the given
+  // unit has any rank for that weapon at all and the slot's weapon rank is
+  // high enough.
+  return (!!unit->ranks[wType]) * partyWeaponLevel(wType);
+}
+
+// CR cam: set this by class
+//int GetUnitBestWRankType(struct Unit *unit);
+
+void ComputeBattleUnitWeaponRankBonuses(struct BattleUnit *bu) {
+  if (bu->weapon) {
+    int wType = GetItemType(bu->weapon);
+
+    if (wType < 8 && partyWeaponLevel(wType) >= WPN_EXP_S) {
+      bu->battleHitRate += 10;
+      bu->battleCritRate += 15;
+    }
+  }
+}
+
+s8 CanUnitUseWeapon(struct Unit* unit, int item) {
+  if (item == 0)
+    return FALSE;
+
+  if (!(GetItemAttributes(item) & IA_WEAPON))
+    return FALSE;
+
+  if (GetItemAttributes(item) & IA_LOCK_ANY) {
+    // Check for item locks
+
+    if ((GetItemAttributes(item) & IA_LOCK_1) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_1))
+      return FALSE;
+
+    if ((GetItemAttributes(item) & IA_LOCK_4) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_4))
+      return FALSE;
+
+    if ((GetItemAttributes(item) & IA_LOCK_5) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_5))
+      return FALSE;
+
+    if ((GetItemAttributes(item) & IA_LOCK_6) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_6))
+      return FALSE;
+
+    if ((GetItemAttributes(item) & IA_LOCK_7) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_7))
+      return FALSE;
+
+    if ((GetItemAttributes(item) & IA_LOCK_2) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_2))
+      return FALSE;
+
+    // Monster lock is special
+    if (GetItemAttributes(item) & IA_LOCK_3) {
+      if (!(UNIT_CATTRIBUTES(unit) & CA_LOCK_3))
+        return FALSE;
+
+      return TRUE;
+    }
+
+    if (GetItemAttributes(item) & IA_UNUSABLE)
+      if (!(IsItemUnsealedForUnit(unit, item)))
+        return FALSE;
+  }
+
+  if ((unit->statusIndex == UNIT_STATUS_SILENCED) && (GetItemAttributes(item) & IA_MAGIC))
+    return FALSE;
+
+  int wRank = GetItemRequiredExp(item);
+  int uRank = getUnitWeaponRank(unit, GetItemType(item));
+
+  return (uRank >= wRank) ? TRUE : FALSE;
+}
+
+void DisplayWeaponExp(int num, int x, int y, int wtype) {
+  int color;
+
+  int wexp = getUnitWeaponRank(gStatScreen.unit, wtype);
+
+  // Display weapon type icon
+  DrawIcon(gBmFrameTmap0 + TILEMAP_INDEX(x, y),
+    0x70 + wtype, // TODO: icon id definitions
+    TILEREF(0, STATSCREEN_BGPAL_EXTICONS));
+
+  color = wexp >= WPN_EXP_S
+    ? TEXT_COLOR_SYSTEM_GREEN
+    : TEXT_COLOR_SYSTEM_BLUE;
+
+  // Display rank letter
+  PutSpecialChar(gBmFrameTmap0 + TILEMAP_INDEX(x + 4, y),
+    color,
+    GetDisplayRankStringFromExp(wexp));
+
+  DrawStatBarGfx(0x401 + num*6, 5,
+    gBmFrameTmap1 + TILEMAP_INDEX(x + 2, y + 1), TILEREF(0, STATSCREEN_BGPAL_6),
+    0x22, 0, 0);
 }

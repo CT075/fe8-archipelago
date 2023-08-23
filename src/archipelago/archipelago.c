@@ -86,18 +86,7 @@ void giveAPEventReward(struct IncomingEvent *evt) {
       bumpLevelCap();
       break;
     case ProgWLv:
-      // CR cam: .
-      switch (evt->payload.weaponType) {
-        case Sword:
-        case Lance:
-        case Axe:
-        case Bow:
-        case Anima:
-        case Light:
-        case Dark:
-        case Staff:
-          break;
-      };
+      bumpWeaponLevelCap(evt->payload.weaponType);
       break;
     case HolyWeapon:
       // CR cam: .
