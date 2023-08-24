@@ -17,6 +17,9 @@ include $(dir)/Rules.mk
 dir := $(d)/events
 include $(dir)/Rules.mk
 
+dir := $(d)/giveItemHook
+include $(dir)/Rules.mk
+
 EVENTS_$(d) := $(d)/_FE8EssentialFixes.event $(d)/main.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
