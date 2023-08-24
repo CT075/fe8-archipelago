@@ -75,43 +75,43 @@ void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {
       break;
     case 9:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Sieglinde;
+      dst->payload.holyWeapon = Sieglinde;
       break;
     case 10:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Siegmund;
+      dst->payload.holyWeapon = Siegmund;
       break;
     case 11:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Gleipnir;
+      dst->payload.holyWeapon = Gleipnir;
       break;
     case 12:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Garm;
+      dst->payload.holyWeapon = Garm;
       break;
     case 13:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Nidhogg;
+      dst->payload.holyWeapon = Nidhogg;
       break;
     case 14:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Vidofnir;
+      dst->payload.holyWeapon = Vidofnir;
       break;
     case 15:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Excalibur;
+      dst->payload.holyWeapon = Excalibur;
       break;
     case 16:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Audhulma;
+      dst->payload.holyWeapon = Audhulma;
       break;
     case 17:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Ivaldi;
+      dst->payload.holyWeapon = Ivaldi;
       break;
     case 18:
       dst->kind = HolyWeapon;
-      dst->payload.weaponType = Latona;
+      dst->payload.holyWeapon = Latona;
       break;
   };
 }

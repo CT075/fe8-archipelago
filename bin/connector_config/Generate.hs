@@ -143,7 +143,7 @@ emitSetPayload emitLn prefix item =
         (ProgressiveWLv weapon) ->
             emitLn $ prefix ++ progWLvName ++ " = " ++ show weapon ++ ";"
         (HolyWeaponPut holyWeapon) ->
-            emitLn $ prefix ++ progWLvName ++ " = " ++ show holyWeapon ++ ";"
+            emitLn $ prefix ++ holyWeaponKindName ++ " = " ++ show holyWeapon ++ ";"
 
 emitCPayloadUnion :: Monad m => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do
