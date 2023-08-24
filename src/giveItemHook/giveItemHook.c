@@ -87,9 +87,11 @@ int Event37_GiveItem(struct EventEngineProc *proc) {
     return 6;
   }
 
+  u16 item;
+
   switch (subcmd) {
     case 0:
-      u16 item = gEventSlots[3];
+      item = gEventSlots[3];
       enum HolyWeapon hw;
       // If the GIVEITEM event gives a holy weapon, intercept it and run the
       // Archipelago routine instead.
@@ -111,7 +113,7 @@ int Event37_GiveItem(struct EventEngineProc *proc) {
       SetPartyGoldAmount(gold);
       break;
     case 3:
-      item = holyWeaponTrueValue(item);
+      item = holyWeaponTrueValue(gEventSlots[3]);
       NewPopup_ItemGot(proc, target, item);
       break;
   }
