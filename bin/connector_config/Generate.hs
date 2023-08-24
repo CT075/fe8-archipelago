@@ -181,6 +181,9 @@ cCommentPrefix = "// "
 pythonCommentPrefix :: String
 pythonCommentPrefix = "# "
 
+eventCommentPrefix :: String
+eventCommentPrefix = "// "
+
 emitHeader :: Monad m => String -> (String -> m ()) -> m ()
 emitHeader commentPrefix emitLn =
     forM_ headerLines $ emitLn . (commentPrefix ++)
@@ -286,19 +289,28 @@ emitPythonLocations emitLn = do
         formatChapterText Endgame = "\"Defeat Lyon\""
         formatChapterText Victory = "\"Defeat Formortiis\""
 
+emitEventDefs :: Monad m => (String -> m ()) -> m ()
+emitEventDefs emitLn = do
+    emitHeader eventCommentPrefix emitLn
+    emitLn ""
+    forM_ [minBound @HolyWeapon .. maxBound] $ \hw ->
+        emitLn $ "#define AP" ++ show hw ++ "Id " ++ (show $ fromEnum hw)
+
 data GenOption
     = CLang
     | H
     | Py
+    | Event
 
 instance Read GenOption where
     readsPrec _ ('C' : rest) = [(CLang, rest)]
     readsPrec _ ('H' : rest) = [(H, rest)]
     readsPrec _ ('P' : 'y' : rest) = [(Py, rest)]
+    readsPrec _ ('E' : 'v' : 'e' : 'n' : 't' : rest) = [(Event, rest)]
     readsPrec _ _ = []
 
 usage :: String
-usage = "usage: ./Generate [C/H/Py]"
+usage = "usage: ./Generate [C/H/Py/Event]"
 
 main :: IO ()
 main = do
@@ -311,6 +323,7 @@ main = do
         Just CLang -> emitConnectorAccessorsC putStrLn
         Just H -> emitConnectorConfigH putStrLn
         Just Py -> emitPythonLocations putStrLn
+        Just Event -> emitEventDefs putStrLn
         Nothing -> printUsage
   where
     exitUsage = ExitFailure 64

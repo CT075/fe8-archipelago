@@ -48,6 +48,7 @@ extern const u16 AnimaRankUpEvent[];
 extern const u16 LightRankUpEvent[];
 extern const u16 DarkRankUpEvent[];
 extern const u16 StaffRankUpEvent[];
+extern const u16 GiveSieglindeEvent[];
 
 const u16 *receivedItemEvent(struct IncomingEvent *evt) {
   switch (evt->kind) {
@@ -73,8 +74,13 @@ const u16 *receivedItemEvent(struct IncomingEvent *evt) {
           return StaffRankUpEvent;
       };
     case HolyWeapon:
-      // CR cam: .
-      return LevelUncapEvent;
+      switch (evt->payload.holyWeapon) {
+        case Sieglinde:
+          return GiveSieglindeEvent;
+        // CR cam: .
+        default:
+          return LevelUncapEvent;
+      }
   };
 
   return LevelUncapEvent;

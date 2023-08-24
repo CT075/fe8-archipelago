@@ -6,6 +6,7 @@
 #include "proc.h"
 #include "bmunit.h"
 #include "popup.h"
+#include "constants/characters.h"
 #include "constants/items.h"
 
 #include "archipelago.h"
@@ -113,6 +114,14 @@ int Event37_GiveItem(struct EventEngineProc *proc) {
       SetPartyGoldAmount(gold);
       break;
     case 3:
+      switch (gPlaySt.chapterModeIndex) {
+        case CHAPTER_MODE_EIRIKA:
+          target = GetUnitFromCharId(CHARACTER_EIRIKA);
+          break;
+        case CHAPTER_MODE_EPHRAIM:
+          target = GetUnitFromCharId(CHARACTER_EPHRAIM);
+          break;
+      }
       item = holyWeaponTrueValue(gEventSlots[3]);
       NewPopup_ItemGot(proc, target, item);
       break;

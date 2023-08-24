@@ -19,6 +19,9 @@ src/archipelago/connector_config.c: $(BIN_DIR)/connector_config/Generate.hs
 connector/py/data_init.py: $(BIN_DIR)/connector_config/Generate.hs
 	runhaskell -Wall $< Py > $@
 
+src/archipelago/connector_config_defs.event: $(BIN_DIR)/connector_config/Generate.hs
+	runhaskell -Wall $< Event > $@
+
 SYMBOLS := $(BUILD_DIR)/$(TARGET:.gba=.sym)
 
 EVENTS := $(EVENT_MAIN) $(ARCHIPELAGO_DEFS)

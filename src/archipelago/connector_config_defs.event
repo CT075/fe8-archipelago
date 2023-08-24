@@ -1,0 +1,15 @@
+// THIS FILE IS GENERATED, DO NOT EDIT DIRECTLY
+// 
+// To change this file, see `bin/connector_config/Generate.hs` at
+// https://github.com/CT075/fe8-archipelago
+
+#define APSieglindeId 0
+#define APSiegmundId 1
+#define APGleipnirId 2
+#define APGarmId 3
+#define APNidhoggId 4
+#define APVidofnirId 5
+#define APExcaliburId 6
+#define APAudhulmaId 7
+#define APIvaldiId 8
+#define APLatonaId 9

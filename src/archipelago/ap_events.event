@@ -1,3 +1,7 @@
+#include connector_config_defs.event
+
+#define GIVEHOLYWEAPON "SHORT 0x3723 0x01"
+
 // CR cam: there's a lot of hardcoded text IDs here.
 
 // CR cam: We could avoid needing to allocate each of these events individually
@@ -58,4 +62,64 @@ StaffRankUpEvent:
 NoFade
 POPUP 0x00DC 0x5A
 REMA
+ENDA
+
+GiveSieglindeEvent:
+NoFade
+SVAL 0x3 APSieglindeId
+GIVEHOLYWEAPON
+ENDA
+
+GiveSiegmundEvent:
+NoFade
+SVAL 0x3 APSiegmundId
+GIVEHOLYWEAPON
+ENDA
+
+GiveGleipnirEvent:
+NoFade
+SVAL 0x3 APGleipnirId
+GIVEHOLYWEAPON
+ENDA
+
+GiveGarmEvent:
+NoFade
+SVAL 0x3 APGarmId
+GIVEHOLYWEAPON
+ENDA
+
+GiveNidhoggEvent:
+NoFade
+SVAL 0x3 APNidhoggId
+GIVEHOLYWEAPON
+ENDA
+
+GiveVidofnirEvent:
+NoFade
+SVAL 0x3 APVidofnirId
+GIVEHOLYWEAPON
+ENDA
+
+GiveExcaliburEvent:
+NoFade
+SVAL 0x3 APExcaliburId
+GIVEHOLYWEAPON
+ENDA
+
+GiveAudhulmaEvent:
+NoFade
+SVAL 0x3 APAudhulmaId
+GIVEHOLYWEAPON
+ENDA
+
+GiveIvaldiEvent:
+NoFade
+SVAL 0x3 APIvaldiId
+GIVEHOLYWEAPON
+ENDA
+
+GiveLatonaEvent:
+NoFade
+SVAL 0x3 APLatonaId
+GIVEHOLYWEAPON
 ENDA
