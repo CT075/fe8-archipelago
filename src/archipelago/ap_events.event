@@ -1,12 +1,11 @@
 #include connector_config_defs.event
 
+// this requires a modded event engine, see `giveItemHook`
 #define GIVEHOLYWEAPON "SHORT 0x3723 0x01"
 
 // CR cam: there's a lot of hardcoded text IDs here.
 
-// CR cam: We could avoid needing to allocate each of these events individually
-// by setting slot 2 from the archipelago code and running an event displaying
-// that text box.
+// CR cam: We should replace these with popups.
 
 LevelUncapEvent:
 NoFade

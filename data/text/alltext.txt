@@ -20,16 +20,20 @@ Bow rank increased![X]
 
 # 0x00D9
 
-Anima rank increased![A][X]
+Anima rank increased![X]
 
 # 0x00DA
 
-Light rank increased![A][X]
+Light rank increased![X]
 
 # 0x00DB
 
-Dark rank increased![A][X]
+Dark rank increased![X]
 
 # 0x00DC
 
-Staff rank increased![A][X]
+Staff rank increased![X]
+
+# 0x00DD
+
+AP Item[X]

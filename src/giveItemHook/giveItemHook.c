@@ -74,11 +74,6 @@ u16 holyWeaponTrueValue(enum HolyWeapon hw) {
   return -1;
 }
 
-void handleHolyWeaponGet(enum HolyWeapon hw) {
-  markHolyWeaponGet(hw);
-  // TODO: "got an archipelago item!"
-}
-
 int Event37_GiveItem(struct EventEngineProc *proc) {
   u8 subcmd = EVT_SUB_CMD(proc->pEventCurrent);
 
@@ -97,7 +92,7 @@ int Event37_GiveItem(struct EventEngineProc *proc) {
       // If the GIVEITEM event gives a holy weapon, intercept it and run the
       // Archipelago routine instead.
       if (checkHolyWeapon(item, &hw)) {
-        handleHolyWeaponGet(hw);
+        handleHolyWeaponGet(proc, hw);
       }
       else {
         NewPopup_ItemGot(proc, target, item);

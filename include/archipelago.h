@@ -1,6 +1,9 @@
 #ifndef ARCHIPELAGO_H
 #define ARCHIPELAGO_H
 
+#include "global.h"
+#include "proc.h"
+
 #include "connector_config.h"
 
 #define sizeof_round(ty) ((sizeof(ty) + sizeof(int)-1) & ~(sizeof(int)-1))
@@ -17,8 +20,8 @@ struct APReceivedItem {
 #define RECEIVED_AP_ITEM_ADDR (CHECKED_LOCATIONS_ADDR + sizeof_round(struct Checks *))
 #define apReceivedItem ((struct APReceivedItem *)(RECEIVED_AP_ITEM_ADDR))
 
-void markChapterCleared(int chapterNum);
-void markHolyWeaponGet(enum HolyWeapon weap);
+void handleChapterClear(ProcPtr parent, int chapterNum);
+void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon weap);
 
 void giveAPEventReward(struct IncomingEvent *evt);
 

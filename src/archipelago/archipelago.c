@@ -6,10 +6,25 @@
 #include "proc.h"
 #include "playerphase.h"
 #include "player_interface.h"
+#include "fontgrp.h"
+#include "popup.h"
 
 #include "progressiveCaps.h"
 #include "constants.h"
 #include "archipelago.h"
+
+const struct PopupInstruction Popup_GotAPItem[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(0x008),                   /* Got */
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(0x0DD),                   /* an Archipelago Item */
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(0x022),                   /* .[.] */
+  POPUP_END
+};
 
 // Outgoing items
 
@@ -20,12 +35,17 @@ void markLocation(int index) {
   checkedLocations->found[byteIndex] |= (1 << bitIndex);
 }
 
-void markChapterCleared(int chapterId) {
+// CR cam: extract common logic between these two `handle` functions.
+// CR cam: Check whether the item is within our own ROM first
+
+void handleChapterClear(ProcPtr parent, int chapterId) {
   markLocation(chapterClearFlagIndex(chapterId));
+  NewPopup_Simple(Popup_GotAPItem, 0x60, 0x0, parent);
 }
 
-void markHolyWeaponGet(enum HolyWeapon weap) {
-  markLocation(holyWeaponFlagIndex(weap));
+void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon hw) {
+  markLocation(holyWeaponFlagIndex(hw));
+  NewPopup_Simple(Popup_GotAPItem, 0x60, 0x0, parent);
 }
 
 // Incoming items
@@ -49,6 +69,15 @@ extern const u16 LightRankUpEvent[];
 extern const u16 DarkRankUpEvent[];
 extern const u16 StaffRankUpEvent[];
 extern const u16 GiveSieglindeEvent[];
+extern const u16 GiveSiegmundEvent[];
+extern const u16 GiveGleipnirEvent[];
+extern const u16 GiveGarmEvent[];
+extern const u16 GiveNidhoggEvent[];
+extern const u16 GiveVidofnirEvent[];
+extern const u16 GiveExcaliburEvent[];
+extern const u16 GiveAudhulmaEvent[];
+extern const u16 GiveIvaldiEvent[];
+extern const u16 GiveLatonaEvent[];
 
 const u16 *receivedItemEvent(struct IncomingEvent *evt) {
   switch (evt->kind) {
@@ -72,14 +101,29 @@ const u16 *receivedItemEvent(struct IncomingEvent *evt) {
           return DarkRankUpEvent;
         case Staff:
           return StaffRankUpEvent;
-      };
+      }
     case HolyWeapon:
       switch (evt->payload.holyWeapon) {
         case Sieglinde:
           return GiveSieglindeEvent;
-        // CR cam: .
-        default:
-          return LevelUncapEvent;
+        case Siegmund:
+          return GiveSiegmundEvent;
+        case Gleipnir:
+          return GiveGleipnirEvent;
+        case Garm:
+          return GiveGarmEvent;
+        case Nidhogg:
+          return GiveNidhoggEvent;
+        case Vidofnir:
+          return GiveVidofnirEvent;
+        case Excalibur:
+          return GiveExcaliburEvent;
+        case Audhulma:
+          return GiveAudhulmaEvent;
+        case Ivaldi:
+          return GiveIvaldiEvent;
+        case Latona:
+          return GiveLatonaEvent;
       }
   };
 

@@ -22,7 +22,7 @@ connector/py/data_init.py: $(BIN_DIR)/connector_config/Generate.hs
 src/archipelago/connector_config_defs.event: $(BIN_DIR)/connector_config/Generate.hs
 	runhaskell -Wall $< Event > $@
 
-SYMBOLS := $(BUILD_DIR)/$(TARGET:.gba=.sym)
+SYMBOLS := $(TARGET:.gba=.sym)
 
 EVENTS := $(EVENT_MAIN) $(ARCHIPELAGO_DEFS)
 

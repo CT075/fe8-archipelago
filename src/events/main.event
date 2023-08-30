@@ -38,6 +38,7 @@
 #define Final2EirEndingScenePtr 0x9ea20c
 #define Final2EphEndingScenePtr 0x9eb520
 #define PrologueEndingScenePtr 0x9e8688
+#define RealPrologueEndingScene 0x9ef164
 
 PUSH
 ORG Ch10EirEndingScenePtr
@@ -45,8 +46,8 @@ POIN Ch10EirEndingScene
 POP
 
 Ch10EirEndingScene:
-#incbin "data/ch10eirEndScene.dmp"
 ASMC markCh10Clear
+#incbin "data/ch10eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -55,8 +56,8 @@ POIN Ch10EphEndingScene
 POP
 
 Ch10EphEndingScene:
-#incbin "data/ch10ephEndScene.dmp"
 ASMC markCh10Clear
+#incbin "data/ch10ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -65,8 +66,8 @@ POIN Ch11EirEndingScene
 POP
 
 Ch11EirEndingScene:
-#incbin "data/ch11eirEndScene.dmp"
 ASMC markCh11Clear
+#incbin "data/ch11eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -75,8 +76,8 @@ POIN Ch11EphEndingScene
 POP
 
 Ch11EphEndingScene:
-#incbin "data/ch11ephEndScene.dmp"
 ASMC markCh11Clear
+#incbin "data/ch11ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -85,8 +86,8 @@ POIN Ch12EirEndingScene
 POP
 
 Ch12EirEndingScene:
-#incbin "data/ch12eirEndScene.dmp"
 ASMC markCh12Clear
+#incbin "data/ch12eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -95,8 +96,8 @@ POIN Ch12EphEndingScene
 POP
 
 Ch12EphEndingScene:
-#incbin "data/ch12ephEndScene.dmp"
 ASMC markCh12Clear
+#incbin "data/ch12ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -105,8 +106,8 @@ POIN Ch13EirEndingScene
 POP
 
 Ch13EirEndingScene:
-#incbin "data/ch13eirEndScene.dmp"
 ASMC markCh13Clear
+#incbin "data/ch13eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -115,8 +116,8 @@ POIN Ch13EphEndingScene
 POP
 
 Ch13EphEndingScene:
-#incbin "data/ch13ephEndScene.dmp"
 ASMC markCh13Clear
+#incbin "data/ch13ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -125,8 +126,8 @@ POIN Ch14EirEndingScene
 POP
 
 Ch14EirEndingScene:
-#incbin "data/ch14eirEndScene.dmp"
 ASMC markCh14Clear
+#incbin "data/ch14eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -135,8 +136,8 @@ POIN Ch14EphEndingScene
 POP
 
 Ch14EphEndingScene:
-#incbin "data/ch14ephEndScene.dmp"
 ASMC markCh14Clear
+#incbin "data/ch14ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -145,8 +146,8 @@ POIN Ch15EirEndingScene
 POP
 
 Ch15EirEndingScene:
-#incbin "data/ch15eirEndScene.dmp"
 ASMC markCh15Clear
+#incbin "data/ch15eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -155,8 +156,8 @@ POIN Ch15EphEndingScene
 POP
 
 Ch15EphEndingScene:
-#incbin "data/ch15ephEndScene.dmp"
 ASMC markCh15Clear
+#incbin "data/ch15ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -165,8 +166,8 @@ POIN Ch16EirEndingScene
 POP
 
 Ch16EirEndingScene:
-#incbin "data/ch16eirEndScene.dmp"
 ASMC markCh16Clear
+#incbin "data/ch16eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -175,8 +176,8 @@ POIN Ch16EphEndingScene
 POP
 
 Ch16EphEndingScene:
-#incbin "data/ch16ephEndScene.dmp"
 ASMC markCh16Clear
+#incbin "data/ch16ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -185,8 +186,8 @@ POIN Ch17EirEndingScene
 POP
 
 Ch17EirEndingScene:
-#incbin "data/ch17eirEndScene.dmp"
 ASMC markCh17Clear
+#incbin "data/ch17eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -195,8 +196,8 @@ POIN Ch17EphEndingScene
 POP
 
 Ch17EphEndingScene:
-#incbin "data/ch17ephEndScene.dmp"
 ASMC markCh17Clear
+#incbin "data/ch17ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -205,8 +206,8 @@ POIN Ch18EirEndingScene
 POP
 
 Ch18EirEndingScene:
-#incbin "data/ch18eirEndScene.dmp"
 ASMC markCh18Clear
+#incbin "data/ch18eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -215,8 +216,8 @@ POIN Ch18EphEndingScene
 POP
 
 Ch18EphEndingScene:
-#incbin "data/ch18ephEndScene.dmp"
 ASMC markCh18Clear
+#incbin "data/ch18ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -225,8 +226,8 @@ POIN Ch19EirEndingScene
 POP
 
 Ch19EirEndingScene:
-#incbin "data/ch19eirEndScene.dmp"
 ASMC markCh19Clear
+#incbin "data/ch19eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -235,8 +236,8 @@ POIN Ch19EphEndingScene
 POP
 
 Ch19EphEndingScene:
-#incbin "data/ch19ephEndScene.dmp"
 ASMC markCh19Clear
+#incbin "data/ch19ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -245,8 +246,8 @@ POIN Ch1EndingScene
 POP
 
 Ch1EndingScene:
-#incbin "data/ch1EndScene.dmp"
 ASMC markCh1Clear
+#incbin "data/ch1EndScene.dmp"
 ENDA
 
 PUSH
@@ -255,8 +256,8 @@ POIN Ch20EirEndingScene
 POP
 
 Ch20EirEndingScene:
-#incbin "data/ch20eirEndScene.dmp"
 ASMC markCh20Clear
+#incbin "data/ch20eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -265,8 +266,8 @@ POIN Ch20EphEndingScene
 POP
 
 Ch20EphEndingScene:
-#incbin "data/ch20ephEndScene.dmp"
 ASMC markCh20Clear
+#incbin "data/ch20ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -275,8 +276,8 @@ POIN Ch2EndingScene
 POP
 
 Ch2EndingScene:
-#incbin "data/ch2EndScene.dmp"
 ASMC markCh2Clear
+#incbin "data/ch2EndScene.dmp"
 ENDA
 
 PUSH
@@ -285,8 +286,8 @@ POIN Ch3EndingScene
 POP
 
 Ch3EndingScene:
-#incbin "data/ch3EndScene.dmp"
 ASMC markCh3Clear
+#incbin "data/ch3EndScene.dmp"
 ENDA
 
 PUSH
@@ -295,8 +296,8 @@ POIN Ch4EndingScene
 POP
 
 Ch4EndingScene:
-#incbin "data/ch4EndScene.dmp"
 ASMC markCh4Clear
+#incbin "data/ch4EndScene.dmp"
 ENDA
 
 PUSH
@@ -305,8 +306,8 @@ POIN Ch5EndingScene
 POP
 
 Ch5EndingScene:
-#incbin "data/ch5EndScene.dmp"
 ASMC markCh5Clear
+#incbin "data/ch5EndScene.dmp"
 ENDA
 
 PUSH
@@ -315,8 +316,8 @@ POIN Ch5xEndingScene
 POP
 
 Ch5xEndingScene:
-#incbin "data/ch5xEndScene.dmp"
 ASMC markCh5Clear
+#incbin "data/ch5xEndScene.dmp"
 ENDA
 
 PUSH
@@ -325,8 +326,8 @@ POIN Ch6EndingScene
 POP
 
 Ch6EndingScene:
-#incbin "data/ch6EndScene.dmp"
 ASMC markCh6Clear
+#incbin "data/ch6EndScene.dmp"
 ENDA
 
 PUSH
@@ -335,8 +336,8 @@ POIN Ch7EndingScene
 POP
 
 Ch7EndingScene:
-#incbin "data/ch7EndScene.dmp"
 ASMC markCh7Clear
+#incbin "data/ch7EndScene.dmp"
 ENDA
 
 PUSH
@@ -345,8 +346,8 @@ POIN Ch8EndingScene
 POP
 
 Ch8EndingScene:
-#incbin "data/ch8EndScene.dmp"
 ASMC markCh8Clear
+#incbin "data/ch8EndScene.dmp"
 ENDA
 
 PUSH
@@ -355,8 +356,8 @@ POIN Ch9EirEndingScene
 POP
 
 Ch9EirEndingScene:
-#incbin "data/ch9eirEndScene.dmp"
 ASMC markCh9Clear
+#incbin "data/ch9eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -365,8 +366,8 @@ POIN Ch9EphEndingScene
 POP
 
 Ch9EphEndingScene:
-#incbin "data/ch9ephEndScene.dmp"
 ASMC markCh9Clear
+#incbin "data/ch9ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -375,8 +376,8 @@ POIN Final1EirEndingScene
 POP
 
 Final1EirEndingScene:
-#incbin "data/final1eirEndScene.dmp"
 ASMC markEndgameClear
+#incbin "data/final1eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -385,8 +386,8 @@ POIN Final1EphEndScene
 POP
 
 Final1EphEndScene:
-#incbin "data/final1ephEndScene.dmp"
 ASMC markEndgameClear
+#incbin "data/final1ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -395,8 +396,8 @@ POIN Final2EirEndScene
 POP
 
 Final2EirEndScene:
-#incbin "data/final2eirEndScene.dmp"
 ASMC markFormortiisClear
+#incbin "data/final2eirEndScene.dmp"
 ENDA
 
 PUSH
@@ -405,8 +406,8 @@ POIN Final2EphEndingScene
 POP
 
 Final2EphEndingScene:
-#incbin "data/final2ephEndScene.dmp"
 ASMC markFormortiisClear
+#incbin "data/final2ephEndScene.dmp"
 ENDA
 
 PUSH
@@ -415,7 +416,15 @@ POIN PrologueEndingScene
 POP
 
 PrologueEndingScene:
-#incbin "data/prologueEndScene.dmp"
 ASMC markPrologueClear
+#incbin "data/prologueEndScene.dmp"
 ENDA
+
+// For some reason, the prologue ending scene pointer isn't being overwritten
+// properly, so we force it here.
+PUSH
+ORG RealPrologueEndingScene
+CALL PrologueEndingScene
+ENDA
+POP
 

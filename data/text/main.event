@@ -49,6 +49,10 @@ __TEXTPROCESS0DC:
 #incbin ".TextEntries/alltext0DC.fetxt.dmp"
 setText($DC, __TEXTPROCESS0DC)
 
+__TEXTPROCESS0DD:
+#incbin ".TextEntries/alltext0DD.fetxt.dmp"
+setText($DD, __TEXTPROCESS0DD)
+
 }
 
 #endif // TEXT_INSTALLER_ALLTEXT
