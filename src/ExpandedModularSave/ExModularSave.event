@@ -149,6 +149,7 @@ gSuspendSaveChunks:
 	DeclSaveChunk($1F68, $000C, MSu_SaveDungeonState, MSu_LoadDungeonState) // Valni/Lagdou active run data
 	DeclSaveChunk($1F74, $0004, MSu_SaveEventCounter, MSu_LoadEventCounter) // Event counter
   DeclSaveChunk($1F78, PROGRESSIVE_CAPS_SIZE, saveProgCaps, loadProgCaps)
+  DeclSaveChunk((0x1F78+PROGRESSIVE_CAPS_SIZE), CHECKED_LOCATION_SIZE, saveChecks, loadChecks)
 
 	DeclSaveChunk(0, 0, 0, MSu_LoadClaimFlagsFromParentSave) // Load Bonus Claim flags from parent save
 
