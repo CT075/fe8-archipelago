@@ -64,7 +64,6 @@ const struct ProcCmd PlayerPhaseEventBlockProc[] = {
   PROC_END
 };
 
-// CR cam: make these popups
 extern const u16 receiveAPItemEvent[];
 
 u16 holyWeaponTrueValue(enum HolyWeapon hw) {
