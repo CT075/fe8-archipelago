@@ -46,7 +46,7 @@ const struct PopupInstruction Popup_WRankUp[] = {
   POPUP_MSG(0x001),                   /* [.] */
   POPUP_WTYPE_ICON,
   POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
-  POPUP_MSG(0x0D6),                   /* rank */
+  POPUP_MSG(0x0D6),                   /* Weapon rank */
   POPUP_SPACE(1),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
   POPUP_MSG(0x0D4),                   /* increased! */
