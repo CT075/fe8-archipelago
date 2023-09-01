@@ -21,7 +21,8 @@ to build the pre-randomized ROM.
 # License and Credits
 
 This code is licensed under the MIT License (see [LICENSE](LICENSE)), except
-for vendored resources as follows:
+for vendored resources as follows, which are included under their original
+licenses:
 
 - [fireemblem8u](https://github.com/FireEmblemUniverse/fireemblem8u)
   decompilation symbols and headers by various contributors
