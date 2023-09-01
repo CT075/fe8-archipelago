@@ -49,7 +49,7 @@ data Chapter
 
 instance Bounded Chapter where
     minBound = Prologue
-    maxBound = Endgame
+    maxBound = Victory
 
 instance Enum Chapter where
     toEnum 0 = Prologue
