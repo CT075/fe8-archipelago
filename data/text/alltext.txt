@@ -1,38 +1,14 @@
 # 0x00D4
 
-Level cap increased![X]
+increased![X]
 
 # 0x00D5
 
-Sword rank increased![X]
+Level cap[X]
 
 # 0x00D6
 
-Lance rank increased![X]
-
-# 0x00D7
-
-Axe rank increased![X]
-
-# 0x00D8
-
-Bow rank increased![X]
-
-# 0x00D9
-
-Anima rank increased![X]
-
-# 0x00DA
-
-Light rank increased![X]
-
-# 0x00DB
-
-Dark rank increased![X]
-
-# 0x00DC
-
-Staff rank increased![X]
+Weapon rank[X]
 
 # 0x00DD
 

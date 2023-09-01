@@ -25,30 +25,6 @@ __TEXTPROCESS0D6:
 #incbin ".TextEntries/alltext0D6.fetxt.dmp"
 setText($D6, __TEXTPROCESS0D6)
 
-__TEXTPROCESS0D7:
-#incbin ".TextEntries/alltext0D7.fetxt.dmp"
-setText($D7, __TEXTPROCESS0D7)
-
-__TEXTPROCESS0D8:
-#incbin ".TextEntries/alltext0D8.fetxt.dmp"
-setText($D8, __TEXTPROCESS0D8)
-
-__TEXTPROCESS0D9:
-#incbin ".TextEntries/alltext0D9.fetxt.dmp"
-setText($D9, __TEXTPROCESS0D9)
-
-__TEXTPROCESS0DA:
-#incbin ".TextEntries/alltext0DA.fetxt.dmp"
-setText($DA, __TEXTPROCESS0DA)
-
-__TEXTPROCESS0DB:
-#incbin ".TextEntries/alltext0DB.fetxt.dmp"
-setText($DB, __TEXTPROCESS0DB)
-
-__TEXTPROCESS0DC:
-#incbin ".TextEntries/alltext0DC.fetxt.dmp"
-setText($DC, __TEXTPROCESS0DC)
-
 __TEXTPROCESS0DD:
 #incbin ".TextEntries/alltext0DD.fetxt.dmp"
 setText($DD, __TEXTPROCESS0DD)

@@ -8,6 +8,11 @@
 #include "player_interface.h"
 #include "fontgrp.h"
 #include "popup.h"
+#include "bmunit.h"
+#include "bmitem.h"
+#include "bmcontainer.h"
+#include "constants/characters.h"
+#include "constants/items.h"
 
 #include "progressiveCaps.h"
 #include "constants.h"
@@ -26,27 +31,27 @@ const struct PopupInstruction Popup_GotAPItem[] = {
   POPUP_END
 };
 
-// Outgoing items
+const struct PopupInstruction Popup_LevelCapIncreased[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(0x0D5),                   /* Level cap */
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(0x0D4),                   /* increased! */
+  POPUP_END
+};
 
-void markLocation(int index) {
-  int byteIndex = index / 8;
-  int bitIndex = index % 8;
-
-  checkedLocations->found[byteIndex] |= (1 << bitIndex);
-}
-
-// CR cam: extract common logic between these two `handle` functions.
-// CR cam: Check whether the item is within our own ROM first
-
-void handleChapterClear(ProcPtr parent, int chapterId) {
-  markLocation(chapterClearFlagIndex(chapterId));
-  NewPopup_Simple(Popup_GotAPItem, 0x60, 0x0, parent);
-}
-
-void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon hw) {
-  markLocation(holyWeaponFlagIndex(hw));
-  NewPopup_Simple(Popup_GotAPItem, 0x60, 0x0, parent);
-}
+const struct PopupInstruction Popup_WRankUp[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_MSG(0x001),                   /* [.] */
+  POPUP_WTYPE_ICON,
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(0x0D6),                   /* rank */
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(0x0D4),                   /* increased! */
+  POPUP_END
+};
 
 // Incoming items
 
@@ -59,89 +64,95 @@ const struct ProcCmd PlayerPhaseEventBlockProc[] = {
   PROC_END
 };
 
-extern const u16 LevelUncapEvent[];
-extern const u16 SwordRankUpEvent[];
-extern const u16 LanceRankUpEvent[];
-extern const u16 AxeRankUpEvent[];
-extern const u16 BowRankUpEvent[];
-extern const u16 AnimaRankUpEvent[];
-extern const u16 LightRankUpEvent[];
-extern const u16 DarkRankUpEvent[];
-extern const u16 StaffRankUpEvent[];
-extern const u16 GiveSieglindeEvent[];
-extern const u16 GiveSiegmundEvent[];
-extern const u16 GiveGleipnirEvent[];
-extern const u16 GiveGarmEvent[];
-extern const u16 GiveNidhoggEvent[];
-extern const u16 GiveVidofnirEvent[];
-extern const u16 GiveExcaliburEvent[];
-extern const u16 GiveAudhulmaEvent[];
-extern const u16 GiveIvaldiEvent[];
-extern const u16 GiveLatonaEvent[];
+// CR cam: make these popups
+extern const u16 receiveAPItemEvent[];
 
-const u16 *receivedItemEvent(struct IncomingEvent *evt) {
-  switch (evt->kind) {
-    case ProgLvlCap:
-      return LevelUncapEvent;
-    case ProgWLv:
-      switch (evt->payload.weaponType) {
-        case Sword:
-          return SwordRankUpEvent;
-        case Lance:
-          return LanceRankUpEvent;
-        case Axe:
-          return AxeRankUpEvent;
-        case Bow:
-          return BowRankUpEvent;
-        case Anima:
-          return AnimaRankUpEvent;
-        case Light:
-          return LightRankUpEvent;
-        case Dark:
-          return DarkRankUpEvent;
-        case Staff:
-          return StaffRankUpEvent;
-      }
-    case HolyWeapon:
-      switch (evt->payload.holyWeapon) {
-        case Sieglinde:
-          return GiveSieglindeEvent;
-        case Siegmund:
-          return GiveSiegmundEvent;
-        case Gleipnir:
-          return GiveGleipnirEvent;
-        case Garm:
-          return GiveGarmEvent;
-        case Nidhogg:
-          return GiveNidhoggEvent;
-        case Vidofnir:
-          return GiveVidofnirEvent;
-        case Excalibur:
-          return GiveExcaliburEvent;
-        case Audhulma:
-          return GiveAudhulmaEvent;
-        case Ivaldi:
-          return GiveIvaldiEvent;
-        case Latona:
-          return GiveLatonaEvent;
-      }
-  };
-
-  return LevelUncapEvent;
+u16 holyWeaponTrueValue(enum HolyWeapon hw) {
+  switch (hw) {
+    case Sieglinde:
+      return ITEM_SWORD_SIEGLINDE;
+    case Siegmund:
+      return ITEM_LANCE_SIEGMUND;
+    case Gleipnir:
+      return ITEM_DARK_GLEIPNIR;
+    case Garm:
+      return ITEM_AXE_GARM;
+    case Nidhogg:
+      return ITEM_BOW_NIDHOGG;
+    case Vidofnir:
+      return ITEM_LANCE_VIDOFNIR;
+    case Excalibur:
+      return ITEM_ANIMA_EXCALIBUR;
+    case Audhulma:
+      return ITEM_SWORD_AUDHULMA;
+    case Ivaldi:
+      return ITEM_LIGHT_IVALDI;
+    case Latona:
+      return ITEM_STAFF_LATONA;
+  }
+  return -1;
 }
 
-void giveAPEventReward(struct IncomingEvent *evt) {
+void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
   switch (evt->kind) {
     case ProgLvlCap:
       bumpLevelCap();
+      NewPopup_Simple(Popup_LevelCapIncreased, 0x60, 0, parent);
       break;
     case ProgWLv:
       bumpWeaponLevelCap(evt->payload.weaponType);
+      switch (evt->payload.weaponType) {
+        case Sword:
+          SetPopupItem(ITYPE_SWORD);
+          break;
+        case Lance:
+          SetPopupItem(ITYPE_LANCE);
+          break;
+        case Axe:
+          SetPopupItem(ITYPE_AXE);
+          break;
+        case Bow:
+          SetPopupItem(ITYPE_BOW);
+          break;
+        case Anima:
+          SetPopupItem(ITYPE_ANIMA);
+          break;
+        case Light:
+          SetPopupItem(ITYPE_LIGHT);
+          break;
+        case Dark:
+          SetPopupItem(ITYPE_DARK);
+          break;
+        case Staff:
+          SetPopupItem(ITYPE_STAFF);
+          break;
+      }
+      NewPopup_Simple(Popup_WRankUp, 0x60, 0x0, parent);
       break;
     case HolyWeapon:
-      // CR cam: .
+      struct Unit *target;
+      switch (gPlaySt.chapterModeIndex) {
+        case CHAPTER_MODE_EIRIKA:
+          target = GetUnitFromCharId(CHARACTER_EIRIKA);
+          break;
+        case CHAPTER_MODE_EPHRAIM:
+          target = GetUnitFromCharId(CHARACTER_EPHRAIM);
+          break;
+        default:
+          target = GetUnitFromCharId(CHARACTER_EIRIKA);
+          break;
+      }
+      u16 item = holyWeaponTrueValue(evt->payload.holyWeapon);
+      NewPopup_ItemGot(parent, target, item);
       break;
   };
+}
+
+void receiveAPItem(struct EventEngineProc *proc) {
+  struct IncomingEvent evt;
+  unpackAPEventFromId(apReceivedItem->itemId, &evt);
+
+  giveAPEventReward(proc, &evt);
 }
 
 void enqueueReceivedItemEvent() {
@@ -149,17 +160,15 @@ void enqueueReceivedItemEvent() {
     return;
   }
 
-  struct IncomingEvent evt;
-
   u8 inWorldMap = Proc_Find((const struct ProcCmd *)0x08A3EE74) != NULL;
-  unpackAPEventFromId(apReceivedItem->itemId, &evt);
 
-  giveAPEventReward(&evt);
-
-  const u16 *evtscr = receivedItemEvent(&evt);
-  CallEvent(evtscr, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
+  CallEvent(receiveAPItemEvent, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
 
   apReceivedItem->filled = 0;
+}
+
+bool8 HasConvoyAccess() {
+  return true;
 }
 
 void PlayerPhase_MainIdleShim(ProcPtr proc) {
@@ -183,3 +192,41 @@ u8 eventsRunning(ProcPtr proc) {
     return 0;
   }
 }
+
+// Outgoing items
+
+struct MaybeSelfId {
+  bool is_some;
+  u16 id;
+};
+
+const struct MaybeSelfId selfCheckIds[NUM_CHECKS] = {
+  [0 ... NUM_CHECKS-1] = { .is_some = false, .id = 0 }
+};
+
+void handleLocationGet(ProcPtr parent, int index) {
+  int byteIndex = index / 8;
+  int bitIndex = index % 8;
+
+  checkedLocations->found[byteIndex] |= (1 << bitIndex);
+
+  const struct MaybeSelfId *maybeId = &selfCheckIds[index];
+
+  if (maybeId->is_some) {
+    struct IncomingEvent evt;
+    unpackAPEventFromId(maybeId->id, &evt);
+    giveAPEventReward(parent, &evt);
+  }
+  else {
+    NewPopup_Simple(Popup_GotAPItem, 0x60, 0x0, parent);
+  }
+}
+
+void handleChapterClear(ProcPtr parent, int chapterId) {
+  handleLocationGet(parent, chapterClearFlagIndex(chapterId));
+}
+
+void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon hw) {
+  handleLocationGet(parent, holyWeaponFlagIndex(hw));
+}
+

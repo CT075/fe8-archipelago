@@ -3,6 +3,7 @@
 
 #include "global.h"
 #include "proc.h"
+#include "constants/items.h"
 
 #include "connector_config.h"
 
@@ -22,8 +23,6 @@ struct APReceivedItem {
 
 void handleChapterClear(ProcPtr parent, int chapterNum);
 void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon weap);
-
-void giveAPEventReward(struct IncomingEvent *evt);
 
 const u16 *receivedItemEvent(struct IncomingEvent *evt);
 

@@ -64,6 +64,8 @@ enum WeaponType {
   Staff=7,
 };
 
+#define NUM_CHECKS (33)
+
 enum ItemKind {
   ProgLvlCap=0,
   ProgWLv=1,

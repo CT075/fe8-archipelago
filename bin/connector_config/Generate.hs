@@ -215,6 +215,8 @@ emitConnectorConfigH emitLn = do
     emitLn ""
     emitCEnum @WeaponType emitLn
     emitLn ""
+    emitLn $ "#define NUM_CHECKS (" ++ show numLocations ++ ")"
+    emitLn ""
     emitCEnum @ItemKind emitLn
     emitLn ""
     emitCPayloadUnion emitLn
@@ -231,6 +233,8 @@ emitConnectorConfigH emitLn = do
     locationBits = length $ [minBound @Location .. maxBound]
     locationBytesTrue = (locationBits + 7) `div` 8
     locationBytes = ((locationBytesTrue + 3) `div` 4) * 4
+
+    numLocations = fromEnum (maxBound @Location) - fromEnum (minBound @Location) + 1
 
 emitConnectorAccessorsC :: Monad m => (String -> m ()) -> m ()
 emitConnectorAccessorsC emitLn = do

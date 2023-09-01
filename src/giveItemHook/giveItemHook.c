@@ -48,32 +48,6 @@ int checkHolyWeapon(u16 item, enum HolyWeapon *dst) {
   return 0;
 }
 
-u16 holyWeaponTrueValue(enum HolyWeapon hw) {
-  switch (hw) {
-    case Sieglinde:
-      return ITEM_SWORD_SIEGLINDE;
-    case Siegmund:
-      return ITEM_LANCE_SIEGMUND;
-    case Gleipnir:
-      return ITEM_DARK_GLEIPNIR;
-    case Garm:
-      return ITEM_AXE_GARM;
-    case Nidhogg:
-      return ITEM_BOW_NIDHOGG;
-    case Vidofnir:
-      return ITEM_LANCE_VIDOFNIR;
-    case Excalibur:
-      return ITEM_ANIMA_EXCALIBUR;
-    case Audhulma:
-      return ITEM_SWORD_AUDHULMA;
-    case Ivaldi:
-      return ITEM_LIGHT_IVALDI;
-    case Latona:
-      return ITEM_STAFF_LATONA;
-  }
-  return -1;
-}
-
 int Event37_GiveItem(struct EventEngineProc *proc) {
   u8 subcmd = EVT_SUB_CMD(proc->pEventCurrent);
 
@@ -107,18 +81,6 @@ int Event37_GiveItem(struct EventEngineProc *proc) {
         gold = 0;
       }
       SetPartyGoldAmount(gold);
-      break;
-    case 3:
-      switch (gPlaySt.chapterModeIndex) {
-        case CHAPTER_MODE_EIRIKA:
-          target = GetUnitFromCharId(CHARACTER_EIRIKA);
-          break;
-        case CHAPTER_MODE_EPHRAIM:
-          target = GetUnitFromCharId(CHARACTER_EPHRAIM);
-          break;
-      }
-      item = holyWeaponTrueValue(gEventSlots[3]);
-      NewPopup_ItemGot(proc, target, item);
       break;
   }
 

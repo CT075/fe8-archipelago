@@ -7,7 +7,7 @@ EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
 
 ARCHIPELAGO_DEFS := _build/archipelagoDefs.event
 
-$(ARCHIPELAGO_DEFS): $(GENDEFS)
+$(ARCHIPELAGO_DEFS): $(GENDEFS) include/progressiveCaps.h include/archipelago.h
 	$(GENDEFS) > $(ARCHIPELAGO_DEFS)
 
 include/connector_config.h: $(BIN_DIR)/connector_config/Generate.hs
