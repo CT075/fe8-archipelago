@@ -39,3 +39,25 @@ locations = [
   ("Ivaldi Received", 32),
   ("Latona Received", 33),
 ]
+
+items = [
+  ("Progressive Level Cap", 0),
+  ("Progressive Weapon Level (Sword)", 1),
+  ("Progressive Weapon Level (Lance)", 2),
+  ("Progressive Weapon Level (Axe)", 3),
+  ("Progressive Weapon Level (Bow)", 4),
+  ("Progressive Weapon Level (Anima)", 5),
+  ("Progressive Weapon Level (Light)", 6),
+  ("Progressive Weapon Level (Dark)", 7),
+  ("Progressive Weapon Level (Staff)", 8),
+  ("Sieglinde", 9),
+  ("Siegmund", 10),
+  ("Gleipnir", 11),
+  ("Garm", 12),
+  ("Nidhogg", 13),
+  ("Vidofnir", 14),
+  ("Excalibur", 15),
+  ("Audhulma", 16),
+  ("Ivaldi", 17),
+  ("Latona", 18),
+]

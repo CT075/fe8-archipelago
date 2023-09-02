@@ -120,6 +120,11 @@ instance Enum Item where
     fromEnum (ProgressiveWLv w) = fromEnum w + 1
     fromEnum (HolyWeaponPut hw) = fromEnum hw + (fromEnum $ maxBound @WeaponType) + 1 + 1
 
+itemName :: Item -> String
+itemName ProgressiveLevelCap = "Progressive Level Cap"
+itemName (ProgressiveWLv weap) = "Progressive Weapon Level (" ++ show weap ++ ")"
+itemName (HolyWeaponPut hw) = show hw
+
 -- XXX: We could automatically derive these from the definition of `Item`, but
 -- it's a lot of complex type-level machinery for very little gain.
 data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon
@@ -266,13 +271,17 @@ emitConnectorAccessorsC emitLn = do
     emitLn $ "  };"
     emitLn $ "}"
 
-emitPythonLocations :: Monad m => (String -> m ()) -> m ()
-emitPythonLocations emitLn = do
+emitPythonData :: Monad m => (String -> m ()) -> m ()
+emitPythonData emitLn = do
     emitHeader pythonCommentPrefix emitLn
     emitLn ""
     emitLn "locations = ["
     forM_ [minBound @Chapter .. maxBound] $ emitLn . ("  " ++) . formatChapterClear
     forM_ [minBound @HolyWeapon .. maxBound] $ emitLn . ("  " ++) . formatHolyWeapon
+    emitLn "]"
+    emitLn ""
+    emitLn "items = ["
+    forM_ [minBound @Item .. maxBound] $ emitLn . ("  " ++) . formatItem
     emitLn "]"
   where
     formatHolyWeapon weap =
@@ -292,6 +301,8 @@ emitPythonLocations emitLn = do
             "\"Complete Chapter " ++ show i ++ "\""
         formatChapterText Endgame = "\"Defeat Lyon\""
         formatChapterText Victory = "\"Defeat Formortiis\""
+
+    formatItem item = "(" ++ (show $ itemName item) ++ ", " ++ (show $ fromEnum item) ++ "),"
 
 emitEventDefs :: Monad m => (String -> m ()) -> m ()
 emitEventDefs emitLn = do
@@ -326,7 +337,7 @@ main = do
     case readMaybe @GenOption firstArg of
         Just CLang -> emitConnectorAccessorsC putStrLn
         Just H -> emitConnectorConfigH putStrLn
-        Just Py -> emitPythonLocations putStrLn
+        Just Py -> emitPythonData putStrLn
         Just Event -> emitEventDefs putStrLn
         Nothing -> printUsage
   where
