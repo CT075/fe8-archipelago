@@ -2,6 +2,8 @@ BASEROM := fe8.gba
 
 TARGET := fe8_ap.gba
 
+BASEPATCH := fe8_ap_base.bsdiff
+
 EVENT_MAIN := main.event
 EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
 
@@ -26,7 +28,7 @@ SYMBOLS := $(TARGET:.gba=.sym)
 
 EVENTS := $(EVENT_MAIN) $(ARCHIPELAGO_DEFS)
 
-hack: $(TARGET)
+hack: $(BASEPATCH)
 
 # All subdirectories
 dir := src
@@ -46,7 +48,10 @@ $(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE)
 		./ColorzCore A FE8 $(EAFLAGS) \
 	|| (rm -f ../$(TARGET) $(SYMBOLS) && false)
 
-CLEAN := $(BUILD_DIR)
+$(BASEPATCH): $(TARGET)
+	python -c "from bsdiff4 import file_diff; file_diff('$(BASEROM)', '$<', '$@')"
+
+CLEAN := $(BUILD_DIR) $(BASEPATCH)
 
 .PHONY: clean
 clean:
