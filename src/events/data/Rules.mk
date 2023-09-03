@@ -81,5 +81,7 @@ $(d)/final2ephEndScene.dmp \
 $(d)/prologueEndScene.dmp &:
 	python $(HERE)/rip_chunks.py $(BASEROM) $(HERE)
 
+CLEAN := $(CLEAN) $(d)/*.dmp
+
 d := $(dirstack_$(sp))
 sp := $(basename $(sp))

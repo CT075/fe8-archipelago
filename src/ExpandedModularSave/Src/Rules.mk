@@ -18,6 +18,7 @@ $(d)/%.lyn.event: $(d)/%.o $(LYN) $(CLIB_LYN_REFERENCE)
 	$(LYN) $< $(CLIB_LYN_REFERENCE) > $@
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
+CLEAN := $(CLEAN) $(d)/*.o
 
 d := $(dirstack_$(sp))
 sp := $(basename $(sp))

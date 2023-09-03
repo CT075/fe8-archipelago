@@ -13,5 +13,7 @@ $(d)/main.event: $(d)/alltext.txt $(PARSEFILE) $(BIN_DIR)/text-process-classic.p
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
 
+CLEAN := $(CLEAN) .TextEntries
+
 d := $(dirstack_$(sp))
 sp := $(basename $(sp))

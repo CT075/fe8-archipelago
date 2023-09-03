@@ -49,6 +49,7 @@ MAIN_$(d): $(d)/data/prologueEndScene.dmp
 EVENTS_$(d) := MAIN_$(d) $(d)/markEndings.lyn.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
+CLEAN := $(CLEAN) $(d)/markEndings.lyn.event $(d)/markEndings.o
 
 d := $(dirstack_$(sp))
 sp := $(basename $(sp))

@@ -5,6 +5,7 @@ d := $(dir)
 EVENTS_$(d) := $(d)/giveItemHook.lyn.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
+CLEAN := $(CLEAN) $(d)/giveItemHook.lyn.event $(d)/*.o
 
 d := $(dirstack_$(sp))
 sp := $(basename $(sp))

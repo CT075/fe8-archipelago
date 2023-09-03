@@ -48,3 +48,8 @@ $(COLORZCORE):
 
 .PHONY: tools
 tools: $(LYN) $(COLORZCORE)
+
+.PHONY: clean-tools
+clean-tools:
+	cd $(BIN_DIR)/lyn && make clean
+	cd $(BIN_DIR)/ParseFile && rm -rf *.o

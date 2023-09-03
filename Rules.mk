@@ -51,11 +51,10 @@ $(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE)
 $(BASEPATCH): $(TARGET)
 	python -c "from bsdiff4 import file_diff; file_diff('$(BASEROM)', '$<', '$@')"
 
-CLEAN := $(BUILD_DIR) $(BASEPATCH)
+CLEAN := $(CLEAN) $(BUILD_DIR) $(BASEPATCH)
 
 .PHONY: clean
-clean:
-	rm -f $(CLEAN)
-	cd $(BIN_DIR)/lyn && make clean
+clean: clean-tools
+	rm -rf $(CLEAN)
 
 .SECONDARY: $(CLEAN)
