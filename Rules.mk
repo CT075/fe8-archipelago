@@ -49,6 +49,7 @@ $(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE)
 	|| (rm -f ../$(TARGET) $(SYMBOLS) && false)
 
 $(BASEPATCH): $(TARGET)
+	# CR cam: install bsdiff4 if not already present
 	python -c "from bsdiff4 import file_diff; file_diff('$(BASEROM)', '$<', '$@')"
 
 CLEAN := $(CLEAN) $(BUILD_DIR) $(BASEPATCH)

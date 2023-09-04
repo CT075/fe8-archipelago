@@ -59,19 +59,19 @@ void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {
       break;
     case 5:
       dst->kind = ProgWLv;
-      dst->payload.weaponType = Anima;
+      dst->payload.weaponType = Staff;
       break;
     case 6:
       dst->kind = ProgWLv;
-      dst->payload.weaponType = Light;
+      dst->payload.weaponType = Anima;
       break;
     case 7:
       dst->kind = ProgWLv;
-      dst->payload.weaponType = Dark;
+      dst->payload.weaponType = Light;
       break;
     case 8:
       dst->kind = ProgWLv;
-      dst->payload.weaponType = Staff;
+      dst->payload.weaponType = Dark;
       break;
     case 9:
       dst->kind = HolyWeapon;

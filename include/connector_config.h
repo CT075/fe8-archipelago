@@ -58,10 +58,10 @@ enum WeaponType {
   Lance=1,
   Axe=2,
   Bow=3,
-  Anima=4,
-  Light=5,
-  Dark=6,
-  Staff=7,
+  Staff=4,
+  Anima=5,
+  Light=6,
+  Dark=7,
 };
 
 #define NUM_CHECKS (34)

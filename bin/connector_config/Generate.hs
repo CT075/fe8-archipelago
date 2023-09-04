@@ -93,10 +93,10 @@ data WeaponType
     | Lance
     | Axe
     | Bow
+    | Staff
     | Anima
     | Light
     | Dark
-    | Staff
     deriving (Show, Enum, Bounded, Typeable)
 
 data Item
