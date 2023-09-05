@@ -4,6 +4,33 @@ The source for an FE8 Archipelago prototype. Currently intended to be used with
 [ColorzCore](https://github.com/minishmaker/randomizer/tree/master/Vendor/ColorzCore)
 to build the pre-randomized ROM.
 
+## What are the checks and rewards?
+
+At the moment, checks are rewarded for:
+
+- Clearing a chapter.
+- Receiving a Sacred Twin regalia in a cutscene.
+
+The rewards themselves are:
+
+- Progressive level cap (unpromoted level 10 -> promoted level 20, counts by 5s)
+- Progressive weapon level
+- A Sacred Twin weapon.
+
+To make the Sacred Twin weapons more impactful, there is also an optional
+"Super Demon King" mode which buffs the final boss to take less damage from
+non-Sacred Twin weapons along with general stat increases (not yet
+implemented).
+
+## What else is planned?
+
+Eventually, Chestsanity and the like. But maybe focusing on version 0.1 first
+would be a good idea.
+
+## Is the actual randomizer in this repo?
+
+No! See my branch of the [main Archipelago repo](https://github.com/CT075/Archipelago/tree/fe8/dev).
+
 ## TODO
 
 ### Issues
