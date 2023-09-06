@@ -194,13 +194,19 @@ u8 eventsRunning(ProcPtr proc) {
 
 // Outgoing items
 
-struct MaybeSelfId {
-  bool is_some;
+enum LocationItemKind {
+  Empty=0,
+  APItem=1,
+  SelfItem=2,
+};
+
+struct LocationItem {
+  enum LocationItemKind kind;
   u16 id;
 };
 
-const struct MaybeSelfId selfCheckIds[NUM_CHECKS] = {
-  [0 ... NUM_CHECKS-1] = { .is_some = false, .id = 0 }
+const struct LocationItem locItems[NUM_CHECKS] = {
+  [0 ... NUM_CHECKS-1] = { .kind = Empty, .id = 0 }
 };
 
 void handleLocationGet(ProcPtr parent, int index) {
@@ -209,15 +215,18 @@ void handleLocationGet(ProcPtr parent, int index) {
 
   checkedLocations->found[byteIndex] |= (1 << bitIndex);
 
-  const struct MaybeSelfId *maybeId = &selfCheckIds[index];
+  const struct LocationItem *item = &locItems[index];
 
-  if (maybeId->is_some) {
-    struct IncomingEvent evt;
-    unpackAPEventFromId(maybeId->id, &evt);
-    giveAPEventReward(parent, &evt);
-  }
-  else {
-    NewPopup_Simple(Popup_GotAPItem, 0x60, 0x0, parent);
+  switch (item->kind) {
+    case Empty:
+      return;
+    case APItem:
+      NewPopup_Simple(Popup_GotAPItem, 0x60, 0x0, parent);
+      break;
+    case SelfItem:
+      struct IncomingEvent evt;
+      unpackAPEventFromId(item->id, &evt);
+      giveAPEventReward(parent, &evt);
   }
 }
 
