@@ -10,7 +10,7 @@
 *.s
 *.asm
 *.hi
-*.bsdiff
+*.bsdiff*
 !src/fillAIDangerMap/FillAIDangerMap.s
 !src/ExpandedModularSave/Src/*.lyn.event
 !src/ExpandedModularSave/Src/*.s

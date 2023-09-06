@@ -286,8 +286,6 @@ emitPythonData emitLn = do
   where
     formatHolyWeapon weap =
         "("
-            -- ++ show (holyWeaponShort weap)
-            -- ++ ", "
             ++ show (holyWeaponLong weap)
             ++ ", "
             ++ show (fromEnum $ HolyWeaponGet weap)

@@ -5,7 +5,7 @@ BIN_DIR := bin
 
 BUILD_DIR := _build
 
-.DEFAULT_GOAL := hack
+.DEFAULT_GOAL := all
 
 ROOT := $(CURDIR)
 

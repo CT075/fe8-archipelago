@@ -2,7 +2,7 @@ BASEROM := fe8.gba
 
 TARGET := fe8_ap.gba
 
-BASEPATCH := fe8_ap_base.bsdiff
+BASEPATCH := fe8_ap_base.bsdiff4
 
 EVENT_MAIN := main.event
 EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
@@ -18,7 +18,9 @@ include/connector_config.h: $(BIN_DIR)/connector_config/Generate.hs
 src/archipelago/connector_config.c: $(BIN_DIR)/connector_config/Generate.hs
 	runhaskell -Wall $< C > $@
 
-connector/py/data_init.py: $(BIN_DIR)/connector_config/Generate.hs
+CONNECTOR_CONFIG_PY := connector/py/connector_config.py
+
+$(CONNECTOR_CONFIG_PY): $(BIN_DIR)/connector_config/Generate.hs
 	runhaskell -Wall $< Py > $@
 
 src/archipelago/connector_config_defs.event: $(BIN_DIR)/connector_config/Generate.hs
@@ -59,3 +61,5 @@ clean: clean-tools
 	rm -rf $(CLEAN)
 
 .SECONDARY: $(CLEAN)
+
+all: hack $(CONNECTOR_CONFIG_PY)
