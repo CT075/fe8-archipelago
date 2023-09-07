@@ -238,3 +238,4 @@ void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon hw) {
   handleLocationGet(parent, holyWeaponFlagIndex(hw));
 }
 
+const struct ArchipelagoOptions archipelagoOptions = {0};

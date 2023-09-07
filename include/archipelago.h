@@ -26,4 +26,12 @@ void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon weap);
 
 const u16 *receivedItemEvent(struct IncomingEvent *evt);
 
+// CR cam: This should come from `Generate.hs` so we can ensure that this
+// struct definition doesn't drift from the python code that sets it
+struct ArchipelagoOptions {
+  bool superDemonKing;
+};
+
+extern const struct ArchipelagoOptions archipelagoOptions;
+
 #endif // ARCHIPELAGO_H

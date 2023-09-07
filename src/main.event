@@ -5,3 +5,4 @@
 #include "giveItemHook/giveItemHook.lyn.event"
 #include "archipelago/main.event"
 #include "events/main.event"
+#include "superFormortiis/superFormortiis.lyn.event"
