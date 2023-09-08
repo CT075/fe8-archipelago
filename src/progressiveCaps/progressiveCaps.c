@@ -274,6 +274,28 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
   return (uRank >= wRank) ? TRUE : FALSE;
 }
 
+s8 CanUnitUseStaff(struct Unit* unit, int item) {
+  if (item == 0)
+    return FALSE;
+
+  if (!(GetItemAttributes(item) & IA_STAFF))
+    return FALSE;
+
+  if (unit->statusIndex == UNIT_STATUS_SLEEP)
+    return FALSE;
+
+  if (unit->statusIndex == UNIT_STATUS_BERSERK)
+    return FALSE;
+
+  if (unit->statusIndex == UNIT_STATUS_SILENCED)
+    return FALSE;
+
+  int wRank = GetItemRequiredExp(item);
+  int uRank = getUnitWeaponRank(unit, GetItemType(item));
+
+  return (uRank >= wRank) ? TRUE : FALSE;
+}
+
 void DisplayWeaponExp(int num, int x, int y, int wtype) {
   int color;
 
