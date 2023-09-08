@@ -239,3 +239,4 @@ void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon hw) {
 }
 
 const struct ArchipelagoOptions archipelagoOptions = {0};
+const struct ArchipelagoInfo archipelagoInfo = {0};

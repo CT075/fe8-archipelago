@@ -38,8 +38,9 @@ local flags_size = 8
 local archipelago_received_item_address = 0x026E44
 
 -- ROM addresses
--- CR cam: .
-local slot_name_address = 0x59A03C
+-- CR cam: This *especially* should be populated automatically (probably from
+-- the nocash sym file?)
+local slot_name_address = 0xEFCE78
 
 local proc_pool_address = 0x024E68
 local num_procs = 0x40

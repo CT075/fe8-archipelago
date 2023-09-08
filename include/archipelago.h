@@ -7,6 +7,8 @@
 
 #include "connector_config.h"
 
+#define SLOT_NAME_MAX 64
+
 #define sizeof_round(ty) ((sizeof(ty) + sizeof(int)-1) & ~(sizeof(int)-1))
 
 // CR cam: it would be nice to not need to do this address bumping manually
@@ -32,6 +34,11 @@ struct ArchipelagoOptions {
   bool superDemonKing;
 };
 
+struct ArchipelagoInfo {
+  u8 slotName[SLOT_NAME_MAX];
+};
+
 extern const struct ArchipelagoOptions archipelagoOptions;
+extern const struct ArchipelagoInfo archipelagoInfo;
 
 #endif // ARCHIPELAGO_H
