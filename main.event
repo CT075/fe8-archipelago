@@ -7,6 +7,7 @@
 
   // CR cam: it's not great to need to hardcode this
   #include "_build/archipelagoDefs.event"
+  #include "_build/blank_weapon_ranks.event"
   #include "src/main.event"
   #include "data/main.event"
 #else

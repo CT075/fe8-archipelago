@@ -190,11 +190,24 @@ int GetItemAwardedExp(int item) {
   return 0;
 }
 
-int getUnitWeaponRank(struct Unit *unit, int wType) {
+int getPlayerUnitWeaponRank(struct Unit *unit, int wType) {
   // !!x = 0 for x = 0 and 1 otherwise, so a weapon is usable iff the given
   // unit has any rank for that weapon at all and the slot's weapon rank is
   // high enough.
-  return (!!unit->ranks[wType]) * partyWeaponLevel(wType);
+  return (!!unit->pClassData->baseRanks[wType]) * partyWeaponLevel(wType);
+}
+
+int getUnitWeaponRank(struct Unit *unit, int wType) {
+  switch (UNIT_FACTION(unit)) {
+    case FACTION_BLUE:
+      return getPlayerUnitWeaponRank(unit, wType);
+
+    case FACTION_RED:
+    case FACTION_GREEN:
+      return unit->ranks[wType];
+  }
+
+  return unit->ranks[wType];
 }
 
 // CR cam: set this by class
@@ -211,7 +224,7 @@ void ComputeBattleUnitWeaponRankBonuses(struct BattleUnit *bu) {
   }
 }
 
-s8 CanUnitUseWeapon(struct Unit* unit, int item) {
+s8 CanUnitUseWeapon(struct Unit *unit, int item) {
   if (item == 0)
     return FALSE;
 
