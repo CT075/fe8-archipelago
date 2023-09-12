@@ -38,6 +38,12 @@ No! See my branch of the [main Archipelago repo](https://github.com/CT075/Archip
 - For units below the progressive level cap, EXP will display normally despite
   being capped. This is display-only; such units are correctly prevented from
   gaining EXP.
+- Receiving items on the world map doesn't work yet.
+
+### Polish
+
+- Seth's weapon can change between his fight with Valter and the actual start
+  of the Prologue.
 
 ### Organizational
 
