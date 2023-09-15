@@ -21,8 +21,9 @@ PUSH
 POP
 */
 //Fix MNC2 Freezing glitch (breaks skirmishes!)
-  ORG $BD070
-  SHORT $E0B8
+  // Cam: Disabled due to using vanilla events
+  // ORG $BD070
+  // SHORT $E0B8
 
 //Set Default Options
   ORG $30d8a  //animations type 2
