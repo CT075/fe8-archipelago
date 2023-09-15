@@ -1,48 +1,48 @@
 #include "markEndings.lyn.event"
 
-#define Ch10EirEndingScenePtr 0x9e92fc
-#define Ch10EphEndingScenePtr 0x9ea4f4
-#define Ch11EirEndingScenePtr 0x9e944c
-#define Ch11EphEndingScenePtr 0x9ea608
-#define Ch12EirEndingScenePtr 0x9e9534
-#define Ch12EphEndingScenePtr 0x9ea718
-#define Ch13EirEndingScenePtr 0x9e9634
-#define Ch13EphEndingScenePtr 0x9ea89c
-#define Ch14EirEndingScenePtr 0x9e97fc
-#define Ch14EphEndingScenePtr 0x9eab18
-#define Ch15EirEndingScenePtr 0x9e9a4c
-#define Ch15EphEndingScenePtr 0x9ead3c
-#define Ch16EirEndingScenePtr 0x9e9b64
-#define Ch16EphEndingScenePtr 0x9eae78
-#define Ch17EirEndingScenePtr 0x9e9d00
-#define Ch17EphEndingScenePtr 0x9eb014
-#define Ch18EirEndingScenePtr 0x9e9df4
-#define Ch18EphEndingScenePtr 0x9eb108
-#define Ch19EirEndingScenePtr 0x9e9f54
-#define Ch19EphEndingScenePtr 0x9eb268
-#define Ch1EndingScenePtr 0x9e87e8
-#define Ch20EirEndingScenePtr 0x9ea078
-#define Ch20EphEndingScenePtr 0x9eb38c
-#define Ch2EndingScenePtr 0x9e8980
-#define Ch3EndingScenePtr 0x9e8a84
-#define Ch4EndingScenePtr 0x9e8b6c
-#define Ch5EndingScenePtr 0x9e8ca0
-#define Ch5xEndingScenePtr 0x9e8d58
-#define Ch6EndingScenePtr 0x9e8e10
-#define Ch7EndingScenePtr 0x9e8ebc
-#define Ch8EndingScenePtr 0x9e9030
-#define Ch9EirEndingScenePtr 0x9e918c
-#define Ch9EphEndingScenePtr 0x9ea394
-#define Final1EirEndingScenePtr 0x9ea184
-#define Final1EphEndingScenePtr 0x9eb498
-#define Final2EirEndingScenePtr 0x9ea20c
-#define Final2EphEndingScenePtr 0x9eb520
-#define PrologueEndingScenePtr 0x9e8688
+#define RealCh10EirEndingScene 0x9f43f8
+#define RealCh10EphEndingScene 0x9fac20
+#define RealCh11EirEndingScene 0x9f4a7c
+#define RealCh11EphEndingScene 0x9fb318
+#define RealCh12EirEndingScene 0x9f51b0
+#define RealCh12EphEndingScene 0x9fb770
+#define RealCh13EirEndingScene 0x9f5798
+#define RealCh13EphEndingScene 0x9fbc0c
+#define RealCh14EirEndingScene 0x9f5db8
+#define RealCh14EphEndingScene 0x9fc06c
+#define RealCh15EirEndingScene 0x9f6470
+#define RealCh15EphEndingScene 0x9fc8f0
+#define RealCh16EirEndingScene 0x9f6e40
+#define RealCh16EphEndingScene 0x9fcd98
+#define RealCh17EirEndingScene 0x9f79c4
+#define RealCh17EphEndingScene 0x9fcedc
+#define RealCh18EirEndingScene 0x9f7f88
+#define RealCh18EphEndingScene 0x9fd068
+#define RealCh19EirEndingScene 0x9f8678
+#define RealCh19EphEndingScene 0x9fd3dc
+#define RealCh1EndingScene 0x9efac4
+#define RealCh20EirEndingScene 0x9f8c8c
+#define RealCh20EphEndingScene 0x9fd584
+#define RealCh2EndingScene 0x9f04b4
+#define RealCh3EndingScene 0x9f13cc
+#define RealCh4EndingScene 0x9f19f8
+#define RealCh5EndingScene 0x9f2090
+#define RealCh5xEndingScene 0x9f25fc
+#define RealCh6EndingScene 0x9f29fc
+#define RealCh7EndingScene 0x9f2d28
+#define RealCh8EndingScene 0x9f318c
+#define RealCh9EirEndingScene 0x9f3db8
+#define RealCh9EphEndingScene 0x9fa4e0
+#define RealFinal1EirEndingScene 0x9f92a0
+#define RealFinal1EphEndingScene 0x9fd9b8
+#define RealFinal2EirEndingScene 0x9f9f10
+#define RealFinal2EphEndingScene 0x9fdb58
 #define RealPrologueEndingScene 0x9ef164
 
 PUSH
-ORG Ch10EirEndingScenePtr
-POIN Ch10EirEndingScene
+ORG RealCh10EirEndingScene
+CALL Ch10EirEndingScene
+ENDA
 POP
 
 Ch10EirEndingScene:
@@ -51,8 +51,9 @@ ASMC markCh10Clear
 ENDA
 
 PUSH
-ORG Ch10EphEndingScenePtr
-POIN Ch10EphEndingScene
+ORG RealCh10EphEndingScene
+CALL Ch10EphEndingScene
+ENDA
 POP
 
 Ch10EphEndingScene:
@@ -61,8 +62,9 @@ ASMC markCh10Clear
 ENDA
 
 PUSH
-ORG Ch11EirEndingScenePtr
-POIN Ch11EirEndingScene
+ORG RealCh11EirEndingScene
+CALL Ch11EirEndingScene
+ENDA
 POP
 
 Ch11EirEndingScene:
@@ -71,8 +73,9 @@ ASMC markCh11Clear
 ENDA
 
 PUSH
-ORG Ch11EphEndingScenePtr
-POIN Ch11EphEndingScene
+ORG RealCh11EphEndingScene
+CALL Ch11EphEndingScene
+ENDA
 POP
 
 Ch11EphEndingScene:
@@ -81,8 +84,9 @@ ASMC markCh11Clear
 ENDA
 
 PUSH
-ORG Ch12EirEndingScenePtr
-POIN Ch12EirEndingScene
+ORG RealCh12EirEndingScene
+CALL Ch12EirEndingScene
+ENDA
 POP
 
 Ch12EirEndingScene:
@@ -91,8 +95,9 @@ ASMC markCh12Clear
 ENDA
 
 PUSH
-ORG Ch12EphEndingScenePtr
-POIN Ch12EphEndingScene
+ORG RealCh12EphEndingScene
+CALL Ch12EphEndingScene
+ENDA
 POP
 
 Ch12EphEndingScene:
@@ -101,8 +106,9 @@ ASMC markCh12Clear
 ENDA
 
 PUSH
-ORG Ch13EirEndingScenePtr
-POIN Ch13EirEndingScene
+ORG RealCh13EirEndingScene
+CALL Ch13EirEndingScene
+ENDA
 POP
 
 Ch13EirEndingScene:
@@ -111,8 +117,9 @@ ASMC markCh13Clear
 ENDA
 
 PUSH
-ORG Ch13EphEndingScenePtr
-POIN Ch13EphEndingScene
+ORG RealCh13EphEndingScene
+CALL Ch13EphEndingScene
+ENDA
 POP
 
 Ch13EphEndingScene:
@@ -121,8 +128,9 @@ ASMC markCh13Clear
 ENDA
 
 PUSH
-ORG Ch14EirEndingScenePtr
-POIN Ch14EirEndingScene
+ORG RealCh14EirEndingScene
+CALL Ch14EirEndingScene
+ENDA
 POP
 
 Ch14EirEndingScene:
@@ -131,8 +139,9 @@ ASMC markCh14Clear
 ENDA
 
 PUSH
-ORG Ch14EphEndingScenePtr
-POIN Ch14EphEndingScene
+ORG RealCh14EphEndingScene
+CALL Ch14EphEndingScene
+ENDA
 POP
 
 Ch14EphEndingScene:
@@ -141,8 +150,9 @@ ASMC markCh14Clear
 ENDA
 
 PUSH
-ORG Ch15EirEndingScenePtr
-POIN Ch15EirEndingScene
+ORG RealCh15EirEndingScene
+CALL Ch15EirEndingScene
+ENDA
 POP
 
 Ch15EirEndingScene:
@@ -151,8 +161,9 @@ ASMC markCh15Clear
 ENDA
 
 PUSH
-ORG Ch15EphEndingScenePtr
-POIN Ch15EphEndingScene
+ORG RealCh15EphEndingScene
+CALL Ch15EphEndingScene
+ENDA
 POP
 
 Ch15EphEndingScene:
@@ -161,8 +172,9 @@ ASMC markCh15Clear
 ENDA
 
 PUSH
-ORG Ch16EirEndingScenePtr
-POIN Ch16EirEndingScene
+ORG RealCh16EirEndingScene
+CALL Ch16EirEndingScene
+ENDA
 POP
 
 Ch16EirEndingScene:
@@ -171,8 +183,9 @@ ASMC markCh16Clear
 ENDA
 
 PUSH
-ORG Ch16EphEndingScenePtr
-POIN Ch16EphEndingScene
+ORG RealCh16EphEndingScene
+CALL Ch16EphEndingScene
+ENDA
 POP
 
 Ch16EphEndingScene:
@@ -181,8 +194,9 @@ ASMC markCh16Clear
 ENDA
 
 PUSH
-ORG Ch17EirEndingScenePtr
-POIN Ch17EirEndingScene
+ORG RealCh17EirEndingScene
+CALL Ch17EirEndingScene
+ENDA
 POP
 
 Ch17EirEndingScene:
@@ -191,8 +205,9 @@ ASMC markCh17Clear
 ENDA
 
 PUSH
-ORG Ch17EphEndingScenePtr
-POIN Ch17EphEndingScene
+ORG RealCh17EphEndingScene
+CALL Ch17EphEndingScene
+ENDA
 POP
 
 Ch17EphEndingScene:
@@ -201,8 +216,9 @@ ASMC markCh17Clear
 ENDA
 
 PUSH
-ORG Ch18EirEndingScenePtr
-POIN Ch18EirEndingScene
+ORG RealCh18EirEndingScene
+CALL Ch18EirEndingScene
+ENDA
 POP
 
 Ch18EirEndingScene:
@@ -211,8 +227,9 @@ ASMC markCh18Clear
 ENDA
 
 PUSH
-ORG Ch18EphEndingScenePtr
-POIN Ch18EphEndingScene
+ORG RealCh18EphEndingScene
+CALL Ch18EphEndingScene
+ENDA
 POP
 
 Ch18EphEndingScene:
@@ -221,8 +238,9 @@ ASMC markCh18Clear
 ENDA
 
 PUSH
-ORG Ch19EirEndingScenePtr
-POIN Ch19EirEndingScene
+ORG RealCh19EirEndingScene
+CALL Ch19EirEndingScene
+ENDA
 POP
 
 Ch19EirEndingScene:
@@ -231,8 +249,9 @@ ASMC markCh19Clear
 ENDA
 
 PUSH
-ORG Ch19EphEndingScenePtr
-POIN Ch19EphEndingScene
+ORG RealCh19EphEndingScene
+CALL Ch19EphEndingScene
+ENDA
 POP
 
 Ch19EphEndingScene:
@@ -241,8 +260,9 @@ ASMC markCh19Clear
 ENDA
 
 PUSH
-ORG Ch1EndingScenePtr
-POIN Ch1EndingScene
+ORG RealCh1EndingScene
+CALL Ch1EndingScene
+ENDA
 POP
 
 Ch1EndingScene:
@@ -251,8 +271,9 @@ ASMC markCh1Clear
 ENDA
 
 PUSH
-ORG Ch20EirEndingScenePtr
-POIN Ch20EirEndingScene
+ORG RealCh20EirEndingScene
+CALL Ch20EirEndingScene
+ENDA
 POP
 
 Ch20EirEndingScene:
@@ -261,8 +282,9 @@ ASMC markCh20Clear
 ENDA
 
 PUSH
-ORG Ch20EphEndingScenePtr
-POIN Ch20EphEndingScene
+ORG RealCh20EphEndingScene
+CALL Ch20EphEndingScene
+ENDA
 POP
 
 Ch20EphEndingScene:
@@ -271,8 +293,9 @@ ASMC markCh20Clear
 ENDA
 
 PUSH
-ORG Ch2EndingScenePtr
-POIN Ch2EndingScene
+ORG RealCh2EndingScene
+CALL Ch2EndingScene
+ENDA
 POP
 
 Ch2EndingScene:
@@ -281,8 +304,9 @@ ASMC markCh2Clear
 ENDA
 
 PUSH
-ORG Ch3EndingScenePtr
-POIN Ch3EndingScene
+ORG RealCh3EndingScene
+CALL Ch3EndingScene
+ENDA
 POP
 
 Ch3EndingScene:
@@ -291,8 +315,9 @@ ASMC markCh3Clear
 ENDA
 
 PUSH
-ORG Ch4EndingScenePtr
-POIN Ch4EndingScene
+ORG RealCh4EndingScene
+CALL Ch4EndingScene
+ENDA
 POP
 
 Ch4EndingScene:
@@ -301,8 +326,9 @@ ASMC markCh4Clear
 ENDA
 
 PUSH
-ORG Ch5EndingScenePtr
-POIN Ch5EndingScene
+ORG RealCh5EndingScene
+CALL Ch5EndingScene
+ENDA
 POP
 
 Ch5EndingScene:
@@ -311,8 +337,9 @@ ASMC markCh5Clear
 ENDA
 
 PUSH
-ORG Ch5xEndingScenePtr
-POIN Ch5xEndingScene
+ORG RealCh5xEndingScene
+CALL Ch5xEndingScene
+ENDA
 POP
 
 Ch5xEndingScene:
@@ -321,8 +348,9 @@ ASMC markCh5Clear
 ENDA
 
 PUSH
-ORG Ch6EndingScenePtr
-POIN Ch6EndingScene
+ORG RealCh6EndingScene
+CALL Ch6EndingScene
+ENDA
 POP
 
 Ch6EndingScene:
@@ -331,8 +359,9 @@ ASMC markCh6Clear
 ENDA
 
 PUSH
-ORG Ch7EndingScenePtr
-POIN Ch7EndingScene
+ORG RealCh7EndingScene
+CALL Ch7EndingScene
+ENDA
 POP
 
 Ch7EndingScene:
@@ -341,8 +370,9 @@ ASMC markCh7Clear
 ENDA
 
 PUSH
-ORG Ch8EndingScenePtr
-POIN Ch8EndingScene
+ORG RealCh8EndingScene
+CALL Ch8EndingScene
+ENDA
 POP
 
 Ch8EndingScene:
@@ -351,8 +381,9 @@ ASMC markCh8Clear
 ENDA
 
 PUSH
-ORG Ch9EirEndingScenePtr
-POIN Ch9EirEndingScene
+ORG RealCh9EirEndingScene
+CALL Ch9EirEndingScene
+ENDA
 POP
 
 Ch9EirEndingScene:
@@ -361,8 +392,9 @@ ASMC markCh9Clear
 ENDA
 
 PUSH
-ORG Ch9EphEndingScenePtr
-POIN Ch9EphEndingScene
+ORG RealCh9EphEndingScene
+CALL Ch9EphEndingScene
+ENDA
 POP
 
 Ch9EphEndingScene:
@@ -371,8 +403,9 @@ ASMC markCh9Clear
 ENDA
 
 PUSH
-ORG Final1EirEndingScenePtr
-POIN Final1EirEndingScene
+ORG RealFinal1EirEndingScene
+CALL Final1EirEndingScene
+ENDA
 POP
 
 Final1EirEndingScene:
@@ -381,28 +414,31 @@ ASMC markEndgameClear
 ENDA
 
 PUSH
-ORG Final1EphEndingScenePtr
-POIN Final1EphEndScene
+ORG RealFinal1EphEndingScene
+CALL Final1EphEndingScene
+ENDA
 POP
 
-Final1EphEndScene:
+Final1EphEndingScene:
 ASMC markEndgameClear
 #incbin "data/final1ephEndScene.dmp"
 ENDA
 
 PUSH
-ORG Final2EirEndingScenePtr
-POIN Final2EirEndScene
+ORG RealFinal2EirEndingScene
+CALL Final2EirEndingScene
+ENDA
 POP
 
-Final2EirEndScene:
+Final2EirEndingScene:
 ASMC markFormortiisClear
 #incbin "data/final2eirEndScene.dmp"
 ENDA
 
 PUSH
-ORG Final2EphEndingScenePtr
-POIN Final2EphEndingScene
+ORG RealFinal2EphEndingScene
+CALL Final2EphEndingScene
+ENDA
 POP
 
 Final2EphEndingScene:
@@ -411,20 +447,13 @@ ASMC markFormortiisClear
 ENDA
 
 PUSH
-ORG PrologueEndingScenePtr
-POIN PrologueEndingScene
+ORG RealPrologueEndingScene
+CALL PrologueEndingScene
+ENDA
 POP
 
 PrologueEndingScene:
 ASMC markPrologueClear
 #incbin "data/prologueEndScene.dmp"
 ENDA
-
-// For some reason, the prologue ending scene pointer isn't being overwritten
-// properly, so we force it here.
-PUSH
-ORG RealPrologueEndingScene
-CALL PrologueEndingScene
-ENDA
-POP
 
