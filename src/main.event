@@ -6,3 +6,4 @@
 #include "archipelago/main.event"
 #include "events/main.event"
 #include "superFormortiis/superFormortiis.lyn.event"
+#include "moveCostFix/moveCosts.lyn.event"
