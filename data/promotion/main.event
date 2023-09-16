@@ -1,0 +1,73 @@
+PUSH
+  ORG $99e64
+  POIN NewPrepScreenShopList
+POP
+
+NewPrepScreenShopList:
+SHLI $01 $14 $1F $2D $38 $45 $3F $4B ChestKey DoorKey AngelicRobe EnergyRing SecretBook Speedwings GoddessIcon Dragonshield Talisman MasterSeal
+ALIGN 4
+
+PUSH
+  ORG $29398
+  POIN NewHeroCrestList
+POP
+
+NewHeroCrestList:
+BYTE Fighter Myrmidon Myrmidon_F Mercenary Mercenary_F Journeyman_2 Bonewalker
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293a0
+  POIN NewKnightCrestList
+POP
+
+NewKnightCrestList:
+BYTE Knight Knight_F Cavalier Cavalier_F Recruit_2 Tarvos
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293a8
+  POIN NewOrionsBoltList
+POP
+
+NewOrionsBoltList:
+BYTE Archer Archer_F Bonewalker_Bow
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293b0
+  POIN NewElysianWhipList
+POP
+
+NewElysianWhipList:
+BYTE PegasusKnight WyvernRider WyvernRider_F Gargoyle
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293b8
+  POIN NewGuidingRingList
+POP
+
+NewGuidingRingList:
+BYTE Mage Mage_F Shaman Shaman_F Pupil_2 Cleric Troubadour Priest Monk Mogall
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293c0
+  POIN NewMasterSealList
+POP
+
+NewMasterSealList:
+BYTE Thief EphraimLord EirikaLord Cavalier Cavalier_F Knight Knight_F
+BYTE Mercenary Mercenary_F Myrmidon Myrmidon_F Archer Archer_F WyvernRider
+BYTE WyvernRider_F Mage Mage_F Shaman Shaman_F Recruit_2 Fighter Brigand
+BYTE Pirate Monk Priest PegasusKnight Cleric Troubadour Soldier
+BYTE Revenant Bonewalker Bonewalker_Bow Bael Mauthedoog Tarvos Mogall Gargoyle
+BYTE Journeyman_2 Pupil_2
+BYTE 0
+ALIGN 4

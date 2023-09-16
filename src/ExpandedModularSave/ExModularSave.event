@@ -99,6 +99,7 @@ gSaveBlockTypeSizeLookup:
 // CR cam: this shouldn't need to live in this folder
 #include "Modules/progCaps.lyn.event"
 #include "Modules/checks.lyn.event"
+#include "Modules/receivedItems.lyn.event"
 
 ALIGN 4
 gGameSaveChunks:
@@ -117,6 +118,7 @@ gGameSaveChunks:
   DeclSaveChunk($0DC8, PROGRESSIVE_CAPS_SIZE, saveProgCaps, loadProgCaps)
   // CR cam: this is awful
   DeclSaveChunk((0x0DC8+PROGRESSIVE_CAPS_SIZE), CHECKED_LOCATION_SIZE, saveChecks, loadChecks)
+  DeclSaveChunk((0x0DC8+PROGRESSIVE_CAPS_SIZE+CHECKED_LOCATION_SIZE), 4, saveReceivedItemIndex, loadReceivedItemIndex)
 
 	// free up to $1344 ($57C free bytes)
 
@@ -150,6 +152,7 @@ gSuspendSaveChunks:
 	DeclSaveChunk($1F74, $0004, MSu_SaveEventCounter, MSu_LoadEventCounter) // Event counter
   DeclSaveChunk($1F78, PROGRESSIVE_CAPS_SIZE, saveProgCaps, loadProgCaps)
   DeclSaveChunk((0x1F78+PROGRESSIVE_CAPS_SIZE), CHECKED_LOCATION_SIZE, saveChecks, loadChecks)
+  DeclSaveChunk((0x1F78+PROGRESSIVE_CAPS_SIZE+CHECKED_LOCATION_SIZE), 4, saveReceivedItemIndex, loadReceivedItemIndex)
 
 	DeclSaveChunk(0, 0, 0, MSu_LoadClaimFlagsFromParentSave) // Load Bonus Claim flags from parent save
 

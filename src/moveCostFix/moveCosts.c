@@ -13,7 +13,7 @@
 
 int getTerrain(int x, int y) {
   if (x >= gBmMapSize.x || y >= gBmMapSize.y || x < 0 || y < 0) {
-    return 0;
+    return 255;
   }
 
   return gBmMapTerrain[y][x];
@@ -26,19 +26,19 @@ int checkUnitStuck(struct Unit *unit, const s8 costs[]) {
 
   // If any adjacent tile is passable, we're not stuck.
 
-  if (((u8)costs[getTerrain(x+1, y)]) < MOV_SENTINEL) {
+  if (costs[getTerrain(x+1, y)] < MOV_SENTINEL) {
     return 0;
   }
 
-  if (((u8)costs[getTerrain(x-1, y)]) < MOV_SENTINEL) {
+  if (costs[getTerrain(x-1, y)] < MOV_SENTINEL) {
     return 0;
   }
 
-  if (((u8)costs[getTerrain(x, y+1)]) < MOV_SENTINEL) {
+  if (costs[getTerrain(x, y+1)] < MOV_SENTINEL) {
     return 0;
   }
 
-  if (((u8)costs[getTerrain(x, y-1)]) < MOV_SENTINEL) {
+  if (costs[getTerrain(x, y-1)] < MOV_SENTINEL) {
     return 0;
   }
 
@@ -51,11 +51,12 @@ void SetWorkingMoveCosts(const s8 costs[TERRAIN_COUNT]) {
   int stuck = checkUnitStuck(unit, costs);
 
   for (int i = 0; i < TERRAIN_COUNT; i += 1) {
-    if (stuck) {
-      gWorkingTerrainMoveCosts[i] = stuck;
+    u8 cost = costs[i];
+
+    if (stuck && cost == 31) {
+      cost = stuck;
     }
-    else {
-      gWorkingTerrainMoveCosts[i] = costs[i];
-    }
+
+    gWorkingTerrainMoveCosts[i] = cost;
   }
 }

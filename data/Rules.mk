@@ -5,6 +5,9 @@ d := $(dir)
 dir := $(d)/text
 include $(dir)/Rules.mk
 
+dir := $(d)/promotion
+include $(dir)/Rules.mk
+
 EVENTS_$(d) := $(d)/main.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))

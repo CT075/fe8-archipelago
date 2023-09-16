@@ -343,7 +343,7 @@ ENDA
 POP
 
 Ch5xEndingScene:
-ASMC markCh5Clear
+ASMC markCh5xClear
 #incbin "data/ch5xEndScene.dmp"
 ENDA
 

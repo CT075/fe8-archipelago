@@ -1,1 +1,2 @@
 #include "text/main.event"
+#include "promotion/main.event"

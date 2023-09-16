@@ -11,5 +11,6 @@ int main() {
   printf("#define CHECKED_LOCATION_ADDR (0x%x)\n", CHECKED_LOCATIONS_ADDR);
   printf("#define AP_RECEIVED_ITEM_SIZE (%d)\n", sizeof(struct APReceivedItem));
   printf("#define AP_RECEIVED_ITEM_ADDR (0x%x)\n", RECEIVED_AP_ITEM_ADDR);
+  printf("#define RECEIVED_ITEM_IX_ADDR (0x%x)\n", RECEIVED_ITEM_INDEX_ADDR);
   return 0;
 }
