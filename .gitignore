@@ -14,6 +14,11 @@
 !src/fillAIDangerMap/FillAIDangerMap.s
 !src/ExpandedModularSave/Src/*.lyn.event
 !src/ExpandedModularSave/Src/*.s
+!src/HpBars/asm/*
+!src/HpBars/GameOptions/*
+!src/HpBars/bin/*
+!src/DangerZone/asm/*
+!src/LToggle/asm/*
 data/text/.TextEntries
 .cache
 obj

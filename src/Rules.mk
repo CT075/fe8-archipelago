@@ -26,6 +26,15 @@ include $(dir)/Rules.mk
 dir := $(d)/moveCostFix
 include $(dir)/Rules.mk
 
+dir := $(d)/DangerZone
+include $(dir)/Rules.mk
+
+dir := $(d)/HpBars
+include $(dir)/Rules.mk
+
+dir := $(d)/LToggle
+include $(dir)/Rules.mk
+
 EVENTS_$(d) := $(d)/_FE8EssentialFixes.event $(d)/main.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
