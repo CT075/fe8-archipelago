@@ -17,3 +17,4 @@ dummy%:
 include Tools.mk
 include Wizardry.mk
 include Rules.mk
+include Install.mk

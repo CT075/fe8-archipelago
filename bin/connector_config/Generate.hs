@@ -283,6 +283,10 @@ emitPythonData emitLn = do
     emitLn "items = ["
     forM_ [minBound @Item .. maxBound] $ emitLn . ("  " ++) . formatItem
     emitLn "]"
+    emitLn "SLOT_NAME_OFFS = {|ROM_BASE:archipelagoInfo|}"
+    emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}"
+    emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
+    emitLn "LOCATION_INFO_SIZE = 4"
   where
     formatHolyWeapon weap =
         "("

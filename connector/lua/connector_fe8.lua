@@ -32,17 +32,16 @@ local ewram_start = 0x2000000
 -- results of the build (or pulling them from the relevant header files). We
 -- should probably look towards populating them automatically eventually.
 
-local last_received_item_index_offset = 0x026E4C
 local flags_offset = 0x026E3C
 local flags_size = 8
 local archipelago_received_item_address = 0x026E44
+local archipelago_received_item_index = 0x026E48
 
 -- ROM addresses
--- CR cam: This *especially* should be populated automatically (probably from
--- the nocash sym file?)
-local slot_name_address = 0xEFCE78
+local slot_name_address = {|ROM_BASE:archipelagoInfo|}
 
 local proc_pool_address = 0x024E68
+local proc_size = 0x6C
 local num_procs = 0x40
 
 -- These two include the ROM hardware offset because we compare against them as
@@ -58,14 +57,15 @@ bizhawk_minor = tonumber(bizhawk_minor)
 function check_game_state ()
     local current_proc = proc_pool_address
     local count = 0
-    local cb2_value = memory.read_u32_le(cb2_address, "IWRAM")
 
     while count < num_procs do
-      local ptr = memory.read_u32_le(current_proc)
+      local ptr = memory.read_u32_le(current_proc, "EWRAM")
       if ptr == wm_proc_address or ptr == e_player_phase_proc_address then
         current_game_state = GAME_STATE_SAFE
         return
       end
+      count = count + 1
+      current_proc = current_proc + proc_size
     end
     current_game_state = GAME_STATE_UNSAFE
 end
@@ -77,8 +77,6 @@ function process_data (data)
     end
 
     if (data["items"] ~= nil) then
-        -- CR cam: There's a race here where, if we receive a new batch of
-        -- items before `received_items` is emptied, we could clobber them
         received_items = data["items"]
     end
 end
@@ -86,20 +84,18 @@ end
 -- Try to fill the received item struct with the next item
 function try_write_next_item ()
     if (current_game_state == GAME_STATE_SAFE) then
-        -- CR cam: this +3 is hand-computed from the definition of `struct APReceivedItem`
-        local is_filled = memory.read_u8(archipelago_received_item_address + 3, "EWRAM")
+        -- CR cam: this +2 is hand-computed from the definition of `struct APReceivedItem`
+        local is_filled = memory.read_u8(archipelago_received_item_address + 2, "EWRAM")
+        local item_index = memory.read_u32_le(archipelago_received_item_index, "EWRAM")
 
         if (is_filled ~= 0) then return end
 
-        -- This is, in theory, a very slow operation, but in practice the table
-        -- will be tiny and the latency here should be dwarfed by transport. If
-        -- it comes down to it, we can reverse the list when we get it and pop
-        -- off the end instead.
-        local next_item = table.remove(received_items, 1)
+        local next_item = received_items[item_index+1]
         if (next_item ~= nil) then
             -- TODO: progression filtering?
             memory.write_u16_le(archipelago_received_item_address + 0, next_item[1], "EWRAM")
-            memory.write_u8(archipelago_received_item_address + 3, 1, "EWRAM")
+            memory.write_u8(archipelago_received_item_address + 2, 1, "EWRAM")
+            memory.write_u32_le(archipelago_received_item_index, item_index+1, "EWRAM")
         end
     end
 end
@@ -114,10 +110,9 @@ function create_message ()
     local slot_name = memory.read_bytes_as_array(slot_name_address, 64, "ROM")
     data["slot_name"] = slot_name
 
-    if (current_game_state == GAME_STATE_SAFE) then
-        local flag_bytes = memory.read_bytes_as_array(flags_offset, flags_size, "EWRAM")
-        data["flag_bytes"] = flag_bytes
-    end
+    -- TODO: do we need to check safety here somehow?
+    local flag_bytes = memory.read_bytes_as_array(flags_offset, flags_size, "EWRAM")
+    data["flag_bytes"] = flag_bytes
 
     return json.encode(data).."\n"
 end

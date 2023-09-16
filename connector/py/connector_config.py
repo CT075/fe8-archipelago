@@ -61,3 +61,7 @@ items = [
   ("Ivaldi", 17),
   ("Latona", 18),
 ]
+SLOT_NAME_OFFS = {|ROM_BASE:archipelagoInfo|}
+SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}
+LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}
+LOCATION_INFO_SIZE = 4
