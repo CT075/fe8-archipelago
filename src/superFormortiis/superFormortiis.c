@@ -34,6 +34,7 @@ void ComputeBattleUnitAttack(struct BattleUnit *attacker, struct BattleUnit *def
       case ITEM_BOW_NIDHOGG:
       case ITEM_ANIMA_EXCALIBUR:
       case ITEM_LIGHT_IVALDI:
+      case ITEM_DARK_GLEIPNIR:
       case ITEM_SWORD_SIEGLINDE:
       case ITEM_LANCE_SIEGMUND:
         usingHolyWeapon = true;
