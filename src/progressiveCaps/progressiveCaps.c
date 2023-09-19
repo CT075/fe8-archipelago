@@ -217,9 +217,14 @@ void ComputeBattleUnitWeaponRankBonuses(struct BattleUnit *bu) {
   if (bu->weapon) {
     int wType = GetItemType(bu->weapon);
 
-    if (wType < 8 && partyWeaponLevel(wType) >= WPN_EXP_S) {
-      bu->battleHitRate += 10;
-      bu->battleCritRate += 15;
+    switch (UNIT_FACTION(&(bu->unit))) {
+      case FACTION_BLUE:
+        if (wType < 8 && partyWeaponLevel(wType) >= WPN_EXP_S) {
+          bu->battleHitRate += 10;
+          bu->battleCritRate += 15;
+        }
+        break;
+      default:
     }
   }
 }
