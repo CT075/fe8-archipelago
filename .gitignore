@@ -19,6 +19,7 @@
 !src/HpBars/bin/*
 !src/DangerZone/asm/*
 !src/LToggle/asm/*
+!src/BattleStatsWithAnimsOff/*
 data/text/.TextEntries
 .cache
 obj

@@ -60,6 +60,7 @@ licenses:
 - [fireemblem8u](https://github.com/FireEmblemUniverse/fireemblem8u)
   decompilation symbols and headers by various contributors
 - FillAIDangerMap by [hypergammaspaces](https://hypergammaspaces.tumblr.com/)
+- BattleStatsWithAnimsOff by Tequila, with assets by Alusq
 - DangerZone, LToggle and HpBars by circleseverywhere
 - moveCostFix adapted from [SelfRandomizingRom](https://github.com/FireEmblemUniverse/SelfRandomizingRom-fe8) by circleseverywhere
 - `lyn`, libgbafe and Expanded Modular Save by [stan](https://github.com/StanHash/)

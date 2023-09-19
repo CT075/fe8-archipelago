@@ -14,6 +14,7 @@
 #include "moveCostFix/moveCosts.lyn.event"
 #include "DangerZone/DangerZone.event"
 #include "HpBars/HpBars.event"
+#include "BattleStatsWithAnimsOff/FE8-BattleStats.event"
 
 PUSH
 ORG FreeSpaceBL
