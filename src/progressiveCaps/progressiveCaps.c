@@ -9,6 +9,7 @@
 #include "statscreen.h"
 #include "icon.h"
 #include "hardware.h"
+#include "constants/items.h"
 
 #include "constants.h"
 #include "archipelago.h"
@@ -236,17 +237,30 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
   if (!(GetItemAttributes(item) & IA_WEAPON))
     return FALSE;
 
+  bool isEirika = false;
+  bool isEphraim = false;
+
   if (GetItemAttributes(item) & IA_LOCK_ANY) {
     // Check for item locks
 
     if ((GetItemAttributes(item) & IA_LOCK_1) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_1))
       return FALSE;
 
-    if ((GetItemAttributes(item) & IA_LOCK_4) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_4))
+    // Eirika lock
+    if ((GetItemAttributes(item) & IA_LOCK_4) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_4)) {
       return FALSE;
+    }
+    else {
+      isEirika = true;
+    }
 
-    if ((GetItemAttributes(item) & IA_LOCK_5) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_5))
+    // Ephraim lock
+    if ((GetItemAttributes(item) & IA_LOCK_5) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_5)) {
       return FALSE;
+    }
+    else {
+      isEphraim = true;
+    }
 
     if ((GetItemAttributes(item) & IA_LOCK_6) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_6))
       return FALSE;
@@ -274,6 +288,11 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
     return FALSE;
 
   int wRank = GetItemRequiredExp(item);
+
+  if ((isEirika && item == ITEM_SWORD_SIEGLINDE) || (isEphraim && item == ITEM_LANCE_SIEGMUND)) {
+    wRank = WPN_EXP_E;
+  }
+
   int uRank = getUnitWeaponRank(unit, GetItemType(item));
 
   return (uRank >= wRank) ? TRUE : FALSE;

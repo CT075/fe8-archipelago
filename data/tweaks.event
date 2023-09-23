@@ -1,0 +1,12 @@
+#define itemBase(id) "(0x809B10 + 36*id)"
+#define RANK_OFFSET 28
+
+PUSH
+  ORG itemBase(Sieglinde) + RANK_OFFSET
+  BYTE 0xFB
+POP
+
+PUSH
+  ORG itemBase(Siegmund) + RANK_OFFSET
+  BYTE 0xFB
+POP
