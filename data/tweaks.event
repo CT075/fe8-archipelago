@@ -1,5 +1,7 @@
-#define itemBase(id) "(0x809B10 + 36*id)"
+#define itemBase(id) "(0x809B10 + 36*(id))"
 #define RANK_OFFSET 28
+
+// make Sieglinde and Siegmund proper S ranks
 
 PUSH
   ORG itemBase(Sieglinde) + RANK_OFFSET
@@ -9,4 +11,34 @@ POP
 PUSH
   ORG itemBase(Siegmund) + RANK_OFFSET
   BYTE 0xFB
+POP
+
+// Monster class promotion gains
+
+#define classBase(id) "(0x807110 + 84*(id))"
+#define PROMO_GAINS_OFFSET 34
+
+PUSH
+  ORG classBase(Wight) + PROMO_GAINS_OFFSET
+  BYTE 4 2 2 1 2 2
+POP
+
+PUSH
+  ORG classBase(Wight_Bow) + PROMO_GAINS_OFFSET
+  BYTE 4 1 3 2 0 0
+POP
+
+PUSH
+  ORG classBase(Maelduin) + PROMO_GAINS_OFFSET
+  BYTE 6 3 0 3 2 2
+POP
+
+PUSH
+  ORG classBase(ArchMogall) + PROMO_GAINS_OFFSET
+  BYTE 2 5 2 0 0 0
+POP
+
+PUSH
+  ORG classBase(Deathgoyle) + PROMO_GAINS_OFFSET
+  BYTE 4 4 0 0 2 1
 POP
