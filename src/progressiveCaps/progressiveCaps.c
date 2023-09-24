@@ -246,6 +246,11 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
     if ((GetItemAttributes(item) & IA_LOCK_1) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_1))
       return FALSE;
 
+    // CR-someday cam: In order to allow the Sieg twins to be used by anyone,
+    // we can't check the Eirika and Ephraim locks here. However, a far simpler
+    // solution is to just remove the locks from Sieglinde and Siegmund and
+    // keep the hardcoded Eirika/Ephraim check below.
+
     // Eirika lock
     if (UNIT_CATTRIBUTES(unit) & CA_LOCK_4) {
       isEirika = true;
