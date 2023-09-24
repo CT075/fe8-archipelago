@@ -247,18 +247,12 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
       return FALSE;
 
     // Eirika lock
-    if ((GetItemAttributes(item) & IA_LOCK_4) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_4)) {
-      return FALSE;
-    }
-    else {
+    if (UNIT_CATTRIBUTES(unit) & CA_LOCK_4) {
       isEirika = true;
     }
 
     // Ephraim lock
-    if ((GetItemAttributes(item) & IA_LOCK_5) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_5)) {
-      return FALSE;
-    }
-    else {
+    if (UNIT_CATTRIBUTES(unit) & CA_LOCK_5) {
       isEphraim = true;
     }
 
@@ -291,6 +285,12 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
 
   if ((isEirika && item == ITEM_SWORD_SIEGLINDE) || (isEphraim && item == ITEM_LANCE_SIEGMUND)) {
     wRank = WPN_EXP_E;
+  }
+  else if (
+    ((GetItemAttributes(item) & IA_LOCK_4) && !isEirika) ||
+    ((GetItemAttributes(item) & IA_LOCK_5) && !isEphraim)
+  ) {
+    return FALSE;
   }
 
   int uRank = getUnitWeaponRank(unit, GetItemType(item));
