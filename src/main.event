@@ -5,7 +5,6 @@
 
 #include "_FE8EssentialFixes.event"
 #include "ExpandedModularSave/ExModularSave.event"
-#include "fillAIDangerMap/FillAIDangerMap.event"
 #include "progressiveCaps/progressiveCaps.lyn.event"
 #include "giveItemHook/giveItemHook.lyn.event"
 #include "archipelago/main.event"

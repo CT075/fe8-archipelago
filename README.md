@@ -1,7 +1,7 @@
 # FE8 Archipelago Build
 
 The source for an FE8 Archipelago prototype. Currently intended to be used with
-[ColorzCore](https://github.com/minishmaker/randomizer/tree/master/Vendor/ColorzCore)
+[ColorzCore](https://github.com/FireEmblemUniverse/ColorzCore)
 to build the pre-randomized ROM.
 
 ## What are the checks and rewards?
@@ -19,17 +19,15 @@ The rewards themselves are:
 
 To make the Sacred Twin weapons more impactful, there is also an optional
 "Super Demon King" mode which buffs the final boss to take less damage from
-non-Sacred Twin weapons along with general stat increases (not yet
-implemented).
+non-Sacred Twin weapons.
 
 ## What else is planned?
 
-Eventually, Chestsanity and the like. But maybe focusing on version 0.1 first
-would be a good idea.
+Eventually, Chestsanity and general item randomization.
 
 ## Is the actual randomizer in this repo?
 
-No! See my branch of the [main Archipelago repo](https://github.com/CT075/Archipelago/tree/fe8/dev).
+No. See my branch of the [main Archipelago repo](https://github.com/CT075/Archipelago/tree/fe8/stable).
 
 ## TODO
 
@@ -47,7 +45,7 @@ No! See my branch of the [main Archipelago repo](https://github.com/CT075/Archip
 
 ### Organizational
 
-- Move `FillAIDangerMap` and `ExpandedModularSave` to `vendor` from `src`
+- Move `ExpandedModularSave` to `vendor` from `src`
 - Move various vendored tools to `vendor` from `bin`
 - Use `_build` to store intermediate artifacts (`.o` files, etc) to avoid clutter
 
@@ -59,7 +57,6 @@ licenses:
 
 - [fireemblem8u](https://github.com/FireEmblemUniverse/fireemblem8u)
   decompilation symbols and headers by various contributors
-- FillAIDangerMap by [hypergammaspaces](https://hypergammaspaces.tumblr.com/)
 - BattleStatsWithAnimsOff by Tequila, with assets by Alusq
 - DangerZone, LToggle and HpBars by circleseverywhere
 - moveCostFix adapted from [SelfRandomizingRom](https://github.com/FireEmblemUniverse/SelfRandomizingRom-fe8) by circleseverywhere
