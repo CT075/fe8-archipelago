@@ -33,9 +33,12 @@ No. See my branch of the [main Archipelago repo](https://github.com/CT075/Archip
 
 ### Issues
 
-- For units below the progressive level cap, EXP will display normally despite
+- For units above the progressive level cap, EXP will display normally despite
   being capped. This is display-only; such units are correctly prevented from
   gaining EXP.
+    - Overflow EXP that a unit gains from below the level cap to above it is
+      not properly truncated. This may lead to a unit being level 20 with 11
+      EXP.
 - Receiving items on the world map doesn't work yet.
 
 ### Polish
