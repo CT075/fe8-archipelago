@@ -1,4 +1,5 @@
 #define itemBase(id) "(0x809B10 + 36*(id))"
+#define COST_OFFSET 26
 #define RANK_OFFSET 28
 
 // make Sieglinde and Siegmund proper S ranks
@@ -11,6 +12,11 @@ POP
 PUSH
   ORG itemBase(Siegmund) + RANK_OFFSET
   BYTE 0xFB
+POP
+
+PUSH
+  ORG itemBase(MasterSeal) + COST_OFFSET
+  SHORT 10000
 POP
 
 // Monster class promotion gains

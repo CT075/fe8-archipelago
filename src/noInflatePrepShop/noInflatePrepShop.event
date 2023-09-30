@@ -1,0 +1,5 @@
+PUSH
+  ORG 0x0B5236
+  // change `beq` to unconditional `b`
+  SHORT $E003
+POP

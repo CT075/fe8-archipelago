@@ -14,6 +14,7 @@
 #include "DangerZone/DangerZone.event"
 #include "HpBars/HpBars.event"
 #include "BattleStatsWithAnimsOff/FE8-BattleStats.event"
+#include "noInflatePrepShop/noInflatePrepShop.event"
 
 PUSH
 ORG FreeSpaceBL

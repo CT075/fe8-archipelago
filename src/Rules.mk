@@ -2,9 +2,6 @@ sp := $(sp).x
 dirstack_$(sp) := $(d)
 d := $(dir)
 
-dir := $(d)/fillAIDangerMap
-include $(dir)/Rules.mk
-
 dir := $(d)/progressiveCaps
 include $(dir)/Rules.mk
 
@@ -33,6 +30,9 @@ dir := $(d)/HpBars
 include $(dir)/Rules.mk
 
 dir := $(d)/LToggle
+include $(dir)/Rules.mk
+
+dir := $(d)/noInflatePrepShop
 include $(dir)/Rules.mk
 
 EVENTS_$(d) := $(d)/_FE8EssentialFixes.event $(d)/main.event
