@@ -20,6 +20,7 @@
 !src/DangerZone/asm/*
 !src/LToggle/asm/*
 !src/BattleStatsWithAnimsOff/*
+!vendor/CLib/reference/*
 data/text/.TextEntries
 .cache
 obj

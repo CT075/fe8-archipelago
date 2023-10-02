@@ -40,11 +40,15 @@ No. See my branch of the [main Archipelago repo](https://github.com/CT075/Archip
       not properly truncated. This may lead to a unit being level 20 with 11
       EXP.
 - Receiving items on the world map doesn't work yet.
+- Units can occasionally be dropped on impassable terrain.
 
 ### Polish
 
 - Seth's weapon can change between his fight with Valter and the actual start
   of the Prologue.
+- There are a few instances of a boss's cutscene class differing from their
+  gameplay class.
+- Custom unit palettes are planned, but will not be available for a while.
 
 ### Organizational
 
