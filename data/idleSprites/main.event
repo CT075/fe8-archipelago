@@ -1,0 +1,361 @@
+// An overview of idle map sprite VRAM graphics registration is that you have 64 "slots":
+// 64 62 60 58 56 54 52 50 48 46 44 42 40 38 36 34
+// 63 61 59 57 55 53 51 49 47 45 43 41 39 37 35 33
+// 32 30 28 26 24 22 20 18 16 14 12 10 08 06 04 02
+// 31 29 27 25 23 21 19 17 15 13 11 09 07 05 03 01
+
+// Adding 16x16s go in the lowest unused slot,
+// Adding 16x32 and 32x32s uses highest slots.
+
+// The game is, mid-chapter, willing to override a slot if all units
+// that were in that class are dead. 
+
+// When VRAM is full, a class is assigned slots, but the graphics are
+// updated improperly. A class will claim some slots, 
+// and will use whatever graphics are in those slots whether or not
+// its own graphics are actually in that slot.
+
+// In ordinary circumstances, you need 40 or more classes,
+// which the game just doesn't let happen, because it avoids
+// mixing humans with monsters, it limits enemy class variety, etc.
+
+// None of these are things that we get to consider, since we're randomizing.
+// This means that the issue is *far* more likely to occur, 
+// and this is a problem because it can be hard to tell *if an enemy exists*,
+// and what it *is*, which I would argue are *the gameplay* of Fire Emblem.
+
+// However, even in context, it's still pretty rare. But, it comes up,
+// and it's rather critical -- but a proper solution is very hard.
+
+// This is a stop-gap measure more than anything else - by handling these cases,
+// there's free space on the worst case of the worst base game map - ch 22.
+
+// There's a decent number of sprites that can be shrunk without huge losses:
+// 32x32 -> 16x16 Phantom, Bael
+// 32x32 -> 16x32 Maelduin, Gwyllgi, Gargoyle, Deathgoyle, Fleet
+// 16x32 -> 16x16 Summoner, Bonewalker Bow, Mauthe Doog, Revenant, Fighter, Brigand, Elder Bael
+
+// Fleet, Summoner, Phantom, and Elder Bael are shrunk by clipping an edge off them.
+// For Fleet/Summoner this is literally a single pixel.
+
+// Secondarily, Wyv Rider and Wyv Lord are programmed with gendered sprites
+// RiderF's are the same graphics; LordF's are prototype sprites.
+// Finally; Mercenary_F could be redrawn to be 16x16
+// and it could also be corrected or actually look like a mercenary
+// However, MercF being jank is... clearly part of its history
+// Myrrh could theoretically be squeezed down; but doing so would majorly change her pose
+
+#ifndef EAstdlib
+	#include "EAstdlib.event"
+	ORG 0xB2A610
+#endif
+
+PUSH
+
+// TODO: make configurable
+// ie. scale of "acceptable change levels"
+// people might prefer the bug to the changes
+
+// TODO: actually bring in png2dmp 
+
+#define writeInPlace
+
+#ifndef classBase(id)
+	#define classBase(id) "(0x807110 + 84*(id))"
+#endif
+#define STANDING_SPRITE_OFFSET 6
+
+#define idleSpriteBase(id) "(0x8af880 + 8*(id))"
+#define size16by16 0x0
+#define size16by32 0x1
+#define size32by32 0x2
+#define size16wide 0x0
+#define size16tall 0x0
+#define size32tall 0x1
+#define size32wide 0x2
+
+ORG classBase(WyvernRider_F) + STANDING_SPRITE_OFFSET
+BYTE 0x19
+
+ORG classBase(WyvernLord_F) + STANDING_SPRITE_OFFSET
+BYTE 0x1B
+
+// Unfortunately, there's nothing I can do down here but use magic numbers.
+// Idle Sprite IDs aren't defined since they'd conflict, and are not useful anyway.
+// I don't know what the leading 0x0 .. 0x3 means
+// I put it here because it made writing this convenient.
+
+// Summoner | 16x32 -> 16x16
+ORG idleSpriteBase(40)
+BYTE 0x2 0x0 size16by16 0x0
+POIN AP_Summoner_IdleGFX
+
+// Fighter | 16x32 -> 16x16
+ORG idleSpriteBase(49)
+BYTE 0x2 0x0 size16by16 0x0
+POIN AP_Fighter_IdleGFX
+
+// Brigand | 16x32 -> 16x16
+ORG idleSpriteBase(51)
+BYTE 0x2 0x0 size16by16 0x0
+POIN AP_Brigand_IdleGFX
+
+// Fleet | 32x32 -> 16x32
+ORG idleSpriteBase(65)
+BYTE 0x3 0x0 size32tall 0x0
+POIN AP_Fleet_IdleGFX
+
+// Phantom | 32x32 -> 16x16
+ORG idleSpriteBase(66)
+BYTE 0x2 0x0 size16by16 0x0
+POIN AP_Phantom_IdleGFX
+
+// Revenant | 16x32 -> 16x16
+ORG idleSpriteBase(67)
+BYTE 0x2 0x0 size16by16 0x0
+POIN AP_Revenant_IdleGFX
+
+// Bonewalker_Bow | 16x32 -> 16x16
+ORG idleSpriteBase(70)
+BYTE 0x3 0x0 size16by16 0x0
+POIN AP_BonewalkerBow_IdleGFX
+
+// Bael | 32x32 -> 16x16
+ORG idleSpriteBase(73)
+BYTE 0x3 0x0 size16by16 0x0
+POIN AP_Bael_IdleGFX
+
+// Elder Bael | 16x32 -> 16x16
+ORG idleSpriteBase(74)
+BYTE 0x3 0x0 size16by16 0x0
+POIN AP_ElderBael_IdleGFX
+
+// Mauthe Doog | 16x32 -> 16x16
+ORG idleSpriteBase(76)
+BYTE 0x3 0x0 size16by16 0x0
+POIN AP_MautheDoog_IdleGFX
+
+// Gwyllgi | 32x32 -> 16x32
+ORG idleSpriteBase(77)
+BYTE 0x3 0x0 size32tall 0x0
+POIN AP_Gwyllgi_IdleGFX
+
+// Maelduin | 32x32 -> 16x16
+ORG idleSpriteBase(79)
+BYTE 0x3 0x0 size32tall 0x0
+POIN AP_Maelduin_IdleGFX
+
+// Gargoyle | 32x32 -> 16x32
+ORG idleSpriteBase(84)
+BYTE 0x3 0x0 size32tall 0x0
+POIN AP_Gargoyle_IdleGFX
+
+// Deathgoyle | 32x32 -> 16x32
+ORG idleSpriteBase(85)
+BYTE 0x3 0x0 size32tall 0x0
+POIN AP_Deathgoyle_IdleGFX
+
+POP
+
+// Align 4 every time because sometimes things break
+// and this frequently fixes it
+
+PUSH
+
+#ifdef writeInPlace
+
+// I wrote a spreadsheet for deciding this arrangement.
+// This was the most efficient one I found.
+
+ORG 0x1BB098 // Summoner, has 0x120 bytes
+	ALIGN 4
+	AP_Revenant_IdleGFX:
+	#incext Png2Dmp "gfx/Revenant.png" --lz77
+	// #incbin "gfx/Revenant.dmp"
+	// Takes 0x11C bytes
+
+	// 0x04 bytes remaining
+
+
+ORG 0x1BBCD0 // Fighter, has 0x12C bytes
+	ALIGN 4
+	AP_BonewalkerBow_IdleGFX:
+	#incext Png2Dmp "gfx/BonewalkerBow.png" --lz77
+	// #incbin "gfx/BonewalkerBow.dmp"
+	// Takes 0x11C bytes
+
+	// 0x10 bytes remainiing
+
+
+ORG 0x1BBF7C // Brigand, has 0x174 bytes
+ALIGN 4
+	AP_Fighter_IdleGFX:
+	#incext Png2Dmp "gfx/Fighter.png" --lz77
+	// #incbin "gfx/Fighter.dmp"
+	// Takes 0x170 bytes
+
+	// 0x04 bytes remaining
+
+
+ORG 0x1BD2DC // Fleet + Phantom + Revenant, has 0x51C bytes
+	ALIGN 4
+	AP_Maelduin_IdleGFX:
+	#incext Png2Dmp "gfx/Maelduin.png" --lz77
+	// #incbin "gfx/Maelduin.dmp"
+	// Takes 0x214 bytes
+
+	ALIGN 4
+	AP_Summoner_IdleGFX:
+	#incext Png2Dmp "gfx/Summoner.png" --lz77
+	// #incbin "gfx/Summoner.dmp"
+	// Takes 0xF4 bytes
+
+	ALIGN 4
+	AP_Phantom_IdleGFX:
+	#incext Png2Dmp "gfx/Phantom.png" --lz77
+	// #incbin "gfx/Phantom.dmp"
+	// Takes 0x100 bytes
+
+	ALIGN 4
+	AP_Fleet_IdleGFX:
+	#incext Png2Dmp "gfx/Fleet.png" --lz77
+	// #incbin "gfx/Fleet.dmp"
+	// Takes 0x108 bytes
+
+	// 0x0C bytes remaining
+
+
+ORG 0x1BD98C // BonewalkerBow, has 0x144 bytes
+	ALIGN 4
+	AP_ElderBael_IdleGFX:
+	#incext Png2Dmp "gfx/ElderBael.png" --lz77
+	// #incbin "gfx/ElderBael.dmp"
+	// Takes 0x134 bytes
+
+	// 0x10 bytes remaining
+
+
+ORG 0x1BDD54 // Bael + ElderBael, has 0x2F4 bytes
+	ALIGN 4
+	AP_Brigand_IdleGFX:
+	#incext Png2Dmp "gfx/Brigand.png" --lz77
+	// #incbin "gfx/Brigand.dmp"
+	// Takes 0x140 bytes
+
+	ALIGN 4
+	AP_Bael_IdleGFX:
+	#incext Png2Dmp "gfx/Bael.png" --lz77
+	// #incbin "gfx/Bael.dmp"
+	// Takes 0x108 bytes
+
+	// 0x2C bytes remaining
+
+ORG 0x1BE1D8 // MautheDoog + Gwyllgi, has 0x32C bytes
+	ALIGN 4
+	AP_MautheDoog_IdleGFX:
+	#incext Png2Dmp "gfx/MautheDoog.png" --lz77
+	// #incbin "gfx/MautheDoog.dmp"
+	// Takes 0x108 bytes
+
+	ALIGN 4
+	AP_Gwyllgi_IdleGFX:
+	#incext Png2Dmp "gfx/Gwyllgi.png" --lz77
+	// #incbin "gfx/Gwyllgi.dmp"
+	// Takes 0x21C bytes
+
+	// 0x08 bytes remaining
+
+
+ORG 0x1BE714 // Maelduin, has 0x274 bytes
+	// Nnone :)
+	// 0x0274 bytes remaining
+
+
+ORG 0x1BEE74 // Gargoyle + Deathgoyle, has 0x428 bytes
+	ALIGN 4
+	AP_Gargoyle_IdleGFX:
+	#incext Png2Dmp "gfx/Gargoyle.png" --lz77
+	// #incbin "gfx/Gargoyle.dmp"
+	// Takes 0x1FC bytes
+
+	ALIGN 4
+	AP_Deathgoyle_IdleGFX:
+	#incext Png2Dmp "gfx/Deathgoyle.png" --lz77
+	// #incbin "gfx/Deathgoyle.dmp"
+	// Takes 0x220 bytes
+
+	// 0x0C bytes remaining
+
+#endif
+
+#ifndef writeInPlace
+	ALIGN 4
+	AP_Summoner_IdleGFX:
+	#incext Png2Dmp "gfx/Summoner.png" --lz77
+	// #incbin "gfx/Summoner.dmp"
+
+	ALIGN 4
+	AP_Fighter_IdleGFX:
+	#incext Png2Dmp "gfx/Fighter.png" --lz77
+	// #incbin "gfx/Fighter.dmp"
+
+	ALIGN 4
+	AP_Brigand_IdleGFX:
+	#incext Png2Dmp "gfx/Brigand.png" --lz77
+	// #incbin "gfx/Brigand.dmp"
+
+	ALIGN 4
+	AP_Fleet_IdleGFX:
+	#incext Png2Dmp "gfx/Fleet.png" --lz77
+	// #incbin "gfx/Fleet.dmp"
+
+	ALIGN 4
+	AP_Phantom_IdleGFX:
+	#incext Png2Dmp "gfx/Phantom.png" --lz77
+	// #incbin "gfx/Phantom.dmp"
+
+	ALIGN 4
+	AP_Revenant_IdleGFX:
+	#incext Png2Dmp "gfx/Revenant.png" --lz77
+	// #incbin "gfx/Revenant.dmp"
+
+	ALIGN 4
+	AP_BonewalkerBow_IdleGFX:
+	#incext Png2Dmp "gfx/BonewalkerBow.png" --lz77
+	// #incbin "gfx/BonewalkerBow.dmp"
+
+	ALIGN 4
+	AP_Bael_IdleGFX:
+	#incext Png2Dmp "gfx/Bael.png" --lz77
+	// #incbin "gfx/Bael.dmp"
+
+	ALIGN 4
+	AP_ElderBael_IdleGFX:
+	#incext Png2Dmp "gfx/ElderBael.png" --lz77
+	// #incbin "gfx/ElderBael.dmp"
+
+	ALIGN 4
+	AP_MautheDoog_IdleGFX:
+	#incext Png2Dmp "gfx/MautheDoog.png" --lz77
+	// #incbin "gfx/MautheDoog.dmp"
+
+	ALIGN 4
+	AP_Gwyllgi_IdleGFX:
+	#incext Png2Dmp "gfx/Gwyllgi.png" --lz77
+	// #incbin "gfx/Gwyllgi.dmp"
+
+	ALIGN 4
+	AP_Maelduin_IdleGFX:
+	#incext Png2Dmp "gfx/Maelduin.png" --lz77
+	// #incbin "gfx/Maelduin.dmp"
+
+	ALIGN 4
+	AP_Gargoyle_IdleGFX:
+	#incext Png2Dmp "gfx/Gargoyle.png" --lz77
+	// #incbin "gfx/Gargoyle.dmp"
+
+	ALIGN 4
+	AP_Deathgoyle_IdleGFX:
+	#incext Png2Dmp "gfx/Deathgoyle.png" --lz77
+	// #incbin "gfx/Deathgoyle.dmp"
+#endif
