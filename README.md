@@ -58,6 +58,13 @@ No. See my branch of the [main Archipelago repo](https://github.com/CT075/Archip
 
 # License and Credits
 
+Of course, this project has been far from a one-man effort. Special thanks to
+the following technical contributors to the FE8 Archipelago project:
+
+- [Teraspark](https://github.com/Teraspark/)
+- [Darrman](https://feuniverse.us/u/darrman/)
+- [Two Who Belong](https://linktr.ee/ttlaitw)
+
 This code is licensed under the MIT License (see [LICENSE](LICENSE)), except
 for vendored resources as follows, which are included under their original
 licenses:
