@@ -29,6 +29,10 @@ Eventually, Chestsanity and general item randomization.
 
 No. See my branch of the [main Archipelago repo](https://github.com/CT075/Archipelago/tree/fe8/stable).
 
+## How can I modify this project?
+
+See [HACKING.md](HACKING.md).
+
 ## TODO
 
 ### Issues
