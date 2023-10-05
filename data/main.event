@@ -1,3 +1,2 @@
 #include "text/main.event"
-#include "promotion/main.event"
 #include "tweaks.event"
