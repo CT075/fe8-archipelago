@@ -1,4 +1,4 @@
-# FE8 Archipelago Build
+# FE8 Archipelago Basepatch
 
 The source for an FE8 Archipelago prototype. Currently intended to be used with
 [ColorzCore](https://github.com/FireEmblemUniverse/ColorzCore)
@@ -29,7 +29,7 @@ Eventually, Chestsanity and general item randomization.
 
 No. See my branch of the [main Archipelago repo](https://github.com/CT075/Archipelago/tree/fe8/stable).
 
-## How can I modify this project?
+## How can I build this project?
 
 See [HACKING.md](HACKING.md).
 

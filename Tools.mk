@@ -14,14 +14,10 @@ COLORZCORE_BIN ?= $(error No ColorzCore binary; please set COLORZCORE_BIN and ru
 EA_STD_LIB_DIR := $(VENDOR_DIR)/EAStandardLibrary
 
 $(LYN_DIR)/Makefile:
-	cd bin/lyn && cmake .
+	cd $(LYN_DIR) && cmake .
 
 $(LYN): $(LYN_DIR)/Makefile
-	cd bin/lyn && $(MAKE)
-
-GENDEFS_DIR := $(BIN_DIR)/gen_ea_defs
-GENDEFS_SRC := $(GENDEFS_DIR)/gen_ea_defs.c
-GENDEFS := $(BUILD_DIR)/gen_ea_defs
+	cd $(LYN_DIR) && $(MAKE)
 
 PARSEFILE_DIR := $(BIN_DIR)/ParseFile
 PARSEFILE := $(BUILD_DIR)/ParseFile
@@ -29,6 +25,20 @@ PARSEFILE := $(BUILD_DIR)/ParseFile
 $(PARSEFILE): $(PARSEFILE_DIR)/ParseFile.hs $(PARSEFILE_DIR)/FlagUtilities.hs \
 		$(PARSEFILE_DIR)/GBAUtilities.hs $(PARSEFILE_DIR)/FEParser.hs
 	ghc $< -i$(PARSEFILE_DIR) -o $@
+
+PNG2DMP_DIR := $(BIN_DIR)/Png2Dmp
+PNG2DMP := $(PNG2DMP_DIR)/Png2Dmp
+
+# XXX: We should properly be checking every .hs file here, but this is
+# vendored, so they're not likely to change often enough.
+$(PNG2DMP): $(PNG2DMP_DIR)/Png2Dmp.hs $(PNG2DMP_DIR)/Png2Dmp.cabal
+	cd $(PNG2DMP_DIR) && \
+		cabal build && \
+		cp $(shell cd $(PNG2DMP_DIR) && cabal list-bin Png2Dmp) Png2Dmp
+
+GENDEFS_DIR := $(BIN_DIR)/gen_ea_defs
+GENDEFS_SRC := $(GENDEFS_DIR)/gen_ea_defs.c
+GENDEFS := $(BUILD_DIR)/gen_ea_defs
 
 # CR cam: these should use `CDEPFLAGS` as well
 $(GENDEFS): $(GENDEFS_SRC) include/*
