@@ -51,7 +51,7 @@ PUSH
 // ie. scale of "acceptable change levels"
 // people might prefer the bug to the changes
 
-#define writeInPlace
+//#define writeInPlace
 // Zane told me I had to
 
 // Smilies has made an active complaint that these shouldn't be here
