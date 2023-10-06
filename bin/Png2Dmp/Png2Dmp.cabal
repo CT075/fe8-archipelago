@@ -1,0 +1,50 @@
+cabal-version:      2.4
+name:               Png2Dmp
+version:            0.1.0.0
+
+-- A short (one-line) description of the package.
+-- synopsis:
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+-- license:
+author:             CrazyColorz5, modified for cabal by CT075
+maintainer:         cam@camdar.io
+
+-- A copyright notice.
+-- copyright:
+-- category:
+extra-source-files: CHANGELOG.md
+
+executable Png2Dmp
+    main-is:          Png2Dmp.hs
+
+    other-modules:
+      FlagUtilities,
+      GBAUtilities,
+      GBAGraphics,
+      GBALZ77,
+      PngType,
+      PalettedPng
+
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:
+      base ^>=4.18.0.0,
+      vector ^>=0.13.0.0,
+      JuicyPixels ^>=3.3.8,
+      bytestring ^>=0.11.4.0,
+      binary ^>=0.8.9.1,
+      containers ^>=0.6.7,
+      primitive ^>=0.8.0.0
+
+    hs-source-dirs:   .
+    default-language: Haskell2010

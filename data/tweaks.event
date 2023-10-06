@@ -19,6 +19,82 @@ PUSH
   SHORT 10000
 POP
 
+// promotion items and base shop
+
+PUSH
+  ORG $99e64
+  POIN NewPrepScreenShopList
+POP
+
+NewPrepScreenShopList:
+SHLI $01 $14 $1F $2D $38 $45 $3F $4B ChestKey DoorKey AngelicRobe EnergyRing SecretBook Speedwings GoddessIcon Dragonshield Talisman MasterSeal
+ALIGN 4
+
+PUSH
+  ORG $29398
+  POIN NewHeroCrestList
+POP
+
+NewHeroCrestList:
+BYTE Fighter Myrmidon Myrmidon_F Mercenary Mercenary_F Journeyman_2 Bonewalker
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293a0
+  POIN NewKnightCrestList
+POP
+
+NewKnightCrestList:
+BYTE Knight Knight_F Cavalier Cavalier_F Recruit_2 Tarvos
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293a8
+  POIN NewOrionsBoltList
+POP
+
+NewOrionsBoltList:
+BYTE Archer Archer_F Bonewalker_Bow
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293b0
+  POIN NewElysianWhipList
+POP
+
+NewElysianWhipList:
+BYTE PegasusKnight WyvernRider WyvernRider_F Gargoyle
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293b8
+  POIN NewGuidingRingList
+POP
+
+NewGuidingRingList:
+BYTE Mage Mage_F Shaman Shaman_F Pupil_2 Cleric Troubadour Priest Monk Mogall
+BYTE 0
+ALIGN 4
+
+PUSH
+  ORG $293c0
+  POIN NewMasterSealList
+POP
+
+NewMasterSealList:
+BYTE Thief EphraimLord EirikaLord Cavalier Cavalier_F Knight Knight_F
+BYTE Mercenary Mercenary_F Myrmidon Myrmidon_F Archer Archer_F WyvernRider
+BYTE WyvernRider_F Mage Mage_F Shaman Shaman_F Recruit_2 Fighter Brigand
+BYTE Pirate Monk Priest PegasusKnight Cleric Troubadour Soldier
+BYTE Revenant Bonewalker Bonewalker_Bow Bael Mauthedoog Tarvos Mogall Gargoyle
+BYTE Journeyman_2 Pupil_2
+BYTE 0
+ALIGN 4
+
 // Monster class promotion gains
 
 #define classBase(id) "(0x807110 + 84*(id))"
@@ -26,25 +102,25 @@ POP
 
 PUSH
   ORG classBase(Wight) + PROMO_GAINS_OFFSET
-  BYTE 4 2 2 1 2 2
+  BYTE 3 2 0 1 2 2
 POP
 
 PUSH
   ORG classBase(Wight_Bow) + PROMO_GAINS_OFFSET
-  BYTE 4 1 3 2 0 0
+  BYTE 2 0 2 2 1 1
 POP
 
 PUSH
   ORG classBase(Maelduin) + PROMO_GAINS_OFFSET
-  BYTE 6 3 0 3 2 2
+  BYTE 3 2 0 2 1 1
 POP
 
 PUSH
   ORG classBase(ArchMogall) + PROMO_GAINS_OFFSET
-  BYTE 2 5 2 0 0 0
+  BYTE 1 3 1 0 0 0
 POP
 
 PUSH
   ORG classBase(Deathgoyle) + PROMO_GAINS_OFFSET
-  BYTE 4 4 0 0 2 1
+  BYTE 2 2 0 1 2 0
 POP
