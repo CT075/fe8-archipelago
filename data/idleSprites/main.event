@@ -56,9 +56,17 @@ PUSH
 // ie. scale of "acceptable change levels"
 // people might prefer the bug to the changes
 
-// TODO: actually bring in png2dmp 
+// TODO: actually bring in png2dmp
 
 #define writeInPlace
+// Zane told me I had to
+// TODO: check new compressed size of
+// Revenant, Mauthe Doog, and Brigand
+
+// Smilies has made an active complaint that these shouldn't be here
+// #define ShrinkGargoyle
+// #define ShrinkDeathgoyle
+// #define ShrinkFighter
 
 #ifndef classBase(id)
 	#define classBase(id) "(0x807110 + 84*(id))"
@@ -90,10 +98,12 @@ ORG idleSpriteBase(40)
 BYTE 0x2 0x0 size16by16 0x0
 POIN AP_Summoner_IdleGFX
 
-// Fighter | 16x32 -> 16x16
-ORG idleSpriteBase(49)
-BYTE 0x2 0x0 size16by16 0x0
-POIN AP_Fighter_IdleGFX
+#ifdef ShrinkFighter
+	// Fighter | 16x32 -> 16x16
+	ORG idleSpriteBase(49)
+	BYTE 0x2 0x0 size16by16 0x0
+	POIN AP_Fighter_IdleGFX
+#endif
 
 // Brigand | 16x32 -> 16x16
 ORG idleSpriteBase(51)
@@ -140,20 +150,24 @@ ORG idleSpriteBase(77)
 BYTE 0x3 0x0 size32tall 0x0
 POIN AP_Gwyllgi_IdleGFX
 
-// Maelduin | 32x32 -> 16x16
+// Maelduin | 32x32 -> 16x32
 ORG idleSpriteBase(79)
 BYTE 0x3 0x0 size32tall 0x0
 POIN AP_Maelduin_IdleGFX
 
-// Gargoyle | 32x32 -> 16x32
-ORG idleSpriteBase(84)
-BYTE 0x3 0x0 size32tall 0x0
-POIN AP_Gargoyle_IdleGFX
+#ifdef ShrinkGargoyle
+	// Gargoyle | 32x32 -> 16x32
+	ORG idleSpriteBase(84)
+	BYTE 0x3 0x0 size32tall 0x0
+	POIN AP_Gargoyle_IdleGFX
+#endif
 
-// Deathgoyle | 32x32 -> 16x32
-ORG idleSpriteBase(85)
-BYTE 0x3 0x0 size32tall 0x0
-POIN AP_Deathgoyle_IdleGFX
+#ifdef ShrinkDeathgoyle
+	// Deathgoyle | 32x32 -> 16x32
+	ORG idleSpriteBase(85)
+	BYTE 0x3 0x0 size32tall 0x0
+	POIN AP_Deathgoyle_IdleGFX
+#endif
 
 POP
 
@@ -178,14 +192,9 @@ ORG 0x1BB098 // Summoner, has 0x120 bytes
 
 
 ORG 0x1BBCD0 // Fighter, has 0x12C bytes
-	ALIGN 4
-	AP_BonewalkerBow_IdleGFX:
-	#incext Png2Dmp "gfx/BonewalkerBow.png" --lz77
-	// #incbin "gfx/BonewalkerBow.dmp"
-	// Takes 0x11C bytes
-
-	// 0x10 bytes remainiing
-
+	// None :)
+	// This change was made to make it easier to not edit the Fighter
+	// and "easy" is why we're doing vram fixes this way.
 
 ORG 0x1BBF7C // Brigand, has 0x174 bytes
 ALIGN 4
@@ -267,22 +276,32 @@ ORG 0x1BE1D8 // MautheDoog + Gwyllgi, has 0x32C bytes
 
 
 ORG 0x1BE714 // Maelduin, has 0x274 bytes
-	// Nnone :)
-	// 0x0274 bytes remaining
+ALIGN 4
+	AP_BonewalkerBow_IdleGFX:
+	#incext Png2Dmp "gfx/BonewalkerBow.png" --lz77
+	// #incbin "gfx/BonewalkerBow.dmp"
+	// Takes 0x11C bytes
+
+	// 0x0158 bytes remaining
 
 
 ORG 0x1BEE74 // Gargoyle + Deathgoyle, has 0x428 bytes
-	ALIGN 4
-	AP_Gargoyle_IdleGFX:
-	#incext Png2Dmp "gfx/Gargoyle.png" --lz77
-	// #incbin "gfx/Gargoyle.dmp"
-	// Takes 0x1FC bytes
 
-	ALIGN 4
-	AP_Deathgoyle_IdleGFX:
-	#incext Png2Dmp "gfx/Deathgoyle.png" --lz77
-	// #incbin "gfx/Deathgoyle.dmp"
-	// Takes 0x220 bytes
+	#ifdef ShrinkGargoyle
+		ALIGN 4
+		AP_Gargoyle_IdleGFX:
+		#incext Png2Dmp "gfx/Gargoyle.png" --lz77
+		// #incbin "gfx/Gargoyle.dmp"
+		// Takes 0x1FC bytes
+	#endif
+
+	#ifdef ShrinkDeathgoyle
+		ALIGN 4
+		AP_Deathgoyle_IdleGFX:
+		#incext Png2Dmp "gfx/Deathgoyle.png" --lz77
+		// #incbin "gfx/Deathgoyle.dmp"
+		// Takes 0x220 bytes
+	#endif
 
 	// 0x0C bytes remaining
 
@@ -294,10 +313,12 @@ ORG 0x1BEE74 // Gargoyle + Deathgoyle, has 0x428 bytes
 	#incext Png2Dmp "gfx/Summoner.png" --lz77
 	// #incbin "gfx/Summoner.dmp"
 
+	#ifdef ShrinkFighter
 	ALIGN 4
 	AP_Fighter_IdleGFX:
 	#incext Png2Dmp "gfx/Fighter.png" --lz77
 	// #incbin "gfx/Fighter.dmp"
+	#endif
 
 	ALIGN 4
 	AP_Brigand_IdleGFX:
