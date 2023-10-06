@@ -32,4 +32,6 @@ bin/lyn/CMakeCache.txt
 bin/lyn/Makefile
 bin/lyn/cmake_install.cmake
 bin/gendefs/gendefs
+bin/Png2Dmp/dist-newstyle
+bin/Png2Dmp/Png2Dmp
 _build

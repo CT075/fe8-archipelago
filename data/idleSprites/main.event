@@ -45,11 +45,6 @@
 // However, MercF being jank is... clearly part of its history
 // Myrrh could theoretically be squeezed down; but doing so would majorly change her pose
 
-#ifndef EAstdlib
-	#include "EAstdlib.event"
-	ORG 0xB2A610
-#endif
-
 PUSH
 
 // TODO: make configurable
@@ -319,9 +314,7 @@ ORG 0x1BEE74 // Gargoyle + Deathgoyle, has 0x428 bytes
 
 	// 0x0C bytes remaining
 
-#endif
-
-#ifndef writeInPlace
+#else
 	ALIGN 4
 	AP_Summoner_IdleGFX:
 	#incext Png2Dmp "gfx/Summoner.png" --lz77
