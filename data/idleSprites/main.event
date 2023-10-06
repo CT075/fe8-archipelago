@@ -60,8 +60,6 @@ PUSH
 
 #define writeInPlace
 // Zane told me I had to
-// TODO: check new compressed size of
-// Revenant, Mauthe Doog, and Brigand
 
 // Smilies has made an active complaint that these shouldn't be here
 // #define ShrinkGargoyle
@@ -185,10 +183,11 @@ ORG 0x1BB098 // Summoner, has 0x120 bytes
 	ALIGN 4
 	AP_Revenant_IdleGFX:
 	#incext Png2Dmp "gfx/Revenant.png" --lz77
+	// MESSAGE C_Revenant took CURRENTOFFSET-AP_Revenant_IdleGFX bytes
 	// #incbin "gfx/Revenant.dmp"
-	// Takes 0x11C bytes
+	// Takes 0xF8 bytes
 
-	// 0x04 bytes remaining
+	// 0x28 bytes remaining
 
 
 ORG 0x1BBCD0 // Fighter, has 0x12C bytes
@@ -198,10 +197,13 @@ ORG 0x1BBCD0 // Fighter, has 0x12C bytes
 
 ORG 0x1BBF7C // Brigand, has 0x174 bytes
 ALIGN 4
-	AP_Fighter_IdleGFX:
-	#incext Png2Dmp "gfx/Fighter.png" --lz77
-	// #incbin "gfx/Fighter.dmp"
-	// Takes 0x170 bytes
+	#ifdef ShrinkFighter
+		AP_Fighter_IdleGFX:
+		#incext Png2Dmp "gfx/Fighter.png" --lz77
+		// MESSAGE C_Fighter took CURRENTOFFSET-AP_Fighter_IdleGFX bytes
+		// #incbin "gfx/Fighter.dmp"
+		// Takes 0x170 bytes
+	#endif
 
 	// 0x04 bytes remaining
 
@@ -210,24 +212,28 @@ ORG 0x1BD2DC // Fleet + Phantom + Revenant, has 0x51C bytes
 	ALIGN 4
 	AP_Maelduin_IdleGFX:
 	#incext Png2Dmp "gfx/Maelduin.png" --lz77
+	// MESSAGE C_Maelduin took CURRENTOFFSET-AP_Maelduin_IdleGFX bytes
 	// #incbin "gfx/Maelduin.dmp"
 	// Takes 0x214 bytes
 
 	ALIGN 4
 	AP_Summoner_IdleGFX:
 	#incext Png2Dmp "gfx/Summoner.png" --lz77
+	// MESSAGE C_Summoner took CURRENTOFFSET-AP_Summoner_IdleGFX bytes
 	// #incbin "gfx/Summoner.dmp"
 	// Takes 0xF4 bytes
 
 	ALIGN 4
 	AP_Phantom_IdleGFX:
 	#incext Png2Dmp "gfx/Phantom.png" --lz77
+	// MESSAGE C_Phantom took CURRENTOFFSET-AP_Phantom_IdleGFX bytes
 	// #incbin "gfx/Phantom.dmp"
 	// Takes 0x100 bytes
 
 	ALIGN 4
 	AP_Fleet_IdleGFX:
 	#incext Png2Dmp "gfx/Fleet.png" --lz77
+	// MESSAGE C_Fleet took CURRENTOFFSET-AP_Fleet_IdleGFX bytes
 	// #incbin "gfx/Fleet.dmp"
 	// Takes 0x108 bytes
 
@@ -238,6 +244,7 @@ ORG 0x1BD98C // BonewalkerBow, has 0x144 bytes
 	ALIGN 4
 	AP_ElderBael_IdleGFX:
 	#incext Png2Dmp "gfx/ElderBael.png" --lz77
+	// MESSAGE C_ElderBael took CURRENTOFFSET-AP_ElderBael_IdleGFX bytes
 	// #incbin "gfx/ElderBael.dmp"
 	// Takes 0x134 bytes
 
@@ -248,37 +255,42 @@ ORG 0x1BDD54 // Bael + ElderBael, has 0x2F4 bytes
 	ALIGN 4
 	AP_Brigand_IdleGFX:
 	#incext Png2Dmp "gfx/Brigand.png" --lz77
+	// MESSAGE C_Brigand took CURRENTOFFSET-AP_Brigand_IdleGFX bytes
 	// #incbin "gfx/Brigand.dmp"
-	// Takes 0x140 bytes
+	// Takes 0x138 bytes
 
 	ALIGN 4
 	AP_Bael_IdleGFX:
 	#incext Png2Dmp "gfx/Bael.png" --lz77
+	// MESSAGE C_Bael took CURRENTOFFSET-AP_Bael_IdleGFX bytes
 	// #incbin "gfx/Bael.dmp"
 	// Takes 0x108 bytes
 
-	// 0x2C bytes remaining
+	// 0xB4 bytes remaining
 
 ORG 0x1BE1D8 // MautheDoog + Gwyllgi, has 0x32C bytes
 	ALIGN 4
 	AP_MautheDoog_IdleGFX:
 	#incext Png2Dmp "gfx/MautheDoog.png" --lz77
+	// MESSAGE C_MautheDoog took CURRENTOFFSET-AP_MautheDoog_IdleGFX bytes
 	// #incbin "gfx/MautheDoog.dmp"
-	// Takes 0x108 bytes
+	// Takes 0xE8 bytes
 
 	ALIGN 4
 	AP_Gwyllgi_IdleGFX:
 	#incext Png2Dmp "gfx/Gwyllgi.png" --lz77
+	// MESSAGE C_Gwyllgi took CURRENTOFFSET-AP_Gwyllgi_IdleGFX bytes
 	// #incbin "gfx/Gwyllgi.dmp"
 	// Takes 0x21C bytes
 
-	// 0x08 bytes remaining
+	// 0x28 bytes remaining
 
 
 ORG 0x1BE714 // Maelduin, has 0x274 bytes
 ALIGN 4
 	AP_BonewalkerBow_IdleGFX:
 	#incext Png2Dmp "gfx/BonewalkerBow.png" --lz77
+	// MESSAGE C_BonewalkerBow took CURRENTOFFSET-AP_BonewalkerBow_IdleGFX bytes
 	// #incbin "gfx/BonewalkerBow.dmp"
 	// Takes 0x11C bytes
 
@@ -291,6 +303,7 @@ ORG 0x1BEE74 // Gargoyle + Deathgoyle, has 0x428 bytes
 		ALIGN 4
 		AP_Gargoyle_IdleGFX:
 		#incext Png2Dmp "gfx/Gargoyle.png" --lz77
+	// MESSAGE C_Gargoyle took CURRENTOFFSET-AP_Gargoyle_IdleGFX bytes
 		// #incbin "gfx/Gargoyle.dmp"
 		// Takes 0x1FC bytes
 	#endif
@@ -299,6 +312,7 @@ ORG 0x1BEE74 // Gargoyle + Deathgoyle, has 0x428 bytes
 		ALIGN 4
 		AP_Deathgoyle_IdleGFX:
 		#incext Png2Dmp "gfx/Deathgoyle.png" --lz77
+	// MESSAGE C_Deathgoyle took CURRENTOFFSET-AP_Deathgoyle_IdleGFX bytes
 		// #incbin "gfx/Deathgoyle.dmp"
 		// Takes 0x220 bytes
 	#endif
@@ -311,72 +325,90 @@ ORG 0x1BEE74 // Gargoyle + Deathgoyle, has 0x428 bytes
 	ALIGN 4
 	AP_Summoner_IdleGFX:
 	#incext Png2Dmp "gfx/Summoner.png" --lz77
+	// MESSAGE C_Summoner took CURRENTOFFSET-AP_Summoner_IdleGFX bytes
 	// #incbin "gfx/Summoner.dmp"
 
 	#ifdef ShrinkFighter
-	ALIGN 4
-	AP_Fighter_IdleGFX:
-	#incext Png2Dmp "gfx/Fighter.png" --lz77
-	// #incbin "gfx/Fighter.dmp"
+		ALIGN 4
+		AP_Fighter_IdleGFX:
+		#incext Png2Dmp "gfx/Fighter.png" --lz77
+		// MESSAGE C_Fighter took CURRENTOFFSET-AP_Fighter_IdleGFX bytes
+		// #incbin "gfx/Fighter.dmp"
 	#endif
 
 	ALIGN 4
 	AP_Brigand_IdleGFX:
 	#incext Png2Dmp "gfx/Brigand.png" --lz77
+	// MESSAGE C_Brigand took CURRENTOFFSET-AP_Brigand_IdleGFX bytes
 	// #incbin "gfx/Brigand.dmp"
 
 	ALIGN 4
 	AP_Fleet_IdleGFX:
 	#incext Png2Dmp "gfx/Fleet.png" --lz77
+	// MESSAGE C_Fleet took CURRENTOFFSET-AP_Fleet_IdleGFX bytes
 	// #incbin "gfx/Fleet.dmp"
 
 	ALIGN 4
 	AP_Phantom_IdleGFX:
 	#incext Png2Dmp "gfx/Phantom.png" --lz77
+	// MESSAGE C_Phantom took CURRENTOFFSET-AP_Phantom_IdleGFX bytes
 	// #incbin "gfx/Phantom.dmp"
 
 	ALIGN 4
 	AP_Revenant_IdleGFX:
 	#incext Png2Dmp "gfx/Revenant.png" --lz77
+	// MESSAGE C_Revenant took CURRENTOFFSET-AP_Revenant_IdleGFX bytes
 	// #incbin "gfx/Revenant.dmp"
 
 	ALIGN 4
 	AP_BonewalkerBow_IdleGFX:
 	#incext Png2Dmp "gfx/BonewalkerBow.png" --lz77
+	// MESSAGE C_BonewalkerBow took CURRENTOFFSET-AP_BonewalkerBow_IdleGFX bytes
 	// #incbin "gfx/BonewalkerBow.dmp"
 
 	ALIGN 4
 	AP_Bael_IdleGFX:
 	#incext Png2Dmp "gfx/Bael.png" --lz77
+	// MESSAGE C_Bael took CURRENTOFFSET-AP_Bael_IdleGFX bytes
 	// #incbin "gfx/Bael.dmp"
 
 	ALIGN 4
 	AP_ElderBael_IdleGFX:
 	#incext Png2Dmp "gfx/ElderBael.png" --lz77
+	// MESSAGE C_ElderBael took CURRENTOFFSET-AP_ElderBael_IdleGFX bytes
 	// #incbin "gfx/ElderBael.dmp"
 
 	ALIGN 4
 	AP_MautheDoog_IdleGFX:
 	#incext Png2Dmp "gfx/MautheDoog.png" --lz77
+	// MESSAGE C_MautheDoog took CURRENTOFFSET-AP_MautheDoog_IdleGFX bytes
 	// #incbin "gfx/MautheDoog.dmp"
 
 	ALIGN 4
 	AP_Gwyllgi_IdleGFX:
 	#incext Png2Dmp "gfx/Gwyllgi.png" --lz77
+	// MESSAGE C_Gwyllgi took CURRENTOFFSET-AP_Gwyllgi_IdleGFX bytes
 	// #incbin "gfx/Gwyllgi.dmp"
 
 	ALIGN 4
 	AP_Maelduin_IdleGFX:
 	#incext Png2Dmp "gfx/Maelduin.png" --lz77
+	// MESSAGE C_Maelduin took CURRENTOFFSET-AP_Maelduin_IdleGFX bytes
 	// #incbin "gfx/Maelduin.dmp"
 
+	#ifdef ShrinkGargoyle
 	ALIGN 4
-	AP_Gargoyle_IdleGFX:
-	#incext Png2Dmp "gfx/Gargoyle.png" --lz77
-	// #incbin "gfx/Gargoyle.dmp"
+		AP_Gargoyle_IdleGFX:
+		#incext Png2Dmp "gfx/Gargoyle.png" --lz77
+		// MESSAGE C_Gargoyle took CURRENTOFFSET-AP_Gargoyle_IdleGFX bytes
+		// #incbin "gfx/Gargoyle.dmp"
+	#endif
 
-	ALIGN 4
-	AP_Deathgoyle_IdleGFX:
-	#incext Png2Dmp "gfx/Deathgoyle.png" --lz77
-	// #incbin "gfx/Deathgoyle.dmp"
+	#ifdef ShrinkDeathgoyle
+		ALIGN 4
+		AP_Deathgoyle_IdleGFX:
+		#incext Png2Dmp "gfx/Deathgoyle.png" --lz77
+		// MESSAGE C_Deathgoyle took CURRENTOFFSET-AP_Deathgoyle_IdleGFX bytes
+		// #incbin "gfx/Deathgoyle.dmp"
+	#endif
 #endif
