@@ -61,7 +61,7 @@ PUSH
 // #define ShrinkDeathgoyle
 // #define ShrinkFighter
 
-#ifndef classBase(id)
+#ifndef classBase
 	#define classBase(id) "(0x807110 + 84*(id))"
 #endif
 #define STANDING_SPRITE_OFFSET 6

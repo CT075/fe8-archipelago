@@ -1,4 +1,3 @@
 #include "text/main.event"
-#include "promotion/main.event"
-#include "idleSprites/main.event"
 #include "tweaks.event"
+#include "idleSprites/main.event"

@@ -5,7 +5,9 @@ d := $(dir)
 $(d)/gfx/%.dmp: $(d)/gfx/%.png
 	$(PNG2DMP) $< --lz77 > $@
 
-$(d)/main.event: $(d)/gfx/*.dmp
+MAP_SPRITE_PNGS := $(shell find $(d)/gfx -name '*.png')
+
+$(d)/main.event: $(foreach t,$(MAP_SPRITE_PNGS),$(t:.png=.dmp))
 
 EVENTS_$(d) := $(d)/main.event
 
