@@ -5,7 +5,10 @@ d := $(dir)
 dir := $(d)/text
 include $(dir)/Rules.mk
 
-EVENTS_$(d) := $(d)/main.event
+dir := $(d)/idleSprites
+include $(dir)/Rules.mk
+
+EVENTS_$(d) := $(d)/main.event $(d)/tweaks.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
 

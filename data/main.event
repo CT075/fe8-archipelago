@@ -1,2 +1,3 @@
 #include "text/main.event"
 #include "tweaks.event"
+#include "idleSprites/main.event"
