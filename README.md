@@ -62,13 +62,6 @@ See [HACKING.md](HACKING.md).
 
 # License and Credits
 
-Of course, this project has been far from a one-man effort. Special thanks to
-the following technical contributors to the FE8 Archipelago project:
-
-- [Teraspark](https://github.com/Teraspark/)
-- [Darrman](https://feuniverse.us/u/darrman/)
-- [Two Who Belong](https://linktr.ee/ttlaitw)
-
 This code is licensed under the MIT License (see [LICENSE](LICENSE)), except
 for vendored resources as follows, which are included under their original
 licenses:
@@ -82,3 +75,15 @@ licenses:
 - Project template initially forked from MysticOCE's
   [EasyBuildfile](https://github.com/MysticOCE/EasyBuildfile) taking
   inspiration from [Zane Avernathy's Sacred Stones hack rewrites](https://github.com/ZaneAvernathy/Rewrite)
+
+# Acknowledgments
+
+Of course, this project has been far from a one-man effort. Major technical
+contributors to the FE8 Archipelago project include:
+
+- [Teraspark](https://github.com/Teraspark/)
+- [Darrman](https://feuniverse.us/u/darrman/)
+- [Two Who Belong](https://linktr.ee/ttlaitw)
+
+Finally, special thanks to SgtSmilies, MysticOCE and Datagne for helping me
+playtest through the earliest and buggiest versions.
