@@ -57,9 +57,9 @@ struct SupportTalkEnt {
     /* 04 */ u16 msgSupports[3];
 
     /* 0A */ u16 _pad1;
-    /* 0C */ u8 unk_0c_0 : 5;
-    /* 0C */ u8 unk_0c_5 : 5;
-    /* 0D */ u8 unk_0d_3 : 5;
+    /* 0C */ u16 unk_0c_0 : 5;
+    /* 0C */ u16 unk_0c_5 : 5;
+    /* 0D */ u16 unk_0d_3 : 5;
 } BITPACKED;
 
 struct BattleTalkEnt {
@@ -125,7 +125,7 @@ void MaybeCallEndEvent(void);
 struct TrapData* GetTrapPointer(void);
 struct TrapData* GetHardModeTrapPointer(void);
 void* GetChapterAllyUnitDataPointer(void);
-// ??? GetChapterEnemyUnitDefinitions(???);
+const struct UnitDefinition * GetChapterEnemyUnitDefinitions(void);
 // ??? GetChapterSkirmishLeaderClasses(???);
 // ??? sub_8083424(???);
 // ??? GetAvailableBattleTalk(???);
@@ -193,7 +193,7 @@ void StartBattleForecastTutorialEvent(void);
 void StartPlayerPhaseStartTutorialEvent(void);
 void ClearActiveEventRegistry(void);
 void RegisterEventActivation(u32, u16);
-// ??? GetEventTriggerId(???);
+u16 GetEventTriggerId(const void * script);
 // ??? SetFlag82(???);
 // ??? CheckFlag82(???);
 struct BattleTalkExtEnt* GetBattleQuoteEntry(u16, u16);
