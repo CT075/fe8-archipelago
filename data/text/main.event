@@ -29,6 +29,34 @@ __TEXTPROCESS0DD:
 #incbin ".TextEntries/alltext0DD.fetxt.dmp"
 setText($DD, __TEXTPROCESS0DD)
 
+__TEXTPROCESS0DE:
+#incbin ".TextEntries/alltext0DE.fetxt.dmp"
+setText($DE, __TEXTPROCESS0DE)
+
+__TEXTPROCESS0DF:
+#incbin ".TextEntries/alltext0DF.fetxt.dmp"
+setText($DF, __TEXTPROCESS0DF)
+
+__TEXTPROCESS0E0:
+#incbin ".TextEntries/alltext0E0.fetxt.dmp"
+setText($E0, __TEXTPROCESS0E0)
+
+__TEXTPROCESS0E1:
+#incbin ".TextEntries/alltext0E1.fetxt.dmp"
+setText($E1, __TEXTPROCESS0E1)
+
+__TEXTPROCESS0E2:
+#incbin ".TextEntries/alltext0E2.fetxt.dmp"
+setText($E2, __TEXTPROCESS0E2)
+
+__TEXTPROCESS0E3:
+#incbin ".TextEntries/alltext0E3.fetxt.dmp"
+setText($E3, __TEXTPROCESS0E3)
+
+__TEXTPROCESS0E4:
+#incbin ".TextEntries/alltext0E4.fetxt.dmp"
+setText($E4, __TEXTPROCESS0E4)
+
 }
 
 #endif // TEXT_INSTALLER_ALLTEXT

@@ -1,0 +1,14 @@
+#include "progressiveCaps.lyn.event"
+#include "displayLvlCap.lyn.event"
+
+/*
+PUSH
+  ORG 0x0070B0
+  WORD TalkInterpretVeneer
+
+  ORG 0x008C94
+  WORD GetStrTalkLenVeneer
+POP
+
+#include "veneers.lyn.event"
+*/

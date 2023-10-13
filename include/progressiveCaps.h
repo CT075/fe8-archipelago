@@ -23,6 +23,7 @@ struct ProgressiveCaps {
 
 #define TRUE_LEVEL_CAP 20
 
+int GetLevelCap();
 void bumpLevelCap();
 void bumpWeaponLevelCap(enum WeaponType wtype);
 
