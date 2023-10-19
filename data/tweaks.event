@@ -7,14 +7,10 @@
 PUSH
   ORG itemBase(Sieglinde) + RANK_OFFSET
   BYTE 0xFB
-POP
 
-PUSH
   ORG itemBase(Siegmund) + RANK_OFFSET
   BYTE 0xFB
-POP
 
-PUSH
   ORG itemBase(MasterSeal) + COST_OFFSET
   SHORT 10000
 POP
@@ -103,24 +99,21 @@ ALIGN 4
 PUSH
   ORG classBase(Wight) + PROMO_GAINS_OFFSET
   BYTE 3 2 0 1 2 2
-POP
 
-PUSH
   ORG classBase(Wight_Bow) + PROMO_GAINS_OFFSET
   BYTE 2 0 2 2 1 1
-POP
 
-PUSH
   ORG classBase(Maelduin) + PROMO_GAINS_OFFSET
   BYTE 3 2 0 2 1 1
-POP
 
-PUSH
   ORG classBase(ArchMogall) + PROMO_GAINS_OFFSET
   BYTE 1 3 1 0 0 0
+
+  ORG classBase(Deathgoyle) + PROMO_GAINS_OFFSET
+  BYTE 2 2 0 1 2 0
 POP
 
 PUSH
-  ORG classBase(Deathgoyle) + PROMO_GAINS_OFFSET
-  BYTE 2 2 0 1 2 0
+  ORG 0x5A8A24
+  SHORT Tana 0
 POP

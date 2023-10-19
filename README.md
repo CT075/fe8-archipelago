@@ -72,6 +72,7 @@ licenses:
 - DangerZone, LToggle and HpBars by circleseverywhere
 - moveCostFix adapted from [SelfRandomizingRom](https://github.com/FireEmblemUniverse/SelfRandomizingRom-fe8) by circleseverywhere
 - `lyn`, libgbafe and Expanded Modular Save by [stan](https://github.com/StanHash/)
+- Inline GenerateBestMovementScript by 7743
 - Project template initially forked from MysticOCE's
   [EasyBuildfile](https://github.com/MysticOCE/EasyBuildfile) taking
   inspiration from [Zane Avernathy's Sacred Stones hack rewrites](https://github.com/ZaneAvernathy/Rewrite)

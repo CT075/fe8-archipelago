@@ -16,6 +16,7 @@
 #include "HpBars/HpBars.event"
 #include "BattleStatsWithAnimsOff/FE8-BattleStats.event"
 #include "noInflatePrepShop/noInflatePrepShop.event"
+#include "InlineFix2_GenerateBestMovementScript.event"
 
 PUSH
 ORG FreeSpaceBL

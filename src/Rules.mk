@@ -35,7 +35,8 @@ include $(dir)/Rules.mk
 dir := $(d)/noInflatePrepShop
 include $(dir)/Rules.mk
 
-EVENTS_$(d) := $(d)/_FE8EssentialFixes.event $(d)/main.event
+EVENTS_$(d) := $(d)/_FE8EssentialFixes.event $(d)/main.event \
+	$(d)/InlineFix2_GenerateBestMovementScript.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
 
