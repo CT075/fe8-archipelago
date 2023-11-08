@@ -283,11 +283,20 @@ emitPythonData emitLn = do
     emitLn "items = ["
     forM_ [minBound @Item .. maxBound] $ emitLn . ("  " ++) . formatItem
     emitLn "]"
-    emitLn "SLOT_NAME_OFFS = {|ROM_BASE:archipelagoInfo|}"
+    emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
     emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     emitLn "LOCATION_INFO_SIZE = 4"
+    emitLn "ARCHIPELAGO_RECEIVED_ITEM_ADDR = 0x02026E44"
+    emitLn "ARCHIPELAGO_NUM_RECEIVED_ITEMS_ADDR = 0x02026E48"
+    emitLn "FLAGS_OFFSET = 0x02026E3C"
+    emitLn $ "FLAGS_SIZE = " ++ show locationBytes
+    emitLn $ "EXPECTED_ROM_NAME = \"" ++ "FIREEMBLEM2EBE8E" ++ "\""
   where
+    locationBits = length [minBound @Location .. maxBound]
+    locationBytesTrue = (locationBits + 7) `div` 8
+    locationBytes = ((locationBytesTrue + 3) `div` 4) * 4
+
     formatHolyWeapon weap =
         "("
             ++ show (holyWeaponLong weap)

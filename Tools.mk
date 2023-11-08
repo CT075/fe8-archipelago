@@ -42,7 +42,7 @@ GENDEFS := $(BUILD_DIR)/gen_ea_defs
 
 # CR cam: these should use `CDEPFLAGS` as well
 $(GENDEFS): $(GENDEFS_SRC) include/*
-	$(CC) $(GENDEFS_SRC) -o $(GENDEFS) $(INCFLAGS)
+	$(CC) $(GENDEFS_SRC) -o $(GENDEFS) $(INCFLAGS) -m32
 
 .PHONY: ColorzCore
 ColorzCore: $(COLORZCORE)

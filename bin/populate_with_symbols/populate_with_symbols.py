@@ -1,3 +1,5 @@
+# CR cam: We should move to just using fe8_ap.sym directly.
+
 import csv
 import enum
 
