@@ -49,7 +49,7 @@ The same goes for numeric options, even if they look slightly more confusing at 
 ```
 
 ```yaml
-  exp_modifier: 40
+  min_endgame_level_cap: 40
 ```
 
 ## Generating
