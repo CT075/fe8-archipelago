@@ -9,6 +9,8 @@ EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
 
 ARCHIPELAGO_DEFS := $(BUILD_DIR)/archipelagoDefs.event
 
+RAM_STRUCTURES_H := include/ram_structures.h
+
 BLANK_WEAPON_RANKS_HS := $(BIN_DIR)/blank_weapon_ranks/BlankWeaponRanks.hs
 BLANK_WEAPON_RANKS := $(BUILD_DIR)/blank_weapon_ranks.event
 
@@ -31,6 +33,9 @@ $(CONNECTOR_CONFIG_PY): $(BIN_DIR)/connector_config/Generate.hs
 
 src/archipelago/connector_config_defs.event: $(BIN_DIR)/connector_config/Generate.hs
 	runhaskell -Wall $< Event > $@
+
+$(RAM_STRUCTURES_H): $(BIN_DIR)/ram_alloc.py data/ram_structures.csv
+	python $< --items_file $(word 2,$^) > $@
 
 SYMBOLS := $(TARGET:.gba=.sym)
 

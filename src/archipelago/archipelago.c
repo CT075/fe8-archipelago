@@ -14,9 +14,10 @@
 #include "constants/characters.h"
 #include "constants/items.h"
 
-#include "progressiveCaps.h"
 #include "constants.h"
 #include "archipelago.h"
+#include "progressiveCaps.h"
+#include "ram_structures.h"
 
 const struct PopupInstruction Popup_GotAPItem[] = {
   POPUP_SOUND(0x5A),
@@ -149,13 +150,13 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
 
 void receiveAPItem(struct EventEngineProc *proc) {
   struct IncomingEvent evt;
-  unpackAPEventFromId(apReceivedItem->itemId, &evt);
+  unpackAPEventFromId(receivedAPItem->itemId, &evt);
 
   giveAPEventReward(proc, &evt);
 }
 
 void enqueueReceivedItemEvent() {
-  if (!apReceivedItem->filled) {
+  if (!receivedAPItem->filled) {
     return;
   }
 
@@ -163,7 +164,7 @@ void enqueueReceivedItemEvent() {
 
   CallEvent(receiveAPItemEvent, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
 
-  apReceivedItem->filled = 0;
+  receivedAPItem->filled = 0;
 }
 
 bool8 HasConvoyAccess() {
@@ -171,7 +172,7 @@ bool8 HasConvoyAccess() {
 }
 
 void PlayerPhase_MainIdleShim(ProcPtr proc) {
-  if (apReceivedItem->filled) {
+  if (receivedAPItem->filled) {
     EndPlayerPhaseSideWindows();
     enqueueReceivedItemEvent();
     Proc_StartBlocking(PlayerPhaseEventBlockProc, proc);
@@ -184,7 +185,7 @@ void PlayerPhase_MainIdleShim(ProcPtr proc) {
 u8 eventsRunning(ProcPtr proc) {
   if (EventEngineExists()) {
     return 1;
-  } else if (apReceivedItem->filled) {
+  } else if (receivedAPItem->filled) {
     enqueueReceivedItemEvent();
     return 1;
   } else {

@@ -4,6 +4,7 @@
 
 #include "progressiveCaps.h"
 #include "archipelago.h"
+#include "ram_structures.h"
 
 void saveChecks(void *target, unsigned size) {
   WriteAndVerifySramFast((void *)checkedLocations, target, size);

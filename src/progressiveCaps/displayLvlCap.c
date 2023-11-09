@@ -7,6 +7,7 @@
 #include "constants.h"
 #include "archipelago.h"
 #include "progressiveCaps.h"
+#include "ram_structures.h"
 
 #define LEVEL_HELP_TEXT 0x0542
 
@@ -14,7 +15,7 @@
 #define LEVEL_CAP_ID_BASE 0x00DE
 
 int selectLevelCapTextId() {
-  return LEVEL_CAP_ID_BASE + progCaps->lvlCapStage;
+  return LEVEL_CAP_ID_BASE + progressiveCaps->lvlCapStage;
 }
 
 void StartHelpBoxExt(const struct HelpBoxInfo* info, int unk) {

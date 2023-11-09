@@ -17,10 +17,6 @@ struct ProgressiveCaps {
   u8 staffLvlCapStage;
 };
 
-#define PROG_CAPS_ADDR FREE_RAM_START
-
-#define progCaps ((struct ProgressiveCaps *)PROG_CAPS_ADDR)
-
 #define TRUE_LEVEL_CAP 20
 
 int GetLevelCap();

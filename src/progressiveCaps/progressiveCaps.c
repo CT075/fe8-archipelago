@@ -14,16 +14,17 @@
 #include "constants.h"
 #include "archipelago.h"
 #include "progressiveCaps.h"
+#include "ram_structures.h"
 
 int GetStatIncrease(int growth);
 int GetUnitExpLevel(struct Unit*);
 
 int GetLevelCap() {
-  return 10 + progCaps->lvlCapStage*5;
+  return 10 + progressiveCaps->lvlCapStage*5;
 }
 
 void bumpLevelCap() {
-  progCaps->lvlCapStage += 1;
+  progressiveCaps->lvlCapStage += 1;
 
   for (int i = 0 ; i < BLUE_UNIT_MAX ; i += 1) {
     struct Unit *unit = &gUnitArrayBlue[i];
@@ -143,23 +144,23 @@ void CheckBattleUnitLevelUp(struct BattleUnit *bu) {
 u8 *weaponLvlStage(int wType) {
   switch (wType) {
     case ITYPE_SWORD:
-      return &progCaps->swordLvlCapStage;
+      return &progressiveCaps->swordLvlCapStage;
     case ITYPE_LANCE:
-      return &progCaps->lanceLvlCapStage;
+      return &progressiveCaps->lanceLvlCapStage;
     case ITYPE_AXE:
-      return &progCaps->axeLvlCapStage;
+      return &progressiveCaps->axeLvlCapStage;
     case ITYPE_BOW:
-      return &progCaps->bowLvlCapStage;
+      return &progressiveCaps->bowLvlCapStage;
     case ITYPE_ANIMA:
-      return &progCaps->animaLvlCapStage;
+      return &progressiveCaps->animaLvlCapStage;
     case ITYPE_LIGHT:
-      return &progCaps->lightLvlCapStage;
+      return &progressiveCaps->lightLvlCapStage;
     case ITYPE_DARK:
-      return &progCaps->darkLvlCapStage;
+      return &progressiveCaps->darkLvlCapStage;
     case ITYPE_STAFF:
-      return &progCaps->staffLvlCapStage;
+      return &progressiveCaps->staffLvlCapStage;
   }
-  return &progCaps->swordLvlCapStage;
+  return &progressiveCaps->swordLvlCapStage;
 }
 
 void bumpWeaponLevelCap(enum WeaponType wtype) {
