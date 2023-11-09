@@ -2,23 +2,46 @@
 
 import csv
 import enum
+import hashlib
+import json
+
+DIGEST_LENGTH = len("FIREEMBLEM2EBE8E") - len("FE8AP")
+ROM_NAME_BASE = 0xA0
 
 
-def process_symbol(s: str, symbols: dict[str, int]) -> str:
+class SymbolTable:
+    symbols: dict[str, int]
+    seen: dict[str, int]
+
+    def __init__(self, symbols: dict[str, int]):
+        self.symbols = symbols
+        self.seen = dict()
+
+    def __getitem__(self, k: str) -> int:
+        result = self.symbols[k]
+        self.seen[k] = result
+        return result
+
+    def exported_symbols_digest(self) -> str:
+        version_hash = hashlib.md5(json.dumps(self.seen, sort_keys=True).encode())
+        return version_hash.hexdigest()[:DIGEST_LENGTH].upper()
+
+
+def process_symbol(s: str, symbols: SymbolTable) -> str:
     if ":" not in s:
         return f"0x{symbols[s]:X}"
 
     prefix, rest = s.split(":")
-    v = symbols[rest]
 
     match prefix:
         case "ROM_BASE":
+            v = symbols[rest]
             return f"0x{v-0x08000000:X}"
 
     raise ValueError(f"unknown symbol display modifier {prefix}")
 
 
-def populate_text(s: str, symbols: dict[str, int]) -> str:
+def populate_text(s: str, symbols: SymbolTable) -> str:
     class ParserState(enum.Enum):
         NEUTRAL = "neutral"
         SEEN_BRACE = "seen"
@@ -59,15 +82,28 @@ def populate_text(s: str, symbols: dict[str, int]) -> str:
     return result
 
 
-def main(sym_file: str, inp: str) -> str:
+def main(sym_file: str, inp: str, out: str, target: str):
     with open(sym_file) as f:
         reader = csv.reader(f, delimiter=" ")
         symbols = {sym: int(addr, 16) for addr, sym in reader}
 
     with open(inp) as f:
-        data = f.read()
+        connector_config = f.read()
 
-    return populate_text(data, symbols)
+    symbol_table = SymbolTable(symbols)
+
+    with open(out, "w") as f:
+        f.write(populate_text(connector_config, symbol_table))
+
+    with open(target, "rb") as f:
+        romdata = bytearray(f.read())
+        rom_name = f"FE8AP{symbol_table.exported_symbols_digest()}"
+        assert len(rom_name) == len("FIREEMBLEM2EBE8E")
+        for i, c in enumerate(rom_name.encode("utf-8")):
+            romdata[ROM_NAME_BASE+i] = c
+
+    with open(target, "wb") as f:
+        f.write(romdata)
 
 
 if __name__ == "__main__":
@@ -78,8 +114,15 @@ if __name__ == "__main__":
     )
 
     parser.add_argument("-f", "--sym_file")
-    parser.add_argument("--input")
+    parser.add_argument("--connector_config_in")
+    parser.add_argument("--connector_config_out")
+    parser.add_argument("--target")
 
     args = parser.parse_args()
 
-    print(main(sym_file=args.sym_file, inp=args.input))
+    main(
+        sym_file=args.sym_file,
+        inp=args.connector_config_in,
+        out=args.connector_config_out,
+        target=args.target,
+    )

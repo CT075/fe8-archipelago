@@ -10,7 +10,11 @@ EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
 ARCHIPELAGO_DEFS := $(BUILD_DIR)/archipelagoDefs.event
 
 RAM_STRUCTURES_H := include/ram_structures.h
-RAM_SYMS := _build/ram_syms.sym
+RAM_SYMS := $(BUILD_DIR)/ram_syms.sym
+
+POSTPROCESS := $(BIN_DIR)/postprocess.py
+
+POPULATED_CONNECTOR_CONFIG := $(BUILD_DIR)/connector_config.py
 
 BLANK_WEAPON_RANKS_HS := $(BIN_DIR)/blank_weapon_ranks/BlankWeaponRanks.hs
 BLANK_WEAPON_RANKS := $(BUILD_DIR)/blank_weapon_ranks.event
@@ -59,12 +63,18 @@ include $(dir)/Rules.mk
 $(BASEROM):
 	$(error no $(BASEROM) found at build root)
 
-$(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE) $(RAM_SYMS)
+$(TARGET) $(SYMBOLS) $(POPULATED_CONNECTOR_CONFIG): \
+		$(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE) $(RAM_SYMS) $(CONNECTOR_CONFIG_PY)
 	cd $(BUILD_DIR) && \
 		cp ../$(BASEROM) ../$(TARGET) && \
 		./ColorzCore A FE8 $(EAFLAGS) && \
-		(cat ../$(RAM_SYMS) >> ../$(SYMBOLS)) \
-	|| (rm -f ../$(TARGET) $(SYMBOLS) && false)
+		(cat ../$(RAM_SYMS) >> ../$(SYMBOLS)) && \
+		(python ../$(POSTPROCESS) \
+			--sym_file ../$(SYMBOLS) \
+			--connector_config_in ../$(CONNECTOR_CONFIG_PY) \
+			--connector_config_out ../$(POPULATED_CONNECTOR_CONFIG) \
+	    --target ../$(TARGET)) \
+	|| (rm -f ../$(TARGET) ../$(SYMBOLS) && false)
 
 $(BASEPATCH): $(TARGET)
 	# CR cam: install bsdiff4 if not already present
