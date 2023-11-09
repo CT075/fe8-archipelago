@@ -7,6 +7,7 @@ import json
 
 DIGEST_LENGTH = len("FIREEMBLEM2EBE8E") - len("FE8AP")
 ROM_NAME_BASE = 0xA0
+HEADER_CHECKSUM_OFFS = 0xBD
 
 
 class SymbolTable:
@@ -99,8 +100,18 @@ def main(sym_file: str, inp: str, out: str, target: str):
         romdata = bytearray(f.read())
         rom_name = f"FE8AP{symbol_table.exported_symbols_digest()}"
         assert len(rom_name) == len("FIREEMBLEM2EBE8E")
+        check = 0
         for i, c in enumerate(rom_name.encode("utf-8")):
             romdata[ROM_NAME_BASE+i] = c
+            check -= c
+
+        for c in b'01\x96':
+            check -= c
+
+        check -= 0x19
+        check %= 256
+
+        romdata[HEADER_CHECKSUM_OFFS] = check
 
     with open(target, "wb") as f:
         f.write(romdata)
