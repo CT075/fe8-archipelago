@@ -231,15 +231,15 @@ void ComputeBattleUnitWeaponRankBonuses(struct BattleUnit *bu) {
   }
 }
 
+#define IS_EIRIKA(unit) (UNIT_CATTRIBUTES(unit) & CA_LOCK_4)
+#define IS_EPHRAIM(unit) (UNIT_CATTRIBUTES(unit) & CA_LOCK_5)
+
 s8 CanUnitUseWeapon(struct Unit *unit, int item) {
   if (item == 0)
     return FALSE;
 
   if (!(GetItemAttributes(item) & IA_WEAPON))
     return FALSE;
-
-  bool isEirika = false;
-  bool isEphraim = false;
 
   if (GetItemAttributes(item) & IA_LOCK_ANY) {
     // Check for item locks
@@ -251,16 +251,6 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
     // we can't check the Eirika and Ephraim locks here. However, a far simpler
     // solution is to just remove the locks from Sieglinde and Siegmund and
     // keep the hardcoded Eirika/Ephraim check below.
-
-    // Eirika lock
-    if (UNIT_CATTRIBUTES(unit) & CA_LOCK_4) {
-      isEirika = true;
-    }
-
-    // Ephraim lock
-    if (UNIT_CATTRIBUTES(unit) & CA_LOCK_5) {
-      isEphraim = true;
-    }
 
     if ((GetItemAttributes(item) & IA_LOCK_6) && !(UNIT_CATTRIBUTES(unit) & CA_LOCK_6))
       return FALSE;
@@ -288,18 +278,36 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
     return FALSE;
 
   int wRank = GetItemRequiredExp(item);
-
-  if ((isEirika && item == ITEM_SWORD_SIEGLINDE) || (isEphraim && item == ITEM_LANCE_SIEGMUND)) {
-    wRank = WPN_EXP_E;
-  }
-  else if (
-    ((GetItemAttributes(item) & IA_LOCK_4) && !isEirika) ||
-    ((GetItemAttributes(item) & IA_LOCK_5) && !isEphraim)
-  ) {
-    return FALSE;
-  }
-
   int uRank = getUnitWeaponRank(unit, GetItemType(item));
+
+  switch (item) {
+    case ITEM_SWORD_SIEGLINDE:
+      if (IS_EIRIKA(unit)) {
+        wRank = WPN_EXP_E;
+      }
+      break;
+    case ITEM_LANCE_SIEGMUND:
+      if (IS_EPHRAIM(unit)) {
+        wRank = WPN_EXP_E;
+      }
+      break;
+    case ITEM_SWORD_RAPIER:
+      if (IS_EIRIKA(unit)) {
+        wRank = WPN_EXP_E;
+      }
+      else {
+        return FALSE;
+      }
+      break;
+    case ITEM_LANCE_REGINLEIF:
+      if (IS_EPHRAIM(unit)) {
+        wRank = WPN_EXP_E;
+      }
+      else {
+        return FALSE;
+      }
+      break;
+  }
 
   return (uRank >= wRank) ? TRUE : FALSE;
 }

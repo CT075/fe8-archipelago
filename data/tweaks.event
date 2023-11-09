@@ -3,14 +3,16 @@
 #define RANK_OFFSET 28
 
 // make Sieglinde and Siegmund proper S ranks
-
 PUSH
   ORG itemBase(Sieglinde) + RANK_OFFSET
   BYTE 0xFB
 
   ORG itemBase(Siegmund) + RANK_OFFSET
   BYTE 0xFB
+POP
 
+// Make master seal cheaper
+PUSH
   ORG itemBase(MasterSeal) + COST_OFFSET
   SHORT 10000
 POP
@@ -112,6 +114,8 @@ PUSH
   ORG classBase(Deathgoyle) + PROMO_GAINS_OFFSET
   BYTE 2 2 0 1 2 0
 POP
+
+// Add Tana to the ignore list for Ch9Eph enemy AI
 
 PUSH
   ORG 0x5A8A24
