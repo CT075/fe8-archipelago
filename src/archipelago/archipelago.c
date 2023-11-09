@@ -193,19 +193,6 @@ u8 eventsRunning(ProcPtr proc) {
   }
 }
 
-// Outgoing items
-
-enum LocationItemKind {
-  Empty=0,
-  APItem=1,
-  SelfItem=2,
-};
-
-struct LocationItem {
-  enum LocationItemKind kind;
-  u16 id;
-};
-
 const struct LocationItem locItems[NUM_CHECKS] = {
   [0 ... NUM_CHECKS-1] = { .kind = Empty, .id = 0 }
 };

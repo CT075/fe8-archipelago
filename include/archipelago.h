@@ -9,7 +9,16 @@
 
 #define SLOT_NAME_MAX 64
 
-#define sizeof_round(ty) ((sizeof(ty) + sizeof(int)-1) & ~(sizeof(int)-1))
+enum LocationItemKind {
+  Empty=0,
+  APItem=1,
+  SelfItem=2,
+};
+
+struct LocationItem {
+  enum LocationItemKind kind;
+  u16 id;
+};
 
 struct APReceivedItem {
   u16 itemId;

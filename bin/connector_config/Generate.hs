@@ -286,12 +286,12 @@ emitPythonData emitLn = do
     emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
     emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
+    -- CR-someday cam: compute this instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"
-    emitLn "ARCHIPELAGO_RECEIVED_ITEM_ADDR = 0x02026E44"
-    emitLn "ARCHIPELAGO_NUM_RECEIVED_ITEMS_ADDR = 0x02026E48"
-    emitLn "FLAGS_OFFSET = 0x02026E3C"
+    emitLn "ARCHIPELAGO_RECEIVED_ITEM_ADDR = {|receivedAPItem|}"
+    emitLn "ARCHIPELAGO_NUM_RECEIVED_ITEMS_ADDR = {|receivedItemIndex|}"
+    emitLn "FLAGS_ADDR = {|checkedLocations|}"
     emitLn $ "FLAGS_SIZE = " ++ show locationBytes
-    emitLn $ "EXPECTED_ROM_NAME = \"" ++ "FIREEMBLEM2EBE8E" ++ "\""
   where
     locationBits = length [minBound @Location .. maxBound]
     locationBytesTrue = (locationBits + 7) `div` 8

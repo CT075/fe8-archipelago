@@ -10,12 +10,16 @@ EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
 ARCHIPELAGO_DEFS := $(BUILD_DIR)/archipelagoDefs.event
 
 RAM_STRUCTURES_H := include/ram_structures.h
+RAM_SYMS := _build/ram_syms.sym
 
 BLANK_WEAPON_RANKS_HS := $(BIN_DIR)/blank_weapon_ranks/BlankWeaponRanks.hs
 BLANK_WEAPON_RANKS := $(BUILD_DIR)/blank_weapon_ranks.event
 
-$(ARCHIPELAGO_DEFS): $(GENDEFS) include/progressiveCaps.h include/archipelago.h
-	$(GENDEFS) > $(ARCHIPELAGO_DEFS)
+$(ARCHIPELAGO_DEFS): $(GENDEFS) $(RAM_STRUCTURES_H)
+	$(GENDEFS) Event > $@
+
+$(RAM_SYMS): $(GENDEFS) $(RAM_STRUCTURES_H)
+	$(GENDEFS) Sym > $@
 
 $(BLANK_WEAPON_RANKS): $(BLANK_WEAPON_RANKS_HS)
 	runhaskell -Wall $< > $@
@@ -55,10 +59,11 @@ include $(dir)/Rules.mk
 $(BASEROM):
 	$(error no $(BASEROM) found at build root)
 
-$(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE)
+$(TARGET) $(SYMBOLS): $(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE) $(RAM_SYMS)
 	cd $(BUILD_DIR) && \
 		cp ../$(BASEROM) ../$(TARGET) && \
-		./ColorzCore A FE8 $(EAFLAGS) \
+		./ColorzCore A FE8 $(EAFLAGS) && \
+		(cat ../$(RAM_SYMS) >> ../$(SYMBOLS)) \
 	|| (rm -f ../$(TARGET) $(SYMBOLS) && false)
 
 $(BASEPATCH): $(TARGET)

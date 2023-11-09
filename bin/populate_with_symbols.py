@@ -6,7 +6,7 @@ import enum
 
 def process_symbol(s: str, symbols: dict[str, int]) -> str:
     if ":" not in s:
-        return str(symbols[s])
+        return f"0x{symbols[s]:X}"
 
     prefix, rest = s.split(":")
     v = symbols[rest]

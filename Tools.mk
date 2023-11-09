@@ -36,9 +36,9 @@ $(PNG2DMP): $(PNG2DMP_DIR)/Png2Dmp.hs $(PNG2DMP_DIR)/Png2Dmp.cabal
 		cabal build && \
 		cp $(shell cd $(PNG2DMP_DIR) && cabal list-bin Png2Dmp) Png2Dmp
 
-GENDEFS_DIR := $(BIN_DIR)/gen_ea_defs
-GENDEFS_SRC := $(GENDEFS_DIR)/gen_ea_defs.c
-GENDEFS := $(BUILD_DIR)/gen_ea_defs
+GENDEFS_DIR := $(BIN_DIR)/export_addresses
+GENDEFS_SRC := $(GENDEFS_DIR)/export_addresses.c
+GENDEFS := $(BUILD_DIR)/export_addresses
 
 # CR cam: these should use `CDEPFLAGS` as well
 $(GENDEFS): $(GENDEFS_SRC) include/*

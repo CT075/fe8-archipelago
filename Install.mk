@@ -1,6 +1,6 @@
 ARCHIPELAGO_LOC ?= $(error rerun with ARCHIPELAGO_LOC set)
 
-SYMBOL_POPULATOR := bin/populate_with_symbols/populate_with_symbols.py
+SYMBOL_POPULATOR := bin/populate_with_symbols.py
 
 WORLD_LOC := worlds/fe8
 AP_CONFIG_NAME := connector_config.py
