@@ -23,6 +23,10 @@ class SymbolTable:
         self.seen[k] = result
         return result
 
+    # We mint a new client version when a symbol exported to an Archipelago
+    # install changes its location. This is technically too sensitive (renames
+    # will force a spurious version bump), but using the names in the digest
+    # is the easiest way to catch reordering.
     def exported_symbols_digest(self) -> str:
         version_hash = hashlib.md5(json.dumps(self.seen, sort_keys=True).encode())
         return version_hash.hexdigest()[:DIGEST_LENGTH].upper()
@@ -93,19 +97,23 @@ def main(sym_file: str, inp: str, out: str, target: str):
 
     symbol_table = SymbolTable(symbols)
 
+    populated_template = populate_text(connector_config, symbol_table)
+    rom_name = f"FE8AP{symbol_table.exported_symbols_digest()}"
+
     with open(out, "w") as f:
-        f.write(populate_text(connector_config, symbol_table))
+        f.write(populated_template)
+        f.write("\n")
+        f.write(f'EXPECTED_ROM_NAME = "{rom_name}"')
 
     with open(target, "rb") as f:
         romdata = bytearray(f.read())
-        rom_name = f"FE8AP{symbol_table.exported_symbols_digest()}"
         assert len(rom_name) == len("FIREEMBLEM2EBE8E")
         check = 0
         for i, c in enumerate(rom_name.encode("utf-8")):
-            romdata[ROM_NAME_BASE+i] = c
+            romdata[ROM_NAME_BASE + i] = c
             check -= c
 
-        for c in b'01\x96':
+        for c in b"01\x96":
             check -= c
 
         check -= 0x19
