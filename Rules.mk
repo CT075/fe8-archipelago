@@ -63,8 +63,10 @@ include $(dir)/Rules.mk
 $(BASEROM):
 	$(error no $(BASEROM) found at build root)
 
+# CR cam: split out the postprocess step somehow
 $(TARGET) $(SYMBOLS) $(POPULATED_CONNECTOR_CONFIG): \
-		$(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE) $(RAM_SYMS) $(CONNECTOR_CONFIG_PY)
+		$(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE) $(RAM_SYMS) \
+		$(CONNECTOR_CONFIG_PY) $(POSTPROCESS)
 	cd $(BUILD_DIR) && \
 		cp ../$(BASEROM) ../$(TARGET) && \
 		./ColorzCore A FE8 $(EAFLAGS) && \
