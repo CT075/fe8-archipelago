@@ -20,9 +20,11 @@ PUSH
     BYTE 0xD2
 POP
 */
+
 //Fix MNC2 Freezing glitch (breaks skirmishes!)
-  ORG $BD070
-  SHORT $E0B8
+// Cam: We use vanilla events and want skirmishes, so disable
+// ORG $BD070
+// SHORT $E0B8
   
 //Fix coordinate loading in WARP codes when not loading from slot B (by hypergammaspaces)
 ORG $10C18
@@ -79,6 +81,7 @@ POP
   ORG $2b168
   SHORT 0
 
+/*
 //12 Tracks/16 Sounds Fix (credit Agro/Brendor)
   ORG $2900
   SHORT $e00c
@@ -88,6 +91,7 @@ POP
   BYTE $10
   ORG $224414
   SHORT $67b0 $0300 $0010
+  */
 
 //Fix Weak Promoted Enemies (credit Gryz)
   ORG $180b4

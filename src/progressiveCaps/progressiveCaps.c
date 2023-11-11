@@ -280,7 +280,7 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
   int wRank = GetItemRequiredExp(item);
   int uRank = getUnitWeaponRank(unit, GetItemType(item));
 
-  switch (item) {
+  switch (ITEM_INDEX(item)) {
     case ITEM_SWORD_SIEGLINDE:
       if (IS_EIRIKA(unit)) {
         wRank = WPN_EXP_E;
