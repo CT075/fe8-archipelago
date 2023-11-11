@@ -185,10 +185,12 @@ void PlayerPhase_MainIdleShim(ProcPtr proc) {
 u8 eventsRunning(ProcPtr proc) {
   if (EventEngineExists()) {
     return 1;
-  } else if (receivedAPItem->filled) {
+  }
+  else if (receivedAPItem->filled) {
     enqueueReceivedItemEvent();
     return 1;
-  } else {
+  }
+  else {
     return 0;
   }
 }
