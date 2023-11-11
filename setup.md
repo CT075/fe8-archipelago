@@ -4,12 +4,21 @@
 
 Welcome! Feel free to ask for help in the [Discord channel](https://discord.com/channels/731205301247803413/1098762105445953546) if you get stuck at any point. There are a lot of steps for a first time setup, especially if you're new to Archipelago, but we don't want it to overwhelm you. There are many nice people who know the answers to your questions and are willing to help.
 
-**FE8 has not yet been adjusted to use the generic bizhawk client.**
+## Changes to setup in 0.2.0
+
+In release 0.2.0, FE8 has transitioned to using the generic Bizhawk client. If you need instructions for a prior version, check [this version](https://github.com/CT075/fe8-archipelago/blob/9fec147178b3e0b628fb8b866b082dfcfd93a9e3/setup.md) of the guide.
+
+If you have previously set up the FE8 connector and are familiar with this process, here is a quickstart:
+
+- Include `_bizhawk.apworld` alongside `fe8.apworld`. This won't be necessary once Archipelago version 0.4.4 releases.
+- Open the Bizhawk client instead of the FE8 client. As a player, it will be pretty much the same.
+- The Bizhawk client will install a new connector script named `connector_bizhawk_generic.lua`. The old `connector_fe8.lua` won't work, delete it.
 
 ## Requirements
 
 - An English copy of Fire Emblem: The Sacred Stones. The Archipelago community cannot provide this.
 - FE8 apworld: [Latest Release](https://github.com/CT075/Archipelago/releases/latest)
+- Bizhawk client Beta 2: [Release](https://github.com/Zunawe/Archipelago/releases/tag/bizhawk_beta-2)
 - Archipelago (need 0.4.2 or newer): [Latest Release](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
 - BizHawk (need 2.7 or newer): [Downloads Page](https://tasvideos.org/BizHawk/ReleaseHistory)
 
@@ -82,11 +91,11 @@ You'll only have to do this once. If you've configured BizHawk for other Archipe
 
 ## Connecting
 
-1. If the FE8 Client isn't running, you can open it either by opening the Archipelago launcher and selecting "FE8 Client" in the right column, or by dragging the patch file onto `ArchipelagoLauncher.exe` again.
+1. If the Bizhawk Client isn't running, you can open it either by opening the Archipelago launcher and selecting "Bizhawk Client" in the right column, or by dragging the patch file onto `ArchipelagoLauncher.exe` again.
 2. Ensure EmuHawk is running the patched ROM.
 3. In EmuHawk, go to `Tools > Lua Console`. This window must stay open while playing.
 4. In the Lua Console window, go to `Script > Open Script…`.
-5. Navigate to your Archipelago install folder and open `data/lua/connector_fe8.lua`. The Lua Console should indicate that it connected to the client.  
+5. Navigate to your Archipelago install folder and open `data/lua/connector_bizhawk_generic.lua`. The Lua Console should indicate that it connected to the client.  
 If the emulator is freezing every few seconds, that's expected; it's just searching for the client. It will resolve once the client is open and connected.    
 If you're feeling adventurous in the future, you can drag the lua script directly onto the emulator screen to open it instead of manually opening the Lua Console window and finding the file.
 6. To connect the client to the server, enter your room's `<address>:<port>` into the top text field of the client and click `Connect`.
