@@ -52,6 +52,24 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon);
 #define PrologueId (0)
 #define EndgameId (22)
 #define VictoryId (23)
+#define Tower1Id (24)
+#define Tower2Id (25)
+#define Tower3Id (26)
+#define Tower4Id (27)
+#define Tower5Id (28)
+#define Tower6Id (29)
+#define Tower7Id (30)
+#define Tower8Id (31)
+#define Ruins1Id (32)
+#define Ruins2Id (33)
+#define Ruins3Id (34)
+#define Ruins4Id (35)
+#define Ruins5Id (36)
+#define Ruins6Id (37)
+#define Ruins7Id (38)
+#define Ruins8Id (39)
+#define Ruins9Id (40)
+#define Ruins10Id (41)
 
 enum WeaponType {
   Sword=0,
@@ -64,7 +82,7 @@ enum WeaponType {
   Dark=7,
 };
 
-#define NUM_CHECKS (34)
+#define NUM_CHECKS (52)
 
 enum ItemKind {
   ProgLvlCap=0,
