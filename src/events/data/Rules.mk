@@ -39,7 +39,25 @@ $(d)/final1eirEndScene.dmp \
 $(d)/final1ephEndScene.dmp \
 $(d)/final2eirEndScene.dmp \
 $(d)/final2ephEndScene.dmp \
-$(d)/prologueEndScene.dmp : HERE := $(d)
+$(d)/prologueEndScene.dmp \
+$(d)/tower1EndScene.dmp \
+$(d)/tower2EndScene.dmp \
+$(d)/tower3EndScene.dmp \
+$(d)/tower4EndScene.dmp \
+$(d)/tower5EndScene.dmp \
+$(d)/tower6EndScene.dmp \
+$(d)/tower7EndScene.dmp \
+$(d)/tower8EndScene.dmp \
+$(d)/ruins1EndScene.dmp \
+$(d)/ruins2EndScene.dmp \
+$(d)/ruins3EndScene.dmp \
+$(d)/ruins4EndScene.dmp \
+$(d)/ruins5EndScene.dmp \
+$(d)/ruins6EndScene.dmp \
+$(d)/ruins7EndScene.dmp \
+$(d)/ruins8EndScene.dmp \
+$(d)/ruins9EndScene.dmp \
+$(d)/ruins10EndScene.dmp : HERE := $(d)
 
 $(d)/ch10eirEndScene.dmp \
 $(d)/ch10ephEndScene.dmp \
@@ -78,7 +96,25 @@ $(d)/final1eirEndScene.dmp \
 $(d)/final1ephEndScene.dmp \
 $(d)/final2eirEndScene.dmp \
 $(d)/final2ephEndScene.dmp \
-$(d)/prologueEndScene.dmp &:
+$(d)/prologueEndScene.dmp \
+$(d)/tower1EndScene.dmp \
+$(d)/tower2EndScene.dmp \
+$(d)/tower3EndScene.dmp \
+$(d)/tower4EndScene.dmp \
+$(d)/tower5EndScene.dmp \
+$(d)/tower6EndScene.dmp \
+$(d)/tower7EndScene.dmp \
+$(d)/tower8EndScene.dmp \
+$(d)/ruins1EndScene.dmp \
+$(d)/ruins2EndScene.dmp \
+$(d)/ruins3EndScene.dmp \
+$(d)/ruins4EndScene.dmp \
+$(d)/ruins5EndScene.dmp \
+$(d)/ruins6EndScene.dmp \
+$(d)/ruins7EndScene.dmp \
+$(d)/ruins8EndScene.dmp \
+$(d)/ruins9EndScene.dmp \
+$(d)/ruins10EndScene.dmp &:
 	python $(HERE)/rip_chunks.py $(BASEROM) $(HERE)
 
 CLEAN := $(CLEAN) $(d)/*.dmp
