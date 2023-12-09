@@ -37,6 +37,25 @@ data HolyWeapon
 holyWeaponLong :: HolyWeapon -> String
 holyWeaponLong = (++ " Received") . show @HolyWeapon
 
+data FillerItem
+    = AngelicRobe
+    | EnergyRing
+    | SecretBook
+    | Speedwings
+    | GoddessIcon
+    | DragonShield
+    | Talisman
+    | BodyRing
+    | Boots
+    | KnightCrest
+    | HeroCrest
+    | OrionsBolt
+    | GuidingRing
+    | ElysianWhip
+    | OceanSeal
+    | MasterSeal
+    deriving (Show, Enum, Bounded, Typeable)
+
 data Chapter
     = Prologue
     | -- For now, we treat Eirika and Ephraim versions of the same map as the
@@ -112,43 +131,51 @@ data Item
     = ProgressiveLevelCap
     | ProgressiveWLv WeaponType
     | HolyWeaponPut HolyWeapon
+    | FillerPlacement FillerItem
     deriving (Show, Typeable)
 
 instance Bounded Item where
     minBound = ProgressiveLevelCap
-    maxBound = HolyWeaponPut maxBound
+    maxBound = FillerPlacement maxBound
 
 instance Enum Item where
     toEnum i
         | i < 0 = error $ "invalid item index " ++ show i
         | i == 0 = ProgressiveLevelCap
         | i - 1 <= fromEnum (maxBound @WeaponType) = ProgressiveWLv $ toEnum $ i - 1
-        | otherwise = HolyWeaponPut $ toEnum $ i - fromEnum (maxBound @WeaponType) - 1 - 1
+        | i - 1 <= fromEnum (maxBound @HolyWeapon) = HolyWeaponPut $ toEnum $ fromEnum (maxBound @WeaponType)
+        | otherwise = FillerPlacement $ toEnum $ i - fromEnum (maxBound @HolyWeapon) - 1 - 1
 
     fromEnum ProgressiveLevelCap = 0
     fromEnum (ProgressiveWLv w) = fromEnum w + 1
     fromEnum (HolyWeaponPut hw) = fromEnum hw + (fromEnum $ maxBound @WeaponType) + 1 + 1
+    fromEnum (FillerPlacement f) = fromEnum f + (fromEnum $ maxBound @HolyWeapon) + 1 + 1
 
 itemName :: Item -> String
 itemName ProgressiveLevelCap = "Progressive Level Cap"
 itemName (ProgressiveWLv weap) = "Progressive Weapon Level (" ++ show weap ++ ")"
 itemName (HolyWeaponPut hw) = show hw
+itemName (FillerPlacement f) = show f
 
 -- XXX: We could automatically derive these from the definition of `Item`, but
 -- it's a lot of complex type-level machinery for very little gain.
-data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon
+data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem
     deriving (Show, Enum, Bounded, Typeable)
 
 itemkind :: Item -> ItemKind
 itemkind ProgressiveLevelCap = ProgLvlCap
 itemkind (ProgressiveWLv _) = ProgWLv
 itemkind (HolyWeaponPut _) = HolyWeapon
+itemkind (FillerPlacement _) = FillerItem
 
 progWLvName :: String
 progWLvName = "weaponType"
 
 holyWeaponKindName :: String
 holyWeaponKindName = "holyWeapon"
+
+fillerItemKindName :: String
+fillerItemKindName = "fillerItem"
 
 emitSetPayload :: Monad m => (String -> m ()) -> String -> Item -> m ()
 emitSetPayload emitLn prefix item =
@@ -158,6 +185,8 @@ emitSetPayload emitLn prefix item =
             emitLn $ prefix ++ progWLvName ++ " = " ++ show weapon ++ ";"
         (HolyWeaponPut holyWeapon) ->
             emitLn $ prefix ++ holyWeaponKindName ++ " = " ++ show holyWeapon ++ ";"
+        (FillerPlacement fillerItem) ->
+            emitLn $ prefix ++ fillerItemKindName ++ " = " ++ show fillerItem ++ ";"
 
 emitCPayloadUnion :: Monad m => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do
@@ -165,6 +194,7 @@ emitCPayloadUnion emitLn = do
     emitLn $ "  // progressive levelcap has no payload"
     emitLn $ "  enum " ++ show (typeRep @WeaponType) ++ " " ++ progWLvName ++ ";"
     emitLn $ "  enum " ++ show (typeRep @HolyWeapon) ++ " " ++ holyWeaponKindName ++ ";"
+    emitLn $ "  enum " ++ show (typeRep @FillerItem) ++ " " ++ fillerItemKindName ++ ";"
     emitLn $ "};"
 
 emitCEnum ::
@@ -233,6 +263,8 @@ emitConnectorConfigH emitLn = do
     emitLn $ "#define Ruins10Id (" ++ show (fromEnum $ R10) ++ ")"
     emitLn ""
     emitCEnum @WeaponType emitLn
+    emitLn ""
+    emitCEnum @FillerItem emitLn
     emitLn ""
     emitLn $ "#define NUM_CHECKS (" ++ show numLocations ++ ")"
     emitLn ""
@@ -331,6 +363,7 @@ emitPythonData emitLn = do
         formatChapterText (R i) =
             "\"Complete Lagdou Ruins " ++ show (i - 31) ++ "\""
         formatChapterText R10 = "\"Complete Lagdou Ruins 10\""
+
 
     formatItem item = "(" ++ (show $ itemName item) ++ ", " ++ (show $ fromEnum item) ++ "),"
 

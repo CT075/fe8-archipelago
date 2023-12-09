@@ -73,45 +73,77 @@ void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {
       dst->kind = ProgWLv;
       dst->payload.weaponType = Dark;
       break;
-    case 9:
+    case 16:
       dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Sieglinde;
-      break;
-    case 10:
-      dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Siegmund;
-      break;
-    case 11:
-      dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Gleipnir;
-      break;
-    case 12:
-      dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Garm;
-      break;
-    case 13:
-      dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Nidhogg;
-      break;
-    case 14:
-      dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Vidofnir;
-      break;
-    case 15:
-      dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Excalibur;
+      dst->payload.holyWeapon = Audhulma;
       break;
     case 16:
       dst->kind = HolyWeapon;
       dst->payload.holyWeapon = Audhulma;
       break;
+    case 11:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = AngelicRobe;
+      break;
+    case 12:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = EnergyRing;
+      break;
+    case 13:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = SecretBook;
+      break;
+    case 14:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = Speedwings;
+      break;
+    case 15:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = GoddessIcon;
+      break;
+    case 16:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = DragonShield;
+      break;
     case 17:
-      dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Ivaldi;
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = Talisman;
       break;
     case 18:
-      dst->kind = HolyWeapon;
-      dst->payload.holyWeapon = Latona;
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = BodyRing;
+      break;
+    case 19:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = Boots;
+      break;
+    case 20:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = KnightCrest;
+      break;
+    case 21:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = HeroCrest;
+      break;
+    case 22:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = OrionsBolt;
+      break;
+    case 23:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = GuidingRing;
+      break;
+    case 24:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = ElysianWhip;
+      break;
+    case 25:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = OceanSeal;
+      break;
+    case 26:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = MasterSeal;
       break;
   };
 }
