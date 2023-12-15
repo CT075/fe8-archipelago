@@ -66,37 +66,34 @@ data Chapter
     | C5x
     | Endgame
     | Victory
-    | R10
     deriving (Show, Typeable)
 
 instance Bounded Chapter where
     minBound = Prologue
-    maxBound = R10
+    maxBound = Victory
 
 instance Enum Chapter where
     toEnum 0 = Prologue
     toEnum 6 = C5x
     toEnum 22 = Endgame
-    toEnum 23 = Victory
-    toEnum 41 = R10
+    toEnum 41 = Victory
     toEnum i
         | i < 1 = error $ "invalid chapter index " ++ show i
         | i < 6 = C i
         | i < 22 = C (i - 1)
-        | i < 32 = T (i)
-        | i < 41 = R (i)
+        | i < 31 = T (i - 22)
+        | i < 41 = R (i - 30)
         | otherwise = error $ "invalid chapter index " ++ show i
 
     fromEnum Prologue = 0
     fromEnum C5x = 6
     fromEnum Endgame = 22
-    fromEnum Victory = 23
-    fromEnum R10 = 41
+    fromEnum Victory = 41
     fromEnum (C i)
         | i < 6 = i
         | otherwise = i + 1
-    fromEnum (T i) = i
-    fromEnum (R i) = i
+    fromEnum (T i) = i + 22
+    fromEnum (R i) = i + 30
 
 data Location
     = ChapterClear Chapter
@@ -256,11 +253,10 @@ emitConnectorConfigH emitLn = do
     emitLn $ "#define PrologueId (" ++ show (fromEnum $ Prologue) ++ ")"
     emitLn $ "#define EndgameId (" ++ show (fromEnum $ Endgame) ++ ")"
     emitLn $ "#define VictoryId (" ++ show (fromEnum $ Victory) ++ ")"
-    forM_ [24 .. 31] $ \i ->
-        emitLn $ "#define Tower" ++ show (i - 23) ++ "Id (" ++ show (fromEnum $ T i) ++ ")"
-    forM_ [32 .. 40] $ \i ->
-        emitLn $ "#define Ruins" ++ show (i - 31) ++ "Id (" ++ show (fromEnum $ R i) ++ ")"
-    emitLn $ "#define Ruins10Id (" ++ show (fromEnum $ R10) ++ ")"
+    forM_ [23 .. 30] $ \i ->
+        emitLn $ "#define Tower" ++ show (i - 22) ++ "Id (" ++ show (fromEnum $ T (i - 22)) ++ ")"
+    forM_ [31 .. 40] $ \i ->
+        emitLn $ "#define Ruins" ++ show (i - 30) ++ "Id (" ++ show (fromEnum $ R (i - 30)) ++ ")"
     emitLn ""
     emitCEnum @WeaponType emitLn
     emitLn ""
@@ -359,10 +355,9 @@ emitPythonData emitLn = do
         formatChapterText Endgame = "\"Defeat Lyon\""
         formatChapterText Victory = "\"Defeat Formortiis\""
         formatChapterText (T i) =
-            "\"Complete Tower of Valni " ++ show (i - 23) ++ "\""
+            "\"Complete Tower of Valni " ++ show (i) ++ "\""
         formatChapterText (R i) =
-            "\"Complete Lagdou Ruins " ++ show (i - 31) ++ "\""
-        formatChapterText R10 = "\"Complete Lagdou Ruins 10\""
+            "\"Complete Lagdou Ruins " ++ show (i) ++ "\""
 
 
     formatItem item = "(" ++ (show $ itemName item) ++ ", " ++ (show $ fromEnum item) ++ "),"
