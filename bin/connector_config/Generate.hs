@@ -37,11 +37,32 @@ data HolyWeapon
 holyWeaponLong :: HolyWeapon -> String
 holyWeaponLong = (++ " Received") . show @HolyWeapon
 
+data FillerItem
+    = AngelicRobe
+    | EnergyRing
+    | SecretBook
+    | Speedwings
+    | GoddessIcon
+    | DragonShield
+    | Talisman
+    | BodyRing
+    | Boots
+    | KnightCrest
+    | HeroCrest
+    | OrionsBolt
+    | GuidingRing
+    | ElysianWhip
+    | OceanSeal
+    | MasterSeal
+    deriving (Show, Enum, Bounded, Typeable)
+
 data Chapter
     = Prologue
     | -- For now, we treat Eirika and Ephraim versions of the same map as the
       -- same location
       C Int
+    | T Int
+    | R Int
     | C5x
     | Endgame
     | Victory
@@ -55,20 +76,24 @@ instance Enum Chapter where
     toEnum 0 = Prologue
     toEnum 6 = C5x
     toEnum 22 = Endgame
-    toEnum 23 = Victory
+    toEnum 41 = Victory
     toEnum i
         | i < 1 = error $ "invalid chapter index " ++ show i
         | i < 6 = C i
         | i < 22 = C (i - 1)
+        | i < 31 = T (i - 22)
+        | i < 41 = R (i - 30)
         | otherwise = error $ "invalid chapter index " ++ show i
 
     fromEnum Prologue = 0
     fromEnum C5x = 6
     fromEnum Endgame = 22
-    fromEnum Victory = 23
+    fromEnum Victory = 41
     fromEnum (C i)
         | i < 6 = i
         | otherwise = i + 1
+    fromEnum (T i) = i + 22
+    fromEnum (R i) = i + 30
 
 data Location
     = ChapterClear Chapter
@@ -103,43 +128,53 @@ data Item
     = ProgressiveLevelCap
     | ProgressiveWLv WeaponType
     | HolyWeaponPut HolyWeapon
+    | FillerPlacement FillerItem
     deriving (Show, Typeable)
 
 instance Bounded Item where
     minBound = ProgressiveLevelCap
-    maxBound = HolyWeaponPut maxBound
+    maxBound = FillerPlacement maxBound
 
 instance Enum Item where
     toEnum i
         | i < 0 = error $ "invalid item index " ++ show i
         | i == 0 = ProgressiveLevelCap
         | i - 1 <= fromEnum (maxBound @WeaponType) = ProgressiveWLv $ toEnum $ i - 1
-        | otherwise = HolyWeaponPut $ toEnum $ i - fromEnum (maxBound @WeaponType) - 1 - 1
+        | i - 9 <= fromEnum (maxBound @HolyWeapon) = HolyWeaponPut $ toEnum $ i - 9
+        | otherwise = FillerPlacement $ toEnum $ i - fromEnum (maxBound @HolyWeapon) - 10
+--        Minus 9 since there's 8 weapon types, minus 10 for 10 holy weapons
+--        Probably a better way to decrement these enums
 
     fromEnum ProgressiveLevelCap = 0
     fromEnum (ProgressiveWLv w) = fromEnum w + 1
     fromEnum (HolyWeaponPut hw) = fromEnum hw + (fromEnum $ maxBound @WeaponType) + 1 + 1
+    fromEnum (FillerPlacement f) = fromEnum f + (fromEnum $ maxBound @HolyWeapon) + 10
 
 itemName :: Item -> String
 itemName ProgressiveLevelCap = "Progressive Level Cap"
 itemName (ProgressiveWLv weap) = "Progressive Weapon Level (" ++ show weap ++ ")"
 itemName (HolyWeaponPut hw) = show hw
+itemName (FillerPlacement f) = show f
 
 -- XXX: We could automatically derive these from the definition of `Item`, but
 -- it's a lot of complex type-level machinery for very little gain.
-data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon
+data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem
     deriving (Show, Enum, Bounded, Typeable)
 
 itemkind :: Item -> ItemKind
 itemkind ProgressiveLevelCap = ProgLvlCap
 itemkind (ProgressiveWLv _) = ProgWLv
 itemkind (HolyWeaponPut _) = HolyWeapon
+itemkind (FillerPlacement _) = FillerItem
 
 progWLvName :: String
 progWLvName = "weaponType"
 
 holyWeaponKindName :: String
 holyWeaponKindName = "holyWeapon"
+
+fillerItemKindName :: String
+fillerItemKindName = "fillerItem"
 
 emitSetPayload :: Monad m => (String -> m ()) -> String -> Item -> m ()
 emitSetPayload emitLn prefix item =
@@ -149,6 +184,8 @@ emitSetPayload emitLn prefix item =
             emitLn $ prefix ++ progWLvName ++ " = " ++ show weapon ++ ";"
         (HolyWeaponPut holyWeapon) ->
             emitLn $ prefix ++ holyWeaponKindName ++ " = " ++ show holyWeapon ++ ";"
+        (FillerPlacement fillerItem) ->
+            emitLn $ prefix ++ fillerItemKindName ++ " = " ++ show fillerItem ++ ";"
 
 emitCPayloadUnion :: Monad m => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do
@@ -156,6 +193,7 @@ emitCPayloadUnion emitLn = do
     emitLn $ "  // progressive levelcap has no payload"
     emitLn $ "  enum " ++ show (typeRep @WeaponType) ++ " " ++ progWLvName ++ ";"
     emitLn $ "  enum " ++ show (typeRep @HolyWeapon) ++ " " ++ holyWeaponKindName ++ ";"
+    emitLn $ "  enum " ++ show (typeRep @FillerItem) ++ " " ++ fillerItemKindName ++ ";"
     emitLn $ "};"
 
 emitCEnum ::
@@ -217,8 +255,14 @@ emitConnectorConfigH emitLn = do
     emitLn $ "#define PrologueId (" ++ show (fromEnum $ Prologue) ++ ")"
     emitLn $ "#define EndgameId (" ++ show (fromEnum $ Endgame) ++ ")"
     emitLn $ "#define VictoryId (" ++ show (fromEnum $ Victory) ++ ")"
+    forM_ [23 .. 30] $ \i ->
+        emitLn $ "#define Tower" ++ show (i - 22) ++ "Id (" ++ show (fromEnum $ T (i - 22)) ++ ")"
+    forM_ [31 .. 40] $ \i ->
+        emitLn $ "#define Ruins" ++ show (i - 30) ++ "Id (" ++ show (fromEnum $ R (i - 30)) ++ ")"
     emitLn ""
     emitCEnum @WeaponType emitLn
+    emitLn ""
+    emitCEnum @FillerItem emitLn
     emitLn ""
     emitLn $ "#define NUM_CHECKS (" ++ show numLocations ++ ")"
     emitLn ""
@@ -312,6 +356,11 @@ emitPythonData emitLn = do
             "\"Complete Chapter " ++ show i ++ "\""
         formatChapterText Endgame = "\"Defeat Lyon\""
         formatChapterText Victory = "\"Defeat Formortiis\""
+        formatChapterText (T i) =
+            "\"Complete Tower of Valni " ++ show (i) ++ "\""
+        formatChapterText (R i) =
+            "\"Complete Lagdou Ruins " ++ show (i) ++ "\""
+
 
     formatItem item = "(" ++ (show $ itemName item) ++ ", " ++ (show $ fromEnum item) ++ "),"
 

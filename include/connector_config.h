@@ -51,7 +51,25 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon);
 #define Ch5xId (6)
 #define PrologueId (0)
 #define EndgameId (22)
-#define VictoryId (23)
+#define VictoryId (41)
+#define Tower1Id (23)
+#define Tower2Id (24)
+#define Tower3Id (25)
+#define Tower4Id (26)
+#define Tower5Id (27)
+#define Tower6Id (28)
+#define Tower7Id (29)
+#define Tower8Id (30)
+#define Ruins1Id (31)
+#define Ruins2Id (32)
+#define Ruins3Id (33)
+#define Ruins4Id (34)
+#define Ruins5Id (35)
+#define Ruins6Id (36)
+#define Ruins7Id (37)
+#define Ruins8Id (38)
+#define Ruins9Id (39)
+#define Ruins10Id (40)
 
 enum WeaponType {
   Sword=0,
@@ -64,18 +82,39 @@ enum WeaponType {
   Dark=7,
 };
 
-#define NUM_CHECKS (34)
+enum FillerItem {
+  AngelicRobe=0,
+  EnergyRing=1,
+  SecretBook=2,
+  Speedwings=3,
+  GoddessIcon=4,
+  DragonShield=5,
+  Talisman=6,
+  BodyRing=7,
+  Boots=8,
+  KnightCrest=9,
+  HeroCrest=10,
+  OrionsBolt=11,
+  GuidingRing=12,
+  ElysianWhip=13,
+  OceanSeal=14,
+  MasterSeal=15,
+};
+
+#define NUM_CHECKS (52)
 
 enum ItemKind {
   ProgLvlCap=0,
   ProgWLv=1,
   HolyWeapon=2,
+  FillerItem=3,
 };
 
 union Payload {
   // progressive levelcap has no payload
   enum WeaponType weaponType;
   enum HolyWeapon holyWeapon;
+  enum FillerItem fillerItem;
 };
 
 struct IncomingEvent {

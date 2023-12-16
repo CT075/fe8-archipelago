@@ -12,25 +12,25 @@ int chapterClearFlagIndex(int chapterId) {
 int holyWeaponFlagIndex(enum HolyWeapon weapon) {
   switch (weapon) {
     case Sieglinde:
-      return 24;
+      return 42;
     case Siegmund:
-      return 25;
+      return 43;
     case Gleipnir:
-      return 26;
+      return 44;
     case Garm:
-      return 27;
+      return 45;
     case Nidhogg:
-      return 28;
+      return 46;
     case Vidofnir:
-      return 29;
+      return 47;
     case Excalibur:
-      return 30;
+      return 48;
     case Audhulma:
-      return 31;
+      return 49;
     case Ivaldi:
-      return 32;
+      return 50;
     case Latona:
-      return 33;
+      return 51;
     default:
       return -1;
   }
@@ -112,6 +112,70 @@ void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {
     case 18:
       dst->kind = HolyWeapon;
       dst->payload.holyWeapon = Latona;
+      break;
+    case 19:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = AngelicRobe;
+      break;
+    case 20:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = EnergyRing;
+      break;
+    case 21:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = SecretBook;
+      break;
+    case 22:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = Speedwings;
+      break;
+    case 23:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = GoddessIcon;
+      break;
+    case 24:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = DragonShield;
+      break;
+    case 25:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = Talisman;
+      break;
+    case 26:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = BodyRing;
+      break;
+    case 27:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = Boots;
+      break;
+    case 28:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = KnightCrest;
+      break;
+    case 29:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = HeroCrest;
+      break;
+    case 30:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = OrionsBolt;
+      break;
+    case 31:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = GuidingRing;
+      break;
+    case 32:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = ElysianWhip;
+      break;
+    case 33:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = OceanSeal;
+      break;
+    case 34:
+      dst->kind = FillerItem;
+      dst->payload.fillerItem = MasterSeal;
       break;
   };
 }

@@ -38,6 +38,24 @@
 #define RealFinal2EirEndingScene 0x9f9f10
 #define RealFinal2EphEndingScene 0x9fdb58
 #define RealPrologueEndingScene 0x9ef164
+#define RealTower1EndingScene 0x9FDBE4
+#define RealTower2EndingScene 0x9FDC90
+#define RealTower3EndingScene 0x9FDD84
+#define RealTower4EndingScene 0x9FDE3C
+#define RealTower5EndingScene 0x9FDEE4
+#define RealTower6EndingScene 0x9FDFA4
+#define RealTower7EndingScene 0x9FE068
+#define RealTower8EndingScene 0x9FE22C
+#define RealRuins1EndingScene 0x9FE2CC
+#define RealRuins2EndingScene 0x9FE3BC
+#define RealRuins3EndingScene 0x9FE488
+#define RealRuins4EndingScene 0x9FE5C0
+#define RealRuins5EndingScene 0x9FE650
+#define RealRuins6EndingScene 0x9FE738
+#define RealRuins7EndingScene 0x9FE834
+#define RealRuins8EndingScene 0x9FEA58
+#define RealRuins9EndingScene 0x9FF228
+#define RealRuins10EndingScene 0x9FF330
 
 PUSH
 ORG RealCh10EirEndingScene
@@ -455,5 +473,203 @@ POP
 PrologueEndingScene:
 ASMC markPrologueClear
 #incbin "data/prologueEndScene.dmp"
+ENDA
+
+PUSH
+ORG RealTower1EndingScene
+CALL Tower1EndingScene
+ENDA
+POP
+
+Tower1EndingScene:
+ASMC markTower1Clear
+#incbin "data/Tower1EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealTower2EndingScene
+CALL Tower2EndingScene
+ENDA
+POP
+
+Tower2EndingScene:
+ASMC markTower2Clear
+#incbin "data/Tower2EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealTower3EndingScene
+CALL Tower3EndingScene
+ENDA
+POP
+
+Tower3EndingScene:
+ASMC markTower3Clear
+#incbin "data/Tower3EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealTower4EndingScene
+CALL Tower4EndingScene
+ENDA
+POP
+
+Tower4EndingScene:
+ASMC markTower4Clear
+#incbin "data/Tower4EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealTower5EndingScene
+CALL Tower5EndingScene
+ENDA
+POP
+
+Tower5EndingScene:
+ASMC markTower5Clear
+#incbin "data/Tower5EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealTower6EndingScene
+CALL Tower6EndingScene
+ENDA
+POP
+
+Tower6EndingScene:
+ASMC markTower6Clear
+#incbin "data/Tower6EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealTower7EndingScene
+CALL Tower7EndingScene
+ENDA
+POP
+
+Tower7EndingScene:
+ASMC markTower7Clear
+#incbin "data/Tower7EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealTower8EndingScene
+CALL Tower8EndingScene
+ENDA
+POP
+
+Tower8EndingScene:
+ASMC markTower8Clear
+#incbin "data/Tower8EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins1EndingScene
+CALL Ruins1EndingScene
+ENDA
+POP
+
+Ruins1EndingScene:
+ASMC markRuins1Clear
+#incbin "data/Ruins1EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins2EndingScene
+CALL Ruins2EndingScene
+ENDA
+POP
+
+Ruins2EndingScene:
+ASMC markRuins2Clear
+#incbin "data/Ruins2EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins3EndingScene
+CALL Ruins3EndingScene
+ENDA
+POP
+
+Ruins3EndingScene:
+ASMC markRuins3Clear
+#incbin "data/Ruins3EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins4EndingScene
+CALL Ruins4EndingScene
+ENDA
+POP
+
+Ruins4EndingScene:
+ASMC markRuins4Clear
+#incbin "data/Ruins4EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins5EndingScene
+CALL Ruins5EndingScene
+ENDA
+POP
+
+Ruins5EndingScene:
+ASMC markRuins5Clear
+#incbin "data/Ruins5EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins6EndingScene
+CALL Ruins6EndingScene
+ENDA
+POP
+
+Ruins6EndingScene:
+ASMC markRuins6Clear
+#incbin "data/Ruins6EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins7EndingScene
+CALL Ruins7EndingScene
+ENDA
+POP
+
+Ruins7EndingScene:
+ASMC markRuins7Clear
+#incbin "data/Ruins7EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins8EndingScene
+CALL Ruins8EndingScene
+ENDA
+POP
+
+Ruins8EndingScene:
+ASMC markRuins8Clear
+#incbin "data/Ruins8EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins9EndingScene
+CALL Ruins9EndingScene
+ENDA
+POP
+
+Ruins9EndingScene:
+ASMC markRuins9Clear
+#incbin "data/Ruins9EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealRuins10EndingScene
+CALL Ruins10EndingScene
+ENDA
+POP
+
+Ruins10EndingScene:
+ASMC markRuins10Clear
+#incbin "data/Ruins10EndScene.dmp"
 ENDA
 
