@@ -140,13 +140,15 @@ instance Enum Item where
         | i < 0 = error $ "invalid item index " ++ show i
         | i == 0 = ProgressiveLevelCap
         | i - 1 <= fromEnum (maxBound @WeaponType) = ProgressiveWLv $ toEnum $ i - 1
-        | i - 1 <= fromEnum (maxBound @HolyWeapon) = HolyWeaponPut $ toEnum $ fromEnum (maxBound @WeaponType)
-        | otherwise = FillerPlacement $ toEnum $ i - fromEnum (maxBound @HolyWeapon) - 1 - 1
+        | i - 9 <= fromEnum (maxBound @HolyWeapon) = HolyWeaponPut $ toEnum $ i - 9
+        | otherwise = FillerPlacement $ toEnum $ i - fromEnum (maxBound @HolyWeapon) - 10
+--        Minus 9 since there's 8 weapon types, minus 10 for 10 holy weapons
+--        Probably a better way to decrement these enums
 
     fromEnum ProgressiveLevelCap = 0
     fromEnum (ProgressiveWLv w) = fromEnum w + 1
     fromEnum (HolyWeaponPut hw) = fromEnum hw + (fromEnum $ maxBound @WeaponType) + 1 + 1
-    fromEnum (FillerPlacement f) = fromEnum f + (fromEnum $ maxBound @HolyWeapon) + 1 + 1
+    fromEnum (FillerPlacement f) = fromEnum f + (fromEnum $ maxBound @HolyWeapon) + 10
 
 itemName :: Item -> String
 itemName ProgressiveLevelCap = "Progressive Level Cap"
