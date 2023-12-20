@@ -42,6 +42,8 @@ data Chapter
     | -- For now, we treat Eirika and Ephraim versions of the same map as the
       -- same location
       C Int
+    | T Int
+    | R Int
     | C5x
     | Endgame
     | Victory
@@ -55,20 +57,24 @@ instance Enum Chapter where
     toEnum 0 = Prologue
     toEnum 6 = C5x
     toEnum 22 = Endgame
-    toEnum 23 = Victory
+    toEnum 41 = Victory
     toEnum i
         | i < 1 = error $ "invalid chapter index " ++ show i
         | i < 6 = C i
         | i < 22 = C (i - 1)
+        | i < 31 = T (i - 22)
+        | i < 41 = R (i - 30)
         | otherwise = error $ "invalid chapter index " ++ show i
 
     fromEnum Prologue = 0
     fromEnum C5x = 6
     fromEnum Endgame = 22
-    fromEnum Victory = 23
+    fromEnum Victory = 41
     fromEnum (C i)
         | i < 6 = i
         | otherwise = i + 1
+    fromEnum (T i) = i + 22
+    fromEnum (R i) = i + 30
 
 data Location
     = ChapterClear Chapter
@@ -217,6 +223,10 @@ emitConnectorConfigH emitLn = do
     emitLn $ "#define PrologueId (" ++ show (fromEnum $ Prologue) ++ ")"
     emitLn $ "#define EndgameId (" ++ show (fromEnum $ Endgame) ++ ")"
     emitLn $ "#define VictoryId (" ++ show (fromEnum $ Victory) ++ ")"
+    forM_ [23 .. 30] $ \i ->
+        emitLn $ "#define Tower" ++ show (i - 22) ++ "Id (" ++ show (fromEnum $ T (i - 22)) ++ ")"
+    forM_ [31 .. 40] $ \i ->
+        emitLn $ "#define Ruins" ++ show (i - 30) ++ "Id (" ++ show (fromEnum $ R (i - 30)) ++ ")"
     emitLn ""
     emitCEnum @WeaponType emitLn
     emitLn ""
@@ -312,6 +322,11 @@ emitPythonData emitLn = do
             "\"Complete Chapter " ++ show i ++ "\""
         formatChapterText Endgame = "\"Defeat Lyon\""
         formatChapterText Victory = "\"Defeat Formortiis\""
+        formatChapterText (T i) =
+            "\"Complete Tower of Valni " ++ show (i) ++ "\""
+        formatChapterText (R i) =
+            "\"Complete Lagdou Ruins " ++ show (i) ++ "\""
+
 
     formatItem item = "(" ++ (show $ itemName item) ++ ", " ++ (show $ fromEnum item) ++ "),"
 

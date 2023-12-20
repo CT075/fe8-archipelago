@@ -12,25 +12,25 @@ int chapterClearFlagIndex(int chapterId) {
 int holyWeaponFlagIndex(enum HolyWeapon weapon) {
   switch (weapon) {
     case Sieglinde:
-      return 24;
+      return 42;
     case Siegmund:
-      return 25;
+      return 43;
     case Gleipnir:
-      return 26;
+      return 44;
     case Garm:
-      return 27;
+      return 45;
     case Nidhogg:
-      return 28;
+      return 46;
     case Vidofnir:
-      return 29;
+      return 47;
     case Excalibur:
-      return 30;
+      return 48;
     case Audhulma:
-      return 31;
+      return 49;
     case Ivaldi:
-      return 32;
+      return 50;
     case Latona:
-      return 33;
+      return 51;
     default:
       return -1;
   }

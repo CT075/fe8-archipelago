@@ -104,3 +104,75 @@ void markFormortiisClear(struct EventEngineProc *proc) {
 void markPrologueClear(struct EventEngineProc *proc) {
   handleChapterClear(proc, PrologueId);
 }
+
+void markTower1Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Tower1Id);
+}
+
+void markTower2Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Tower2Id);
+}
+
+void markTower3Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Tower3Id);
+}
+
+void markTower4Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Tower4Id);
+}
+
+void markTower5Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Tower5Id);
+}
+
+void markTower6Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Tower6Id);
+}
+
+void markTower7Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Tower7Id);
+}
+
+void markTower8Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Tower8Id);
+}
+
+void markRuins1Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins1Id);
+}
+
+void markRuins2Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins2Id);
+}
+
+void markRuins3Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins3Id);
+}
+
+void markRuins4Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins4Id);
+}
+
+void markRuins5Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins5Id);
+}
+
+void markRuins6Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins6Id);
+}
+
+void markRuins7Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins7Id);
+}
+
+void markRuins8Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins8Id);
+}
+
+void markRuins9Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins9Id);
+}
+
+void markRuins10Clear(struct EventEngineProc *proc) {
+  handleChapterClear(proc, Ruins10Id);
+}
