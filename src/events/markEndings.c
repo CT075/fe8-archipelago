@@ -94,11 +94,11 @@ void markCh20Clear(struct EventEngineProc *proc) {
 }
 
 void markEndgameClear(struct EventEngineProc *proc) {
-  handleChapterClear(proc, EndgameId);
+  handleChapterClear(proc, Endgame1Id);
 }
 
 void markFormortiisClear(struct EventEngineProc *proc) {
-  handleChapterClear(proc, VictoryId);
+  handleChapterClear(proc, Endgame2Id);
 }
 
 void markPrologueClear(struct EventEngineProc *proc) {
