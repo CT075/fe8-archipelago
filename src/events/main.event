@@ -483,7 +483,7 @@ POP
 
 Tower1EndingScene:
 ASMC markTower1Clear
-#incbin "data/Tower1EndScene.dmp"
+#incbin "data/tower1EndScene.dmp"
 ENDA
 
 PUSH
@@ -494,7 +494,7 @@ POP
 
 Tower2EndingScene:
 ASMC markTower2Clear
-#incbin "data/Tower2EndScene.dmp"
+#incbin "data/tower2EndScene.dmp"
 ENDA
 
 PUSH
@@ -505,7 +505,7 @@ POP
 
 Tower3EndingScene:
 ASMC markTower3Clear
-#incbin "data/Tower3EndScene.dmp"
+#incbin "data/tower3EndScene.dmp"
 ENDA
 
 PUSH
@@ -516,7 +516,7 @@ POP
 
 Tower4EndingScene:
 ASMC markTower4Clear
-#incbin "data/Tower4EndScene.dmp"
+#incbin "data/tower4EndScene.dmp"
 ENDA
 
 PUSH
@@ -527,7 +527,7 @@ POP
 
 Tower5EndingScene:
 ASMC markTower5Clear
-#incbin "data/Tower5EndScene.dmp"
+#incbin "data/tower5EndScene.dmp"
 ENDA
 
 PUSH
@@ -538,7 +538,7 @@ POP
 
 Tower6EndingScene:
 ASMC markTower6Clear
-#incbin "data/Tower6EndScene.dmp"
+#incbin "data/tower6EndScene.dmp"
 ENDA
 
 PUSH
@@ -549,7 +549,7 @@ POP
 
 Tower7EndingScene:
 ASMC markTower7Clear
-#incbin "data/Tower7EndScene.dmp"
+#incbin "data/tower7EndScene.dmp"
 ENDA
 
 PUSH
@@ -560,7 +560,7 @@ POP
 
 Tower8EndingScene:
 ASMC markTower8Clear
-#incbin "data/Tower8EndScene.dmp"
+#incbin "data/tower8EndScene.dmp"
 ENDA
 
 PUSH
@@ -571,7 +571,7 @@ POP
 
 Ruins1EndingScene:
 ASMC markRuins1Clear
-#incbin "data/Ruins1EndScene.dmp"
+#incbin "data/ruins1EndScene.dmp"
 ENDA
 
 PUSH
@@ -582,7 +582,7 @@ POP
 
 Ruins2EndingScene:
 ASMC markRuins2Clear
-#incbin "data/Ruins2EndScene.dmp"
+#incbin "data/ruins2EndScene.dmp"
 ENDA
 
 PUSH
@@ -593,7 +593,7 @@ POP
 
 Ruins3EndingScene:
 ASMC markRuins3Clear
-#incbin "data/Ruins3EndScene.dmp"
+#incbin "data/ruins3EndScene.dmp"
 ENDA
 
 PUSH
@@ -604,7 +604,7 @@ POP
 
 Ruins4EndingScene:
 ASMC markRuins4Clear
-#incbin "data/Ruins4EndScene.dmp"
+#incbin "data/ruins4EndScene.dmp"
 ENDA
 
 PUSH
@@ -615,7 +615,7 @@ POP
 
 Ruins5EndingScene:
 ASMC markRuins5Clear
-#incbin "data/Ruins5EndScene.dmp"
+#incbin "data/ruins5EndScene.dmp"
 ENDA
 
 PUSH
@@ -626,7 +626,7 @@ POP
 
 Ruins6EndingScene:
 ASMC markRuins6Clear
-#incbin "data/Ruins6EndScene.dmp"
+#incbin "data/ruins6EndScene.dmp"
 ENDA
 
 PUSH
@@ -637,7 +637,7 @@ POP
 
 Ruins7EndingScene:
 ASMC markRuins7Clear
-#incbin "data/Ruins7EndScene.dmp"
+#incbin "data/ruins7EndScene.dmp"
 ENDA
 
 PUSH
@@ -648,7 +648,7 @@ POP
 
 Ruins8EndingScene:
 ASMC markRuins8Clear
-#incbin "data/Ruins8EndScene.dmp"
+#incbin "data/ruins8EndScene.dmp"
 ENDA
 
 PUSH
@@ -659,7 +659,7 @@ POP
 
 Ruins9EndingScene:
 ASMC markRuins9Clear
-#incbin "data/Ruins9EndScene.dmp"
+#incbin "data/ruins9EndScene.dmp"
 ENDA
 
 PUSH
@@ -670,6 +670,6 @@ POP
 
 Ruins10EndingScene:
 ASMC markRuins10Clear
-#incbin "data/Ruins10EndScene.dmp"
+#incbin "data/ruins10EndScene.dmp"
 ENDA
 
