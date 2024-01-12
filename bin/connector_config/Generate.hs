@@ -63,7 +63,7 @@ instance (GBoundedEnum l, GBoundedEnum r) => GBoundedEnum (l :+: r) where
       else R1 $ gtoEnum @r (i - (gfromEnum (gmaxBound @l) + 1))
 
   gfromEnum (L1 l) = gfromEnum l
-  gfromEnum (R1 r) = gfromEnum r + (gfromEnum (gmaxBound @r)) + 1
+  gfromEnum (R1 r) = gfromEnum r + (gfromEnum (gmaxBound @l)) + 1
 
   gminBound = L1 $ gminBound @l
   gmaxBound = R1 $ gmaxBound @r
@@ -187,6 +187,7 @@ allChapters =
     ++ (Tower <$> [1 .. 8])
     ++ (Ruins <$> [1 .. 10])
 
+-- We can't use [GBoundedEnum] here because we have custom bounds on [Int]
 instance Bounded Chapter where
   minBound = head allChapters
   maxBound = last allChapters
@@ -208,18 +209,15 @@ data Location
   | HolyWeaponGet HolyWeapon
   deriving (Show, Typeable, Generic)
 
+-- Having to manually construct this instance could be done away with via
+-- TemplateHaskell, but that's using a bazooka to kill a fly at this point.
 instance Bounded Location where
-  minBound = ChapterClear minBound
-  maxBound = HolyWeaponGet maxBound
+  minBound = unBE $ minBound @(BE _)
+  maxBound = unBE $ maxBound @(BE _)
 
 instance Enum Location where
-  toEnum i
-    | i < 0 = error $ "invalid location index " ++ show i
-    | i <= fromEnum (maxBound @Chapter) = ChapterClear $ toEnum i
-    | otherwise = HolyWeaponGet $ toEnum $ i - fromEnum (maxBound @Chapter) - 1
-
-  fromEnum (ChapterClear c) = fromEnum c
-  fromEnum (HolyWeaponGet hw) = fromEnum hw + fromEnum (maxBound @Chapter) + 1
+  toEnum = unBE . toEnum @(BE _)
+  fromEnum = fromEnum @(BE _) . BE
 
 data WeaponType
   = Sword
@@ -230,57 +228,22 @@ data WeaponType
   | Anima
   | Light
   | Dark
-  deriving (Show, Enum, Bounded, Typeable, Eq)
+  deriving (Show, Enum, Bounded, Typeable, Generic)
 
 data Item
   = ProgressiveLevelCap
   | ProgressiveWLv WeaponType
   | HolyWeaponPut HolyWeapon
   | FillerPlacement FillerItem
-  deriving (Show, Typeable)
+  deriving (Show, Typeable, Generic)
 
 instance Bounded Item where
-  minBound = ProgressiveLevelCap
-  maxBound = FillerPlacement maxBound
+  minBound = unBE $ minBound @(BE _)
+  maxBound = unBE $ maxBound @(BE _)
 
--- CR-someday cam: we should be able to generate this
 instance Enum Item where
-  succ ProgressiveLevelCap = ProgressiveWLv $ minBound @WeaponType
-  succ (ProgressiveWLv wt) =
-    if wt == maxBound @WeaponType
-      then HolyWeaponPut $ minBound @HolyWeapon
-      else ProgressiveWLv $ succ wt
-  succ (HolyWeaponPut hw) =
-    if hw == maxBound @HolyWeapon
-      then FillerPlacement $ minBound @FillerItem
-      else HolyWeaponPut $ succ hw
-  succ (FillerPlacement fp) =
-    if fp == maxBound @FillerItem
-      then error $ "called [Item::succ] on [Item::maxBound]"
-      else FillerPlacement $ succ fp
-
-  pred ProgressiveLevelCap = error $ "called [Item::pred] on [Item::minBound]"
-  pred (ProgressiveWLv wt) =
-    if wt == minBound @WeaponType
-      then ProgressiveLevelCap
-      else ProgressiveWLv $ pred wt
-  pred (HolyWeaponPut hw) =
-    if hw == minBound @HolyWeapon
-      then ProgressiveWLv $ maxBound @WeaponType
-      else HolyWeaponPut $ pred hw
-  pred (FillerPlacement fp) =
-    if fp == minBound @FillerItem
-      then HolyWeaponPut $ maxBound @HolyWeapon
-      else FillerPlacement $ pred fp
-
-  toEnum 0 = ProgressiveLevelCap
-  toEnum i =
-    if i < 0
-      then error $ "called [Item::toEnum] on negative number"
-      else succ $ toEnum (i - 1)
-
-  fromEnum ProgressiveLevelCap = 0
-  fromEnum t = fromEnum (pred t) + 1
+  toEnum = unBE . toEnum @(BE _)
+  fromEnum = fromEnum @(BE _) . BE
 
 itemName :: Item -> String
 itemName ProgressiveLevelCap = "Progressive Level Cap"
