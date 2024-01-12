@@ -228,7 +228,7 @@ emitConnectorConfigH emitLn = do
   emitLn $
     "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon);"
   emitLn ""
-  -- TODO: change this to use allChapters
+  -- CR-soon cam: change this to use allChapters
   forM_ [1 .. 20] $ \i -> do
     emitLn $ "#define Ch" ++ show i ++ "Id (" ++ show (fromEnum $ C i) ++ ")"
   emitLn $ "#define Ch5xId (" ++ show (fromEnum $ C5x) ++ ")"
@@ -319,7 +319,7 @@ emitPythonData emitLn = do
   emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
   emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}"
   emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
-  -- CR-someday cam: compute this instead of hardcoding
+  -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
   emitLn "LOCATION_INFO_SIZE = 4"
   emitLn "ARCHIPELAGO_RECEIVED_ITEM_ADDR = {|receivedAPItem|}"
   emitLn "ARCHIPELAGO_NUM_RECEIVED_ITEMS_ADDR = {|receivedItemIndex|}"
