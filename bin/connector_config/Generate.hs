@@ -30,13 +30,34 @@ data HolyWeapon
   | Audhulma
   | Ivaldi
   | Latona
-  deriving (Show, Enum, Bounded, Typeable)
+  deriving (Show, Enum, Bounded, Typeable, Eq)
 
 -- holyWeaponShort :: HolyWeapon -> String
 -- holyWeaponShort = show @HolyWeapon
 
 holyWeaponLong :: HolyWeapon -> String
 holyWeaponLong = (++ " Received") . show @HolyWeapon
+
+-- CR-soon cam: Instead of doing this, we should make [FillerItem] a newtype of
+-- [Int] and simply include the item ID.
+data FillerItem
+  = AngelicRobe
+  | EnergyRing
+  | SecretBook
+  | Speedwings
+  | GoddessIcon
+  | DragonShield
+  | Talisman
+  | BodyRing
+  | Boots
+  | KnightCrest
+  | HeroCrest
+  | OrionsBolt
+  | GuidingRing
+  | ElysianWhip
+  | OceanSeal
+  | MasterSeal
+  deriving (Show, Enum, Bounded, Typeable, Eq)
 
 data Chapter
   = Prologue
@@ -111,50 +132,83 @@ data WeaponType
   | Anima
   | Light
   | Dark
-  deriving (Show, Enum, Bounded, Typeable)
+  deriving (Show, Enum, Bounded, Typeable, Eq)
 
 data Item
   = ProgressiveLevelCap
   | ProgressiveWLv WeaponType
   | HolyWeaponPut HolyWeapon
+  | FillerPlacement FillerItem
   deriving (Show, Typeable)
 
 instance Bounded Item where
   minBound = ProgressiveLevelCap
-  maxBound = HolyWeaponPut maxBound
+  maxBound = FillerPlacement maxBound
 
+-- CR-someday cam: we should be able to generate this
 instance Enum Item where
-  toEnum i
-    | i < 0 = error $ "invalid item index " ++ show i
-    | i == 0 = ProgressiveLevelCap
-    | i - 1 <= fromEnum (maxBound @WeaponType) = ProgressiveWLv $ toEnum $ i - 1
-    | otherwise =
-        HolyWeaponPut $ toEnum $ i - fromEnum (maxBound @WeaponType) - 1 - 1
+  succ ProgressiveLevelCap = ProgressiveWLv $ minBound @WeaponType
+  succ (ProgressiveWLv wt) =
+    if wt == maxBound @WeaponType
+      then HolyWeaponPut $ minBound @HolyWeapon
+      else ProgressiveWLv $ succ wt
+  succ (HolyWeaponPut hw) =
+    if hw == maxBound @HolyWeapon
+      then FillerPlacement $ minBound @FillerItem
+      else HolyWeaponPut $ succ hw
+  succ (FillerPlacement fp) =
+    if fp == maxBound @FillerItem
+      then error $ "called [Item::succ] on [Item::maxBound]"
+      else FillerPlacement $ succ fp
+
+  pred ProgressiveLevelCap = error $ "called [Item::pred] on [Item::minBound]"
+  pred (ProgressiveWLv wt) =
+    if wt == minBound @WeaponType
+      then ProgressiveLevelCap
+      else ProgressiveWLv $ pred wt
+  pred (HolyWeaponPut hw) =
+    if hw == minBound @HolyWeapon
+      then ProgressiveWLv $ maxBound @WeaponType
+      else HolyWeaponPut $ pred hw
+  pred (FillerPlacement fp) =
+    if fp == minBound @FillerItem
+      then HolyWeaponPut $ maxBound @HolyWeapon
+      else FillerPlacement $ pred fp
+
+  toEnum 0 = ProgressiveLevelCap
+  toEnum i =
+    if i < 0
+      then error $ "called [Item::toEnum] on negative number"
+      else succ $ toEnum (i - 1)
 
   fromEnum ProgressiveLevelCap = 0
-  fromEnum (ProgressiveWLv w) = fromEnum w + 1
-  fromEnum (HolyWeaponPut hw) = fromEnum hw + fromEnum (maxBound @WeaponType) + 1 + 1
+  fromEnum t = fromEnum (pred t) + 1
 
 itemName :: Item -> String
 itemName ProgressiveLevelCap = "Progressive Level Cap"
 itemName (ProgressiveWLv weap) = "Progressive Weapon Level (" ++ show weap ++ ")"
 itemName (HolyWeaponPut hw) = show hw
+itemName (FillerPlacement f) = show f
 
 -- XXX: We could automatically derive these from the definition of `Item`, but
 -- it's a lot of complex type-level machinery for very little gain.
-data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon
+data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem
   deriving (Show, Enum, Bounded, Typeable)
 
 itemkind :: Item -> ItemKind
 itemkind ProgressiveLevelCap = ProgLvlCap
 itemkind (ProgressiveWLv _) = ProgWLv
 itemkind (HolyWeaponPut _) = HolyWeapon
+itemkind (FillerPlacement _) = FillerItem
 
 progWLvName :: String
 progWLvName = "weaponType"
 
 holyWeaponKindName :: String
 holyWeaponKindName = "holyWeapon"
+
+fillerItemKindName :: String
+fillerItemKindName = "fillerItem"
 
 emitSetPayload :: (Monad m) => (String -> m ()) -> String -> Item -> m ()
 emitSetPayload emitLn prefix item =
@@ -164,6 +218,8 @@ emitSetPayload emitLn prefix item =
       emitLn $ prefix ++ progWLvName ++ " = " ++ show weapon ++ ";"
     (HolyWeaponPut holyWeapon) ->
       emitLn $ prefix ++ holyWeaponKindName ++ " = " ++ show holyWeapon ++ ";"
+    (FillerPlacement fillerItem) ->
+      emitLn $ prefix ++ fillerItemKindName ++ " = " ++ show fillerItem ++ ";"
 
 emitCPayloadUnion :: (Monad m) => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do
@@ -172,6 +228,8 @@ emitCPayloadUnion emitLn = do
   emitLn $ "  enum " ++ show (typeRep @WeaponType) ++ " " ++ progWLvName ++ ";"
   emitLn $
     "  enum " ++ show (typeRep @HolyWeapon) ++ " " ++ holyWeaponKindName ++ ";"
+  emitLn $
+    "  enum " ++ show (typeRep @FillerItem) ++ " " ++ fillerItemKindName ++ ";"
   emitLn $ "};"
 
 emitCEnum
@@ -228,7 +286,7 @@ emitConnectorConfigH emitLn = do
   emitLn $
     "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon);"
   emitLn ""
-  -- TODO: change this to use allChapters
+  -- CR-soon cam: change this to use allChapters
   forM_ [1 .. 20] $ \i -> do
     emitLn $ "#define Ch" ++ show i ++ "Id (" ++ show (fromEnum $ C i) ++ ")"
   emitLn $ "#define Ch5xId (" ++ show (fromEnum $ C5x) ++ ")"
@@ -251,6 +309,8 @@ emitConnectorConfigH emitLn = do
         ++ ")"
   emitLn ""
   emitCEnum @WeaponType emitLn
+  emitLn ""
+  emitCEnum @FillerItem emitLn
   emitLn ""
   emitLn $ "#define NUM_CHECKS (" ++ show numLocations ++ ")"
   emitLn ""
@@ -319,7 +379,7 @@ emitPythonData emitLn = do
   emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
   emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}"
   emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
-  -- CR-someday cam: compute this instead of hardcoding
+  -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
   emitLn "LOCATION_INFO_SIZE = 4"
   emitLn "ARCHIPELAGO_RECEIVED_ITEM_ADDR = {|receivedAPItem|}"
   emitLn "ARCHIPELAGO_NUM_RECEIVED_ITEMS_ADDR = {|receivedItemIndex|}"
