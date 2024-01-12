@@ -42,39 +42,39 @@ data Chapter
     | -- For now, we treat Eirika and Ephraim versions of the same map as the
       -- same location
       C Int
-    | T Int
-    | R Int
+    | Tower Int
+    | Ruins Int
     | C5x
-    | Endgame
-    | Victory
+    | Endgame1
+    | Endgame2
     deriving (Show, Typeable)
 
 instance Bounded Chapter where
     minBound = Prologue
-    maxBound = Victory
+    maxBound = Endgame2
 
 instance Enum Chapter where
     toEnum 0 = Prologue
     toEnum 6 = C5x
-    toEnum 22 = Endgame
-    toEnum 41 = Victory
+    toEnum 22 = Endgame1
+    toEnum 41 = Endgame2
     toEnum i
         | i < 1 = error $ "invalid chapter index " ++ show i
         | i < 6 = C i
         | i < 22 = C (i - 1)
-        | i < 31 = T (i - 22)
-        | i < 41 = R (i - 30)
+        | i < 31 = Tower (i - 22)
+        | i < 41 = Ruins (i - 30)
         | otherwise = error $ "invalid chapter index " ++ show i
 
     fromEnum Prologue = 0
     fromEnum C5x = 6
-    fromEnum Endgame = 22
-    fromEnum Victory = 41
+    fromEnum Endgame1 = 22
+    fromEnum Endgame2 = 41
     fromEnum (C i)
         | i < 6 = i
         | otherwise = i + 1
-    fromEnum (T i) = i + 22
-    fromEnum (R i) = i + 30
+    fromEnum (Tower i) = i + 22
+    fromEnum (Ruins i) = i + 30
 
 data Location
     = ChapterClear Chapter
@@ -124,7 +124,7 @@ instance Enum Item where
 
     fromEnum ProgressiveLevelCap = 0
     fromEnum (ProgressiveWLv w) = fromEnum w + 1
-    fromEnum (HolyWeaponPut hw) = fromEnum hw + (fromEnum $ maxBound @WeaponType) + 1 + 1
+    fromEnum (HolyWeaponPut hw) = fromEnum hw + fromEnum (maxBound @WeaponType) + 1 + 1
 
 itemName :: Item -> String
 itemName ProgressiveLevelCap = "Progressive Level Cap"
@@ -147,7 +147,7 @@ progWLvName = "weaponType"
 holyWeaponKindName :: String
 holyWeaponKindName = "holyWeapon"
 
-emitSetPayload :: Monad m => (String -> m ()) -> String -> Item -> m ()
+emitSetPayload :: (Monad m) => (String -> m ()) -> String -> Item -> m ()
 emitSetPayload emitLn prefix item =
     case item of
         ProgressiveLevelCap -> return ()
@@ -156,7 +156,7 @@ emitSetPayload emitLn prefix item =
         (HolyWeaponPut holyWeapon) ->
             emitLn $ prefix ++ holyWeaponKindName ++ " = " ++ show holyWeapon ++ ";"
 
-emitCPayloadUnion :: Monad m => (String -> m ()) -> m ()
+emitCPayloadUnion :: (Monad m) => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do
     emitLn $ "union Payload {"
     emitLn $ "  // progressive levelcap has no payload"
@@ -195,11 +195,11 @@ pythonCommentPrefix = "# "
 eventCommentPrefix :: String
 eventCommentPrefix = "// "
 
-emitHeader :: Monad m => String -> (String -> m ()) -> m ()
+emitHeader :: (Monad m) => String -> (String -> m ()) -> m ()
 emitHeader commentPrefix emitLn =
     forM_ headerLines $ emitLn . (commentPrefix ++)
 
-emitConnectorConfigH :: Monad m => (String -> m ()) -> m ()
+emitConnectorConfigH :: (Monad m) => (String -> m ()) -> m ()
 emitConnectorConfigH emitLn = do
     emitHeader cCommentPrefix emitLn
     emitLn ""
@@ -221,12 +221,12 @@ emitConnectorConfigH emitLn = do
         emitLn $ "#define Ch" ++ show i ++ "Id (" ++ show (fromEnum $ C i) ++ ")"
     emitLn $ "#define Ch5xId (" ++ show (fromEnum $ C5x) ++ ")"
     emitLn $ "#define PrologueId (" ++ show (fromEnum $ Prologue) ++ ")"
-    emitLn $ "#define EndgameId (" ++ show (fromEnum $ Endgame) ++ ")"
-    emitLn $ "#define VictoryId (" ++ show (fromEnum $ Victory) ++ ")"
+    emitLn $ "#define Endgame1Id (" ++ show (fromEnum $ Endgame1) ++ ")"
+    emitLn $ "#define Endgame2Id (" ++ show (fromEnum $ Endgame2) ++ ")"
     forM_ [23 .. 30] $ \i ->
-        emitLn $ "#define Tower" ++ show (i - 22) ++ "Id (" ++ show (fromEnum $ T (i - 22)) ++ ")"
+        emitLn $ "#define Tower" ++ show (i - 22) ++ "Id (" ++ show (fromEnum $ Tower (i - 22)) ++ ")"
     forM_ [31 .. 40] $ \i ->
-        emitLn $ "#define Ruins" ++ show (i - 30) ++ "Id (" ++ show (fromEnum $ R (i - 30)) ++ ")"
+        emitLn $ "#define Ruins" ++ show (i - 30) ++ "Id (" ++ show (fromEnum $ Ruins (i - 30)) ++ ")"
     emitLn ""
     emitCEnum @WeaponType emitLn
     emitLn ""
@@ -251,14 +251,14 @@ emitConnectorConfigH emitLn = do
 
     numLocations = fromEnum (maxBound @Location) - fromEnum (minBound @Location) + 1
 
-emitConnectorAccessorsC :: Monad m => (String -> m ()) -> m ()
+emitConnectorAccessorsC :: (Monad m) => (String -> m ()) -> m ()
 emitConnectorAccessorsC emitLn = do
     emitHeader cCommentPrefix emitLn
     emitLn ""
     emitLn $ "#include \"connector_config.h\""
     emitLn ""
     emitLn $ "int chapterClearFlagIndex(int chapterId) {"
-    emitLn $ "  return " ++ (show $ fromEnum $ ChapterClear Prologue) ++ "+chapterId;"
+    emitLn $ "  return " ++ show (fromEnum $ ChapterClear Prologue) ++ "+chapterId;"
     emitLn $ "}"
     emitLn ""
     emitLn $ "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon) {"
@@ -281,7 +281,7 @@ emitConnectorAccessorsC emitLn = do
     emitLn $ "  };"
     emitLn $ "}"
 
-emitPythonData :: Monad m => (String -> m ()) -> m ()
+emitPythonData :: (Monad m) => (String -> m ()) -> m ()
 emitPythonData emitLn = do
     emitHeader pythonCommentPrefix emitLn
     emitLn ""
@@ -314,28 +314,27 @@ emitPythonData emitLn = do
             ++ show (fromEnum $ HolyWeaponGet weap)
             ++ "),"
 
-    formatChapterClear c = "(" ++ formatChapterText c ++ ", " ++ (show $ fromEnum c) ++ "),"
+    formatChapterClear c = "(" ++ formatChapterText c ++ ", " ++ show (fromEnum c) ++ "),"
       where
         formatChapterText Prologue = "\"Complete Prologue\""
         formatChapterText C5x = "\"Complete Chapter 5x\""
         formatChapterText (C i) =
             "\"Complete Chapter " ++ show i ++ "\""
-        formatChapterText Endgame = "\"Defeat Lyon\""
-        formatChapterText Victory = "\"Defeat Formortiis\""
-        formatChapterText (T i) =
-            "\"Complete Tower of Valni " ++ show (i) ++ "\""
-        formatChapterText (R i) =
-            "\"Complete Lagdou Ruins " ++ show (i) ++ "\""
+        formatChapterText Endgame1 = "\"Defeat Lyon\""
+        formatChapterText Endgame2 = "\"Defeat Formortiis\""
+        formatChapterText (Tower i) =
+            "\"Complete Tower of Valni " ++ show i ++ "\""
+        formatChapterText (Ruins i) =
+            "\"Complete Lagdou Ruins " ++ show i ++ "\""
 
+    formatItem item = "(" ++ show (itemName item) ++ ", " ++ show (fromEnum item) ++ "),"
 
-    formatItem item = "(" ++ (show $ itemName item) ++ ", " ++ (show $ fromEnum item) ++ "),"
-
-emitEventDefs :: Monad m => (String -> m ()) -> m ()
+emitEventDefs :: (Monad m) => (String -> m ()) -> m ()
 emitEventDefs emitLn = do
     emitHeader eventCommentPrefix emitLn
     emitLn ""
     forM_ [minBound @HolyWeapon .. maxBound] $ \hw ->
-        emitLn $ "#define AP" ++ show hw ++ "Id " ++ (show $ fromEnum hw)
+        emitLn $ "#define AP" ++ show hw ++ "Id " ++ show (fromEnum hw)
 
 data GenOption
     = CLang
