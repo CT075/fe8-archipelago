@@ -1,4 +1,6 @@
 // TODO: cleanup
+// CR-soon cam: We could actually merge the handling of filler items and holy
+// weapons.
 
 #include "global.h"
 
@@ -93,7 +95,46 @@ u16 holyWeaponTrueValue(enum HolyWeapon hw) {
   return -1;
 }
 
+u16 fillerItemTrueValue(enum FillerItem f) {
+  switch (f) {
+    case AngelicRobe:
+      return ITEM_BOOSTER_HP;
+    case EnergyRing:
+      return ITEM_BOOSTER_POW;
+    case SecretBook:
+      return ITEM_BOOSTER_SKL;
+    case Speedwings:
+      return ITEM_BOOSTER_SPD;
+    case GoddessIcon:
+      return ITEM_BOOSTER_LCK;
+    case DragonShield:
+      return ITEM_BOOSTER_DEF;
+    case Talisman:
+      return ITEM_BOOSTER_RES;
+    case BodyRing:
+      return ITEM_BOOSTER_CON;
+    case Boots:
+      return ITEM_BOOSTER_MOV;
+    case KnightCrest:
+      return ITEM_KNIGHTCREST;
+    case HeroCrest:
+      return ITEM_HEROCREST;
+    case OrionsBolt:
+      return ITEM_ORIONSBOLT;
+    case GuidingRing:
+      return ITEM_GUIDINGRING;
+    case ElysianWhip:
+      return ITEM_ELYSIANWHIP;
+    case OceanSeal:
+      return ITEM_OCEANSEAL;
+    case MasterSeal:
+      return ITEM_MASTERSEAL;
+  }
+  return -1;
+}
+
 void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
+  struct Unit *target;
   switch (evt->kind) {
     case ProgLvlCap:
       bumpLevelCap();
@@ -130,7 +171,6 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
       NewPopup_Simple(Popup_WRankUp, 0x60, 0x0, parent);
       break;
     case HolyWeapon:
-      struct Unit *target;
       switch (gPlaySt.chapterModeIndex) {
         case CHAPTER_MODE_EIRIKA:
           target = GetUnitFromCharId(CHARACTER_EIRIKA);
@@ -145,6 +185,22 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
       u16 item = holyWeaponTrueValue(evt->payload.holyWeapon);
       NewPopup_ItemGot(parent, target, item);
       break;
+    case FillerItem:
+      switch (gPlaySt.chapterModeIndex) {
+        case CHAPTER_MODE_EIRIKA:
+          target = GetUnitFromCharId(CHARACTER_EIRIKA);
+          break;
+        case CHAPTER_MODE_EPHRAIM:
+          target = GetUnitFromCharId(CHARACTER_EPHRAIM);
+          break;
+        default:
+          target = GetUnitFromCharId(CHARACTER_EIRIKA);
+          break;
+      }
+      u16 itemfiller = fillerItemTrueValue(evt->payload.fillerItem);
+      NewPopup_ItemGot(parent, target, itemfiller);
+      break;
+    default:
   };
 }
 

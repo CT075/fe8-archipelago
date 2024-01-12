@@ -82,18 +82,39 @@ enum WeaponType {
   Dark=7,
 };
 
+enum FillerItem {
+  AngelicRobe=0,
+  EnergyRing=1,
+  SecretBook=2,
+  Speedwings=3,
+  GoddessIcon=4,
+  DragonShield=5,
+  Talisman=6,
+  BodyRing=7,
+  Boots=8,
+  KnightCrest=9,
+  HeroCrest=10,
+  OrionsBolt=11,
+  GuidingRing=12,
+  ElysianWhip=13,
+  OceanSeal=14,
+  MasterSeal=15,
+};
+
 #define NUM_CHECKS (52)
 
 enum ItemKind {
   ProgLvlCap=0,
   ProgWLv=1,
   HolyWeapon=2,
+  FillerItem=3,
 };
 
 union Payload {
   // progressive levelcap has no payload
   enum WeaponType weaponType;
   enum HolyWeapon holyWeapon;
+  enum FillerItem fillerItem;
 };
 
 struct IncomingEvent {

@@ -1,6 +1,9 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE UndecidableInstances #-}
 {-# OPTIONS_GHC -Werror=incomplete-patterns #-}
 
 -- The main purpose of this file is to generate both the necessary C header
@@ -10,14 +13,109 @@
 -- By generating both files from a common source, we can ensure that they never
 -- drift out of sync, and also means that this file can serve as a single point
 -- of reference for such events.
+--
+-- CR-someday cam: Bringing in the whole Haskell datatype machinery is kind of
+-- overkill. A simpler design would simply to have some kind of data file
+-- listing the names of each location (etc) and simply have this file read it.
+-- I'm a bit loathe to do that because we'd either have to come up with some
+-- common data interface for all the different categories (e.g. PutHolyWeapon vs
+-- ProgressiveWLv) or design a DSL to express them, whereas this file makes that
+-- structure very "obvious" once you know which type declarations to look at.
 
 import Control.Monad (forM_)
 import Data.List
+import GHC.Generics
 import System.Environment (getArgs)
 import System.Exit (ExitCode (..), exitWith)
 import System.IO (hPutStrLn, stderr)
 import Text.Read (readMaybe)
 import Type.Reflection
+
+-- Note to maintainers: Don't touch anything in this section unless you already
+-- understand how Haskell generics work. This is how we define the automatic
+-- ordering for all the datatypes defined in this file.
+-------------------- Generics Magic --------------------
+data BE a = BE {unBE :: a}
+
+class GBoundedEnum t where
+  gtoEnum :: Int -> t p
+  gfromEnum :: t p -> Int
+
+  gminBound :: t p
+  gmaxBound :: t p
+
+instance (Bounded k, Enum k) => GBoundedEnum (K1 a k) where
+  gtoEnum i = K1 $ toEnum i
+  gfromEnum (K1 k) = fromEnum k
+
+  gminBound = K1 $ minBound
+  gmaxBound = K1 $ maxBound
+
+  {-# INLINE gtoEnum #-}
+  {-# INLINE gfromEnum #-}
+  {-# INLINE gminBound #-}
+  {-# INLINE gmaxBound #-}
+
+instance (GBoundedEnum l, GBoundedEnum r) => GBoundedEnum (l :+: r) where
+  gtoEnum i =
+    if i <= gfromEnum (gmaxBound @l)
+      then L1 $ gtoEnum @l i
+      else R1 $ gtoEnum @r (i - (gfromEnum (gmaxBound @l) + 1))
+
+  gfromEnum (L1 l) = gfromEnum l
+  gfromEnum (R1 r) = gfromEnum r + (gfromEnum (gmaxBound @r)) + 1
+
+  gminBound = L1 $ gminBound @l
+  gmaxBound = R1 $ gmaxBound @r
+
+  {-# INLINE gtoEnum #-}
+  {-# INLINE gfromEnum #-}
+  {-# INLINE gminBound #-}
+  {-# INLINE gmaxBound #-}
+
+instance (GBoundedEnum k) => GBoundedEnum (M1 _a _b k) where
+  gtoEnum i = M1 $ gtoEnum i
+  gfromEnum (M1 x) = gfromEnum x
+  gminBound = M1 $ gminBound
+  gmaxBound = M1 $ gmaxBound
+
+  {-# INLINE gtoEnum #-}
+  {-# INLINE gfromEnum #-}
+  {-# INLINE gminBound #-}
+  {-# INLINE gmaxBound #-}
+
+instance GBoundedEnum V1 where
+  gtoEnum = error "attempted to construct [V1] via [gtoEnum]"
+  gfromEnum = undefined
+  gminBound = undefined
+  gmaxBound = undefined
+
+instance GBoundedEnum U1 where
+  gtoEnum 0 = U1
+  gtoEnum i = error $ "got index " ++ show i ++ " out of bounds when constructing enum"
+
+  gfromEnum U1 = 0
+
+  gminBound = U1
+  gmaxBound = U1
+
+  {-# INLINE gtoEnum #-}
+  {-# INLINE gfromEnum #-}
+  {-# INLINE gminBound #-}
+  {-# INLINE gmaxBound #-}
+
+instance (Generic a, GBoundedEnum (Rep a)) => Enum (BE a) where
+  toEnum = BE . to . gtoEnum
+  fromEnum = gfromEnum . from . unBE
+
+instance (Generic a, GBoundedEnum (Rep a)) => Bounded (BE a) where
+  minBound = BE $ to gminBound
+  maxBound = BE $ to gmaxBound
+
+instance (Show a) => Show (BE a) where
+  show = show . unBE
+
+-------------------- end Generics Magic --------------------
 
 data HolyWeapon
   = Sieglinde
@@ -30,13 +128,34 @@ data HolyWeapon
   | Audhulma
   | Ivaldi
   | Latona
-  deriving (Show, Enum, Bounded, Typeable)
+  deriving (Show, Enum, Bounded, Typeable, Eq, Generic)
 
 -- holyWeaponShort :: HolyWeapon -> String
 -- holyWeaponShort = show @HolyWeapon
 
 holyWeaponLong :: HolyWeapon -> String
 holyWeaponLong = (++ " Received") . show @HolyWeapon
+
+-- CR-soon cam: Instead of doing this, we should make [FillerItem] a newtype of
+-- [Int] and simply include the item ID.
+data FillerItem
+  = AngelicRobe
+  | EnergyRing
+  | SecretBook
+  | Speedwings
+  | GoddessIcon
+  | DragonShield
+  | Talisman
+  | BodyRing
+  | Boots
+  | KnightCrest
+  | HeroCrest
+  | OrionsBolt
+  | GuidingRing
+  | ElysianWhip
+  | OceanSeal
+  | MasterSeal
+  deriving (Show, Enum, Bounded, Typeable, Eq, Generic)
 
 data Chapter
   = Prologue
@@ -87,7 +206,7 @@ instance Enum Chapter where
 data Location
   = ChapterClear Chapter
   | HolyWeaponGet HolyWeapon
-  deriving (Show, Typeable)
+  deriving (Show, Typeable, Generic)
 
 instance Bounded Location where
   minBound = ChapterClear minBound
@@ -111,50 +230,83 @@ data WeaponType
   | Anima
   | Light
   | Dark
-  deriving (Show, Enum, Bounded, Typeable)
+  deriving (Show, Enum, Bounded, Typeable, Eq)
 
 data Item
   = ProgressiveLevelCap
   | ProgressiveWLv WeaponType
   | HolyWeaponPut HolyWeapon
+  | FillerPlacement FillerItem
   deriving (Show, Typeable)
 
 instance Bounded Item where
   minBound = ProgressiveLevelCap
-  maxBound = HolyWeaponPut maxBound
+  maxBound = FillerPlacement maxBound
 
+-- CR-someday cam: we should be able to generate this
 instance Enum Item where
-  toEnum i
-    | i < 0 = error $ "invalid item index " ++ show i
-    | i == 0 = ProgressiveLevelCap
-    | i - 1 <= fromEnum (maxBound @WeaponType) = ProgressiveWLv $ toEnum $ i - 1
-    | otherwise =
-        HolyWeaponPut $ toEnum $ i - fromEnum (maxBound @WeaponType) - 1 - 1
+  succ ProgressiveLevelCap = ProgressiveWLv $ minBound @WeaponType
+  succ (ProgressiveWLv wt) =
+    if wt == maxBound @WeaponType
+      then HolyWeaponPut $ minBound @HolyWeapon
+      else ProgressiveWLv $ succ wt
+  succ (HolyWeaponPut hw) =
+    if hw == maxBound @HolyWeapon
+      then FillerPlacement $ minBound @FillerItem
+      else HolyWeaponPut $ succ hw
+  succ (FillerPlacement fp) =
+    if fp == maxBound @FillerItem
+      then error $ "called [Item::succ] on [Item::maxBound]"
+      else FillerPlacement $ succ fp
+
+  pred ProgressiveLevelCap = error $ "called [Item::pred] on [Item::minBound]"
+  pred (ProgressiveWLv wt) =
+    if wt == minBound @WeaponType
+      then ProgressiveLevelCap
+      else ProgressiveWLv $ pred wt
+  pred (HolyWeaponPut hw) =
+    if hw == minBound @HolyWeapon
+      then ProgressiveWLv $ maxBound @WeaponType
+      else HolyWeaponPut $ pred hw
+  pred (FillerPlacement fp) =
+    if fp == minBound @FillerItem
+      then HolyWeaponPut $ maxBound @HolyWeapon
+      else FillerPlacement $ pred fp
+
+  toEnum 0 = ProgressiveLevelCap
+  toEnum i =
+    if i < 0
+      then error $ "called [Item::toEnum] on negative number"
+      else succ $ toEnum (i - 1)
 
   fromEnum ProgressiveLevelCap = 0
-  fromEnum (ProgressiveWLv w) = fromEnum w + 1
-  fromEnum (HolyWeaponPut hw) = fromEnum hw + fromEnum (maxBound @WeaponType) + 1 + 1
+  fromEnum t = fromEnum (pred t) + 1
 
 itemName :: Item -> String
 itemName ProgressiveLevelCap = "Progressive Level Cap"
 itemName (ProgressiveWLv weap) = "Progressive Weapon Level (" ++ show weap ++ ")"
 itemName (HolyWeaponPut hw) = show hw
+itemName (FillerPlacement f) = show f
 
 -- XXX: We could automatically derive these from the definition of `Item`, but
 -- it's a lot of complex type-level machinery for very little gain.
-data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon
+data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem
   deriving (Show, Enum, Bounded, Typeable)
 
 itemkind :: Item -> ItemKind
 itemkind ProgressiveLevelCap = ProgLvlCap
 itemkind (ProgressiveWLv _) = ProgWLv
 itemkind (HolyWeaponPut _) = HolyWeapon
+itemkind (FillerPlacement _) = FillerItem
 
 progWLvName :: String
 progWLvName = "weaponType"
 
 holyWeaponKindName :: String
 holyWeaponKindName = "holyWeapon"
+
+fillerItemKindName :: String
+fillerItemKindName = "fillerItem"
 
 emitSetPayload :: (Monad m) => (String -> m ()) -> String -> Item -> m ()
 emitSetPayload emitLn prefix item =
@@ -164,6 +316,8 @@ emitSetPayload emitLn prefix item =
       emitLn $ prefix ++ progWLvName ++ " = " ++ show weapon ++ ";"
     (HolyWeaponPut holyWeapon) ->
       emitLn $ prefix ++ holyWeaponKindName ++ " = " ++ show holyWeapon ++ ";"
+    (FillerPlacement fillerItem) ->
+      emitLn $ prefix ++ fillerItemKindName ++ " = " ++ show fillerItem ++ ";"
 
 emitCPayloadUnion :: (Monad m) => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do
@@ -172,6 +326,8 @@ emitCPayloadUnion emitLn = do
   emitLn $ "  enum " ++ show (typeRep @WeaponType) ++ " " ++ progWLvName ++ ";"
   emitLn $
     "  enum " ++ show (typeRep @HolyWeapon) ++ " " ++ holyWeaponKindName ++ ";"
+  emitLn $
+    "  enum " ++ show (typeRep @FillerItem) ++ " " ++ fillerItemKindName ++ ";"
   emitLn $ "};"
 
 emitCEnum
@@ -251,6 +407,8 @@ emitConnectorConfigH emitLn = do
         ++ ")"
   emitLn ""
   emitCEnum @WeaponType emitLn
+  emitLn ""
+  emitCEnum @FillerItem emitLn
   emitLn ""
   emitLn $ "#define NUM_CHECKS (" ++ show numLocations ++ ")"
   emitLn ""

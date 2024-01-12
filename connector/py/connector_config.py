@@ -78,6 +78,22 @@ items = [
   ("Audhulma", 16),
   ("Ivaldi", 17),
   ("Latona", 18),
+  ("AngelicRobe", 19),
+  ("EnergyRing", 20),
+  ("SecretBook", 21),
+  ("Speedwings", 22),
+  ("GoddessIcon", 23),
+  ("DragonShield", 24),
+  ("Talisman", 25),
+  ("BodyRing", 26),
+  ("Boots", 27),
+  ("KnightCrest", 28),
+  ("HeroCrest", 29),
+  ("OrionsBolt", 30),
+  ("GuidingRing", 31),
+  ("ElysianWhip", 32),
+  ("OceanSeal", 33),
+  ("MasterSeal", 34),
 ]
 SLOT_NAME_ADDR = {|archipelagoInfo|}
 SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}
