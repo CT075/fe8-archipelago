@@ -31,11 +31,16 @@ import System.IO (hPutStrLn, stderr)
 import Text.Read (readMaybe)
 import Type.Reflection
 
--- Note to maintainers: Don't touch anything in this section unless you already
--- understand how Haskell generics work. This is how we define the automatic
--- ordering for all the datatypes defined in this file.
 -------------------- Generics Magic --------------------
-data BE a = BE {unBE :: a}
+
+-- Note to maintainers: Don't touch anything in this section unless you already
+-- understand how GHC.Generics works.
+
+-- This machinery is intended to automatically generate proper [Enum] instances
+-- from the definitions of [Location] and [Item]. Using [GHC.Generics] to do
+-- this is a bit like pulling out a bazooka to kill a fly, but it saves us from
+-- having to manually write error-prone index-shifting logic every time we add
+-- a new variant.
 
 class GBoundedEnum t where
   gtoEnum :: Int -> t p
@@ -104,6 +109,11 @@ instance GBoundedEnum U1 where
   {-# INLINE gminBound #-}
   {-# INLINE gmaxBound #-}
 
+-- We need a newtype wrapper to avoid orphaning the instances here.
+-- Alternatively, we could use DerivingVia, but I don't want to figure that
+-- out right now..
+data BE a = BE {unBE :: a}
+
 instance (Generic a, GBoundedEnum (Rep a)) => Enum (BE a) where
   toEnum = BE . to . gtoEnum
   fromEnum = gfromEnum . from . unBE
@@ -111,9 +121,6 @@ instance (Generic a, GBoundedEnum (Rep a)) => Enum (BE a) where
 instance (Generic a, GBoundedEnum (Rep a)) => Bounded (BE a) where
   minBound = BE $ to gminBound
   maxBound = BE $ to gmaxBound
-
-instance (Show a) => Show (BE a) where
-  show = show . unBE
 
 -------------------- end Generics Magic --------------------
 
