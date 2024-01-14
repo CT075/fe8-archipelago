@@ -200,7 +200,6 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
       u16 itemfiller = fillerItemTrueValue(evt->payload.fillerItem);
       NewPopup_ItemGot(parent, target, itemfiller);
       break;
-    default:
   };
 }
 
