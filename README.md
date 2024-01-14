@@ -44,7 +44,14 @@ See [HACKING.md](HACKING.md).
       not properly truncated. This may lead to a unit being level 20 with 11
       EXP.
 - Receiving items on the world map doesn't work yet.
-- Units can occasionally be dropped on impassable terrain.
+- Units can be dropped on impassable terrain. This is a bug resulting from a
+  fix that allows units to move one tile in any direction if the game judges
+  them to be "stuck". This serves two purposes, first to reduce the chance that
+  cutscene pathfinding will crash the game, and second to prevent softlocks if
+  a mandatory enemy spawns in an inaccessible area (this is most commonly
+  encountered with the chapter 2 brigands). There are a few different ideas for
+  fixes outlined for this in [HACKING.md](HACKING.md) if anyone is interested,
+  but it is a low priority for me at the moment.
 
 ### Polish
 

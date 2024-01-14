@@ -194,7 +194,8 @@ allChapters =
     ++ (Tower <$> [1 .. 8])
     ++ (Ruins <$> [1 .. 10])
 
--- We can't use [GBoundedEnum] here because we have custom bounds on [Int]
+-- We can't use [GBoundedEnum] here because we have custom bounds on the [Int]s
+-- in [C], [Tower] and [Ruins].
 instance Bounded Chapter where
   minBound = head allChapters
   maxBound = last allChapters
