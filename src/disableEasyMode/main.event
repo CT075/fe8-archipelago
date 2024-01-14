@@ -1,0 +1,69 @@
+PUSH
+
+// DifficultySelect_Init
+// -  proc->unk_30 = 0
+// +  proc->unk_30 = 1
+//
+// Change the initial state of the difficulty select proc to Normal mode.
+//
+// TECHNICAL NOTES:
+//   The compiler actually optimized a 0-write to both unk_30 and unk_2c to use
+//   the same register, so we're actually writing 1 to both. However,
+//   [InitDifficultySelectScreen] clobbers both anyway, so if we cancel that
+//   write to unk_30, it causes no externally-visible change.
+ORG 0x0AC1AE
+SHORT 0x2101  // mov r1, #1
+
+// InitDifficultySelectScreen
+// -  proc->unk_34->unk_2b = 0;
+// +  proc->unk_34->unk_2b = 1;
+//
+// Start with Normal mode highlighted instead of Easy.
+//
+// TECHNICAL NOTES:
+//   We need to store a 1 as the initial value for proc->unk_34->unk_2b, but it
+//   uses the same 0-stealing technique as described earlier. However, because
+//   we managed to elide the need to write a 0 to unk_30, we can use those
+//   freed-up opcodes to change the stolen register to a 1 (it's never used
+//   again, so this is safe).
+ORG 0x0AC148
+SHORT 0x2601  // mov r6, #0
+
+// DifficultySelect_Loop_KeyHandler
+// -  if (proc->unk_30 == 0)
+// +  if (proc->unk_30 == 1)
+//
+// Adjust [up] handler to loop at 1 (Normal) instead of 0 (Easy)
+ORG 0x0AC2A2
+SHORT 0x2801  // cmp r0, #1
+
+// DifficultySelect_Loop_KeyHandler
+// -  proc->unk_30 = 0
+// +  proc->unk_30 = 1
+//
+// Adjust [down] handler to loop to 1 (Normal) instead of 0 (Easy)
+//
+// TECHNICAL NOTES:
+//   Similar to the above, the compiler notes that `hasChanged` (r2) is always
+//   0 at this point in vanilla, so it just writes r2 to the struct. However,
+//   it also always sets `hasChanged` to 1 afterwards, so we can just lift that
+//   instruction to before the branch checking whether `proc->unk_30` is 2.
+ORG 0x0AC2C0
+SHORT 0x2201
+SHORT 0x1C21 0x3130 0x7808 0x2802 0xD101 0x700A 0xE001 0x3001 0x7008
+
+// DrawDifficultySprites_Loop
+// - for (i = 0; i < 3; i++)
+// + for (i = 1; i < 3; i++)
+//
+// When drawing the menu, start drawing from palette index 1 (Normal)
+//
+// TECHNICAL NOTES:
+//   This is copied straight from the decomp, since it doesn't shift anything
+//   when changed. I don't actually know why the opcodes other than the first
+//   `mov r5` get changed. I think it's for deep loop-invariant motion reasons.
+ORG 0x0AC5C4
+SHORT 0x2501  // mov r5, #1
+SHORT 0x202B 0x1980 0x4682 0x2108 0x4689 0x2207 0x4690 0x27A0 0x03FF
+
+POP

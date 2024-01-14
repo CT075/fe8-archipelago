@@ -17,6 +17,7 @@
 #include "BattleStatsWithAnimsOff/FE8-BattleStats.event"
 #include "noInflatePrepShop/noInflatePrepShop.event"
 #include "InlineFix2_GenerateBestMovementScript.event"
+#include "disableEasyMode/main.event"
 
 PUSH
 ORG FreeSpaceBL
