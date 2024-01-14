@@ -47,23 +47,41 @@ SHORT 0x2801  // cmp r0, #1
 //   Similar to the above, the compiler notes that `hasChanged` (r2) is always
 //   0 at this point in vanilla, so it just writes r2 to the struct. However,
 //   it also always sets `hasChanged` to 1 afterwards, so we can just lift that
-//   instruction to before the branch checking whether `proc->unk_30` is 2.
+//   instruction to before the branch (the if statement) and continue to steal
+//   r2.
 ORG 0x0AC2C0
 SHORT 0x2201
 SHORT 0x1C21 0x3130 0x7808 0x2802 0xD101 0x700A 0xE001 0x3001 0x7008
 
 // DrawDifficultySprites_Loop
-// - for (i = 0; i < 3; i++)
-// + for (i = 1; i < 3; i++)
+// -  for (i = 0; i < 3; i++)
+// +  for (i = 1; i < 3; i++)
+//    // ...
+// -    s16 y = 48 + i * 32;
+// +    s16 y = 32 + i * 32;
 //
-// When drawing the menu, start drawing from palette index 1 (Normal)
+// When drawing the menu, start drawing from palette index 1 (Normal) and draw
+// the menu buttons 2 tiles higher (to center them better)
 //
 // TECHNICAL NOTES:
-//   This is copied straight from the decomp, since it doesn't shift anything
-//   when changed. I don't actually know why the opcodes other than the first
-//   `mov r5` get changed. I think it's for deep loop-invariant motion reasons.
+//   The loop body uses a bunch of loop-invariant code motion optimizations to
+//   avoid actually multiplying by `i`. There are a few different ways to make
+//   this change inline, but making the change against the decomp actually
+//   produces something that fits inline, so we can just go with that.
 ORG 0x0AC5C4
 SHORT 0x2501  // mov r5, #1
-SHORT 0x202B 0x1980 0x4682 0x2108 0x4689 0x2207 0x4690 0x27A0 0x03FF
+SHORT 0x202B 0x1980 0x4682 0x2108 0x4689 0x2207 0x4690 0x2780 0x03FF
+
+// DrawDifficultyMenuCursorMaybe
+// -  OAM0_Y(proc->unk_2e + gUnknown_08A20B14[(proc->unk_2a >> 3) & 7])
+// +  OAM0_Y(proc->unk_2e + gUnknown_08A20B14[(proc->unk_2a >> 3) & 7] - 16)
+//
+// Shift the cursor drawing position to match the new buttons.
+//
+// TECHNICAL NOTES:
+//   Thanks to Huichelaar for pointing out that the value here is always 8 bits,
+//   so we can remove a redundant AND with 0xFF to do the subtract instead.
+ORG 0x0AC4D6
+SHORT 0x3A10  // sub r12, #16
 
 POP
