@@ -28,7 +28,9 @@ void bumpLevelCap() {
 
   for (int i = 0 ; i < BLUE_UNIT_MAX ; i += 1) {
     struct Unit *unit = &gUnitArrayBlue[i];
-    if (unit->exp == UNIT_EXP_DISABLED && unit->level < TRUE_LEVEL_CAP) {
+    if (   unit->exp == UNIT_EXP_DISABLED
+        && GetUnitExpLevel(unit) < GetLevelCap()
+        && unit->level < TRUE_LEVEL_CAP) {
       unit->exp = 0;
     }
   }
