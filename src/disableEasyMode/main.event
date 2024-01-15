@@ -1,45 +1,45 @@
 PUSH
 
 // DifficultySelect_Init
-// -  proc->unk_30 = 0
-// +  proc->unk_30 = 1
+// -  proc->current_selection = 0
+// +  proc->current_selection = 1
 //
 // Change the initial state of the difficulty select proc to Normal mode.
 //
 // TECHNICAL NOTES:
-//   The compiler actually optimized a 0-write to both unk_30 and unk_2c to use
-//   the same register, so we're actually writing 1 to both. However,
-//   [InitDifficultySelectScreen] clobbers both anyway, so if we cancel that
-//   write to unk_30, it causes no externally-visible change.
+//   The compiler actually optimized a 0-write to both current_selection and
+//   unk_2c to use the same register, so we're actually writing 1 to both.
+//   However, [InitDifficultySelectScreen] clobbers both anyway, so if we cancel
+//   that write to current_selection, it causes no externally-visible change.
 ORG 0x0AC1AE
 SHORT 0x2101  // mov r1, #1
 
 // InitDifficultySelectScreen
-// -  proc->unk_34->unk_2b = 0;
-// +  proc->unk_34->unk_2b = 1;
+// -  proc->sprites_proc->current_selection = 0;
+// +  proc->sprites_proc->current_selection = 1;
 //
 // Start with Normal mode highlighted instead of Easy.
 //
 // TECHNICAL NOTES:
-//   We need to store a 1 as the initial value for proc->unk_34->unk_2b, but it
-//   uses the same 0-stealing technique as described earlier. However, because
-//   we managed to elide the need to write a 0 to unk_30, we can use those
-//   freed-up opcodes to change the stolen register to a 1 (it's never used
-//   again, so this is safe).
+//   We need to store a 1 as the initial value for proc->sprites_proc->current_selection,
+//   but it uses the same 0-stealing technique as described earlier. Thankfully,
+//   because we managed to elide the need to write a 0 to current_selection, we
+//   can use those freed-up opcodes to change the stolen register to a 1 (it's
+//   never used again, so this is safe).
 ORG 0x0AC148
 SHORT 0x2601  // mov r6, #0
 
 // DifficultySelect_Loop_KeyHandler
-// -  if (proc->unk_30 == 0)
-// +  if (proc->unk_30 == 1)
+// -  if (proc->current_selection == 0)
+// +  if (proc->current_selection == 1)
 //
 // Adjust [up] handler to loop at 1 (Normal) instead of 0 (Easy)
 ORG 0x0AC2A2
 SHORT 0x2801  // cmp r0, #1
 
 // DifficultySelect_Loop_KeyHandler
-// -  proc->unk_30 = 0
-// +  proc->unk_30 = 1
+// -  proc->current_selection = 0
+// +  proc->current_selection = 1
 //
 // Adjust [down] handler to loop to 1 (Normal) instead of 0 (Easy)
 //
