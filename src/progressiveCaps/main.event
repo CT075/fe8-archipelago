@@ -1,14 +1,19 @@
 #include "progressiveCaps.lyn.event"
 #include "displayLvlCap.lyn.event"
 
-/*
+// hook for unit listing
 PUSH
-  ORG 0x0070B0
-  WORD TalkInterpretVeneer
+  ORG 0x092A08
+  SHORT 0x4C01  // ldr r4, =UnitListHook|1
+  SHORT 0x1C31  // mov r1, r6
+  SHORT 0x4720  // bx r4
+  SHORT 0x46C0  // nop
 
-  ORG 0x008C94
-  WORD GetStrTalkLenVeneer
+  POIN UnitListHook|1  // literal pool
+
+UnitListHookRet:
+  SHORT 0x1C04  // mov r4, r0
 POP
 
-#include "veneers.lyn.event"
-*/
+UnitListHook:
+#include "unitListHook.lyn.event"

@@ -11,6 +11,7 @@
 *.asm
 *.hi
 *.bsdiff*
+!src/progressiveCaps/unitListHook.s
 !src/fillAIDangerMap/FillAIDangerMap.s
 !src/ExpandedModularSave/Src/*.lyn.event
 !src/ExpandedModularSave/Src/*.s
