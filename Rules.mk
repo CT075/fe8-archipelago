@@ -12,6 +12,9 @@ ARCHIPELAGO_DEFS := $(BUILD_DIR)/archipelagoDefs.event
 RAM_STRUCTURES_H := include/ram_structures.h
 RAM_SYMS := $(BUILD_DIR)/ram_syms.sym
 
+SAVE_CHUNKS_GEN_EVENT := $(BUILD_DIR)/save_chunks.gen.event
+SUSP_CHUNKS_GEN_EVENT := $(BUILD_DIR)/suspend_chunks.gen.event
+
 POSTPROCESS := $(BIN_DIR)/postprocess.py
 
 POPULATED_CONNECTOR_CONFIG := $(BUILD_DIR)/connector_config.py
@@ -44,6 +47,12 @@ src/archipelago/connector_config_defs.event: $(BIN_DIR)/connector_config/Generat
 
 $(RAM_STRUCTURES_H): $(BIN_DIR)/ram_alloc.py data/ram_structures.csv
 	python $< --items_file $(word 2,$^) > $@
+
+$(SAVE_CHUNKS_GEN_EVENT): $(BIN_DIR)/save_alloc.py data/save_chunks.csv
+	python $< --items_file $(word 2,$^) --which save > $@
+
+$(SUSP_CHUNKS_GEN_EVENT): $(BIN_DIR)/save_alloc.py data/save_chunks.csv
+	python $< --items_file $(word 2,$^) --which suspend > $@
 
 SYMBOLS := $(TARGET:.gba=.sym)
 

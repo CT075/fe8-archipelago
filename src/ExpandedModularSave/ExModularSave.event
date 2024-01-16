@@ -96,7 +96,9 @@ gSaveBlockTypeSizeLookup:
 #define DeclSaveChunkEnd "SHORT 0xFFFF 0 0 0 0 0"
 
 #include "Src/MSaFuncs.lyn.event"
+
 // CR cam: this shouldn't need to live in this folder
+// CR-soon cam: collapse these into a single header
 #include "Modules/progCaps.lyn.event"
 #include "Modules/checks.lyn.event"
 #include "Modules/receivedItems.lyn.event"
@@ -115,10 +117,7 @@ gGameSaveChunks:
 	DeclSaveChunk($0D88, $0004, MSa_SaveBonusClaim,   MSa_LoadBonusClaim,   EMS_CHUNK_BONUSCLAIMDATA)
 	DeclSaveChunk($0D8C, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
 	DeclSaveChunk($0DB0, $0018, MSa_SaveDungeonState, MSa_LoadDungeonState) // Valni/Lagdou permanent data
-  DeclSaveChunk($0DC8, PROGRESSIVE_CAPS_SIZE, saveProgCaps, loadProgCaps)
-  // CR cam: this is awful
-  DeclSaveChunk((0x0DC8+PROGRESSIVE_CAPS_SIZE), CHECKED_LOCATION_SIZE, saveChecks, loadChecks)
-  DeclSaveChunk((0x0DC8+PROGRESSIVE_CAPS_SIZE+CHECKED_LOCATION_SIZE), 4, saveReceivedItemIndex, loadReceivedItemIndex)
+#include save_chunks.gen.event
 
 	// free up to $1344 ($57C free bytes)
 
@@ -150,9 +149,7 @@ gSuspendSaveChunks:
 	DeclSaveChunk($1F44, $0024, MSa_SaveWMStuff,      MSa_LoadWMStuff,      EMS_CHUNK_WMDATA)
 	DeclSaveChunk($1F68, $000C, MSu_SaveDungeonState, MSu_LoadDungeonState) // Valni/Lagdou active run data
 	DeclSaveChunk($1F74, $0004, MSu_SaveEventCounter, MSu_LoadEventCounter) // Event counter
-  DeclSaveChunk($1F78, PROGRESSIVE_CAPS_SIZE, saveProgCaps, loadProgCaps)
-  DeclSaveChunk((0x1F78+PROGRESSIVE_CAPS_SIZE), CHECKED_LOCATION_SIZE, saveChecks, loadChecks)
-  DeclSaveChunk((0x1F78+PROGRESSIVE_CAPS_SIZE+CHECKED_LOCATION_SIZE), 4, saveReceivedItemIndex, loadReceivedItemIndex)
+#include suspend_chunks.gen.event
 
 	DeclSaveChunk(0, 0, 0, MSu_LoadClaimFlagsFromParentSave) // Load Bonus Claim flags from parent save
 
