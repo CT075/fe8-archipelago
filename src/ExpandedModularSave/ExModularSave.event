@@ -102,6 +102,7 @@ gSaveBlockTypeSizeLookup:
 #include "Modules/progCaps.lyn.event"
 #include "Modules/checks.lyn.event"
 #include "Modules/receivedItems.lyn.event"
+#include "Modules/convoy200.lyn.event"
 
 ALIGN 4
 gGameSaveChunks:
@@ -110,7 +111,7 @@ gGameSaveChunks:
 	DeclSaveChunk($0000, $004C, MSa_SaveChapterState, MSa_LoadChapterState, EMS_CHUNK_CHAPTERSTATE)
 	DeclSaveChunk($004C, $072C, MSa_SaveUnits,        MSa_LoadUnits,        EMS_CHUNK_SAVEUNITS)
 	DeclSaveChunk($0778, $0008, $0A59E0+1,            $0A5A00+1)            // World map skirmish RNG state
-	DeclSaveChunk($079C, $00B0, $0A31E4+1,            $0A326C+1,            EMS_CHUNK_CONVOYITEMS)
+	//DeclSaveChunk($079C, $00B0, $0A31E4+1,            $0A326C+1,            EMS_CHUNK_CONVOYITEMS)
 	DeclSaveChunk($084C, $0460, $0A4264+1,            $0A421C+1,            EMS_CHUNK_BWLENTRIES)
 	DeclSaveChunk($0CAC, $00C0, $0A4288+1,            $0A4248+1,            EMS_CHUNK_WINDATA)
 	DeclSaveChunk($0D6C, $0019, $0A3150+1,            $0A3198+1,            EMS_CHUNK_EIDS_PERMANENT)
@@ -140,7 +141,7 @@ gSuspendSaveChunks:
 	// there's a small gap here? $0AF8-0B14
 	DeclSaveChunk($0B14, $0C30, MSu_SaveOtherUnits,   MSu_LoadOtherUnits)   // Non-Player Units
 	DeclSaveChunk($1744, $0200, $0A6370+1,            $0A638C+1)            // Trap data
-	DeclSaveChunk($1944, $00B0, $0A31E4+1,            $0A326C+1)            // Convoy Items
+	//DeclSaveChunk($1944, $00B0, $0A31E4+1,            $0A326C+1)            // Convoy Items
 	DeclSaveChunk($19F4, $0460, $0A4264+1,            $0A421C+1)            // BWL Entries
 	DeclSaveChunk($1E54, $00C0, $0A4288+1,            $0A4248+1)            // Previous chapters turn count & time & stuff
 	DeclSaveChunk($1F14, $0010, MSu_SaveMenuRelated,  MSu_LoadMenuRelated)  // "menu related list" related

@@ -28,7 +28,8 @@ FOOTER = """\
 @dataclass
 class Item:
     name: str
-    type_: str
+    real_type: str
+    access_type: str
     notes: str
 
     def address_name(self):
@@ -40,7 +41,8 @@ class Item:
         )
 
     def var_declaration(self):
-        return f"#define {self.var_name()} (({self.type_} *)({self.address_name()}))"
+        access_type = self.access_type if self.access_type else f'{self.real_type} *'
+        return f"#define {self.var_name()} (({access_type})({self.address_name()}))"
 
 
 def main(items: Iterable[Item]) -> None:
@@ -52,7 +54,7 @@ def main(items: Iterable[Item]) -> None:
         print(f"#define {item.address_name()} ({last_addr} + {bump})")
         print(item.var_declaration())
         last_addr = f"{item.address_name()}"
-        bump = f"sizeof_round({item.type_})"
+        bump = f"sizeof_round({item.real_type})"
     print(FOOTER)
 
 

@@ -21,6 +21,8 @@
 #define receivedItemIndex ((u32 *)(RECEIVED_ITEM_INDEX_ADDR))
 #define PROGRESSIVE_CAPS_ADDR (RECEIVED_ITEM_INDEX_ADDR + sizeof_round(u32))
 #define progressiveCaps ((struct ProgressiveCaps *)(PROGRESSIVE_CAPS_ADDR))
+#define NEW_CONVOY_ARRAY_ADDR (PROGRESSIVE_CAPS_ADDR + sizeof_round(struct ProgressiveCaps))
+#define newConvoyArray ((u16 *)(NEW_CONVOY_ARRAY_ADDR))
 
 #endif // RAM_STRUCTURES_H
 

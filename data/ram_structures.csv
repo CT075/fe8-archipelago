@@ -1,5 +1,6 @@
-name,type_,notes
-Checked Locations,struct Checks,
-Received AP Item,struct APReceivedItem,
-Received Item Index,u32,
-Progressive Caps,struct ProgressiveCaps,
+name,real_type,access_type,notes
+Checked Locations,struct Checks,,
+Received AP Item,struct APReceivedItem,,
+Received Item Index,u32,,
+Progressive Caps,struct ProgressiveCaps,,
+New Convoy Array,u16[200],u16 *,
