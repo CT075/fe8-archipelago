@@ -5,8 +5,6 @@
 #include "archipelago.h"
 #include "ram_structures.h"
 
-// CR cam: Instead of generating this, we should instead generate the EMS adds
-// directly.
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     printf("usage: ./export_addresses [Event/Sym]");
@@ -18,6 +16,8 @@ int main(int argc, char *argv[]) {
   // would mean doing CSV/string processing in C, which is not really worth the
   // effort.
   if (strcmp(argv[1], "Event") == 0) {
+    printf("#ifndef ARCHIPELAGO_DEFS_EVENT\n");
+    printf("#define ARCHIPELAGO_DEFS_EVENT\n");
     printf("#define PROGRESSIVE_CAPS_SIZE (%d)\n", sizeof(struct ProgressiveCaps));
     printf("#define PROGRESSIVE_CAPS_ADDR (0x%x)\n", PROGRESSIVE_CAPS_ADDR);
     printf("#define CHECKED_LOCATION_SIZE (%d)\n", sizeof(struct Checks));
@@ -25,6 +25,8 @@ int main(int argc, char *argv[]) {
     printf("#define AP_RECEIVED_ITEM_SIZE (%d)\n", sizeof(struct APReceivedItem));
     printf("#define AP_RECEIVED_ITEM_ADDR (0x%x)\n", RECEIVED_AP_ITEM_ADDR);
     printf("#define RECEIVED_ITEM_IX_ADDR (0x%x)\n", RECEIVED_ITEM_INDEX_ADDR);
+    printf("#define NEW_CONVOY_ARRAY_ADDR (0x%x)\n", NEW_CONVOY_ARRAY_ADDR);
+    printf("#endif\n");
   }
   else if (strcmp(argv[1], "Sym") == 0) {
     printf("%08X receivedAPItem\n", RECEIVED_AP_ITEM_ADDR);
