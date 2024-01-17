@@ -2,11 +2,11 @@ sp := $(sp).x
 dirstack_$(sp) := $(d)
 d := $(dir)
 
-EVENTS_$(d) := $(d)/convoy200.lyn.event
+EVENTS_$(d) := $(d)/main.event
 
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
-CLEAN := $(CLEAN) $(d)/convoy200.lyn.event
+CLEAN := $(CLEAN)
 
 d := $(dirstack_$(sp))
 sp := $(basename $(sp))
