@@ -220,6 +220,7 @@ void enqueueReceivedItemEvent() {
   CallEvent(receiveAPItemEvent, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
 
   receivedAPItem->filled = 0;
+  *receivedItemIndex += 1;
 }
 
 bool8 HasConvoyAccess() {
