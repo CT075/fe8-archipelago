@@ -78,8 +78,10 @@ licenses:
 - BattleStatsWithAnimsOff by Tequila, with assets by Alusq
 - DangerZone, LToggle and HpBars by circleseverywhere
 - moveCostFix adapted from [SelfRandomizingRom](https://github.com/FireEmblemUniverse/SelfRandomizingRom-fe8) by circleseverywhere
-- `lyn`, libgbafe and Expanded Modular Save by [stan](https://github.com/StanHash/)
+- `lyn`, libgbafe, text-process-classic and Expanded Modular Save by [stan](https://github.com/StanHash/)
 - Inline GenerateBestMovementScript by 7743
+- ParseFile and Png2Dmp by [CrazyColorz5](https://github.com/Crazycolorz5)
+- FE8 Essential Fixes by the [FE8 Skill System](https://github.com/FireEmblemUniverse/SkillSystem_FE8/) team and contributors
 - Project template initially forked from MysticOCE's
   [EasyBuildfile](https://github.com/MysticOCE/EasyBuildfile) taking
   inspiration from [Zane Avernathy's Sacred Stones hack rewrites](https://github.com/ZaneAvernathy/Rewrite)
