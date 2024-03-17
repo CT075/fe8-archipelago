@@ -95,5 +95,8 @@ contributors to the FE8 Archipelago project include:
 - [Darrman](https://feuniverse.us/u/darrman/)
 - [Two Who Belong](https://linktr.ee/ttlaitw)
 
+For specific contributions, please see the commit logs, both of this repository
+and (my branch of) [the main Archipelago repo](https://github.com/CT075/Archipelago/tree/fe8/stable).
+
 Finally, special thanks to SgtSmilies, MysticOCE and Datagne for helping me
 playtest through the earliest and buggiest versions.
