@@ -26,12 +26,16 @@ set to a local fork of the main Archipelago repo.
 
 # Current "major" buglist (unordered)
 
-1. Race condition with dropped items when reloading saves
-  - This is probably the single most important bug to fix, but it's
-    unfortunately one of the hardest to pin down. My best guess is that we're
-    somehow incrementing `receivedItemIndex` before the corresponding item is
-    actually processed (or that the increment is being saved but the result
-    isn't). I've no idea why that would be the case, though.
+1. Alt route autoleveling
+  - This is related to the general exp display bug. The game uses the in-game
+    autolevel function to make specific characters stronger at join-time in
+    routes when they arrive later. This function checks the same level cap
+    function that we hijack for archipelago, meaning that they can be given
+    "overcap" exp without leveling if it would put them over the level cap.
+    This most commonly occurs with Duessel on Eirika's route.
+  - The easiest thing to do is probably to have an alt autolevel function that
+    doesn't check the level cap.
+  - Medium priority
 2. Rescuedropping on invalid terrain bug
   - This actually affects more than rescue-dropping -- both Warp and Rescue (the
     staff) can also cause units to be placed on invalid terrain. The root cause
@@ -48,4 +52,4 @@ set to a local fork of the main Archipelago repo.
     here would be to randomly assign every unit in the game one of these, but
     that would either require a ton of data entry/repointing, or we'd have to
     adjust the summoning logic to allow this.
-  - Low priority
+  - Low priority (good starter issue!)
