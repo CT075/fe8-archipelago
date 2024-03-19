@@ -104,6 +104,8 @@ not even that consistent with it myself).
   of immediately marking which functions are overriding some vanilla
   functionality.
 - `type *pointer` over `type* pointer`.
+- Avoid using `#incext` and `#inctext` wherever possible. These should pretty
+  much always be replaced by invoking the relevant tool in the makefile.
 
 # Current "major" buglist (unordered)
 
