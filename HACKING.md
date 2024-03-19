@@ -77,6 +77,19 @@ periodically delete `_build/cache` if certain changes aren't being picked up.
 Most of the big-picture logic is defined in [Rules.mk](Rules.mk), with
 module-specific functionality delegated to those sub-makefiles.
 
+### CR comments
+
+You may see comments in the code marked as `CR`, `CR-soon` or `CR-someday`.
+This is a habit I picked up from an old workplace of mine, and they are
+effectively slightly more greppable `TODO`s of varying level of urgency --
+
+- `CR` is the most important; fix ASAP
+- `CR-soon` is a sign of some impending tech debt, but not yet an active problem.
+- `CR-someday` is an [Ozymandias](http://thecodelesscode.com/case/234) comment.
+
+Contributors shouldn't feel the need to follow my convention here (I'm probably
+not even that consistent with it myself).
+
 ### Code style and formatting
 
 - Prefer C to assembly, except for extremely minor edits.
