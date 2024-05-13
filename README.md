@@ -23,7 +23,9 @@ non-Sacred Twin weapons.
 
 ## What else is planned?
 
-Eventually, Chestsanity and general item randomization.
+- Soon: Chestsanity
+- Soon: Supportsanity
+- Not soon: Free roam chapter mode
 
 ## Is the actual randomizer in this repo?
 
