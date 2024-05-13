@@ -25,6 +25,7 @@ non-Sacred Twin weapons.
 
 - Soon: Chestsanity
 - Soon: Supportsanity
+- Maybe soon: Death Link
 - Not soon: Free roam chapter mode
 
 ## Is the actual randomizer in this repo?
