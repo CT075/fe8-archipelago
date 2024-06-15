@@ -1,0 +1,876 @@
+This file documents every potential Archipelago item location.
+It lists various potential categories, regardless of whether they're in 
+active development or are rejected concepts.
+Characters: Recruitable characters.
+Villages: Items found in villages.
+Chests: Items found in chests.
+Drops: Items enemies drop.
+Stealables: Items enemies hold that do not drop. 
+Received: Items received in cutscenes.
+Talks: Talk conversations available mid-map.
+Houses: Visiting houses that don't provide items.
+Clear: The check for finishing a chapter.
+Check*: Only give one check for visiting Lute's village and recruiting her, etc.
+
+As of FE8 AP v0.3.1, only chapter clears and holy weapons are randomised.
+Randomising villages and chests are the next priority.
+
+Note the offsets given are the starts of FEBuilder's condensed event codes.
+FEBuilder's "give item [0x76 Red Gem] to active unit" is equal to
+SVAL 0x3 RedGem; GIVEITEMTO 0xFFFF.
+The offset given is the start of the SVAL.
+
+Prologue:
+Characters:
+Eirika (I wouldn't touch her)
+Seth (by all means randomise him away)
+---
+Received:
+Rapier (should just have this be Eirika's starting weapon; 0x9EF07C)
+Clear
+
+Ch1:
+Characters:
+Franz
+Gilliam
+---
+Talks:
+Seth <-> Franz
+Eirika <-> Franz
+---
+Houses:
+House (13,6)
+House (10,4)
+---
+Received:
+5,000G (damn you Hayden; 0x9FF3DC)
+Clear
+
+Ch2:
+Characters:
+Moulder (strictly speaking he's Ch1-2 interim)
+Vanessa (same with her)
+Garcia
+Ross
+---
+Villages:
+Selena's village, top left (Red Gem; 0x9F06B4)
+Top middle village (Elixir; 0x9F06F0)
+Bottom left village (Pure Water; 0x9F072C)
+---
+Drops:
+Brigand (6,11)'s Vulnerary
+---
+Talks:
+Eirika -> Ross*
+Ross -> Garcia*
+---
+Clear
+
+Ch3:
+Characters:
+Neimi
+Colm
+---
+Chests:
+Top room left (Iron Lance; 0x9E89B4)
+Top room middle (Hand Axe; 0x9E89C0)
+Top room right (Iron Sword; 0x9E89CC)
+Bottom room (Javelin; 0x9E89D8)
+---
+Drops:
+Brigand (5,9)'s Door Key
+Brigand (7,11)'s Chest Key (probably a bad idea to randomise these)
+---
+Stealables:
+Mercenary (15,2)'s Antitoxin
+Brigand (14,6)'s Pure Water
+---
+Talks:
+Neimi -> Colm*
+---
+Clear
+
+Ch4:
+Characters:
+Artur
+Lute
+---
+Villages:
+Top village (Iron Axe; 0x9F1BF8)
+Bottom village (Lute*; 0x9F1BC4)
+---
+Clear
+
+Ch5:
+Characters:
+Natasha
+Joshua
+---
+Villages:
+Village below arena (Armourslayer; 0x9F2190)
+Tethys's village, bottom right (Dragon Shield; 0x9F21DC)
+Village south of the wall (Secret Book; 0x9F2218)
+Amelia's village, by armoury (Torch; 0x9F2250)
+---
+Received:
+Guiding Ring (all villages; 0x9F2134)
+---
+Talks:
+Natasha -> Joshua*
+---
+Clear
+
+Ch5x:
+(We bother with it. It's a bother.)
+Characters:
+Ephraim
+Kyle
+Forde
+Orson (Would he deserve a check?)
+---
+Chests:
+Left chest (Elixir; 0x9E8CC4)
+Right chest (Killer Lance; 0x9E8CD0)
+---
+Drops:
+Armour Knight (4,11)'s Door Key
+Archer (20,8)'s Elixir
+Mage (3,7)'s Chest Key
+Fighter (6,7)'s Chet Key
+---
+Clear
+
+Ch6:
+Village:
+Antitoxin (only village on the map; 0x9F2AB8)
+---
+Drops:
+Mercenary (15,10)'s Iron Blade
+Troubadour (10,0)'s Elixir
+Fighter (13,6)'s Halberd/Iron Axe (how do we handle this?)
+---
+Received:
+Orion's Bolt (save the civilians; 0x9F2A48)
+Clear
+
+Ch7:
+Drops:
+Mage (1,7)'s Elixir
+Murray's Knight Crest
+---
+Stealables:
+Mage (11,13)'s Energy Ring
+---
+Houses:
+House (1,15)
+House (17,21)
+---
+Clear
+
+Ch8:
+Characters:
+Ephraim
+Kyle
+Forde
+---
+Chests:
+Left room, left (Silver Sword; 0x9E8F84)
+Left room, right (Elysian Whip; 0x9E8F90)
+Right room (Angelic Robe; 0x9E8FA8)
+---
+Drops:
+Armour Knight (20,10)'s Door Key
+---
+Talks:
+Eirika <-> Ephraim
+Ephraim <-> Seth
+Seth <-> Kyle
+Franz <-> Forde
+---
+Clear
+
+EIRIKA ROUTE:
+A question that must be addressed: how to handle the route split?
+Eirika Ch9 villages and Ephraim Ch9 chests are mutually exclusive.
+Assign say the Ch9A dragon shield village and Ch9B restore staff to one check?
+
+Ch9:
+Characters:
+Tana
+Amelia (with Speedwing)
+---
+Villages:
+Mainland village (Dragon Shield; 0x9F3FC0)
+Village over water (Rapier, flyer required?; 0x9F3FFC)
+---
+Drops:
+Soldier (10,21)'s Axereaver
+Myrmidon (3,9)'s Killing Edge
+Pirate (19,11)'s Ocean Seal
+---
+Received:
+Angelic Robe (all villages; 0x9F3F28)
+---
+Talks:
+Eirika -> Amelia*
+Franz -> Amelia*
+---
+Clear
+
+Ch10:
+Characters:
+Innes (with White Gem)
+Gerik (with Hero Crest)
+Tethys (with Goddess Icon)
+Marisa
+---
+Drops:
+Pablo's Guiding Ring
+Archer (16,3)'s Longbow
+Soldier (11,10)'s Door Key
+Mercenary (11,8)'s Lancereaver
+Fighter (12,18)'s Killer Axe/Hand Axe
+Priest (16,30)'s Torch Staff
+---
+Stealables:
+Myrmidon (15,3)'s Red Gem
+Reinforcement Pegasus Knight (2,29)'s Talisman
+---
+Talks:
+Eirika -> Innes*
+Tana -> Innes*
+Innes -> Gerik*
+Tethys -> Gerik*
+Innes -> Tethys*
+Gerik -> Tethys*
+Gerik -> Marisa*
+---
+Houses:
+House (11,6)
+House (10,7)
+House (13,8)
+Clear
+
+Ch11:
+Characters:
+L'Arachel
+Dozla
+---
+Chests:
+Left chest (Restore Staff; 0x9E9358)
+Middle chest (Short Spear; 0x9E9364)
+Right chest (Secret Book; 0x9E9370)
+---
+Drops:
+Skeleton (18,6)'s Chest Key
+Skeleton (18,15)'s Chest Key
+Reinforcement Skeleton (T9, 2,17)'s Chest Key
+---
+Stealables:
+Reinforcement Skeleton (T9, 2,17)'s Door Key
+---
+Talks:
+Eirika -> L'Arachel*
+L'Arachel -> Dozla*
+---
+Clear
+
+Ch12:
+Characters:
+Ewan (with Energy Ring)
+---
+Villages:
+Top house (Barrier Staff; 0x9F538C)
+Bottom house (Ewan; 0x9F5468)
+---
+Drops:
+Boss's Steel Bow/Halberd
+---
+Clear
+
+Ch13:
+Characters:
+Cormag (with Elysian Whip, droppable)
+Amelia 2 (same check as in Ch9?)
+---
+Drops:
+Aias's Knight Crest
+Reinforcement Mercenary (T2, 3,2)'s Zanbato
+Reinforcement Warrior (T9, 2,7)'s Hand Axe/Swordslayer
+---
+Stealables:
+Priest (22,9)'s Red Gem
+Reinforcement Brigand (T9, 2,9)'s Body Ring
+---
+Talks:
+Eirika -> Amelia*
+Franz -> Amelia*
+Eirika -> Cormag*
+---
+Clear
+
+Ch14:
+Characters:
+Rennac (with Member Card, droppable)
+---
+Chests:
+Right entrance, second room top (Hammerne Staff; 0x9E9708)
+Right entrance, second room bottom (Spear; 0x9E9720)
+Left entrance, left (Dragon Spear; 0x9E9714)
+Left entrance, right (Energy Ring; 0x9E9738)
+Middle entrance (Guiding Ring; 0x9E9744)
+Opposite middle entrance (10,000G; 0x9E9750)
+---
+Drops:
+Priest (10,1)'s Mend/Berserk Staff
+Armour Knight (17,18)'s Chest Key
+Armour Knight (5,1)'s Door Key
+Armour Knight (10,15)'s Door Key
+Myrmidon (22,7)'s Hero Crest
+Fighter (21,14)'s Swordreaver
+Soldier (17,20)'s Door Key
+Soldier (9,25)'s Door Key
+Reinforcement Armour Knight (3,22)'s Door Key
+Reinforcement Armour Knight (T1, 9,7)'s Heavy Spear
+---
+Received:
+Audhulma (End of chapter; 0x9F5FDC (Joshua alive), 0x9F6024 (Joshua dead))
+Excalibur (End of chapter; 0x9F5FF0 (Joshua alive), 0x9F6038 (Joshua dead))
+---
+Talks:
+L'Arachel -> Rennac*
+Eirika -> Rennac*
+---
+Clear
+
+EPHRAIM ROUTE:
+
+Ch9:
+Characters:
+Tana
+Amelia (with Speedwing)
+---
+Chests:
+First cell (Restore Staff; 0x9EA2A0)
+Third cell (2,500G; 0x9EA2AC)
+Fourth cell (Ocean Seal; 0x9EA2E8)
+---
+Drops:
+Gheb's Killer Axe/Iron Axe
+Mage (14,1)'s Chest Key
+Cavalier (22,20)'s Heavy Spear
+Armour Knight (23,14)'s Axereaver
+---
+Stealables:
+Archer (15,12)'s Red Gem
+---
+Talks:
+Ephraim -> Amelia*
+Franz -> Amelia*
+Ephraim <-> Tana
+---
+Clear
+
+Ch10:
+Characters:
+Duessel
+Cormag (with Elysian Whip, drops)
+---
+Villages:
+North village (Torch Staff; 0x9FAF74)
+South village (Hero Crest; 0x9FAFB0)
+---
+Drops:
+Fleet (0,3)'s Secret Book
+Cavalier (16,12)'s Horseslayer/Javelin
+Cavalier (16,14)'s Killing Edge/Javelin
+Myrmidon (14,11)'s Lancereaver
+---
+Received:
+Knight Crest (save Duessel's men; 0x9FAD7C)
+---
+Talks:
+Ephraim -> Duessel*
+Duessel -> Cormag*
+Tana -> Cormag*
+---
+Houses:
+House (5,1)
+House (6,0)
+---
+Clear
+
+Ch11:
+Characters:
+L'Arachel (with White Gem)
+Dozla
+---
+Talks:
+Ephraim -> L'Arachel*
+L'Arachel -> Dozla*
+---
+Clear
+
+Ch12:
+Characters:
+Ewan (with Dragon Shield)
+Marisa
+---
+Villages:
+Only village (Ewan; 0x9FB958)
+---
+Drops:
+Mage (3,8)'s Elfire
+Shaman (17,5)'s Guiding Ring
+Archer (20,26)'s Longbow
+Boss's Swordslayer/Hand Axe
+---
+Talks:
+Ewan -> Marisa*
+---
+Houses:
+Inn (6,9)
+---
+Clear
+
+Ch13:
+Characters:
+Gerik (with Hero Crest)
+Tethys (with Goddess Icon)
+---
+Villages:
+West village (Barrier Staff; 0x9FBDB0)
+East village (Talisman; 0x9FBDEC)
+---
+Drops:
+Troubadour (11,9)'s Energy Ring
+Cavalier (7,12)'s Dragon Spear
+Fighter (21,13)'s Halberd/Hand Axe
+Mercenary (13,15)'s Zanbato
+---
+Stealables:
+Great Knight (9,16)'s Red Gem
+Mage (12,19)'s Speedwing
+---
+Talks:
+Ephraim <-> Gerik
+Gerik <-> Marisa
+Tethys <-> Ewan
+---
+Clear
+
+Ch14:
+Characters:
+Rennac (with Member Card, drops)
+Knoll
+---
+Chests:
+Centre room left (Guiding Ring; 0x9EA940)
+Centre room middle (10,000G; 0x9EAA0C)
+Centre room right (Hammerne Staff; 0x9EA9DC)
+Top left room (Angelic Robe; 0x9EAA00)
+Top right room (Spear; 0x9EA9F4)
+---
+Drops:
+Vigarde's Knight Crest
+Bishop (7,11)'s Shine/Sleep Staff
+Druid (19,4)'s Red Gem
+Shaman (14,10)'s Door Key
+Shaman (14,19)'s Chest Key
+Mercenary (6,16)'s Armourslayer
+Armour Knight (14,22)'s Door Key
+Fighter (20,16)'s Swordreaver
+Armour Knight (7,14)'s Door Key
+Armour Knight (21,14)'s Door Key
+Sniper (14,15)'s Longbow
+Reinforcement Fighter (T2, 1,19)'s Hammer
+---
+Stealables:
+Archer (3,15)'s Body Ring
+---
+Received:
+Garm (chapter completion, 0x9FC4A0)
+Gleipnir (chapter completion, 0x9FC48C)
+---
+Talks:
+L'Arachel -> Rennac*
+Ephraim -> Rennac*
+---
+Clear
+
+ROUTES MERGE:
+Basing checks on the Eirika version of the chapters, if there's any differences after Ch15.
+
+Ch15:
+Characters:
+Ephraim
+Duessel
+Knoll
+- or -
+Eirika
+Innes
+Saleh
+---
+Villages:
+Village by Ephraim (Master Seal; 0x9F65E8 (A) 0x9FC924 (B))
+---
+Desert Items:
+By Caellach's fort, northwest corner (Warp Staff; 0x9F68AC (A) 0x9FCBB8 (B))
+Northeast cliffs (Silver Card; 0x9F6978 (A) 0x9FCC84 (B))
+Far left strip south of bones (Silence Staff; 0x9F6A00 (A) 0x9FCD0C (B))
+Immediately north of village (Body Ring; 0x9F6934 (A) 0x9FCC40 (B))
+Bone pile south of lake (Wyrmslayer; 0x9F67E0 (A) 0x9FCAEC (B))
+East of protrusion by house (Killer Bow; 0x9F69BC (A) 0x9FCCC8 (B))
+Bone pile west of ruined houses (Boots; 0x9F6824 (A) 0x9FCB30 (B))
+Bone pile north of ruined houses (Metis's Tome; 0x9F6868 (A) 0x9FCB74 (B))
+Southeast corner beyond village (Eclipse; 0x9F68F0 (A) 0x9FCBFC (B))
+---
+Drops:
+Valter's Fili Shield
+Troubadour (17,21)'s Mend Staff/Sleep Staff
+Berserker (20,16)'s Devil Axe
+Shaman (3,12)'s Luna
+Caellach's Hoplon Guard
+Berserker (20,6)'s Hand Axe/Dragon Axe
+---
+Stealables:
+Shaman (19,18)'s Guiding Ring
+Reinforcement Mage (T8, 0,17)'s Elixir
+---
+Received:
+Garm (Chapter completion; 0x9F64CC)
+Gleipnir (Chapter completion; 0x9F64B8)
+- or -
+Audhulma (Chapter completion; 0x9F64F4)
+Excalibur (Chapter competion; 0x9F6508)
+--
+Talks:
+Eirika <-> Ephraim
+Eirika route:
+Ephraim <-> Seth
+Ephraim <-> Forde
+Ephraim <-> Kyle
+Ephraim <-> Innes
+Duessel <-> Cormag
+Ephraim route:
+Eirika <-> Seth
+Eirika <-> Tana
+Innes <-> Tana
+Saleh <-> Ewan
+---
+Houses:
+House (17,6)
+House (5,13)
+Clear
+
+Ch16:
+Characters:
+Myrrh
+---
+Chests:
+Left room (Tomahawk; 0x9E9AA0 (A) 0x9EAD84 (B))
+Top right room, bottom (5,000G; 0x9E9A88 (A) 0x9EADCC (B))
+Top right room, middle (Knight Crest; 0x9E9A94 (A) 0x9EAD9C (B))
+Top right room, top (Talisman; 0x9E9AD0 (A) 0x9EAD90 (B))
+---
+Drops:
+Warrior (5,20)'s Hero Crest
+Armour Knight (1,7)'s Door Key
+Priest (16,3)'s Physic Staff
+Armour Knight (4,2)'s Door Key
+Shaman (4,6)'s Chest Key
+Reinforcement Sage (21,11)'s Purge/Divine
+---
+Stealables:
+Reinforcement Great Knight (0,27)'s Red Gem
+Priest (10,3)'s Vulnerary
+---
+Received:
+Sieglinde (end of chapter; 0x9F7204)
+Siegmund (end of chapter; 0x9F71E4)
+Eirika's Promotion/Lunar Brace (refuse promotion; 0x9F74F0)
+Ephraim's Promotion/Solar Brace (refuse promotion; 0x9F7524)
+---
+Clear
+
+Ch17:
+Characters:
+Syrene
+---
+Drops:
+Hero (16,20)'s Brave Axe
+Mage (17,14)'s Guiding Ring
+Sage (19,12)'s Fimbulvetr
+Lyon's Nosferatu/Fenrir
+---
+Stealables:
+Valkyrie (0,8)'s Elixir
+Berserker (6,3)'s Dragon Shield
+---
+Received:
+Vidofnir (end of chapter; 0x9F7C0C)
+Nidhogg (end of chapter; 0x9F7C20)
+Rescue Staff (save civilians; 0x9F7C90)
+---
+Talks:
+Tana -> Syrene*
+Innes -> Syrene*
+Vanessa -> Syrene*
+---
+Clear
+
+Ch18:
+Clear
+
+Ch19:
+Chests:
+West treasure room, left (Runesword; 0x9E9E78 (A) 0x9EB18C (B))
+West treasure room, middle (Speedwing; 0x9E9EC0 (A) 0x9EB1D4 (B))
+West treasure room, right (Fenrir; 0x9E9E84 (A) 0x9EB198 (B))
+East treasure room, top (Fortify Staff; 0x9E9E90 (A) 0x9EB1A4 (B))
+East treasure room, middle (5,000G; 0x9E9E9C (A) 0x9EB1B0 (B))
+East treasure room, bottom (Bolting; 0x9E9ECC (A) 0x9EB1E0 (B))
+---
+Drops:
+Riev's Aura
+General (8,20)'s Brave Lance
+Hero (15,23)'s Brave Sword
+Sniper (27,3)'s Brave Bow
+---
+Stealables:
+Archer (18,3)'s Goddess Icon
+---
+Received:
+Ivaldi (end of chapter; 0x9F885C)
+Latona Staff (end of chapter; 0x9F8870)
+Light Brand (defend the armours; 0x9F8920)
+Clear
+---
+
+Ch20:
+Drops:
+Maelduin (8,5)'s Vulnerary
+Cyclops (12,2)'s Antitoxin
+Gargoyle (9,17)'s Antitoxin
+Wight (15,19)'s Lancereaver
+Wight (3,18)'s Axereaver
+Wight (7,14)'s Killing Edge
+Maelduin (4,4)'s Swordslayer
+Maelduin (4,5)'s Elixir
+Cyclops (6,10)'s Elixir
+Wight (6,8)'s Steel Blade
+Wight (5,11)'s Spear
+Wight (6,1)'s Longbow
+---
+Clear
+
+Final:
+Chests:
+Left chest (Master Seal; 0x9EA0CC (A) 0x9EB3E0 (B))
+Right chest (Angelic Robe; 0x9EA0C0 (A) 0x9EB3D4 (B))
+---
+Drops:
+Wight (4,15)'s Door Key
+Wight (5,12)'s Chest Key
+Wight (17,13)'s Door Key
+---
+GOAL!
+
+TOWER:
+The enemies within the tower are random, as are many chests. The chest locations are fixed, however.
+In tower mode (v0.3.1), each floor completion is a check.
+Chests are proposed to give missed checks as a backup.
+
+1st Floor:
+Clear
+
+2nd Floor:
+Clear
+
+3rd Floor:
+Chest (3,000G; 0x9EB66C)
+Clear (Caellach)
+
+4th Floor:
+Clear
+
+5th Floor:
+Left chest (random; 0x9EB794)
+Right chest (random; 0x9EB7A0)
+Clear
+
+6th Floor:
+Left chest (random, 0x9EB834)
+Top chest left (random, 0x9EB84C)
+Top chest middle (random, 0x9EB840)
+Top chest right (5,000G, 0x9EB858)
+Clear (Orson)
+
+7th Floor:
+Clear
+
+8th Floor:
+Chest (Blue Gem; 0x9EB9D4)
+GOAL! (Ismaire)
+
+Riev on killing 200 enemies in one tower run, Selena for 3 clears - could change things so that Selena is the clear reward and the other checks come sooner?
+
+Ruins:
+1st Floor:
+Clear
+
+2nd Floor:
+Clear
+
+3rd Floor:
+Top left chest (random, 0x9EBC14)
+Top right chest (3,000G, 0x9EBC68)
+Right chest (random, 0x9EBC20)
+Clear
+
+4th Floor:
+Top right chest (random, 0x9EBD14)
+Bottom left chest (random, 0x9EBD20)
+Clear
+
+5th Floor:
+Top chest (random, 0x9EBDF0)
+Middle chest (random, 0x9EBDD8)
+Bottom chest (random, 0x9EBDE4)
+Clear (Glen)
+
+6th Floor:
+Clear
+
+7th Floor:
+Chest (random, 0x9EBFCC)
+Clear (Valter)
+
+8th Floor:
+Chest (random, 0x9EC168)
+Clear
+
+9th Floor:
+Clear
+
+10th Floor:
+Chest (random, 0x9EC2F0)
+GOAL! (Fado)
+
+Hayden requires 200 kills, Lyon requires three clears. The floor requirements could be spread out further, leaving Lyon at the end.
+
+Base Item Pool:
+Progressive Sword Rank x3
+Progressive Lance Rank x3
+Progressive Axe Rank x3
+Progressive Bow Rank x3
+Progressive Anima Rank x3
+Progressive Light Rank x3
+Progressive Dark Rank x3
+Progressive Staff Rank x3
+Sieglinde
+Siegmund
+Audhulma
+Vidofnir
+Garm
+Nidhogg
+Excalibur
+Ivaldi
+Gleipnir
+Latona
+(34 items, 24 chapter clears - cut out 10)
+
+Tower and Ruins:
+(18 extra chapter clears: 34/42)
+
+Villages/Chests:
+Red Gem
+Elixir
+Pure Water
+Iron Sword
+Hand Axe
+Iron Lance
+Javelin
+Iron Axe
+Armourslayer
+Dragon Shield
+Secret Book
+Torch
+Guiding Ring
+Elixir
+Killer Lance
+Antitoxin
+Orion's Bolt
+Silver Sword
+Elysian Whip
+Angelic Robe
+(20 pre-split)
+
+EIRIKA:
+Dragon Shield
+Angelic Robe
+Rapier
+Restore Staff
+Short Spear
+Secret Book
+Barrier Staff
+Hammerne Staff
+Spear
+Dragon Spear
+Energy Ring
+Guiding Ring
+10,000G
+(13 Eirika)
+
+EPHRAIM:
+Restore Staff
+2,500G
+Ocean Seal
+Torch Staff
+Hero Crest
+Knight Crest
+Barrier Staff
+Talisman
+Guiding Ring
+Hammerne Staff
+10,000G
+Angelic Robe
+Spear
+(13 Ephraim)
+
+POST-SPLIT:
+Master Seal
+Warp Staff
+Silver Card
+Silence Staff
+Body Ring
+Wyrmslayer
+Killer Bow
+Boots
+Metis's Tome
+Eclipse
+Tomahawk
+5,000G
+Knight Crest
+Talisman
+Lunar Brace
+Solar Brace
+Rescue Staff
+Runesword
+Speedwing
+Fenrir
+Fortify Staff
+5,000G
+Bolting
+Light Brand
+Master Seal
+Angelic Robe
+(26 post-split)
+
+TOWER/RUINS:
+8 chests in tower.
+11 chests in ruins.
+
+20+13+26=59 checks in villages.
+(61, but Lute and Ewan are not shuffled.)
