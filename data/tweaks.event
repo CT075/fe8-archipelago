@@ -25,7 +25,7 @@ PUSH
 POP
 
 NewPrepScreenShopList:
-SHLI $01 $14 $1F $2D $38 $45 $3F $4B ChestKey DoorKey AngelicRobe EnergyRing SecretBook Speedwings GoddessIcon Dragonshield Talisman MasterSeal
+SHLI $01 $14 $1F $2D $38 $45 $3F $4B ChestKey DoorKey Lockpick AngelicRobe EnergyRing SecretBook Speedwings GoddessIcon Dragonshield Talisman MasterSeal
 ALIGN 4
 
 PUSH

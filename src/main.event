@@ -19,6 +19,7 @@
 #include "InlineFix2_GenerateBestMovementScript.event"
 #include "disableEasyMode/main.event"
 #include "convoy200/main.event"
+#include "lockpicks/lockpicks.lyn.event"
 
 PUSH
 ORG FreeSpaceBL

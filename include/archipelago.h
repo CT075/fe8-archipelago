@@ -32,8 +32,15 @@ const u16 *receivedItemEvent(struct IncomingEvent *evt);
 
 // CR cam: This should come from `Generate.hs` so we can ensure that this
 // struct definition doesn't drift from the python code that sets it
+enum LockpickUsability {
+  Vanilla=0,
+  GlobalLockpicks=1,
+  GlobalRoguePick=2,
+};
+
 struct ArchipelagoOptions {
   bool superDemonKing;
+  enum LockpickUsability lockpickUsability;
 };
 
 struct ArchipelagoInfo {
