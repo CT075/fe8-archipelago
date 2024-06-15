@@ -97,7 +97,7 @@ items = [
 ]
 SLOT_NAME_ADDR = {|archipelagoInfo|}
 SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}
-LOCKPICK_USABILITY_OFFS + {|ROM_BASE:archipelagoOptions|}+1
+LOCKPICK_USABILITY_OFFS = {|ROM_BASE:archipelagoOptions|}+1
 LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}
 LOCATION_INFO_SIZE = 4
 ARCHIPELAGO_RECEIVED_ITEM_ADDR = {|receivedAPItem|}
