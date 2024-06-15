@@ -432,6 +432,7 @@ emitPythonData emitLn = do
     emitLn "]"
     emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
     emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}"
+    emitLn "LOCKPICK_USABILITY_OFFS + {|ROM_BASE:archipelagoOptions|}+1"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"
