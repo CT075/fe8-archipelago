@@ -27,14 +27,50 @@ u8 PickCommandUsability(const struct MenuItemDef *def, int number) {
   return GetSelectTargetCount() ? MENU_ENABLED : MENU_NOTSHOWN;
 }
 
+u8 canUseLockpick(struct Unit *unit) {
+  return (archipelagoOptions.lockpickUsability < GlobalLockpicks
+      && !(UNIT_CATTRIBUTES(unit) & CA_THIEF));
+}
+
+s8 IsItemDisplayUsable(struct Unit *unit, int item) {
+  if (GetItemAttributes(item) & IA_WEAPON) {
+    return CanUnitUseWeapon(unit, item);
+  }
+
+  if (GetItemAttributes(item) & IA_STAFF) {
+    return CanUnitUseStaff(unit, item);
+  }
+
+  if (GetItemUseEffect(item)) {
+    if (unit->statusIndex == UNIT_STATUS_SLEEP) {
+      return FALSE;
+    }
+
+    if (unit->statusIndex == UNIT_STATUS_BERSERK) {
+      return FALSE;
+    }
+
+    if (!(canUseLockpick(unit)) && GetItemIndex(item) == ITEM_LOCKPICK) {
+      return FALSE;
+    }
+
+    if (!(UNIT_CATTRIBUTES(unit) & CA_REFRESHER) && IsItemDanceRing(item)) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
 s8 CanUnitUseLockpickItem(struct Unit *unit) {
-  if (archipelagoOptions.lockpickUsability < GlobalLockpicks &&
-      !(UNIT_CATTRIBUTES(unit) & CA_THIEF))
+  if (!canUseLockpick(unit)) {
     return FALSE;
+  }
 
   if (!CanUnitUseChestKeyItem(unit) && !CanUnitUseDoorKeyItem(unit) &&
-      !CanUnitOpenBridge(unit))
+      !CanUnitOpenBridge(unit)) {
     return FALSE;
+  }
 
   return TRUE;
 }
