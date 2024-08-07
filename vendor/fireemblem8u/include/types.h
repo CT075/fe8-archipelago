@@ -2,6 +2,7 @@
 #define GUARD_TYPES_H
 
 #include "gba/types.h"
+#include <limits.h>
 
 #ifndef __STDBOOL_H__
 typedef s8 bool;
@@ -32,8 +33,9 @@ struct Anim;
 
 enum glb_pos
 {
-    POS_L,
-    POS_R
+    POS_L = 0,
+    POS_R = 1,
+    POS_INVALID = -1
 };
 
 struct BgCoords
@@ -48,14 +50,6 @@ struct Struct0858791C
     u16 unk2;
 };
 
-struct OamDataTransfer
-{
-    void *src;
-    void *dest;
-    u16 unk8;
-    u16 count;
-};
-
 typedef void (*InterruptHandler)(void);
 
 struct Vec2 { short x, y; };
@@ -63,7 +57,7 @@ struct Vec2u { u16 x, y; };
 
 struct BmSt // Game State Struct
 {
-    /* 00 */ s8  mainLoopEndedFlag;
+    /* 00 */ s8  sync_hardware;
 
     /* 01 */ s8  gameLogicSemaphore;
     /* 02 */ s8  gameGfxSemaphore;
@@ -87,7 +81,7 @@ struct BmSt // Game State Struct
     /* 24 */ struct Vec2u mapRenderOrigin;
     /* 28 */ struct Vec2 cameraMax;
 
-    /* 2C */ u16 itemUnk2C;
+    /* 2C */ u16 um_tmp_item;
     /* 2E */ u16 itemUnk2E;
 
     /* 30 */ u16 unk30;
@@ -100,8 +94,8 @@ struct BmSt // Game State Struct
     /* 3A */ u8 altBlendBCa;
     /* 3B */ u8 altBlendBCb;
     /* 3C */ u8 just_resumed;
-    /* 3D */ u8 unk3D;
-    /* 3E */ u8 unk3E;
+    /* 3D */ u8 taken_action;
+    /* 3E */ u8 swapActionRangeCount;
     /* 3F */ s8 unk3F;
 };
 
@@ -110,9 +104,16 @@ enum BmSt_gameStateBits {
     BM_FLAG_1 = (1 << 1),
     BM_FLAG_2 = (1 << 2),
     BM_FLAG_3 = (1 << 3),
-    BM_FLAG_4 = (1 << 4),
-    BM_FLAG_5 = (1 << 5),
+    BM_FLAG_PREPSCREEN = (1 << 4),
+    BM_FLAG_5 = (1 << 5),   /* Maybe mute battle-anim BGM ? */
     BM_FLAG_LINKARENA = (1 << 6),
+};
+
+enum BmSt_TakenAction {
+    BM_TAKEN_ACTION_TAKE = (1 << 0),
+    BM_TAKEN_ACTION_TRADE = (1 << 1),
+    BM_TAKEN_ACTION_SUPPLY = (1 << 2),
+    BM_TAKEN_ACTION_BALLISTA = (1 << 3),
 };
 
 struct PlaySt_30 {
@@ -216,10 +217,18 @@ struct PlaySt { // Chapter Data Struct
     u16 unk48;
 
     u8 unk4A_1 : 1;
-    u8 unk4A_2 : 3;
-    u8 unk4A_5 : 4;
-    u8 unk4B;
+    u8 save_menu_type : 3;
+    u8 tutorial_exec_type : 4;
+    u8 tutorial_counter;
 } BITPACKED;
+
+/* PlaySt::config::animationType */
+enum PlaySt_AnimConfType {
+    PLAY_ANIMCONF_ON = 0,
+    PLAY_ANIMCONF_OFF = 1,
+    PLAY_ANIMCONF_SOLO_ANIM = 2,
+    PLAY_ANIMCONF_ON_UNIQUE_BG = 3,
+};
 
 /**
  * Use with PlaySt field chapterStateBits
@@ -233,7 +242,7 @@ enum PlaySt_chapterStateBits {
     PLAY_FLAG_PREPSCREEN      = (1 << 4),
     PLAY_FLAG_COMPLETE        = (1 << 5),
     PLAY_FLAG_HARD            = (1 << 6),
-    PLAY_FLAG_7               = (1 << 7),
+    PLAY_FLAG_EXTRA_MAP       = (1 << 7),
 
     PLAY_FLAG_STATSCREENPAGE_SHIFT = 0,
     PLAY_FLAG_STATSCREENPAGE_MASK = PLAY_FLAG_STATSCREENPAGE0 | PLAY_FLAG_STATSCREENPAGE1,
@@ -247,6 +256,8 @@ enum PlaySt_chapterModeIndex {
     CHAPTER_MODE_COMMON = 1,
     CHAPTER_MODE_EIRIKA = 2,
     CHAPTER_MODE_EPHRAIM = 3,
+
+    CHAPTER_MODE_ANY = 0xFF
 };
 
 struct MsgBuffer
@@ -256,41 +267,6 @@ struct MsgBuffer
     u8 buffer3[0x356];
     u8 buffer4[0x100];
     u8 buffer5[0x100];
-};
-
-struct ActionData
-{
-    // unknown stuff (sometimes RNs are pushed here) (maybe an union?)
-    /* 00 */ u16 _u00[3];
-    /* 06 */ u16 item;
-
-    /* 08 */ u16 unk08;
-    /* 0A */ u16 unk0A;
-
-    /* 0C */ u8 subjectIndex;
-    /* 0D */ u8 targetIndex;
-
-    /* 0E */ u8 xMove;
-    /* 0F */ u8 yMove;
-
-    /* 10 */ u8 moveCount;
-
-    /* 11 */ u8 unitActionType;
-
-    // maybe from this onwards it's an union?
-
-    /* 12 */ u8 itemSlotIndex;
-
-    /* 13 */ u8 xOther;
-    /* 14 */ u8 yOther;
-
-    /* 15 */ u8 trapType;
-
-    /* 16 */ u8 suspendPointType;
-
-    /* 18 */ struct BattleHit* scriptedBattleHits;
-
-    /* 1C */ u8 _pad_1C[0x38 - 0x1C];
 };
 
 enum
@@ -308,7 +284,7 @@ enum
     UNIT_ACTION_COMBAT = 0x02,
     UNIT_ACTION_STAFF = 0x03,
     UNIT_ACTION_DANCE = 0x04,
-    // 0x05?
+    UNIT_ACTION_UNK05 = 0x05,
     UNIT_ACTION_STEAL = 0x06,
     UNIT_ACTION_SUMMON = 0x07,
     UNIT_ACTION_SUMMON_DK = 0x08,
@@ -316,7 +292,7 @@ enum
     UNIT_ACTION_DROP = 0x0A,
     UNIT_ACTION_TAKE = 0x0B,
     UNIT_ACTION_GIVE = 0x0C,
-    // 0x0D?
+    UNIT_ACTION_UNK0D = 0x0D,
     UNIT_ACTION_TALK = 0x0E,
     UNIT_ACTION_SUPPORT = 0x0F,
     UNIT_ACTION_VISIT = 0x10,
@@ -334,7 +310,7 @@ enum
     UNIT_ACTION_TRADED_SUPPLY = 0x1C,
     UNIT_ACTION_TRADED_1D = 0x1D,
     UNIT_ACTION_TRAPPED = 0x1E,
-    // 0x1F?
+    UNIT_ACTION_FORCE_WAIT = 0x1F,
     // 0x20?
     UNIT_ACTION_RIDE_BALLISTA = 0x21,
     UNIT_ACTION_EXIT_BALLISTA = 0x22
@@ -356,14 +332,14 @@ enum
 
 enum
 {
-    GAME_ACTION_0 = 0,
-    GAME_ACTION_1 = 1,
-    GAME_ACTION_2 = 2,
-    GAME_ACTION_3 = 3,
+    GAME_ACTION_EVENT_RETURN = 0, /* Return form event command */
+    GAME_ACTION_CLASS_REEL = 1,
+    GAME_ACTION_USR_SKIPPED = 2,  /* User press button A/B/START to skip op-anim */
+    GAME_ACTION_PLAYED_THROUGH = 3, /* Return if game played through */
     GAME_ACTION_4 = 4,
     GAME_ACTION_5 = 5,
     GAME_ACTION_6 = 6,
-    GAME_ACTION_7 = 7,
+    GAME_ACTION_EXTRA_MAP = 7,
     GAME_ACTION_8 = 8,
     GAME_ACTION_9 = 9,
     GAME_ACTION_A = 0xA,
@@ -394,7 +370,7 @@ enum
 
 struct SMSHandle
 {
-    /* 00 */ struct SMSHandle* pNext;
+    /* 00 */ struct SMSHandle * pNext;
 
     /* 04 */ short xDisplay;
     /* 06 */ short yDisplay;
@@ -403,74 +379,6 @@ struct SMSHandle
 
     /* 0A */ u8 _u0A;
     /* 0B */ s8 config;
-};
-
-struct MMSData
-{
-    const void* pGraphics;
-    const void* pAnimation;
-};
-
-struct GMUnit {
-    /* 00 */ u8 state;
-    /* 01 */ u8 location;
-    /* 02 */ s16 id; // character or class ID
-};
-
-struct GMNode {
-    /* 00 */ u8 state;
-};
-
-union GMStateBits {
-    u8 raw;
-    struct {
-        u8 state_0   : 1;
-        u8 state_1   : 1;
-        u8 state_2   : 1;
-        u8 state_3   : 1;
-        u8 state_4_5 : 2;
-        u8 state_6   : 1;
-        u8 state_7   : 1;
-    } __attribute__((packed)) bits;
-} __attribute__((packed));
-
-struct OpenPaths {
-    s8 openPaths[0x20];
-    s8 openPathsLength;
-};
-
-struct GMapData
-{
-    /* 00 */ union GMStateBits state;
-    /* 01 */ u8 unk01;
-    /* 02 */ short xCamera;
-    /* 04 */ short yCamera;
-    /* 08 */ s32 unk08;
-    /* 0C */ s32 unk0C;
-    /* 10 */ struct GMUnit units[8];
-    /* 30 */ struct GMNode nodes[0x1C];
-    /* A0 */ int unk_a0; // pad?
-    /* A4 */ struct OpenPaths openPaths;
-    /* C8 */ u8 unk_c8; // entry node id?
-    /* C9 */ u8 unk_c9[3]; // List of active world map skirmishes
-    /* CC */ u8 unk_cc; // used to determine which skirmish enemy block to load
-    /* CD */ u8 unk_cd;
-    /* CE */ u16 unk_ce;
-};
-
-
-enum
-{
-    // For use with GMapData:state
-
-    GMAP_STATE_BIT0 = (1 << 0),
-    GMAP_STATE_BIT1 = (1 << 1),
-    GMAP_STATE_BIT2 = (1 << 2),
-    GMAP_STATE_BIT3 = (1 << 3),
-    GMAP_STATE_BIT4 = (1 << 4),
-    GMAP_STATE_BIT5 = (1 << 5),
-    GMAP_STATE_BIT6 = (1 << 6),
-    GMAP_STATE_BIT7 = (1 << 7),
 };
 
 struct MapChange
@@ -518,13 +426,15 @@ struct Struct202B6B0 {
     u16 unk8A;
 };
 
-struct Struct203E87C {
-    u8 unk00[5];
-};
-
 struct EfxFrameConfig {
     s16 value;
     s16 duration;
+};
+
+struct gfx_set {
+    void * gfx;
+    void * tsa;
+    void * pal;
 };
 
 #endif // GUARD_TYPES_H

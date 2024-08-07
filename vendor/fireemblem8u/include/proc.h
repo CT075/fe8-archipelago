@@ -103,19 +103,19 @@ struct ProcFindIterator
 enum
 {
     PROC_MARK_0 = 0x00,
-    PROC_MARK_1 = 0x01,
-    PROC_MARK_2 = 0x02,
-    PROC_MARK_3 = 0x03,
-    PROC_MARK_4 = 0x04,
-    PROC_MARK_5 = 0x05,
-    PROC_MARK_6 = 0x06,
-    PROC_MARK_7 = 0x07,
-    PROC_MARK_8 = 0x08,
-
-    PROC_MARK_A = 0x0A,
-    PROC_MARK_B = 0x0B,
-    PROC_MARK_C = 0x0C,
-    PROC_MARK_D = 0x0D,
+    PROC_MARK_DISP,
+    PROC_MARK_MAIN,
+    PROC_MARK_3,
+    PROC_MARK_MU,
+    PROC_MARK_TALK,
+    PROC_MARK_EVENT,
+    PROC_MARK_EVENT_ANIM,
+    PROC_MARK_WMSTUFF,
+    PROC_MARK_9,
+    PROC_MARK_EFX_BGCOL,
+    PROC_MARK_GAMECTRL,
+    PROC_MARK_SAVEDRAW,
+    PROC_MARK_D,
 };
 
 #define PROC_TREE_VSYNC ((ProcPtr) 0)
@@ -152,11 +152,13 @@ void Proc_EndEachMarked(int mark);
 void Proc_EndEach(const struct ProcCmd *script);
 void Proc_BreakEach(const struct ProcCmd* script);
 void Proc_SetRepeatCb(ProcPtr proc, ProcFunc func);
-// ??? Proc_FindAfter(???);
-// ??? Proc_FindAfterWithParent(???);
+ProcPtr Proc_FindAfter(struct ProcCmd * script, struct Proc * proc);
+struct Proc * Proc_FindAfterWithParent(struct Proc * proc, struct Proc * parent);
 // ??? sub_80034D4(???);
-// ??? sub_80034FC(???);
+int CountProcs(const struct ProcCmd * script);
 void Proc_FindBegin(struct ProcFindIterator* it, const struct ProcCmd* script);
 ProcPtr Proc_FindNext(struct ProcFindIterator* it);
+
+#define Proc_Exists(script) (Proc_Find((script)) ? true : false)
 
 #endif  // GUARD_PROC_H

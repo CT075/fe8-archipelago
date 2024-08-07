@@ -48,7 +48,7 @@ int checkHolyWeapon(u16 item, enum HolyWeapon *dst) {
   return 0;
 }
 
-int Event37_GiveItem(struct EventEngineProc *proc) {
+u8 Event37_GiveItem(struct EventEngineProc *proc) {
   u8 subcmd = EVT_SUB_CMD(proc->pEventCurrent);
 
   struct Unit *target = GetUnitStructFromEventParameter(proc->pEventCurrent[1]);

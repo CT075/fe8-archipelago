@@ -1,30 +1,40 @@
 #ifndef GUARD_BM_UDISP_H
 #define GUARD_BM_UDISP_H
 
+#define UNITSPRITE_MAX 0xD0
+#define UNITSPRITE_ID_BITS 7
+
+u16* sPoisonIconSprites[12];
+u16* sSleepIconSprites[7];
+u16* sBerserkIconSprites[9];
+u16* sSilenceIconSprites[18];
+
+u16 sSprite_0859B968[7];
+
 // ??? sub_8026618(???);
-void SetupMapSpritesPalettes(void);
+void ApplyUnitSpritePalettes(void);
 // ??? sub_8026670(???);
 void ResetUnitSprites(void);
 // ??? ResetUnitSpritesB(???);
-int SMS_80266F0(int smsId, int frameId);
-int SMS_SomethingGmapUnit(int smsId, int frameId, int slot);
+int StartUiSMS(int smsId, int frameId);
+int StartWorldMapSMS(int smsId, int frameId, int slot);
 int UseUnitSprite(u32);
+int ApplyUnitSpriteUiImage16x16(int, u32);
 int ApplyUnitSpriteImage16x16(int, u32);
-int SomethingSMS_16x16(int, u32);
 int ApplyUnitSpriteImage16x32(int, u32);
 int ApplyUnitSpriteImage32x32(int, u32);
-void sub_8026C1C(struct Unit*, int);
+void TornOutUnitSprite(struct Unit * unit, int time);
 void SyncUnitSpriteSheet(void);
 void ForceSyncUnitSpriteSheet(void);
 void sub_8026FF4(int id, u8* ptr);
-void sub_8027068(int id, u8* ptr);
-void sub_80270DC(int frameId, u8* dst);
-// ??? GetUnitDisplayedSpritePalette(???);
+void SetStandingMuFacing(int id, u8* ptr);
+void SetStandingMuFacingWM(int frameId, u8* dst);
+int GetUnitDisplayedSpritePalette(const struct Unit * unit);
 int GetUnitSpritePalette(const struct Unit* unit);
 void RefreshUnitSprites(void);
-struct SMSHandle* AddUnitSprite(int);
+struct SMSHandle * AddUnitSprite(int);
 void PutUnitSpritesOam(void);
-// ??? PutChapterMarkedTileIconOam(???);
+void PutChapterMarkedTileIconOam(void);
 void PutUnitSpriteIconsOam(void);
 // ??? sub_8027A30(???);
 void ResetUnitSpriteHover(void);
@@ -35,7 +45,7 @@ void PutUnitSpriteForClassId(int layer, int x, int y, u16 oam2, int class);
 // ??? sub_8027CFC(???);
 void sub_8027DB4(int layer, int x, int y, u16 oam2base, int classId, int id);
 void sub_8027E4C(int layer, int x, int y, int oam2, struct Unit* unit);
-// ??? SMS_DisplayOne(???);
+// void SMS_DisplayOne(int class, int layer, int x, int y, int oam2, s8 isBlend);
 void PutBlendWindowUnitSprite(int, int, int, int, struct Unit*);
 // ??? sub_8028100(???);
 void HideUnitSprite(struct Unit* unit);

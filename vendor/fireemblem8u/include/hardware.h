@@ -99,7 +99,7 @@ struct BlendCnt {
     u16 target2_bg3_on : 1;
     u16 target2_obj_on : 1;
     u16 target2_bd_on : 1;
-    STRUCT_PAD(0x02, 0x04);
+    u32 _unused;
 } BITPACKED;
 
 struct LCDControlBuffer {
@@ -119,22 +119,11 @@ struct LCDControlBuffer {
     /* 38 */ u16 mosaic;
              STRUCT_PAD(0x3A, 0x3C);
     /* 3C */ struct BlendCnt bldcnt;
-    /* 40 */ STRUCT_PAD(0x40, 0x44);
     /* 44 */ u8 blendCoeffA;
     /* 45 */ u8 blendCoeffB;
     /* 46 */ u8 blendY;
-    /* 48 */ u16 bg2pa;
-    /* 4A */ u16 bg2pb;
-    /* 4C */ u16 bg2pc;
-    /* 4E */ u16 bg2pd;
-    /* 50 */ u32 bg2x;
-    /* 54 */ u32 bg2y;
-    /* 58 */ u16 bg3pa;
-    /* 5A */ u16 bg3pb;
-    /* 5C */ u16 bg3pc;
-    /* 5E */ u16 bg3pd;
-    /* 60 */ u32 bg3x;
-    /* 64 */ u32 bg3y;
+    /* 48 */ struct BgAffineDstData bg2affin;
+    /* 58 */ struct BgAffineDstData bg3affin;
     /* 68 */ s8 colorAddition;
 };
 
@@ -164,10 +153,27 @@ struct TileDataTransfer {
     u16 mode;
 };
 
-extern s8 gUnknown_02022288[];
-extern s8 gUnknown_020222A8[];
-extern s8 gUnknown_02022308[];
+struct OamSection {
+    u16 * buf;
+    void * oam;
+    u16 offset;
+    u16 count;
+};
 
+extern struct OamSection sOamHi;
+extern struct OamSection sOamLo;
+
+// extern ??? gKeyComboResetEN
+extern u8 sModifiedBGs;  // BGs that need copying
+extern s8 sModifiedPalette;
+extern u16 gKeyStatusIgnoredSt;
+// extern ??? gUnknown_03000014
+extern u8 gUnknown_03000018;
+extern u8 gUnknown_03000019;
+extern bool gSoftwareResetFlag;
+
+extern s8 gFadeComponentStep[];
+extern s8 gFadeComponents[];
 extern u16 gPaletteBuffer[];
 
 // In text mode, the tilemap entries are 16 bits,
@@ -209,6 +215,10 @@ extern SHOULD_BE_CONST s16 gSinLookup[]; // needs to be non-const to match?
 #define CHR_LINE 0x20
 #define BG_CHR_ADDR(n)   (void *)(BG_VRAM + (CHR_SIZE * (n)))
 #define OBJ_CHR_ADDR(n)  (void *)(OBJ_VRAM0 + (CHR_SIZE * (n)))
+
+#define RED_MASK 0x1F
+#define GREEN_MASK (0x1F << 5)
+#define BLUE_MASK (0x1F << 10)
 
 #define PAL_COLOR_OFFSET(palid, colornum) (palid) * 0x10 + (colornum)
 #define PAL_OFFSET(palid) PAL_COLOR_OFFSET((palid), 0)
@@ -315,16 +325,20 @@ enum {
 }
 
 #define SetBlendAlpha(ca, cb) \
-    SetSpecialColorEffectsParameters(BLEND_EFFECT_ALPHA, (ca), (cb), 0)
+    SetBlendConfig(BLEND_EFFECT_ALPHA, (ca), (cb), 0)
 
 #define SetBlendBrighten(cy) \
-    SetSpecialColorEffectsParameters(BLEND_EFFECT_BRIGHTEN, 0, 0, (cy))
+    SetBlendConfig(BLEND_EFFECT_BRIGHTEN, 0, 0, (cy))
 
 #define SetBlendDarken(cy) \
-    SetSpecialColorEffectsParameters(BLEND_EFFECT_DARKEN, 0, 0, (cy))
+    SetBlendConfig(BLEND_EFFECT_DARKEN, 0, 0, (cy))
 
 #define SetBlendNone() \
-    SetSpecialColorEffectsParameters(BLEND_EFFECT_NONE, 0x10, 0, 0)
+    SetBlendConfig(BLEND_EFFECT_NONE, 0x10, 0, 0)
+
+#define SetBackdropColor(color) \
+    gPaletteBuffer[0] = (color); \
+    EnablePaletteSync()
 
 // Functions
 
@@ -352,18 +366,18 @@ void SetMainUpdateRoutine(void(*)(void));
 void ExecMainUpdate();
 // ??? _UpdateKeyStatus(???);
 void UpdateKeyStatus(struct KeyStatusBuffer *keyStatus);
-void sub_8001414(struct KeyStatusBuffer *keyStatus);
+void SnycKeyStatus(struct KeyStatusBuffer *keyStatus);
 void ResetKeyStatus(struct KeyStatusBuffer *keyStatus);
 void SetKeyStatus_IgnoreMask(int keys);
 int GetKeyStatus_IgnoreMask(void);
-// ??? KeyStatusSetter_Set(???);
-void NewKeyStatusSetter(int a);
-void BG_SetPosition(u16 a, u16 b, u16 c);
+// ??? AsnycKeyStatusExt(???);
+void AsnycKeyStatus(int key);
+void BG_SetPosition(u16 bg, u16 x, u16 y);
 void sub_800151C(u8 a, u8 b);
 void sub_800151C(u8 a, u8 b);
 void sub_8001530(u16 *a, u16 *b);
 void sub_800154C(void* outTm, void const* inData, u8 base, u8 linebits);
-void sub_800159C(u16 *a1, u16 *a2, s16 a3, s16 a4, u16 a5);
+void AddAttr2dBitMap(u16 * _dst, u16 * _src, s16 ix, s16 iy, u16 chr);
 // ??? sub_80016C4(???);
 void MaybeResetSomePal(void);
 void MaybeSmoothChangeSomePal(u16 *src, int b, int c, int d);
@@ -376,8 +390,8 @@ void ColorFadeSetupFromWhite(u8);
 void sub_8001A6C(void);
 void SetupBackgrounds(u16 *bgConfig);
 u16* BG_GetMapBuffer(int bg);
-void sub_8001C5C(u8);
-bool ShouldSkipHSScreen(void);
+void SetSoftwareResetFlag(u8);
+int IsSoftwareReset(void);
 void SoftResetIfKeyComboPressed();
 void sub_8001CB0(int a);
 void ExecBothHBlankHandlers(void);
@@ -387,7 +401,7 @@ void SetSecondaryHBlankHandler(void(*)(void));
 int GetBackgroundFromBufferPointer(u16 *ptr);
 void BG_SetPriority(int bg, int priority);
 int BG_GetPriority(int bg);
-void SetSpecialColorEffectsParameters(u16 effect, u8 coeffA, u8 coeffB, u8 blendY);
+void SetBlendConfig(u16 effect, u8 coeffA, u8 coeffB, u8 blendY);
 void SetBlendTargetA(int, int, int, int, int);
 void SetBlendTargetB(int, int, int, int, int);
 void SetBlendBackdropA(int);
@@ -402,10 +416,10 @@ void ClearTileRigistry(void);
 void RegisterDataMove(const void *a, void *b, int c);
 void RegisterFillTile(const void *a, void *b, int c);
 void FlushTiles(void);
-void SetupOAMBufferSplice(int a);
-void FlushSecondaryOAM(void);
-void FlushPrimaryOAM(void);
-void WriteOAMRotScaleData(int index, s16 pa, s16 pb, s16 pc, s16 pd);
+void InitOam(int a);
+void SyncHiOam(void);
+void SyncLoOam(void);
+void SetObjAffine(int index, s16 pa, s16 pb, s16 pc, s16 pd);
 // ??? sub_80021E4(???);
 int GetPrimaryOAMSize(void);
 

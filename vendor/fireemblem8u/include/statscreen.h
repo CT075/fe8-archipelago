@@ -101,7 +101,7 @@ struct StatScreenSt
     /* 06 */ short yDispOff;
     /* 08 */ s8 inTransition;
     /* 0C */ struct Unit* unit;
-    /* 10 */ struct MUProc* mu;
+    /* 10 */ struct MuProc* mu;
     /* 14 */ const struct HelpBoxInfo* help;
     /* 18 */ struct Text text[STATSCREEN_TEXT_MAX];
 };
@@ -157,6 +157,12 @@ struct HelpBoxInfo
     /* 14 */ void(*redirect)(struct HelpBoxProc* proc);
     /* 18 */ void(*populate)(struct HelpBoxProc* proc);
 };
+
+#if !MODERN
+#define DECL_INFO struct HelpBoxInfo CONST_DATA
+#else
+#define DECL_INFO struct HelpBoxInfo const
+#endif
 
 int GetLastStatScreenUid(void);
 void SetLastStatScreenUid(int uid);
@@ -333,9 +339,10 @@ void HelpPrompt_OnIdle(struct HelpPromptSprProc* proc);
 // TODO: figure out what to do with those
 // (It's in the weird EWRAM overlay area)
 
-extern struct StatScreenSt gStatScreen; // statscreen state
-extern u16 gBmFrameTmap0[0x280]; // bg0 tilemap buffer for stat screen page
-extern u16 gBmFrameTmap1[0x240]; // bg2 tilemap buffer for stat screen page
+extern struct StatScreenSt gStatScreen;
+extern u16 gUiTmScratchA[0x280];
+extern u16 gUiTmScratchB[0x280];
+extern u16 gUiTmScratchC[0x240];
 
 extern struct StatScreenInfo sStatScreenInfo;
 extern struct HelpBoxInfo sMutableHbi;
@@ -373,5 +380,25 @@ extern struct ProcCmd gProcScr_HelpBoxLock[];
 
 extern u16 sSprite_MetaHelp[];
 extern struct ProcCmd gProcScr_HelpPromptSpr[];
+extern DECL_INFO gHelpInfo_MbpHp;
+extern DECL_INFO gHelpInfo_CbpHp;
+
+extern DECL_INFO sHelpInfo_Char;
+extern DECL_INFO sHelpInfo_Class;
+extern DECL_INFO sHelpInfo_Level;
+extern DECL_INFO sHelpInfo_Exp;
+extern DECL_INFO sHelpInfo_HP;
+extern DECL_INFO gHelpInfo_Ss0Pow;
+extern DECL_INFO sHelpInfo_Ss0Skl;
+extern DECL_INFO sHelpInfo_Ss0Spd;
+extern DECL_INFO sHelpInfo_Ss0Lck;
+extern DECL_INFO sHelpInfo_Ss0Def;
+extern DECL_INFO sHelpInfo_Ss0Res;
+extern DECL_INFO sHelpInfo_Ss0Mov;
+extern DECL_INFO sHelpInfo_Ss0Con;
+extern DECL_INFO sHelpInfo_Ss0Aid;
+extern DECL_INFO sHelpInfo_Ss0Traveler;
+extern DECL_INFO sHelpInfo_Ss0Affinity;
+extern DECL_INFO sHelpInfo_Ss0Status;
 
 #endif // GUARD_STATSCREEN_H

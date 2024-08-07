@@ -3,6 +3,7 @@
 #include "statscreen.h"
 #include "fontgrp.h"
 #include "scene.h"
+#include "helpbox.h"
 
 #include "constants.h"
 #include "archipelago.h"

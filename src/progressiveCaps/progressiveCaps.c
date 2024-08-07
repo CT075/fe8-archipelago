@@ -342,7 +342,7 @@ void DisplayWeaponExp(int num, int x, int y, int wtype) {
   int wexp = getUnitWeaponRank(gStatScreen.unit, wtype);
 
   // Display weapon type icon
-  DrawIcon(gBmFrameTmap0 + TILEMAP_INDEX(x, y),
+  DrawIcon(gUiTmScratchA + TILEMAP_INDEX(x, y),
     0x70 + wtype, // TODO: icon id definitions
     TILEREF(0, STATSCREEN_BGPAL_EXTICONS));
 
@@ -351,11 +351,11 @@ void DisplayWeaponExp(int num, int x, int y, int wtype) {
     : TEXT_COLOR_SYSTEM_BLUE;
 
   // Display rank letter
-  PutSpecialChar(gBmFrameTmap0 + TILEMAP_INDEX(x + 4, y),
+  PutSpecialChar(gUiTmScratchA + TILEMAP_INDEX(x + 4, y),
     color,
     GetDisplayRankStringFromExp(wexp));
 
   DrawStatBarGfx(0x401 + num*6, 5,
-    gBmFrameTmap1 + TILEMAP_INDEX(x + 2, y + 1), TILEREF(0, STATSCREEN_BGPAL_6),
+    gUiTmScratchC + TILEMAP_INDEX(x + 2, y + 1), TILEREF(0, STATSCREEN_BGPAL_6),
     0x22, 0, 0);
 }

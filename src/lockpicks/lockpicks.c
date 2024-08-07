@@ -2,6 +2,7 @@
 
 #include "uimenu.h"
 
+#include "bmitem.h"
 #include "bmitemuse.h"
 #include "bmmenu.h"
 #include "bmtarget.h"

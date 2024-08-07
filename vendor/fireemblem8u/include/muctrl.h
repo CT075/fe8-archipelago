@@ -20,29 +20,28 @@ struct MuCtrlProc
 {
     /* 00 */ PROC_HEADER;
     /* 2C */ struct Unit * unit;
-    /* 30 */ struct MUProc * muProc;
+    /* 30 */ struct MuProc * muProc;
     /* 34 */ const struct REDA * redas;
     /* 38 */ u16 redaCount;
-    /* 3A */ u16 unk_3a;
+    /* 3A */ u16 timer;
     /* 3C */ s16 delayFrames;
     /* 3E */ u16 flags;
-    /* 40 */ s8 unk_40;
-    /* 41 */ s8 unk_41;
+    /* 40 */ s8 x, y;
     /* 42 */ s8 unk_42;
     /* 43 */ s8 unk_43;
-    /* 44 */ struct REDA unk_44;
+    /* 44 */ struct REDA reda_cur;
 };
 
-// ??? CopyEventMoveToBuffer(???);
+// ??? CopyEventMoveREDAs(???);
 // ??? ClearEventMoveBuffer(???);
 void MuCtr_StartDefinedMove(struct Unit * unit, const struct REDA * redas, s16 count, u16 flags);
 void MuCtr_StartMoveTowards(struct Unit *, s8, s8, u8, u16);
 void MuCtr_InitDefinedMove(struct MuCtrlProc * proc, struct Unit * unit, const struct REDA * redas, s16 count, u16 flags);
 s8 MuCtrExists(void);
-void MU_AllForceSetMaxMoveSpeed_(void);
-void sub_8079FA8(struct Unit* unit, const struct REDA * redas, s16 count, u16 flags);
+void SetMuMaxWalkSpeed_(void);
+void MoveUnitExt(struct Unit* unit, const struct REDA * redas, s16 count, u16 flags);
 void MoveUnit_(struct Unit *, s8, s8, u16);
-void GenUnitDefinitionFinalPosition(const struct UnitDefinition* uDef, u8* xOut, u8* yOut, s8 findNearest);
+void GenUnitDefinitionFinalPosition(const struct UnitDefinition* uDef, s8* xOut, s8* yOut, s8 findNearest);
 // ??? sub_807A0E4(???);
 // ??? sub_807A194(???);
 // ??? MuCtr_OnEnd(???);
@@ -53,11 +52,11 @@ void MuCtr_ExecREDA_807A358(struct MuCtrlProc *);
 void AdjustNewUnitPosition(struct Unit *, struct Vec2 *, u16);
 u8 * sub_807A644(struct Unit * unit, struct Vec2 * pos, s8 flag);
 
-extern struct REDABuffer gUnknown_03001A30;
+extern struct REDABuffer gEventREDAs;
 extern s8 gUnknown_03001C34;
 extern u8 gUnknown_03001C35;
 extern u16 gUnknown_03001C36;
 
-extern struct ProcCmd gProcScr_MuCtrl[];
+extern struct ProcCmd ProcScr_MuCtrl[];
 
 #endif // GUARD_MUCTRL_H

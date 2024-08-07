@@ -7,6 +7,7 @@
 #include "bmtrick.h"
 #include "bmdifficulty.h"
 #include "bonusclaim.h"
+#include "bmmind.h"
 
 enum {
     UNIT_SAVE_AMOUNT_BLUE = 51,
@@ -120,8 +121,8 @@ struct GameRankSaveDataPacks {
     u16 unk92;
 };
 
-struct bmsave_unkstruct1 {
-    u32 unk[0x8];
+struct SoundRoomSaveData {
+    u32 flags[0x8];
     u16 magic1;
     u16 magic2;
 };
@@ -132,9 +133,9 @@ struct bmsave_unkstruct2 {
     u16 magic2;
 };
 
-struct bmsave_unkstruct3 {
-    struct BonusClaimEnt unk0[0x10];
-    u32 unk140;
+struct BonusClaimSaveData {
+    struct BonusClaimEnt bonus[0x10];
+    u16 cksum16;
 };
 
 enum
@@ -235,9 +236,9 @@ struct SuspendSavePackedUnit {     /* Suspend Data */
     /* 11 */ u8 aiFlags;
     /* 12 */ u8 ranks[8];
     /* 1A */ u8 supports[UNIT_SUPPORT_MAX_COUNT];
-    /* 21 */ u8 ai1data;
+    /* 21 */ u8 ai_a_pc;
     /* 22 */ u8 ai2;
-    /* 23 */ u8 ai2data;
+    /* 23 */ u8 ai_b_pc;
 
     /* 24 */ u32 level      : 5;
              u32 xPos       : 6;
@@ -261,8 +262,8 @@ struct SuspendSavePackedUnit {     /* Suspend Data */
     
     /* 30 */ u8 ballistaIndex;
     
-    /* 31 */ u8 _u46;
-    /* 32 */ u16 ai3And4;
+    /* 31 */ u8 ai_counter;
+    /* 32 */ u16 ai_config;
     /* 34 */
 } BITPACKED;
 
@@ -385,9 +386,9 @@ struct SaveBlocks {
     /* 0x3FC4 */ struct GameSaveBlock gameSaveBlocks[3];
     /* 0x691C */ struct MultiArenaSaveBlock multiArenaBlock;
     /* 0x7190 */ struct GameRankSaveDataPacks gameRankSave;
-    /* 0x7224 */ struct bmsave_unkstruct1 unkstruct1;
+    /* 0x7224 */ struct SoundRoomSaveData soundRoomSave;
     /* 0x7248 */ struct bmsave_unkstruct2 unkstruct2;
-    /* 0x725C */ struct bmsave_unkstruct3 unkstruct3;
+    /* 0x725C */ struct BonusClaimSaveData bonusClaim;
     /* 0x73A0 */ u8 reserved[4];
     /* 0x73A4 */ u8 _pad_[0x7400 - 0x73A4];
     /* 0x7400 */ struct ExtraMapSaveHead xmap; // see bmsave-xmap.c
@@ -415,9 +416,9 @@ struct SaveBlocksEwram {
     /* 0x3F84 */ struct GameSaveBlockEwram gameSaveBlocks[3];
     /* 0x6870 */ u8 offset_5[0x874];
     /* 0x70E4 */ struct GameRankSaveDataPacks gameRankSave;
-    /* 0x7178 */ struct bmsave_unkstruct1 unkstruct1;
+    /* 0x7178 */ struct SoundRoomSaveData soundRoomSave;
     /* 0x719C */ struct bmsave_unkstruct2 unkstruct2;
-    /* 0x71B0 */ struct bmsave_unkstruct3 unkstruct3;
+    /* 0x71B0 */ struct BonusClaimSaveData bonusClaim;
 };
 
 extern struct UnitUsageStats *gPidStatsSaveLoc;
@@ -492,10 +493,10 @@ void SaveNewRankData(void *buf, int chapter_mode, int difficulty);
 u8 JudgeGameRankSaveData(struct GameRankSaveData *old, struct GameRankSaveData *new);
 void GenerateGameRankSaveData(struct GameRankSaveData *buf, int chapter_mode, int difficulty);
 void SaveEndgameRankings(void);
-void EraseLinkArenaStruct1(void);
-bool LoadAndVerfyLinkArenaStruct1(void *buf);
-void WriteLinkArenaStruct1(void *);
-int ModifySaveLinkArenaStruct1A(void *buf, int val);
+void EraseSoundRoomSaveData(void);
+bool LoadAndVerifySoundRoomData(struct SoundRoomSaveData * buf);
+void WriteSoundRoomSaveData(struct SoundRoomSaveData *);
+bool IsSoundRoomSongUnlocked(struct SoundRoomSaveData * buf, int val);
 void EraseLinkArenaStruct2(void);
 bool LoadAndVerfyLinkArenaStruct2(void *buf);
 void WriteLinkArenaStruct2(struct bmsave_unkstruct2 *buf);
@@ -512,10 +513,10 @@ void WriteChapterStats(void *sram_dest);
 struct ChapterStats *GetChapterStats(int index);
 bool IsChapterStatsValid(struct ChapterStats *chapter_stats);
 int GetNextChapterStatsSlot(void);
-void ModifySaveLinkArenaStruct1B(struct bmsave_unkstruct1 *buf, int val);
+void UnlockSoundRoomSong(struct SoundRoomSaveData *buf, int val);
 int GetCurCompleteChapters(void);
 int GetNextChapterStatsEntry(void);
-void RegisterChapterTimeAndTurnCount(struct PlaySt* chData);
+void RegisterChapterTimeAndTurnCount(struct PlaySt * chData);
 int GetGameTotalTime_unused(void);
 int GetGameTotalTurnCount(void);
 bool IsChapterBelongCurGame(u32 ch_index);
@@ -563,7 +564,7 @@ void WriteNewGameSave(int index, int isDifficult, int mode, int isTutorial);
 void WriteGameSave(int slot);
 void ReadGameSave(int slot);
 bool IsSaveValid(int);
-void ReadGameSavePlaySt(int, struct PlaySt*);
+void ReadGameSavePlaySt(int, struct PlaySt *);
 u32 LoadSavedBonusClaimFlags(int slot);
 void LoadSavedWMStuff(int slot, struct GMapData *dest);
 s8 LoadSavedEid8A(int slot);
@@ -602,8 +603,8 @@ void WriteMultiArenaSaveTeam(int team, struct Unit *units_src, char const *name_
 bool ReadMultiArenaSaveTeam(int team, struct Unit *units_dst, char *name_dst);
 void WriteMultiArenaSaveRankings(struct MultiArenaRankingEnt const *src);
 void ReadMultiArenaSaveRankings(struct MultiArenaRankingEnt *dst);
-void WriteMultiArenaSaveConfig(u16 const *config_src);
-void ReadMultiArenaSaveConfig(u16 *config_dst);
+void WriteMultiArenaSaveConfig(void const * config_src);
+void ReadMultiArenaSaveConfig(void * config_dst);
 bool IsMultiArenaSaveReady();
 void LoadAndVerfySuspendSave();
 // ??? ReadExtraMapSaveHead(???);

@@ -34,7 +34,7 @@ struct Anim {
 
     /* 3C */ const void * pSpriteData;
     /* 40 */ const void * pUnk40;
-    /* 44 */ const void * pUnk44;
+    /* 44 */ void * pUnk44;
 };
 
 enum Anim_state {
@@ -73,7 +73,13 @@ enum Anim_state2 {
 enum Anim_state3 {
     ANIM_BIT3_TAKE_BACK_ENABLE   = (1 << 0),
     ANIM_BIT3_NEXT_ROUND_START   = (1 << 1),
-    ANIM_BIT3_0004               = (1 << 2),
+
+    /**
+     * If set, C01 will block the anim
+     * set bit when hit effect applied
+     * and then cleared after hitted
+     */
+    ANIM_BIT3_C01_BLOCKING_IN_BATTLE = (1 << 2),
     ANIM_BIT3_HIT_EFFECT_APPLIED = (1 << 3),
     ANIM_BIT3_0010               = (1 << 4),
     ANIM_BIT3_BLOCKING           = (1 << 5),
@@ -108,6 +114,8 @@ struct AnimSpriteData {
     } as;
 };
 
+#define ANIM_SPRITE_END {.header = 1}
+
 enum {
     ANIM_MAX_COUNT = 50,
 };
@@ -131,33 +139,9 @@ enum {
 };
 
 // TODO: add macro helpers for writing animation scripts.
-
 #define ANIM_IS_DISABLED(anim) ((anim)->state == 0)
 
-#define ANINS_IS_NOT_FORCESPRITE(instruction) ((instruction) & 0x80000000)
-#define ANINS_IS_PTRINS(instruction) ((instruction) & 0x40000000)
-
-#define ANINS_FORCESPRITE_GET_ADDRESS(instruction) ((void*) ((instruction) &~ 0xF0000003))
-#define ANINS_FORCESPRITE_GET_DELAY(instruction) ((((instruction) >> 26) & 0x1C) + ((instruction) & 3))
-
-#define ANINS_PTRINS_GET_TYPE(instruction) (0x3 & ((instruction) >> 28))
-#define ANINS_PTRINS_GET_ADDRESS(instruction) ((void*) ((instruction) &~ 0xF0000000))
-
-#define ANINS_GET_TYPE(instruction) (0x3F & ((instruction) >> 24))
-
-#define ANINS_WAIT_GET_DELAY(instruction) ((instruction) & 0xFFFF)
-
-#define ANINS_MOVE_GET_XOFF(instruction) (((int) ((instruction) << 24)) >> 24)
-#define ANINS_MOVE_GET_YOFF(instruction) (((int) ((instruction) << 16)) >> 24)
-#define ANINS_MOVE_GET_DELAY(instruction) (((instruction) >> 16) & 0xFF)
-
-#define ANINS_COMMAND_GET_ID(instruction) (0xFF & (instruction))
-
-#define ANINS_FRAME_GET_DELAY(instruction) ((instruction) & 0xFFFF)
-#define ANINS_FRAME_GET_UNK(instruction) ((instruction) >> 16) & 0xFF
-
-enum
-{
+enum anim_inst_type {
     ANIM_INS_TYPE_STOP    = 0,
     ANIM_INS_TYPE_END     = 1,
     ANIM_INS_TYPE_LOOP    = 2,
@@ -166,6 +150,40 @@ enum
     ANIM_INS_TYPE_COMMAND = 5,
     ANIM_INS_TYPE_FRAME   = 6,
 };
+
+#define ANFMT_FORCESPRITE 0x00000000
+#define ANFMT_NOT_FORCESPRITE 0x80000000
+#define ANFMT_PTRINS 0x40000000
+#define ANFMT_INST_TYPE(type) (((type) & 0x3F) << 24)
+#define ANIMFMT_OAM_DURATION(duration) (((duration) & 3) + ((duration & 0x3C) << 26))
+
+#define ANINS_IS_NOT_FORCESPRITE(instruction) ((instruction) & ANFMT_NOT_FORCESPRITE)
+#define ANINS_IS_PTRINS(instruction) ((instruction) & ANFMT_PTRINS)
+#define ANINS_FORCESPRITE_GET_ADDRESS(instruction) ((void*) ((instruction) &~ 0xF0000003))
+#define ANINS_FORCESPRITE_GET_DELAY(instruction) ((((instruction) >> 26) & 0x1C) + ((instruction) & 3))
+#define ANINS_PTRINS_GET_TYPE(instruction) (0x3 & ((instruction) >> 28))
+#define ANINS_PTRINS_GET_ADDRESS(instruction) ((void*) ((instruction) &~ 0xF0000000))
+#define ANINS_GET_TYPE(instruction) (0x3F & ((instruction) >> 24))
+#define ANINS_WAIT_GET_DELAY(instruction) ((instruction) & 0xFFFF)
+#define ANINS_MOVE_GET_XOFF(instruction) (((int) ((instruction) << 24)) >> 24)
+#define ANINS_MOVE_GET_YOFF(instruction) (((int) ((instruction) << 16)) >> 24)
+#define ANINS_MOVE_GET_DELAY(instruction) (((instruction) >> 16) & 0xFF)
+#define ANINS_COMMAND_GET_ID(instruction) (0xFF & (instruction))
+#define ANINS_FRAME_GET_DELAY(instruction) ((instruction) & 0xFFFF)
+#define ANINS_FRAME_GET_UNK(instruction) ((instruction) >> 16) & 0xFF
+
+/* Anim Script commands */
+typedef u32 AnimScr;
+#define ANIMSCR_FRAME(delay, img, oam2) \
+    (ANFMT_NOT_FORCESPRITE + ANFMT_INST_TYPE(ANIM_INS_TYPE_FRAME) + ((delay) & 0xFFFF)), \
+    (AnimScr)(img), \
+    (AnimScr)(oam2)
+
+#define ANIMSCR_BLOCKED \
+    (ANFMT_NOT_FORCESPRITE + ANFMT_INST_TYPE(ANIM_INS_TYPE_STOP))
+
+#define ANIMSCR_FORCE_SPRITE(anim_sprite, duration) \
+    (ANFMT_FORCESPRITE + (AnimScr)(anim_sprite) + ANIMFMT_OAM_DURATION(duration))
 
 void AnimUpdateAll(void);
 void AnimClearAll(void);
@@ -176,16 +194,16 @@ void AnimDelete(struct Anim * anim);
 void AnimDisplay(struct Anim * anim);
 
 bool PrepareBattleGraphicsMaybe(void);
-u16 sub_8057CAC(struct Unit * unit, const struct BattleAnimDef * pBattleAnimDef, u16, int * out);
-s8 sub_8057DA8(u16, u16);
-s8 sub_8057ED0(u16, u16);
-// ??? GetSpellAnimId(???);
-// ??? sub_80581A0(???);
+u16 GetBattleAnimationId_WithUnique(struct Unit * unit, const struct BattleAnimDef * pBattleAnimDef, u16, int * out);
+int GetBanimTerrainGround(u16 terrain, u16 tileset);
+int GetBanimBackgroundIndex(u16 terrain, u16 tileset);
+s16 GetSpellAnimId(u16 jid, u16 weapon);
+void UnsetMapStaffAnim(s16 * out, u16 pos, u16 weapon);
 void ParseBattleHitToBanimCmd(void);
 u16 GetBattleAnimationId(struct Unit * unit, const struct BattleAnimDef * anim_def, u16 wpn, u32 * out);
-// ??? sub_8058918(???);
+bool CheckBattleHasHit(void);
 // ??? sub_805893C(???);
-u16 * SomethingFilterBattleAnimId(s16 banim_index, u16 item);
-int GetAllegienceId(u32 faction);
+u16 * FilterBattleAnimCharacterPalette(s16 banim_index, u16 item);
+int GetBanimFactionPalette(u32 faction);
 
 #endif // GUARD_ANIME_H

@@ -77,53 +77,58 @@ enum text_colors {
     // TEXT_COLOR_TALK_...
 };
 
-enum text_special_char {
-    TEXT_SPECIAL_BIGNUM_0,
-    TEXT_SPECIAL_BIGNUM_1,
-    TEXT_SPECIAL_BIGNUM_2,
-    TEXT_SPECIAL_BIGNUM_3,
-    TEXT_SPECIAL_BIGNUM_4,
-    TEXT_SPECIAL_BIGNUM_5,
-    TEXT_SPECIAL_BIGNUM_6,
-    TEXT_SPECIAL_BIGNUM_7,
-    TEXT_SPECIAL_BIGNUM_8,
-    TEXT_SPECIAL_BIGNUM_9,
-    TEXT_SPECIAL_SMALLNUM_0,
-    TEXT_SPECIAL_SMALLNUM_1,
-    TEXT_SPECIAL_SMALLNUM_2,
-    TEXT_SPECIAL_SMALLNUM_3,
-    TEXT_SPECIAL_SMALLNUM_4,
-    TEXT_SPECIAL_SMALLNUM_5,
-    TEXT_SPECIAL_SMALLNUM_6,
-    TEXT_SPECIAL_SMALLNUM_7,
-    TEXT_SPECIAL_SMALLNUM_8,
-    TEXT_SPECIAL_SMALLNUM_9,
-    TEXT_SPECIAL_DASH,
-    TEXT_SPECIAL_PLUS,
-    TEXT_SPECIAL_SLASH,
-    TEXT_SPECIAL_TILDE,
-    TEXT_SPECIAL_S,
-    TEXT_SPECIAL_A,
-    TEXT_SPECIAL_B,
-    TEXT_SPECIAL_C,
-    TEXT_SPECIAL_D,
-    TEXT_SPECIAL_E,
-    TEXT_SPECIAL_G,
-    TEXT_SPECIAL_K, // NOTE: this is an E? used as statscreen exp label and equip marker
-    TEXT_SPECIAL_COLON,
-    TEXT_SPECIAL_DOT,
-    TEXT_SPECIAL_HP_A,
-    TEXT_SPECIAL_HP_B,
-    TEXT_SPECIAL_LV_A,
-    TEXT_SPECIAL_LV_B,
-    TEXT_SPECIAL_ARROW,
-    TEXT_SPECIAL_HEART,
-    TEXT_SPECIAL_100_A,
-    TEXT_SPECIAL_100_B,
-    TEXT_SPECIAL_PERCENT,
+enum text_special_char
+{
+    TEXT_SPECIAL_BIGNUM_0   = 0x00,
+    TEXT_SPECIAL_BIGNUM_1   = 0x01,
+    TEXT_SPECIAL_BIGNUM_2   = 0x02,
+    TEXT_SPECIAL_BIGNUM_3   = 0x03,
+    TEXT_SPECIAL_BIGNUM_4   = 0x04,
+    TEXT_SPECIAL_BIGNUM_5   = 0x05,
+    TEXT_SPECIAL_BIGNUM_6   = 0x06,
+    TEXT_SPECIAL_BIGNUM_7   = 0x07,
+    TEXT_SPECIAL_BIGNUM_8   = 0x08,
+    TEXT_SPECIAL_BIGNUM_9   = 0x09,
+    TEXT_SPECIAL_SMALLNUM_0 = 0x0A,
+    TEXT_SPECIAL_SMALLNUM_1 = 0x0B,
+    TEXT_SPECIAL_SMALLNUM_2 = 0x0C,
+    TEXT_SPECIAL_SMALLNUM_3 = 0x0D,
+    TEXT_SPECIAL_SMALLNUM_4 = 0x0E,
+    TEXT_SPECIAL_SMALLNUM_5 = 0x0F,
+    TEXT_SPECIAL_SMALLNUM_6 = 0x10,
+    TEXT_SPECIAL_SMALLNUM_7 = 0x11,
+    TEXT_SPECIAL_SMALLNUM_8 = 0x12,
+    TEXT_SPECIAL_SMALLNUM_9 = 0x13,
+    TEXT_SPECIAL_DASH       = 0x14,
+    TEXT_SPECIAL_PLUS       = 0x15,
+    TEXT_SPECIAL_SLASH      = 0x16,
+    TEXT_SPECIAL_TILDE      = 0x17,
+    TEXT_SPECIAL_S          = 0x18,
+    TEXT_SPECIAL_A          = 0x19,
+    TEXT_SPECIAL_B          = 0x1A,
+    TEXT_SPECIAL_C          = 0x1B,
+    TEXT_SPECIAL_D          = 0x1C,
+    TEXT_SPECIAL_E          = 0x1D,
+    TEXT_SPECIAL_G          = 0x1E,
+    TEXT_SPECIAL_K          = 0x1F, // NOTE: this is an E? used as statscreen exp label and equip marker
+    TEXT_SPECIAL_COLON      = 0x20,
+    TEXT_SPECIAL_DOT        = 0x21,
+    TEXT_SPECIAL_HP_A       = 0x22,
+    TEXT_SPECIAL_HP_B       = 0x23,
+    TEXT_SPECIAL_LV_A       = 0x24,
+    TEXT_SPECIAL_LV_B       = 0x25,
+    TEXT_SPECIAL_ARROW      = 0x26,
+    TEXT_SPECIAL_HEART      = 0x27,
+    TEXT_SPECIAL_100_A      = 0x28,
+    TEXT_SPECIAL_100_B      = 0x29,
+    TEXT_SPECIAL_PERCENT    = 0x2A,
+
+
+    TEXT_SPECIAL_35         = 0x35,
+
     // TODO: rest
 
-    TEXT_SPECIAL_NOTHING = 0xFF,
+    TEXT_SPECIAL_NOTHING    = 0xFF,
 };
 
 struct TextPrintProc {
@@ -149,7 +154,7 @@ void StoreNumberStringOrDashesToSmallBuffer(int n);
 // ??? sub_800394C(???);
 // ??? StoreNumberHexStringToSmallBuffer(???);
 // ??? sub_80039B4(???);
-void PrintStringToDBG(const char *str);
+void PrintStringToDBG(const char * str);
 // ??? FlushDBGToBG2(???);
 // ??? sub_8003ABC(???);
 void SetupDebugFontForOBJ(int a, int objPalNum);
@@ -163,31 +168,31 @@ void ResetText(void);
 void InitTextFont(struct Font *a, void *b, int c, int d);
 void SetTextFontGlyphs(int a);
 void ResetTextFont(void);
-void SetTextFont(struct Font *a);
+void SetTextFont(struct Font *);
 void InitText(struct Text *a, int tileWidth);
-void InitTextDb(struct Text *th, int tileWidth);
+void InitTextDb(struct Text * text, int tileWidth);
 void InitTextInitInfo(const struct TextInitInfo* a);
 void ClearText(struct Text* a);
-void ClearTextPart(struct Text *th, int b, int c);
+void ClearTextPart(struct Text * text, int b, int c);
 // ??? Text_GetChrOffset(???);
-int Text_GetCursor(struct Text *th);
-void Text_SetCursor(struct Text *th, int x);
-void Text_Skip(struct Text *th, int x);
-void Text_SetColor(struct Text *th, int colorId);
-int Text_GetColor(struct Text *th);
+int Text_GetCursor(struct Text * text);
+void Text_SetCursor(struct Text * text, int x);
+void Text_Skip(struct Text * text, int x);
+void Text_SetColor(struct Text * text, int colorId);
+int Text_GetColor(struct Text * text);
 void Text_SetParams(struct Text* th, int x, int colorId);
 void PutText(struct Text* th, u16* dest);
-void PutBlankText(struct Text *th, u16 *dest);
-int GetStringTextLen(const char *str);
-const char *GetCharTextLen(const char *str, u32 *pWidth);
+void PutBlankText(struct Text * text, u16 *dest);
+int GetStringTextLen(const char * str);
+const char *GetCharTextLen(const char * str, u32 *pWidth);
 int GetStringTextCenteredPos(int x, const char* str);
 void GetStringTextBox(const char* str, int* outWidth, int* outHeight);
-char *GetStringLineEnd(char *str);
-void Text_DrawString(struct Text *th, const char* str);
-void Text_DrawNumber(struct Text *th, int n);
-void Text_DrawNumberOrSpace(struct Text *th, int n);
-void Text_DrawNumberOrBlank(struct Text *th, int n);
-const char *Text_DrawCharacter(struct Text *a, const char *b);
+char *GetStringLineEnd(char * str);
+void Text_DrawString(struct Text * text, const char* str);
+void Text_DrawNumber(struct Text * text, int n);
+void Text_DrawNumberOrSpace(struct Text * text, int n);
+void Text_DrawNumberOrBlank(struct Text * text, int n);
+const char * Text_DrawCharacter(struct Text * text, const char * str);
 void *GetTextDrawDest(struct Text *a);
 // ??? GetColorLut(???);
 // ??? DrawTextGlyph(???);
@@ -196,19 +201,19 @@ void InitSystemTextFont(void);
 void InitTalkTextFont(void);
 void SetTextDrawNoClear(void);
 void PutDrawText(struct Text* text, u16* dest, int colorId, int x, int tileWidth, const char* string);
-void Text_InsertDrawString(struct Text *th, int x, int colorId, const char *str);
-void Text_InsertDrawNumberOrBlank(struct Text *th, int x, int colorId, int n);
-void Text_DrawStringASCII(struct Text *text, const char *str);
-const char *Text_DrawCharacterAscii(struct Text *text, const char *str);
-const char *GetCharTextLenASCII(const char *str, u32 *width);
-int GetStringTextLenASCII(const char *str);
+void Text_InsertDrawString(struct Text * text, int x, int colorId, const char * str);
+void Text_InsertDrawNumberOrBlank(struct Text * text, int x, int colorId, int n);
+void Text_DrawStringASCII(struct Text * text, const char * str);
+const char * Text_DrawCharacterAscii(struct Text * text, const char * str);
+const char * GetCharTextLenASCII(const char * str, u32 *width);
+int GetStringTextLenASCII(const char * str);
 // ??? nop_8004598(???);
-void InitSpriteTextFont(struct Font *font, void *vramDest, int c);
-void InitSpriteText(struct Text *th);
-void SpriteText_DrawBackground(struct Text*);
-void SpriteText_Clear(struct Text *th);
-void SpriteText_DrawBackgroundExt(struct Text *th, u32 b);
-void *GetSpriteTextDrawDest(struct Text *);
+void InitSpriteTextFont(struct Font * font, void * vramDest, int c);
+void InitSpriteText(struct Text * text);
+void SpriteText_DrawBackground(struct Text *);
+void SpriteText_Clear(struct Text * text);
+void SpriteText_DrawBackgroundExt(struct Text * text, u32 b);
+void * GetSpriteTextDrawDest(struct Text *);
 void DrawSpriteTextGlyph(struct Text *, struct Glyph *);
 // ??? TextPrint_OnLoop(???);
 // ??? StartTextPrint(???);
@@ -221,7 +226,7 @@ void EndGreenText(void);
 // ??? DrawSpecialCharGlyph(???);
 // ??? AddSpecialChar(???);
 // ??? GetSpecialCharChr(???);
-void PutSpecialChar(u16 *a, int b, int c);
+void PutSpecialChar(u16 * tm, int color, int id);
 // ??? PutNumberExt(???);
 void PutNumber(u16 *a, int b, int c);
 void PutNumberOrBlank(u16* a, int b, int c);
@@ -230,7 +235,7 @@ void PutNumberSmall(u16* a, int b, int c);
 void PutNumberBonus(int a, u16 *b);
 // ??? SpecialCharTest(???);
 void PutTime(u16 * tm, int color, int time, bool always_display_punctuation);
-void PutTwoSpecialChar(u16 *a, int b, int c, int d);
+void PutTwoSpecialChar(u16 * tm, int color, int id_a, int id_b);
 void PutNumber2Digit(u16 *tm, int color, int number);
 void PutNumber2DigitSmall(u16 *tm, int color, int number);
 void PutNumber2DigitExt(u16 *tm, int color, int number, int id_zero);

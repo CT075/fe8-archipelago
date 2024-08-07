@@ -47,8 +47,7 @@ struct CharacterData
 
     /* 23 */ u8 _u23;
     /* 24 */ u8 _u24;
-    /* 25 */ u8 _u25;
-    /* 26 */ u8 _u26;
+    /* 25 */ u8 _u25[2]; // Unique animation IDs in FE7
     /* 27 */ u8 _u27;
 
     /* 28 */ u32 attributes;
@@ -118,6 +117,12 @@ struct ClassData
     /* 50 */ const void * _pU50;
 };
 
+enum {
+    // ClassData::slowWalking
+    UNIT_WALKSPEED_FAST,
+    UNIT_WALKSPEED_SLOW,
+};
+
 struct Unit
 {
     /* 00 */ const struct CharacterData* pCharacterData;
@@ -160,18 +165,31 @@ struct Unit
 
     /* 32 */ u8 supports[UNIT_SUPPORT_MAX_COUNT];
     /* 39 */ s8 supportBits;
+
+    /* pad */
     /* 3A */ u8 _u3A;
     /* 3B */ u8 _u3B;
 
-    /* 3C */ struct SMSHandle* pMapSpriteHandle;
+    /* 3C */ struct SMSHandle * pMapSpriteHandle;
 
-    /* 40 */ u16 ai3And4;
-    /* 42 */ u8 ai1;
-    /* 43 */ u8 ai1data;
-    /* 44 */ u8 ai2;
-    /* 45 */ u8 ai2data;
-    /* 46 */ u8 _u46;
+    /* 40 */ u16 ai_config; // a bitmask
+    /* 42 */ u8 ai1;        // enum to gAi1ScriptTable
+    /* 43 */ u8 ai_a_pc;
+    /* 44 */ u8 ai2;        // enum to gAi2ScriptTable
+    /* 45 */ u8 ai_b_pc;
+    /* 46 */ u8 ai_counter;
+
+    /* pad */
     /* 47 */ u8 _u47;
+};
+
+enum udef_ai_index {
+    UDEF_AIIDX_AI_A,
+    UDEF_AIIDX_AI_B,
+    UDEF_AIIDX_AI_CONF_L,
+    UDEF_AIIDX_AI_CONF_H,
+
+    UDEF_AIIDX_MAX
 };
 
 struct UnitDefinition
@@ -193,11 +211,11 @@ struct UnitDefinition
     /* 05 */ u16 extraData  : 8;
     /* 07 */ u16 redaCount  : 8;
 
-    /* 08 */ const void* redas;
+    /* 08 */ const void * redas;
 
     /* 0C */ u8 items[UNIT_DEFINITION_ITEM_COUNT];
 
-    /* 10 */ u8 ai[4];
+    /* 10 */ u8 ai[UDEF_AIIDX_MAX];
 } BITPACKED;
 
 enum
@@ -242,6 +260,7 @@ enum
 
     // Helpers
     US_UNAVAILABLE = (US_DEAD | US_NOT_DEPLOYED | US_BIT16),
+    US_SOLOANIM = (US_SOLOANIM_1 | US_SOLOANIM_2),
 };
 
 enum
@@ -429,7 +448,7 @@ u16 CountAvailableBlueUnits(void);
 u16 CountRedUnits(void);
 u16 CountGreenUnits(void);
 void ClearCutsceneUnits(void);
-void sub_8019108(void);
+void RefreshAllies(void);
 int GetUnitCurrentHp(struct Unit* unit);
 int GetUnitMaxHp(struct Unit* unit);
 int GetUnitPower(struct Unit* unit);
