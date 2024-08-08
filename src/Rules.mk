@@ -29,6 +29,9 @@ include $(dir)/Rules.mk
 dir := $(d)/HpBars
 include $(dir)/Rules.mk
 
+dir := $(d)/HpBarsRewrite
+include $(dir)/Rules.mk
+
 dir := $(d)/LToggle
 include $(dir)/Rules.mk
 

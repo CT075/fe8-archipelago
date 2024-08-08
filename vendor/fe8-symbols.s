@@ -13,6 +13,11 @@
     .set \name, \value
 .endm
 
+fun __divsi3, __aeabi_idiv
+fun __modsi3, __aeabi_idivmod
+fun __udivsi3, __aeabi_uidiv
+fun __umodsi3, __aeabi_uidivmod
+
 dat 0x02000000, gUnk_Sio_02000000
 dat 0x02000010, gUnknown_02000010
 dat 0x02000018, gEkrDebugTimer

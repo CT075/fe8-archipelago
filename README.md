@@ -79,7 +79,8 @@ licenses:
 - [fireemblem8u](https://github.com/FireEmblemUniverse/fireemblem8u)
   decompilation symbols and headers by various contributors
 - BattleStatsWithAnimsOff by Tequila, with assets by Alusq
-- DangerZone, LToggle and HpBars by circleseverywhere
+- DangerZone, LToggle by circleseverywhere
+- Assets for HpBarsRewrite by Alusq, reused from original HpBars by circleseverywhere
 - moveCostFix adapted from [SelfRandomizingRom](https://github.com/FireEmblemUniverse/SelfRandomizingRom-fe8) by circleseverywhere
 - `lyn`, libgbafe, text-process-classic and Expanded Modular Save by [stan](https://github.com/StanHash/)
 - Inline GenerateBestMovementScript by 7743

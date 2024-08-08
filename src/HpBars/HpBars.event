@@ -47,6 +47,7 @@
     POIN HPFrames+88
 
   ALIGN 4
+  MESSAGE HP Bars On Map hack at CURRENTOFFSET
   HPBarsOnMapHack:
     #include "asm/WarningAndHpBars.lyn.event"
 

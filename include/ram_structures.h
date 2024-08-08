@@ -10,6 +10,7 @@
 #include "constants.h"
 #include "archipelago.h"
 #include "progressiveCaps.h"
+#include "hpbars.h"
 
 #define sizeof_round(ty) ((sizeof(ty) + sizeof(int)-1) & ~(sizeof(int)-1))
 
@@ -23,6 +24,8 @@
 #define progressiveCaps ((struct ProgressiveCaps *)(PROGRESSIVE_CAPS_ADDR))
 #define NEW_CONVOY_ARRAY_ADDR (PROGRESSIVE_CAPS_ADDR + sizeof_round(struct ProgressiveCaps))
 #define newConvoyArray ((u16 *)(NEW_CONVOY_ARRAY_ADDR))
+#define INFO_ICON_CACHE_ADDR (NEW_CONVOY_ARRAY_ADDR + sizeof_round(u16[200]))
+#define infoIconCache ((struct InfoCache *)(INFO_ICON_CACHE_ADDR))
 
 #endif // RAM_STRUCTURES_H
 

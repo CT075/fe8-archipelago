@@ -15,6 +15,7 @@ HEADER = """\
 #include "constants.h"
 #include "archipelago.h"
 #include "progressiveCaps.h"
+#include "hpbars.h"
 
 #define sizeof_round(ty) ((sizeof(ty) + sizeof(int)-1) & ~(sizeof(int)-1))
 """

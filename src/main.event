@@ -13,7 +13,7 @@
 #include "superFormortiis/superFormortiis.lyn.event"
 #include "moveCostFix/moveCosts.lyn.event"
 #include "DangerZone/DangerZone.event"
-#include "HpBars/HpBars.event"
+#include "HpBarsRewrite/hpbars.event"
 #include "BattleStatsWithAnimsOff/FE8-BattleStats.event"
 #include "noInflatePrepShop/noInflatePrepShop.event"
 #include "InlineFix2_GenerateBestMovementScript.event"
