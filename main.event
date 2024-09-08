@@ -9,6 +9,7 @@
   #include "_build/blank_weapon_ranks.event"
   #include "src/main.event"
   #include "data/main.event"
+
 #else
     ERROR You are not assembling FE8 events!
 #endif

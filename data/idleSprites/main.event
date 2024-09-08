@@ -211,5 +211,3 @@ AP_Gargoyle_IdleGFX:
 ALIGN 4
 AP_Deathgoyle_IdleGFX:
 #incbin "gfx/Deathgoyle.dmp"
-
-#endif
