@@ -82,13 +82,18 @@ licenses:
 - DangerZone, LToggle by circleseverywhere
 - Assets for HpBarsRewrite by Alusq, reused from original HpBars by circleseverywhere
 - moveCostFix adapted from [SelfRandomizingRom](https://github.com/FireEmblemUniverse/SelfRandomizingRom-fe8) by circleseverywhere
-- `lyn`, libgbafe, text-process-classic and Expanded Modular Save by [stan](https://github.com/StanHash/)
+- `lyn`, libgbafe, text-process-classic and Expanded Modular Save by [StanHash](https://github.com/StanHash/)
 - Inline GenerateBestMovementScript by 7743
 - ParseFile and Png2Dmp by [CrazyColorz5](https://github.com/Crazycolorz5)
 - FE8 Essential Fixes by the [FE8 Skill System](https://github.com/FireEmblemUniverse/SkillSystem_FE8/) team and contributors
 - Project template initially forked from MysticOCE's
   [EasyBuildfile](https://github.com/MysticOCE/EasyBuildfile) taking
   inspiration from [Zane Avernathy's Sacred Stones hack rewrites](https://github.com/ZaneAvernathy/Rewrite)
+- [ColorzCore](https://github.com/FireEmblemUniverse/ColorzCore/tree) by
+  CrazyColorz5 and StanHash, included under the GPL. A copy of this tool is
+  vendored for convenience, but remains under [its original license](bin/ColorzCore/LICENSE).
+  Note that ColorzCore is a build tool only; the source of this project
+  incorporates no GPL material.
 
 # Acknowledgments
 
