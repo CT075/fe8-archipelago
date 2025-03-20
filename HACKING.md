@@ -8,7 +8,6 @@ This document is intended for potential contributors and future maintainers.
 - Haskell GHC >= 9.6.2
 - cabal >= 3.6.2.0
 - devkitARM
-- [ColorzCore](https://github.com/FireEmblemUniverse/ColorzCore)
 - A clean FE8 (U) ROM (md5: `005531fef9efbb642095fb8f64645236`) named `fe8.gba`
   at the root of the project
 
