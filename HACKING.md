@@ -4,18 +4,38 @@ This document is intended for potential contributors and future maintainers.
 
 ## Requirements
 
-- Make, CMake
-- Haskell GHC >= 9.6.2
-- cabal >= 3.6.2.0
-- devkitARM
+### Build tools
+
+The primary build driver of this project is [ColorzCore](https://github.com/FireEmblemUniverse/ColorzCore), which is vendored [here](bin/ColorzCore).
+
+You will need the [latest .NET SDK](https://docs.microsoft.com/en-us/dotnet/core/install/linux) to build ColorzCore.
+
+To build the various auxiliary scripts, you will need:
+
+- `cmake`
+- Haskell GHC >= 9.6.2 and cabal >= 3.6.2.0
+- Python >= 3.9
+
+On Debian/Ubuntu/Mint, you can install these via:
+
+```bash
+sudo apt install \
+  cmake ghc cabal-install
+```
+
+### Building the project
+
+To complete the build, you will also need
+
+- [devkitARM](https://devkitpro.org/wiki/devkitARM)
+- [bsdiff4](https://github.com/ilanschnell/bsdiff4)
 - A clean FE8 (U) ROM (md5: `005531fef9efbb642095fb8f64645236`) named `fe8.gba`
   at the root of the project
 
 ## Setup
 
-The initial run of `make` will prompt you to locate your version of ColorzCore.
-Once you do so, it will create the build environment. Running `make` again
-should create `fe8_ap.gba` and `fe8_ap_base.bsdiff4`.
+Run `make` at the project root. This should create `fe8_ap.gba`, along with
+`fe8_ap_base.bsdiff4` and a few other intermediate files.
 
 ## Copying to Archipelago
 
@@ -62,6 +82,22 @@ used to generate the relevant files ([RAM allocator](bin/ram_alloc.py),
 (TODO: document how these work better)
 
 ## Miscellaneous technical details
+
+### `lyn` autohooks
+
+If you haven't encountered an EA buildfile before, the actual process by which
+functions are overwritten may seem a bit mysterious.
+
+[lyn](https://feuniverse.us/t/ea-asm-tool-lyn-elf2ea-if-you-will/2986) is a
+tool that converts C object files to Event Assembler code. The tool searches
+for functions matching the name of a function in FE8's decompilation (see
+[`fe8-symbols.s`](vendor/fe8-symbols.s), and upon finding one, will
+automatically insert a jump from the vanilla function of that name to our new
+code.
+
+This can cause problems when replacing extremely small functions, as the hook
+may be larger than the function being replaced. In such cases, we have no
+choice but to override that function manually.
 
 ### Build process definitions
 
