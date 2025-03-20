@@ -7,10 +7,9 @@ LYN := $(LYN_DIR)/lyn
 # ColorzCore needs to be run from the directory containing the `Language Raws`
 # folder (it doesn't handle the `-raws` flag properly), so we simply copy
 # everything into the root of the build dir.
-COLORZCORE_DIR := $(BUILD_DIR)
+COLORZCORE_DIR := $(BIN_DIR)/ColorzCore
 $(shell mkdir -p $(COLORZCORE_DIR) > /dev/null)
-COLORZCORE := $(COLORZCORE_DIR)/ColorzCore$(EXE)
-COLORZCORE_BIN ?= $(error No ColorzCore binary; please set COLORZCORE_BIN and run `make ColorzCore`)
+COLORZCORE := $(BUILD_DIR)/ColorzCore$(EXE)
 EA_STD_LIB_DIR := $(VENDOR_DIR)/EAStandardLibrary
 
 $(LYN_DIR)/Makefile:
@@ -50,11 +49,11 @@ ColorzCore: $(COLORZCORE)
 # CR cam: Every time we change COLORZCORE_DIR we have to manually change the
 # number of `..`s here.
 $(COLORZCORE):
-	ln -s $(COLORZCORE_BIN) $(COLORZCORE)
-	ln -s '../$(EA_STD_LIB_DIR)/Language Raws' '$(COLORZCORE_DIR)/Language Raws'
-	ln -s '../$(EA_STD_LIB_DIR)/EA Standard Library' '$(COLORZCORE_DIR)/EA Standard Library'
-	ln -s '../$(EA_STD_LIB_DIR)/Extensions' '$(COLORZCORE_DIR)/Extensions'
-	ln -s '..//$(EA_STD_LIB_DIR)/EAstdlib.event' '$(COLORZCORE_DIR)/EAstdlib.event'
+	dotnet publish -o $(BUILD_DIR) $(COLORZCORE_DIR)/ColorzCore/ColorzCore.csproj
+	ln -s '../$(EA_STD_LIB_DIR)/Language Raws' '$(BUILD_DIR)/Language Raws'
+	ln -s '../$(EA_STD_LIB_DIR)/EA Standard Library' '$(BUILD_DIR)/EA Standard Library'
+	ln -s '../$(EA_STD_LIB_DIR)/Extensions' '$(BUILD_DIR)/Extensions'
+	ln -s '..//$(EA_STD_LIB_DIR)/EAstdlib.event' '$(BUILD_DIR)/EAstdlib.event'
 
 .PHONY: tools
 tools: $(LYN) $(COLORZCORE)

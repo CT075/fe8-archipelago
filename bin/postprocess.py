@@ -89,7 +89,7 @@ def populate_text(s: str, symbols: SymbolTable) -> str:
 
 def main(sym_file: str, inp: str, out: str, target: str):
     with open(sym_file) as f:
-        reader = csv.reader(f, delimiter=" ")
+        reader = csv.reader(filter(lambda l: not l.startswith(";"), f), delimiter=" ")
         symbols = {sym: int(addr, 16) for addr, sym in reader}
 
     with open(inp) as f:
