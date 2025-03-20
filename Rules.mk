@@ -5,7 +5,11 @@ TARGET := fe8_ap.gba
 BASEPATCH := fe8_ap_base.bsdiff4
 
 EVENT_MAIN := main.event
-EAFLAGS := -werr -output:../$(TARGET) -input:../$(EVENT_MAIN) --nocash-sym
+EAFLAGS := -werr -output:$(TARGET) -input:$(EVENT_MAIN) --nocash-sym \
+					 -raws:'$(EA_STD_LIB_DIR)/Language Raws' \
+					 -I:'$(EA_STD_LIB_DIR)/EA Standard Library' \
+					 -I:'$(EA_STD_LIB_DIR)/Extensions' \
+					 -I:'$(EA_STD_LIB_DIR)'
 
 ARCHIPELAGO_DEFS := $(BUILD_DIR)/archipelagoDefs.event
 
@@ -76,16 +80,14 @@ $(BASEROM):
 $(TARGET) $(SYMBOLS) $(POPULATED_CONNECTOR_CONFIG): \
 		$(BASEROM) $(COLORZCORE) $(EVENTS) $(PARSEFILE) $(RAM_SYMS) \
 		$(CONNECTOR_CONFIG_PY) $(POSTPROCESS)
-	cd $(BUILD_DIR) && \
-		cp ../$(BASEROM) ../$(TARGET) && \
-		./ColorzCore A FE8 $(EAFLAGS) && \
-		(cat ../$(RAM_SYMS) >> ../$(SYMBOLS)) && \
-		(python ../$(POSTPROCESS) \
-			--sym_file ../$(SYMBOLS) \
-			--connector_config_in ../$(CONNECTOR_CONFIG_PY) \
-			--connector_config_out ../$(POPULATED_CONNECTOR_CONFIG) \
-	    --target ../$(TARGET)) \
-	|| (rm -f ../$(TARGET) ../$(SYMBOLS) && false)
+	cp $(BASEROM) $(TARGET)
+	$(COLORZCORE) A FE8 $(EAFLAGS) || (rm -f $(TARGET) $(SYMBOLS) && false)
+	cat $(RAM_SYMS) >> $(SYMBOLS)
+	python $(POSTPROCESS) \
+		--sym_file $(SYMBOLS) \
+		--connector_config_in $(CONNECTOR_CONFIG_PY) \
+		--connector_config_out $(POPULATED_CONNECTOR_CONFIG) \
+		--target $(TARGET)
 
 $(BASEPATCH): $(TARGET)
 	# CR cam: install bsdiff4 if not already present

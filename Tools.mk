@@ -50,10 +50,6 @@ ColorzCore: $(COLORZCORE)
 # number of `..`s here.
 $(COLORZCORE):
 	dotnet publish -o $(BUILD_DIR) $(COLORZCORE_DIR)/ColorzCore/ColorzCore.csproj
-	ln -s '../$(EA_STD_LIB_DIR)/Language Raws' '$(BUILD_DIR)/Language Raws'
-	ln -s '../$(EA_STD_LIB_DIR)/EA Standard Library' '$(BUILD_DIR)/EA Standard Library'
-	ln -s '../$(EA_STD_LIB_DIR)/Extensions' '$(BUILD_DIR)/Extensions'
-	ln -s '..//$(EA_STD_LIB_DIR)/EAstdlib.event' '$(BUILD_DIR)/EAstdlib.event'
 
 .PHONY: tools
 tools: $(LYN) $(COLORZCORE)
