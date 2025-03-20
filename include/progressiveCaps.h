@@ -20,6 +20,7 @@ struct ProgressiveCaps {
 #define TRUE_LEVEL_CAP 20
 
 int GetLevelCap();
+void checkBattleUnitLevelUpUncapped(struct BattleUnit *bu);
 void bumpLevelCap();
 void bumpWeaponLevelCap(enum WeaponType wtype);
 
