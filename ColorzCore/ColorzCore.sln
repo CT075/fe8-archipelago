@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorzCore", "ColorzCore.csproj", "{B98F7CCF-9CAA-406E-88D7-2040FA99F631}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorzCore.Framework", "ColorzCore.Framework.csproj", "{33DC9CB0-82AB-47EC-9D7F-AD9FD5776BCF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		32bit|Any CPU = 32bit|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B98F7CCF-9CAA-406E-88D7-2040FA99F631}.32bit|Any CPU.ActiveCfg = 32bit|Any CPU
+		{B98F7CCF-9CAA-406E-88D7-2040FA99F631}.32bit|Any CPU.Build.0 = 32bit|Any CPU
+		{B98F7CCF-9CAA-406E-88D7-2040FA99F631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B98F7CCF-9CAA-406E-88D7-2040FA99F631}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B98F7CCF-9CAA-406E-88D7-2040FA99F631}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B98F7CCF-9CAA-406E-88D7-2040FA99F631}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33DC9CB0-82AB-47EC-9D7F-AD9FD5776BCF}.32bit|Any CPU.ActiveCfg = Debug|Any CPU
+		{33DC9CB0-82AB-47EC-9D7F-AD9FD5776BCF}.32bit|Any CPU.Build.0 = Debug|Any CPU
+		{33DC9CB0-82AB-47EC-9D7F-AD9FD5776BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33DC9CB0-82AB-47EC-9D7F-AD9FD5776BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33DC9CB0-82AB-47EC-9D7F-AD9FD5776BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33DC9CB0-82AB-47EC-9D7F-AD9FD5776BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21D63160-BE4B-46B7-995A-04D8AC7B4472}
+	EndGlobalSection
+EndGlobal
