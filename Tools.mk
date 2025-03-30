@@ -46,8 +46,6 @@ $(GENDEFS): $(GENDEFS_SRC) include/*
 .PHONY: ColorzCore
 ColorzCore: $(COLORZCORE)
 
-# CR cam: Every time we change COLORZCORE_DIR we have to manually change the
-# number of `..`s here.
 $(COLORZCORE):
 	dotnet publish -o $(BUILD_DIR) $(COLORZCORE_DIR)/ColorzCore/ColorzCore.csproj
 
