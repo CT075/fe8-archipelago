@@ -26,7 +26,7 @@ If you have previously set up the FE8 connector and are familiar with this proce
 
 1. Install Archipelago first. During installation, uncheck any games you don't intend to play. Don't worry, you can add them later by running the installer again.
 2. Find where Archipelago was installed. On Windows, the default installation directory is `C:\ProgramData\Archipelago`.
-3. Place the `fe8.apworld` file into `Archipelago/lib/worlds/`.
+3. Place the `fe8.apworld` file into `Archipelago/lib/custom_worlds/`.
 4. To verify the apworld is installed correctly, run `ArchipelagoLauncher.exe`. You should find "Bizhawk Client" in the list on the right side.
 
 ## Creating a Settings File (YAML)
