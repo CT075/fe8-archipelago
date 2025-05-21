@@ -115,6 +115,16 @@ PUSH
   BYTE 2 2 0 1 2 0
 POP
 
+// Female wyvern promo games
+
+PUSH
+  ORG classBase(WyvernKnight_F) + PROMO_GAINS_OFFSET
+  BYTE 3 1 2 3 0 1
+
+  ORG classBase(WyvernLord_F) + PROMO_GAINS_OFFSET
+  BYTE 4 2 2 0 2 0
+POP
+
 // Add Tana to the ignore list for Ch9Eph enemy AI
 
 PUSH
