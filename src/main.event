@@ -22,6 +22,19 @@
 #include "lockpicks/lockpicks.lyn.event"
 
 PUSH
+ORG 0x9500E
+// bhi -> b
+// removes the valni/lagdou check to disable saving in the prep screen
+SHORT 0xE005
+POP
+
+PUSH
+// Adjusts the Tower of Valni to no longer check for chapter completions
+ORG 0x9EE8F0
+WORD 0x00000321 0x00000C40
+POP
+
+PUSH
 ORG FreeSpaceBL
 #define inBLRange
 #include "LToggle/LToggle.event"
