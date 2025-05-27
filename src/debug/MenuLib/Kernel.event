@@ -1,0 +1,8 @@
+#ifndef MENU_LIB_KERNEL
+#define MENU_LIB_KERNEL
+
+#ifdef SPECIAL_EVENT_PER_UNIT
+#include modules/SpecialEventPerUnit.lyn.event
+#endif SPECIAL_EVENT_PER_UNIT
+
+#endif // MENU_LIB_KERNEL

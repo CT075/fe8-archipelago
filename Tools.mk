@@ -4,9 +4,6 @@
 LYN_DIR := $(BIN_DIR)/lyn
 LYN := $(LYN_DIR)/lyn
 
-# ColorzCore needs to be run from the directory containing the `Language Raws`
-# folder (it doesn't handle the `-raws` flag properly), so we simply copy
-# everything into the root of the build dir.
 COLORZCORE_DIR := $(BIN_DIR)/ColorzCore
 $(shell mkdir -p $(COLORZCORE_DIR) > /dev/null)
 COLORZCORE := $(BUILD_DIR)/ColorzCore$(EXE)

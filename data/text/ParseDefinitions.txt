@@ -4,5 +4,7 @@
 #ifndef TEXT_DEFINITIONS_ALLTEXT
 #define TEXT_DEFINITIONS_ALLTEXT
 
+#define DebugEndMapText $0E5
+#define DebugEndMapHelpText $0E6
 
 #endif // TEXT_DEFINITIONS_ALLTEXT

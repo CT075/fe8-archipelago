@@ -1,0 +1,66 @@
+#ifndef MENU_LIB
+
+// =========================================================================
+//   MenuLib Manual Installer
+// =========================================================================
+//
+// This file is intended for users who:
+//   a) Would like low-level control over the menu items and installed modules
+//   b) Prefer to configure things in .event files than C
+//
+// Including this installer out-of-the-box won't do anything except take up a
+// little bit of freespace. To configure this library through this installer,
+// the two places to start are "Feature flags" (which control how much of the
+// library's functionality will be included) and "User Config".
+
+// ====== Feature flags ====================================================
+
+// Uncomment this line if you intend to use the Special Event Per Unit patch.
+//#define SPECIAL_EVENT_PER_UNIT
+
+// ====== Internals ========================================================
+
+#include Kernel.event
+
+// ====== User Config ======================================================
+
+// == Unit Action Menu
+
+// Repoints the unit action menu.
+SetUnitActionMenu(UnitActions)
+
+// Add or remove entries via MenuItem as desired.
+UnitActions:
+DefaultAttackEntry
+DefaultAttackBallistaEntry
+DefaultStaffEntry
+DefaultRideEntry
+DefaultExitEntry
+DefaultPlayEntry
+DefaultDanceEntry
+DefaultStealEntry
+DefaultSummonEntry
+DefaultYobimaEntry
+DefaultPickEntry
+DefaultTalkEntry
+DefaultSupportEntry
+DefaultVisitEntry
+DefaultChestEntry
+DefaultDoorEntry
+DefaultArmoryEntry
+DefaultVendorEntry
+DefaultSecretShopEntry
+DefaultArenaEntry
+DefaultRescueEntry
+DefaultDropEntry
+DefaultTakeEntry
+DefaultGiveEntry
+DefaultItemEntry
+DefaultTradeEntry
+DefaultSupplyEntry
+MenuItem(DebugEndMapText, DebugEndMapHelpText, MenuItemGreen, \
+  MenuAlwaysEnabled, debugEndMapEffect)
+DefaultWaitEntry
+MenuItemEnd
+
+#endif // MENU_LIB

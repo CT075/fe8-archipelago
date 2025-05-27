@@ -103,5 +103,5 @@ clean: clean-tools
 
 all: hack $(CONNECTOR_CONFIG_PY)
 
-debug: EAFLAGS := $(EAFLAGS) -D:'DEBUG=true'
+debug: EAFLAGS := $(EAFLAGS) -D:'DEBUG=1' -debug
 debug: $(TARGET)

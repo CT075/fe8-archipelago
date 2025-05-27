@@ -1,0 +1,141 @@
+#ifndef MENU_LIB_MACROS
+#define MENU_LIB_MACROS
+
+/*
+struct MenuItemDef
+{
+    const char* name;
+
+    u16 nameMsgId, helpMsgId;
+    u8 color, overrideId;
+
+    u8(*isAvailable)(const struct MenuItemDef*, int number);
+
+    int(*onDraw)(struct MenuProc*, struct MenuItemProc*);
+
+    u8(*onSelected)(struct MenuProc*, struct MenuItemProc*);
+    u8(*onIdle)(struct MenuProc*, struct MenuItemProc*);
+
+    int(*onSwitchIn)(struct MenuProc*, struct MenuItemProc*);
+    int(*onSwitchOut)(struct MenuProc*, struct MenuItemProc*);
+};
+*/
+
+#define MenuAlwaysEnabled 0x0804f449
+
+#define MenuItem(debugNamePtr, name, help, color, override, usable, draw, activate, idle, switchIn, switchOut) \
+  POIN (debugNamePtr); \
+  SHORT (name); \
+  SHORT (help); \
+  BYTE (color); \
+  BYTE (override); \
+  ALIGN 4; \
+  POIN (usable); \
+  POIN (draw); \
+  POIN (activate); \
+  POIN (idle); \
+  POIN (switchIn); \
+  POIN (switchOut);
+
+#define MenuItemNormal 0
+#define MenuItemGreen 4
+
+#define MenuItem(name, help, color, usable, activate) \
+  MenuItem(0, (name), (help), (color), 0, (usable), 0, (activate), 0, 0, 0)
+
+#define MenuItemEnd WORD 0 0 0 0 0 0 0 0 0
+
+#define G_UNIT_ACTION_MENU_ITEMS_PTR 0x59D1F8
+
+#define SetUnitActionMenu(ptr) \
+  PUSH; \
+  ORG G_UNIT_ACTION_MENU_ITEMS_PTR; \
+  POIN ptr; \
+  POP
+
+#define DefaultSeizeEntry \
+  MenuItem(0,0x67a,0x6cc,0,0x4e,0x08022fdd,0,0x08023021,0,0,0)
+#define DefaultAttackEntry \
+  MenuItem(0,0x67b,0x6c0,0,0x4f,0x80249ad,0,0x8022b31,0,0x8022c31,0x8022c99)
+#define DefaultAttackBallistaEntry \
+  MenuItem(0,0x67b,0x6c0,0,0x50,0x8024a29,0,0x8022b31,0,0x8022c31,0x8022c99)
+#define DefaultStaffEntry \
+  MenuItem(0,0x67c,0x6c1,0,0x51,0x8023a55,0,0x8023acd,0,0x8023b3d,0x8023b85)
+#define DefaultRideEntry \
+  MenuItem(0,0x691,0x6d6,0x4,0x52,0x80248c5,0,0x8024921,0,0,0)
+#define DefaultExitEntry \
+  MenuItem(0,0x692,0x6d7,0x4,0x53,0x802494d,0,0x8024981,0,0,0)
+#define DefaultPlayEntry \
+  MenuItem(0,0x67d,0x6c3,0,0x54,0x8023159,0,0x80231d1,0,0,0)
+#define DefaultDanceEntry \
+  MenuItem(0,0x67e,0x6c2,0,0x55,0x8023195,0,0x80231d1,0,0,0)
+#define DefaultStealEntry \
+  MenuItem(0,0x67f,0x6c4,0,0x56,0x802418d,0,0x80241dd,0,0,0)
+#define DefaultSummonEntry \
+  MenuItem(0,0x693,0x6dd,0,0x57,0x80243d9,0,0x80244b9,0,0,0)
+#define DefaultYobimaEntry \
+  MenuItem(0,0x693,0x6dd,0,0x58,0x80244fd,0,0x8024549,0,0,0)
+#define DefaultPickEntry \
+  MenuItem(0,0x694,0x6de,0,0x59,0x8023e7d,0,0x8023eb5,0,0,0)
+#define DefaultTalkEntry \
+  MenuItem(0,0x680,0x6c9,0,0x5a,0x8023c81,0,0x8023cc5,0,0,0)
+#define DefaultSupportEntry \
+  MenuItem(0,0x681,0x6ca,0,0x5b,0x8023d15,0,0x8023d65,0,0,0)
+#define DefaultVisitEntry \
+  MenuItem(0,0x682,0x6cb,0,0x5c,0x8023041,0,0x80230c1,0,0,0)
+#define DefaultChestEntry \
+  MenuItem(0,0x683,0x6ce,0,0x5d,0x8023e1d,0,0x8023e59,0,0,0)
+#define DefaultDoorEntry \
+  MenuItem(0,0x684,0x6cd,0,0x5e,0x8023db5,0,0x8023df5,0,0,0)
+#define DefaultArmoryEntry \
+  MenuItem(0,0x685,0x6cf,0,0x5f,0x8023fd9,0,0x8024015,0,0,0)
+#define DefaultVendorEntry \
+  MenuItem(0,0x686,0x6d0,0,0x60,0x8024035,0,0x8024071,0,0,0)
+#define DefaultSecretShopEntry \
+  MenuItem(0,0x687,0x6d1,0,0x61,0x8024091,0,0x80240cd,0,0,0)
+#define DefaultArenaEntry \
+  MenuItem(0,0x688,0x6d2,0,0x62,0x80240ed,0,0x8024145,0,0,0)
+#define DefaultRescueEntry \
+  MenuItem(0,0x689,0x6c5,0,0x63,0x80228a5,0,0x80228dd,0,0,0)
+#define DefaultDropEntry \
+  MenuItem(0,0x68a,0x6c6,0,0x64,0x8022911,0,0x8022949,0,0,0)
+#define DefaultTakeEntry \
+  MenuItem(0,0x68b,0x6c8,0x4,0x65,0x802298d,0,0x80229d5,0,0,0)
+#define DefaultGiveEntry \
+  MenuItem(0,0x68c,0x6c7,0x4,0x66,0x80229f5,0,0x8022a3d,0,0,0)
+#define DefaultItemEntry \
+  MenuItem(0,0x68d,0x6d3,0,0x67,0x80232b9,0,0x80232e9,0,0,0)
+#define DefaultTradeEntry \
+  MenuItem(0,0x68e,0x6d4,0x4,0x68,0x8022f35,0,0x8022f89,0,0,0)
+#define DefaultSupplyEntry \
+  MenuItem(0,0x68f,0x6d5,0x4,0x69,0x8023f65,0,0x8023fb9,0,0,0)
+#define DefaultWaitEntry \
+  MenuItem(0,0x695,0x6bf,0,0x6b,0x804f449,0,0x8022739,0,0,0)
+
+// Special Event Per Unit macros
+
+#ifdef SPECIAL_EVENT_PER_UNIT
+
+#define SpecialEventPerUnitCfg(char, cls, item, flag) \
+  ALIGN 4; \
+  BYTE (char) (cls) (item) (flag)
+
+#define SpecialEventPerUnitChar(char) SpecialEventPerUnitCfg(char, 0, 0, 0)
+#define SpecialEventPerUnitClass(cls) SpecialEventPerUnitCfg(0, cls, 0, 0)
+#define SpecialEventPerUnitItem(item) SpecialEventPerUnitCfg(0, 0, item, 0)
+#define SpecialEventPerUnitItem(flag) SpecialEventPerUnitCfg(0, 0, 0, flag)
+
+#define SpecialEventPerUnitUsability(ptr) \
+  WORD $4A03B510 $F0004B03 $BC10F81F $4708BC02; \
+  POIN ptr; \
+  POIN SEPUAvailableImpl
+
+#define SpecialEventPerUnitRunEvent(ptr) \
+  WORD $4A03B510 $F0004B03 $BC10F807 $4708BC02; \
+  POIN ptr; \
+  POIN runEventFromMenu; \
+  WORD $46C04718
+
+#endif
+
+#endif // MENU_LIB_MACROS

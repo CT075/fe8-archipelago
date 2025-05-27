@@ -57,6 +57,14 @@ __TEXTPROCESS0E4:
 #incbin ".TextEntries/alltext0E4.fetxt.dmp"
 setText($E4, __TEXTPROCESS0E4)
 
+__TEXTPROCESS0E5:
+#incbin ".TextEntries/alltextDebugEndMapText.fetxt.dmp"
+setText($E5, __TEXTPROCESS0E5)
+
+__TEXTPROCESS0E6:
+#incbin ".TextEntries/alltextDebugEndMapHelpText.fetxt.dmp"
+setText($E6, __TEXTPROCESS0E6)
+
 }
 
 #endif // TEXT_INSTALLER_ALLTEXT

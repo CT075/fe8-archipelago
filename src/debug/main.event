@@ -1,0 +1,2 @@
+#include debug.lyn.event
+#include "MenuLib/ManualInstall.event"

@@ -41,3 +41,11 @@ Current level cap: 20/15[X]
 # 0x00E4
 
 Current level cap: 20/20[X]
+
+# # DebugEndMapText
+
+End Map[X]
+
+# # DebugEndMapHelpText
+
+Ends the map.[X]

@@ -21,6 +21,10 @@
 #include "convoy200/main.event"
 #include "lockpicks/lockpicks.lyn.event"
 
+#ifdef DEBUG
+#include "debug/main.event"
+#endif
+
 PUSH
 ORG 0x9500E
 // bhi -> b
