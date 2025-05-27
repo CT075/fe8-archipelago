@@ -24,6 +24,8 @@
 
 // ====== User Config ======================================================
 
+#include ParseDefinitions.event
+
 // == Unit Action Menu
 
 // Repoints the unit action menu.
