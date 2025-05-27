@@ -36,14 +36,14 @@ void bumpLevelCap() {
   }
 }
 
-s8 CanBattleUnitGainLevels(struct BattleUnit *bu) {
+s8 canBattleUnitGainLevels(struct BattleUnit *bu, bool isAutoLevel) {
   if (gBmSt.gameStateBits & 0x40)
     return TRUE;
 
   if (bu->unit.level >= TRUE_LEVEL_CAP)
     return FALSE;
 
-  if (GetUnitExpLevel(&bu->unit) >= getLevelCap())
+  if (!isAutoLevel && GetUnitExpLevel(&bu->unit) >= getLevelCap())
     return FALSE;
 
   if (bu->unit.exp == UNIT_EXP_DISABLED)
@@ -53,6 +53,10 @@ s8 CanBattleUnitGainLevels(struct BattleUnit *bu) {
     return FALSE;
 
   return TRUE;
+}
+
+s8 CanBattleUnitGainLevels(struct BattleUnit *bu) {
+  return canBattleUnitGainLevels(bu, false);
 }
 
 void enforceLevelCap(struct BattleUnit *bu) {
@@ -68,28 +72,28 @@ void enforceLevelCap(struct BattleUnit *bu) {
 }
 
 void UnitAutolevelRealistic(struct Unit* unit) {
-    struct BattleUnit tmpBattleUnit;
-    short levelsLeft;
+  struct BattleUnit tmpBattleUnit;
+  short levelsLeft;
 
-    tmpBattleUnit.expGain = 0;
+  tmpBattleUnit.expGain = 0;
 
-    levelsLeft = (unit->level - unit->pCharacterData->baseLevel);
+  levelsLeft = (unit->level - unit->pCharacterData->baseLevel);
 
-    if (levelsLeft) {
-        for (unit->level -= levelsLeft; levelsLeft > 0; --levelsLeft) {
-            InitBattleUnit(&tmpBattleUnit, unit);
+  if (levelsLeft) {
+    for (unit->level -= levelsLeft; levelsLeft > 0; --levelsLeft) {
+      InitBattleUnit(&tmpBattleUnit, unit);
 
-            tmpBattleUnit.unit.exp += 100;
-            checkBattleUnitLevelUpUncapped(&tmpBattleUnit);
+      tmpBattleUnit.unit.exp += 100;
+      checkBattleUnitLevelUpUncapped(&tmpBattleUnit);
 
-            UpdateUnitFromBattle(unit, &tmpBattleUnit);
-        }
-        enforceLevelCap(&tmpBattleUnit);
+      UpdateUnitFromBattle(unit, &tmpBattleUnit);
     }
+    enforceLevelCap(&tmpBattleUnit);
+  }
 }
 
 void battleUnitLevelUp(struct BattleUnit *bu, bool isAutolevel) {
-  if (CanBattleUnitGainLevels(bu) && bu->unit.exp >= 100) {
+  if (canBattleUnitGainLevels(bu, isAutolevel) && bu->unit.exp >= 100) {
     int growthBonus, statGainTotal;
 
     bu->unit.exp -= 100;
@@ -167,11 +171,11 @@ void battleUnitLevelUp(struct BattleUnit *bu, bool isAutolevel) {
 }
 
 void CheckBattleUnitLevelUp(struct BattleUnit *bu) {
-  battleUnitLevelUp(bu, true);
+  battleUnitLevelUp(bu, false);
 }
 
 void checkBattleUnitLevelUpUncapped(struct BattleUnit *bu) {
-  battleUnitLevelUp(bu, false);
+  battleUnitLevelUp(bu, true);
 }
 
 u8 *weaponLvlStage(int wType) {
