@@ -37,5 +37,7 @@ void CallGameOverEvent(void) {
 // deathlink counter *before* triggering the game over.
 // CR cam: Come up with a more principled way to do this.
 void deathlinkDebounceHack(struct EventEngineProc *_proc) {
-  deathLinkInfo->pendingOut -= 1;
+  if (archipelagoOptions.deathLinkKind >= OnGameOver) {
+    deathLinkInfo->pendingOut -= 1;
+  }
 }

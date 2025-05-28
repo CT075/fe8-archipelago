@@ -245,6 +245,8 @@ void triggerDeathLink() {
     return;
   }
 
+  deathLinkInfo->pendingIn = 0;
+
   u8 inWorldMap = Proc_Find((const struct ProcCmd *)0x08A3EE74) != NULL;
 
   CallEvent(activateDeathLinkEvent, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
