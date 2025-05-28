@@ -1,12 +1,18 @@
 #include "global.h"
 
 #include "bmunit.h"
+
+#include "bmsave.h"
 #include "bmreliance.h"
 #include "constants/classes.h"
 #include "event.h"
 
 #include "archipelago.h"
 #include "ram_structures.h"
+
+void deathlinkInvalidateSuspend(void) {
+  InvalidateSuspendSave(SAVE_ID_SUSPEND);
+}
 
 void UnitKill(struct Unit* unit) {
   if (UNIT_FACTION(unit) == FACTION_BLUE) {

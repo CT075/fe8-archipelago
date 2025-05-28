@@ -7,5 +7,6 @@ ENDA
 activateDeathLinkEvent:
 ASMC activateDeathLink
 ASMC deathlinkDebounceHack
+ASMC deathlinkInvalidateSuspend
 GameOver
 ENDA
