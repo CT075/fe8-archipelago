@@ -154,3 +154,12 @@ not even that consistent with it myself).
   - Low priority; the player has to go out of their way to use this. It does
     enable cheesing some chapters (most notably 5x, but also Jehanna Hall), but
     I'm willing to accept that for now.
+2. Only one phantom can be on the field at once
+  - This isn't strictly true, but is a side effect of the hack we used to enable
+    summoning on all units. Effectively, every unit other than Ewan and Knoll is
+    considered to be Lyon for the purposes of summoning. This means that, if
+    there is a LyonPhantom on the field, the game will assume that "Lyon" has
+    already summoned, and therefore no units other than Ewan and Knoll will be
+    able to summon again.
+  - What we should do is store the id of the summoner in the leader byte of the
+    phantom. This shouldn't be too hard of a code change (Good starter issue!)
