@@ -23,8 +23,11 @@
 -- ProgressiveWLv) or design a DSL to express them, whereas this file makes that
 -- structure very "obvious" once you know which type declarations to look at.
 
+import Prelude hiding (head, last)
+
 import Control.Monad (forM_)
-import Data.List
+import qualified Data.List as List
+import Data.List.NonEmpty (NonEmpty ((:|)), head, last, toList)
 import GHC.Generics
 import System.Environment (getArgs)
 import System.Exit (ExitCode (..), exitWith)
@@ -175,18 +178,18 @@ data Chapter
     | Endgame2
     deriving (Show, Typeable, Eq)
 
--- apparently this isn't in my version of base?
-(!?) :: [a] -> Int -> Maybe a
-[] !? _ = Nothing
-(x : _) !? 0 = Just x
-(_ : xs) !? n = xs !? (n - 1)
+(!?) :: NonEmpty a -> Int -> Maybe a
+xs !? i = toList xs !!? i
+  where
+    (!!?) = (List.!?)
 
-allChapters :: [Chapter]
+findIndex :: (a -> Bool) -> NonEmpty a -> Maybe Int
+findIndex f = List.findIndex f . toList
+
+allChapters :: NonEmpty Chapter
 allChapters =
-    {- HLINT refact:Evaluate -}
-    []
-        ++ [Prologue]
-        ++ (C <$> [1 .. 5])
+    Prologue
+        :| (C <$> [1 .. 5])
         ++ [C5x]
         ++ (C <$> [6 .. 20])
         ++ [Endgame1, Endgame2]
@@ -432,12 +435,17 @@ emitPythonData emitLn = do
     emitLn "]"
     emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
     emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}"
+    -- CR-soon cam: compute these from `offsetof` instead of hardcoding
     emitLn "LOCKPICK_USABILITY_OFFS = {|ROM_BASE:archipelagoOptions|}+1"
+    emitLn "DEATH_LINK_KIND_OFFS = {|ROM_BASE:archipelagoOptions|}+2"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"
     emitLn "ARCHIPELAGO_RECEIVED_ITEM_ADDR = {|receivedAPItem|}"
     emitLn "ARCHIPELAGO_NUM_RECEIVED_ITEMS_ADDR = {|receivedItemIndex|}"
+    emitLn "ARCHIPELAGO_DEATHLINK_IN = {|deathLinkIn|}"
+    emitLn "ARCHIPELAGO_DEATHLINK_OUT = {|deathLinkOut|}"
+    emitLn "ARCHIPELAGO_DEATHLINK_READY = {|deathLinkReady|}"
     emitLn "FLAGS_ADDR = {|checkedLocations|}"
     emitLn $ "FLAGS_SIZE = " ++ show locationBytes
   where

@@ -38,13 +38,13 @@ struct DeathLinkState {
 
 // CR cam: This should come from `Generate.hs` so we can ensure that this
 // struct definition doesn't drift from the python code that sets it
-enum LockpickUsability {
+enum __attribute__((__packed__)) LockpickUsability {
   Vanilla=0,
   GlobalLockpicks=1,
   GlobalRoguePick=2,
 };
 
-enum DeathLinkKind {
+enum __attribute__((__packed__)) DeathLinkKind {
   None=0,
   OnGameOver=1,
   OnAnyDeath=2,

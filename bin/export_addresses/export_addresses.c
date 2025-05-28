@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
     printf("%08X checkedLocations\n", CHECKED_LOCATIONS_ADDR);
     printf("%08X deathLinkIn\n", DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, pendingIn));
     printf("%08X deathLinkOut\n", DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, pendingOut));
+    printf("%08X deathLinkReady\n", DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, ready));
     // Fake symbols are a hack to reuse [populate_with_symbols] infrastructure
     // to export the necessary [sizeof] data.
     //
