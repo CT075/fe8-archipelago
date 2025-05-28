@@ -20,6 +20,7 @@
 #include "archipelago.h"
 #include "progressiveCaps.h"
 #include "ram_structures.h"
+#include "ParseDefinitions.event.h"
 
 const struct PopupInstruction Popup_GotAPItem[] = {
   POPUP_SOUND(0x5A),
@@ -56,6 +57,15 @@ const struct PopupInstruction Popup_WRankUp[] = {
   POPUP_END
 };
 
+const struct PopupInstruction Popup_DeathLink[] = {
+  POPUP_SOUND(0x5C),
+  POPUP_MSG(0x008),                   /* Got */
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(DeathLinkText),           /* DeathLink! */
+  POPUP_END
+};
+
 // Incoming items
 
 u8 eventsRunning(ProcPtr);
@@ -68,6 +78,7 @@ const struct ProcCmd PlayerPhaseEventBlockProc[] = {
 };
 
 extern const u16 receiveAPItemEvent[];
+extern const u16 activateDeathLinkEvent[];
 
 u16 holyWeaponTrueValue(enum HolyWeapon hw) {
   switch (hw) {
@@ -210,6 +221,12 @@ void receiveAPItem(struct EventEngineProc *proc) {
   giveAPEventReward(proc, &evt);
 }
 
+void activateDeathLink(struct EventEngineProc *proc) {
+  NewPopup_Simple(Popup_DeathLink, 0x60, 0, (ProcPtr *)proc);
+}
+
+// CR-someday cam: Dedup these two events into a generic "network event" handler
+
 void enqueueReceivedItemEvent() {
   if (!receivedAPItem->filled) {
     return;
@@ -223,12 +240,28 @@ void enqueueReceivedItemEvent() {
   *receivedItemIndex += 1;
 }
 
+void triggerDeathLink() {
+  if (!deathLinkInfo->pendingIn) {
+    return;
+  }
+
+  u8 inWorldMap = Proc_Find((const struct ProcCmd *)0x08A3EE74) != NULL;
+
+  CallEvent(activateDeathLinkEvent, inWorldMap ? EV_EXEC_WORLDMAP : EV_EXEC_GAMEPLAY);
+}
+
 bool8 HasConvoyAccess() {
   return true;
 }
 
 void PlayerPhase_MainIdleShim(ProcPtr proc) {
-  if (receivedAPItem->filled) {
+  deathLinkInfo->ready = true;
+  if (deathLinkInfo->pendingIn) {
+    EndPlayerPhaseSideWindows();
+    triggerDeathLink();
+    Proc_StartBlocking(PlayerPhaseEventBlockProc, proc);
+  }
+  else if (receivedAPItem->filled) {
     EndPlayerPhaseSideWindows();
     enqueueReceivedItemEvent();
     Proc_StartBlocking(PlayerPhaseEventBlockProc, proc);
@@ -240,6 +273,10 @@ void PlayerPhase_MainIdleShim(ProcPtr proc) {
 
 u8 eventsRunning(ProcPtr proc) {
   if (EventEngineExists()) {
+    return 1;
+  }
+  else if (deathLinkInfo->pendingIn) {
+    triggerDeathLink();
     return 1;
   }
   else if (receivedAPItem->filled) {

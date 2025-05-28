@@ -20,6 +20,7 @@
 #include "disableEasyMode/main.event"
 #include "convoy200/main.event"
 #include "lockpicks/lockpicks.lyn.event"
+#include "deathlink/deathlink.lyn.event"
 
 #ifdef DEBUG
 #include "debug/main.event"

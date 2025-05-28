@@ -7,6 +7,9 @@ include $(VENDOR_DIR)/devkitARM_base_tools.mk
 CACHE_DIR := $(BUILD_DIR)/cache
 $(shell mkdir -p $(CACHE_DIR) > /dev/null)
 
+BUILD_INCLUDE := $(BUILD_DIR)/include
+$(shell mkdir -p $(BUILD_INCLUDE) > /dev/null)
+
 FE8_SYMBOLS := $(VENDOR_DIR)/fe8-symbols.s
 
 LYN_REFERENCE := $(BUILD_DIR)/fe8-reference.o
@@ -19,7 +22,8 @@ LYN_REFERENCE := $(BUILD_DIR)/fe8-reference.o
 
 # In theory, libgbafe and the decomp headers are incompatible, but it should be
 # fine as long as we never try to include both in the same file.
-INCLUDE_DIRS := include $(VENDOR_DIR)/fireemblem8u/include $(VENDOR_DIR)/CLib/include
+INCLUDE_DIRS := include $(VENDOR_DIR)/fireemblem8u/include $(VENDOR_DIR)/CLib/include \
+								$(BUILD_INCLUDE)
 INCFLAGS := $(foreach dir, $(INCLUDE_DIRS), -I "$(dir)")
 
 ARCH := -mcpu=arm7tdmi -mthumb -mthumb-interwork

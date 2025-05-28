@@ -26,6 +26,8 @@
 #define newConvoyArray ((u16 *)(NEW_CONVOY_ARRAY_ADDR))
 #define INFO_ICON_CACHE_ADDR (NEW_CONVOY_ARRAY_ADDR + sizeof_round(u16[200]))
 #define infoIconCache ((struct InfoCache *)(INFO_ICON_CACHE_ADDR))
+#define DEATH_LINK_INFO_ADDR (INFO_ICON_CACHE_ADDR + sizeof_round(struct InfoCache))
+#define deathLinkInfo ((struct DeathLinkState *)(DEATH_LINK_INFO_ADDR))
 
 #endif // RAM_STRUCTURES_H
 

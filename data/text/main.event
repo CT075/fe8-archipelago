@@ -65,6 +65,10 @@ __TEXTPROCESS0E6:
 #incbin ".TextEntries/alltextDebugEndMapHelpText.fetxt.dmp"
 setText($E6, __TEXTPROCESS0E6)
 
+__TEXTPROCESS0E7:
+#incbin ".TextEntries/alltextDeathLinkText.fetxt.dmp"
+setText($E7, __TEXTPROCESS0E7)
+
 }
 
 #endif // TEXT_INSTALLER_ALLTEXT

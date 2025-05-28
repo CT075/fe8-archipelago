@@ -5,11 +5,11 @@ extern u16 *HPFramePointers[];
 
 #define CRIT_WARNING_THRESHOLD 25
 
-enum InfoKind {
-  NOTHING,
-  WARN_EFF,
-  WARN_CRIT,
-  CAN_TALK,
+enum __attribute__ ((__packed__)) InfoKind {
+  NOTHING=0,
+  WARN_EFF=1,
+  WARN_CRIT=2,
+  CAN_TALK=3,
 };
 
 struct InfoCache {

@@ -3,3 +3,9 @@
 receiveAPItemEvent:
 ASMC receiveAPItem
 ENDA
+
+activateDeathLinkEvent:
+ASMC activateDeathLink
+ASMC deathlinkDebounceHack
+GameOver
+ENDA

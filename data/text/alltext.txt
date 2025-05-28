@@ -49,3 +49,7 @@ End Map[X]
 # # DebugEndMapHelpText
 
 Ends the map.[X]
+
+# # DeathLinkText
+
+Death Link![X]

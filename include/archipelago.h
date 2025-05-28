@@ -30,6 +30,12 @@ void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon weap);
 
 const u16 *receivedItemEvent(struct IncomingEvent *evt);
 
+struct DeathLinkState {
+  u8 pendingIn;
+  s8 pendingOut;
+  u8 ready;
+};
+
 // CR cam: This should come from `Generate.hs` so we can ensure that this
 // struct definition doesn't drift from the python code that sets it
 enum LockpickUsability {
@@ -38,9 +44,16 @@ enum LockpickUsability {
   GlobalRoguePick=2,
 };
 
+enum DeathLinkKind {
+  None=0,
+  OnGameOver=1,
+  OnAnyDeath=2,
+};
+
 struct ArchipelagoOptions {
   bool superDemonKing;
   enum LockpickUsability lockpickUsability;
+  enum DeathLinkKind deathLinkKind;
 };
 
 struct ArchipelagoInfo {
