@@ -1,0 +1,13 @@
+// Set all summons to use Lyon's summon.
+//
+// This is kind of lame, but I don't expect anyone to notice.
+
+// In both cases, we're simply replacing a `-1` ("summon id not found") with `2`
+// (Lyon).
+PUSH
+ORG 0x024428
+WORD 2
+
+ORG 0x07AD4C
+WORD 2
+POP

@@ -21,6 +21,7 @@
 #include "convoy200/main.event"
 #include "lockpicks/lockpicks.lyn.event"
 #include "deathlink/deathlink.lyn.event"
+#include "summonfix/main.event"
 
 #ifdef DEBUG
 #include "debug/main.event"

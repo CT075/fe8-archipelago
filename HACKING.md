@@ -13,7 +13,7 @@ You will need the [latest .NET SDK](https://docs.microsoft.com/en-us/dotnet/core
 To build the various auxiliary scripts, you will need:
 
 - `cmake`
-- Haskell GHC >= 9.6.2 and cabal >= 3.6.2.0
+- Haskell GHC >= 9.10.1 and cabal >= 3.6.2.0
 - Python >= 3.9
 
 On Debian/Ubuntu/Mint, you can install these via:
@@ -144,17 +144,7 @@ not even that consistent with it myself).
 
 # Current "major" buglist (unordered)
 
-1. Alt route autoleveling
-  - This is related to the general exp display bug. The game uses the in-game
-    autolevel function to make specific characters stronger at join-time in
-    routes when they arrive later. This function checks the same level cap
-    function that we hijack for archipelago, meaning that they can be given
-    "overcap" exp without leveling if it would put them over the level cap.
-    This most commonly occurs with Duessel on Eirika's route.
-  - The easiest thing to do is probably to have an alt autolevel function that
-    doesn't check the level cap.
-  - Medium priority
-2. Rescuedropping on invalid terrain bug
+1. Rescuedropping on invalid terrain bug
   - This actually affects more than rescue-dropping -- both Warp and Rescue (the
     staff) can also cause units to be placed on invalid terrain. The root cause
     is that `moveCostFix` uses movement cost 31 as a sentinel value for "allow
@@ -164,10 +154,3 @@ not even that consistent with it myself).
   - Low priority; the player has to go out of their way to use this. It does
     enable cheesing some chapters (most notably 5x, but also Jehanna Hall), but
     I'm willing to accept that for now.
-3. Summoning
-  - The summon menu has specific entries for Ewan, Knoll and Lyon, with other
-    characters not being allowed to summon. I suppose the easiest thing to do
-    here would be to randomly assign every unit in the game one of these, but
-    that would either require a ton of data entry/repointing, or we'd have to
-    adjust the summoning logic to allow this.
-  - Low priority (good starter issue!)
