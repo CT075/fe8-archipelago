@@ -75,7 +75,9 @@ enum gEkrDistanceType_index {
     EKR_DISTANCE_FAR,
     EKR_DISTANCE_FARFAR,
     EKR_DISTANCE_MONOCOMBAT,
-    EKR_DISTANCE_PROMOTION
+    EKR_DISTANCE_PROMOTION,
+
+    EKR_DISTANCE_MAX
 };
 extern s16 gEkrDistanceType;
 
@@ -564,7 +566,7 @@ extern const u16 * CONST_DATA gUnknown_085B9CC4[];
 extern struct ProcCmd ProcScr_ekrUnitKakudai[];
 
 extern AnimScr BanimScr_DefaultAnim[];
-extern void *gUnknown_085B9D6C[];
+extern void *TsaConfs_BanimTmA[];
 extern struct ProcCmd gProc_ekrChienCHR[];
 extern struct ProcCmd gProc_efxAnimeDrvProc[];
 extern struct ProcCmd ProcScr_ekrUnitMainMini[];
@@ -596,7 +598,7 @@ extern const u16 gUnknown_080DAEC8[];
 extern const u16 gUnknown_080DAED2[];
 extern const u16 gUnknown_080DAEDC[];
 extern const u16 gUnknown_080DAEE6[];
-extern const u8 BattleTypeToAnimModeEndOfDodge[5];
+extern const u8 BanimDefaultStandingTypes[5];
 extern const u8 BanimTypesPosLeft[5];
 extern const u8 BanimTypesPosRight[5];
 extern const u16 BanimLeftDefaultPos[5];
@@ -607,9 +609,7 @@ extern const u8 Img_080DB9C4[];
 extern const u8 Img_080DBE1C[];
 extern const u8 Img_080DC350[];
 extern const u16 Pal_080DC85C[2];
-extern const u16 gUnknown_080DCD26[];
-extern const u16 gUnknown_080DCD72[];
-extern const u16 gUnknown_080DCDE4[];
+extern const u16 FrameConfig_AnimaHitBG[];
 // extern ??? gFrameConfig_080DD1F4
 // extern ??? gUnknown_080DD8C6
 // extern ??? gUnknown_080DD8CC
@@ -889,9 +889,9 @@ u16 IsItemDisplayedInBattle(u16 item);
 u16 IsWeaponLegency(u16 item);
 s16 EkrCheckWeaponSieglindeSiegmund(u16 item);
 bool EkrCheckAttackRound(u16 round);
-void SetBattleScriptted(void);
-void SetBattleUnscriptted(void);
-bool CheckBattleScriptted(void);
+void SetBattleScripted(void);
+void SetBattleUnscripted(void);
+bool CheckBattleScripted(void);
 // ??? GetEkrHit(???);
 // ??? GetEkrDmg(???);
 // ??? GetEkrCrit(???);

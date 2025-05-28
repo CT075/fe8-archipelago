@@ -34,7 +34,7 @@ int GetUnitSpritePalette(const struct Unit* unit);
 void RefreshUnitSprites(void);
 struct SMSHandle * AddUnitSprite(int);
 void PutUnitSpritesOam(void);
-void PutChapterMarkedTileIconOam(void);
+// ??? PutChapterMarkedTileIconOam(???);
 void PutUnitSpriteIconsOam(void);
 // ??? sub_8027A30(???);
 void ResetUnitSpriteHover(void);
