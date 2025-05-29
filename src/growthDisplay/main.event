@@ -1,0 +1,4 @@
+#include growthDisplay.lyn.event
+
+// split into separate `main.event` to make it easier to add new text palettes
+// later

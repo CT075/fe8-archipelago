@@ -22,6 +22,7 @@
 #include "lockpicks/lockpicks.lyn.event"
 #include "deathlink/deathlink.lyn.event"
 #include "summonfix/main.event"
+#include "growthDisplay/main.event"
 
 #ifdef DEBUG
 #include "debug/main.event"
