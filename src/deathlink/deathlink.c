@@ -38,12 +38,6 @@ void CallGameOverEvent(void) {
   EventEngine_Create((u16 *)EventScr_GameOver, EV_EXEC_GAMEPLAY);
 }
 
-// If you receive a deathlink, that Game Over should not trigger another
-// deathlink. A hacky way to deal with that is to decrement the outgoing
-// deathlink counter *before* triggering the game over.
-// CR cam: Come up with a more principled way to do this.
-void deathlinkDebounceHack(struct EventEngineProc *_proc) {
-  if (archipelagoOptions.deathLinkKind >= OnGameOver) {
-    deathLinkInfo->pendingOut -= 1;
-  }
+void deathlinkGameOver(void) {
+  EventEngine_Create((u16 *)EventScr_GameOver, EV_EXEC_GAMEPLAY);
 }
