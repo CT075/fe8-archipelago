@@ -115,7 +115,8 @@ enum InfoKind getUnitInfoIcon(int i, struct Unit *unit, int x, int y) {
   return kd;
 }
 
-void PutUnitSpriteIconsOam(void) {
+/*
+void PutUnitSpriteIconsOam_(void) {
   u8 protectCharacterId;
   int i;
   int x;
@@ -240,7 +241,8 @@ void PutUnitSpriteIconsOam(void) {
           (rescuePalLut[unit->rescue >> 6] & 0xf) * 0x1000 + 0x803
       );
     }
-    else if ((UNIT_FACTION(unit) != FACTION_BLUE) && (UNIT_CATTRIBUTES(unit) & CA_BOSS)) {
+    else if ((UNIT_FACTION(unit) != FACTION_BLUE) &&
+             (UNIT_CATTRIBUTES(unit) & CA_BOSS)) {
       CallARM_PushToSecondaryOAM(
           OAM1_X(0x200 + x + 9), OAM0_Y(0x100 + y + 7), gObject_8x8, 0x810
       );
@@ -255,5 +257,131 @@ void PutUnitSpriteIconsOam(void) {
   if (activeUnit) {
     infoIconCache->valid = TRUE;
     infoIconCache->lastActiveUnit = UNIT_CHAR_ID(activeUnit);
+  }
+}
+*/
+
+void PutUnitSpriteIconsOam(void) {
+  s8 displayRescueIcon;
+  u8 protectCharacterId;
+
+  u16 rescuePalLut[] = {
+    0xC,
+    0xE,
+    0xD,
+  };
+
+  if (GetBattleMapKind() != BATTLEMAP_KIND_SKIRMISH) {
+    protectCharacterId =
+        GetROMChapterStruct(gPlaySt.chapterIndex)->protectCharacterIndex;
+  }
+  else {
+    protectCharacterId = 0;
+  }
+
+  displayRescueIcon = (GetGameClock() % 32) < 20 ? 1 : 0;
+
+  u8 poisonIconFrame = (GetGameClock() / 8) % 12; // ARRAY_COUNT(sPoisonIconSprites);
+  u8 sleepIconFrame = (GetGameClock() / 16) % 7; // ARRAY_COUNT(sSleepIconSprites);
+  u8 berserkIconFrame = (GetGameClock() / 8) % 9; // ARRAY_COUNT(sBerserkIconSprites);
+  u8 silenceIconFrame = (GetGameClock() / 4) % 18; // ARRAY_COUNT(sSilenceIconSprites);
+
+  if (CheckFlag(EVFLAG_HIDE_BLINKING_ICON) != 0)
+    return;
+
+  PutChapterMarkedTileIconOam();
+
+  for (int i = 1; i < 0xc0; i++) {
+    struct Unit *unit = GetUnit(i);
+
+    if (!UNIT_IS_VALID(unit))
+      continue;
+
+    if (unit->state & US_HIDDEN)
+      continue;
+
+    if (GetUnitSpriteHideFlag(unit) != 0)
+      continue;
+
+    int x = unit->xPos * 16 - gBmSt.camera.x;
+    int y = unit->yPos * 16 - gBmSt.camera.y;
+
+    if (x < -16 || x > DISPLAY_WIDTH)
+      continue;
+
+    if (y < -16 || y > DISPLAY_HEIGHT)
+      continue;
+
+    s8 xoffs = 0;
+    s8 yoffs = 0;
+    u16 *icon = NULL;
+
+    switch (unit->statusIndex) {
+    case UNIT_STATUS_POISON:
+      xoffs = -2;
+      yoffs = -4;
+      icon = sPoisonIconSprites[poisonIconFrame];
+      break;
+
+    case UNIT_STATUS_SILENCED:
+      xoffs = -2;
+      yoffs = -4;
+      icon = sSilenceIconSprites[silenceIconFrame];
+      break;
+
+    case UNIT_STATUS_SLEEP:
+      xoffs = 2;
+      yoffs = 0;
+      icon = sSleepIconSprites[sleepIconFrame];
+      break;
+
+    case UNIT_STATUS_BERSERK:
+      xoffs = 1;
+      yoffs = -5;
+      icon = sBerserkIconSprites[berserkIconFrame];
+      break;
+
+    case UNIT_STATUS_ATTACK:
+    case UNIT_STATUS_DEFENSE:
+    case UNIT_STATUS_CRIT:
+    case UNIT_STATUS_AVOID:
+      if (!displayRescueIcon)
+        continue;
+      xoffs = -1;
+      yoffs = -5;
+      icon = sSprite_0859B968;
+      break;
+
+    case UNIT_STATUS_SICK:
+    case UNIT_STATUS_RECOVER:
+      break;
+    }
+
+    if (icon != NULL) {
+      CallARM_PushToSecondaryOAM(
+          OAM1_X(0x200 + x + xoffs), OAM0_Y(0x100 + y + yoffs), icon, 0
+      );
+    }
+
+    if (!displayRescueIcon)
+      continue;
+
+    if (unit->state & US_RESCUING) {
+      CallARM_PushToSecondaryOAM(
+          OAM1_X(0x200 + x + 9), OAM0_Y(0x100 + y + 7), gObject_8x8,
+          (rescuePalLut[unit->rescue >> 6] & 0xf) * 0x1000 + 0x803
+      );
+    }
+    else if ((UNIT_FACTION(unit) != FACTION_BLUE) &&
+             (UNIT_CATTRIBUTES(unit) & CA_BOSS)) {
+      CallARM_PushToSecondaryOAM(
+          OAM1_X(0x200 + x + 9), OAM0_Y(0x100 + y + 7), gObject_8x8, 0x810
+      );
+    }
+    else if (protectCharacterId == unit->pCharacterData->number) {
+      CallARM_PushToSecondaryOAM(
+          OAM1_X(0x200 + x + 9), OAM0_Y(0x100 + y + 7), gObject_8x8, 0x811
+      );
+    }
   }
 }

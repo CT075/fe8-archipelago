@@ -13,13 +13,10 @@
     .set \name, \value
 .endm
 
-fun __divsi3, __aeabi_idiv
-fun __modsi3, __aeabi_idivmod
-fun __umodsi3, __aeabi_uidivmod
-fun __aeabi_idiv, Div
-fun __aeabi_uidiv, __udivsi3
-fun __aeabi_idivmod, Div
-fun __aeabi_uidivmod, Div
+fun Div, __aeabi_idiv
+fun Div, __aeabi_idivmod
+fun Div, __aeabi_uidiv
+fun Div, __aeabi_uidivmod
 
 dat 0x02000000, gAnims
 dat 0x02000000, gUnk_Sio_02000000
