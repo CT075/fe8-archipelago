@@ -29,8 +29,8 @@ u8 PickCommandUsability(const struct MenuItemDef *def, int number) {
 }
 
 u8 canUseLockpick(struct Unit *unit) {
-  return (archipelagoOptions.lockpickUsability < GlobalLockpicks
-      && !(UNIT_CATTRIBUTES(unit) & CA_THIEF));
+  return (archipelagoOptions.lockpickUsability >= GlobalLockpicks
+      || (UNIT_CATTRIBUTES(unit) & CA_THIEF));
 }
 
 s8 IsItemDisplayUsable(struct Unit *unit, int item) {
