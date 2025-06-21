@@ -100,29 +100,32 @@ ALIGN 4
 
 PUSH
   ORG classBase(Wight) + PROMO_GAINS_OFFSET
-  BYTE 3 2 0 1 2 2
+  BYTE 1 3 3 3 2 2
 
   ORG classBase(Wight_Bow) + PROMO_GAINS_OFFSET
-  BYTE 2 0 2 2 1 1
+  BYTE 3 2 3 3 2 2
 
   ORG classBase(Maelduin) + PROMO_GAINS_OFFSET
-  BYTE 3 2 0 2 1 1
+  BYTE 4 2 2 2 2 3
 
   ORG classBase(ArchMogall) + PROMO_GAINS_OFFSET
-  BYTE 1 3 1 0 0 0
+  BYTE 2 4 2 1 1 3
 
   ORG classBase(Deathgoyle) + PROMO_GAINS_OFFSET
-  BYTE 2 2 0 1 2 0
+  BYTE 4 2 2 2 3 1
+
+  ORG classBase(Gwyllgi) + PROMO_GAINS_OFFSET
+  BYTE 5 2 2 2 3 2
+
+  ORG classBase(ElderBael) + PROMO_GAINS_OFFSET
+  BYTE 11 2 2 2 3 3
 POP
 
 // Female wyvern promo games
 
 PUSH
-  ORG classBase(WyvernKnight_F) + PROMO_GAINS_OFFSET
-  BYTE 3 1 2 3 0 1
-
   ORG classBase(WyvernLord_F) + PROMO_GAINS_OFFSET
-  BYTE 4 2 2 0 2 0
+  BYTE 5 2 2 2 2 2
 POP
 
 // Add Tana to the ignore list for Ch9Eph enemy AI
