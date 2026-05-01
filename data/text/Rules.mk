@@ -7,7 +7,7 @@ PARSE_DEFNS := $(BUILD_DIR)/ParseDefinitions.event
 PARSE_DEFNS_H := $(BUILD_INCLUDE)/ParseDefinitions.event.h
 
 $(d)/main.event $(PARSE_DEFNS): $(d)/alltext.txt $(PARSEFILE) $(BIN_DIR)/text-process-classic.py
-	python $(BIN_DIR)/text-process-classic.py $< \
+	$(PYTHON) $(BIN_DIR)/text-process-classic.py $< \
 		--installer $@ \
 		--definitions $(PARSE_DEFNS) \
 		--parser-exe $(PARSEFILE)

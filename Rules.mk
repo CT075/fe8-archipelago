@@ -50,13 +50,13 @@ src/archipelago/connector_config_defs.event: $(BIN_DIR)/connector_config/Generat
 	runhaskell -Wall $< Event > $@
 
 $(RAM_STRUCTURES_H): $(BIN_DIR)/ram_alloc.py data/ram_structures.csv
-	python $< --items_file $(word 2,$^) > $@
+	$(PYTHON) $< --items_file $(word 2,$^) > $@
 
 $(SAVE_CHUNKS_GEN_EVENT): $(BIN_DIR)/save_alloc.py data/save_chunks.csv
-	python $< --items_file $(word 2,$^) --which save > $@
+	$(PYTHON) $< --items_file $(word 2,$^) --which save > $@
 
 $(SUSP_CHUNKS_GEN_EVENT): $(BIN_DIR)/save_alloc.py data/save_chunks.csv
-	python $< --items_file $(word 2,$^) --which suspend > $@
+	$(PYTHON) $< --items_file $(word 2,$^) --which suspend > $@
 
 SYMBOLS := $(TARGET:.gba=.sym)
 
@@ -83,7 +83,7 @@ $(TARGET) $(SYMBOLS) $(POPULATED_CONNECTOR_CONFIG): \
 	cp $(BASEROM) $(TARGET)
 	$(COLORZCORE) A FE8 $(EAFLAGS) || (rm -f $(TARGET) $(SYMBOLS) && false)
 	cat $(RAM_SYMS) >> $(SYMBOLS)
-	python $(POSTPROCESS) \
+	$(PYTHON) $(POSTPROCESS) \
 		--sym_file $(SYMBOLS) \
 		--connector_config_in $(CONNECTOR_CONFIG_PY) \
 		--connector_config_out $(POPULATED_CONNECTOR_CONFIG) \
@@ -91,7 +91,7 @@ $(TARGET) $(SYMBOLS) $(POPULATED_CONNECTOR_CONFIG): \
 
 $(BASEPATCH): $(TARGET)
 	# CR cam: install bsdiff4 if not already present
-	python -c "from bsdiff4 import file_diff; file_diff('$(BASEROM)', '$<', '$@')"
+	$(PYTHON) -c "from bsdiff4 import file_diff; file_diff('$(BASEROM)', '$<', '$@')"
 
 CLEAN := $(CLEAN) $(BUILD_DIR) $(BASEPATCH)
 
