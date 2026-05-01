@@ -21,12 +21,47 @@ enum HolyWeapon {
   Latona=9,
 };
 
+enum RecruitedUnit {
+  Seth=0,
+  Franz=1,
+  Gilliam=2,
+  Vanessa=3,
+  Moulder=4,
+  Ross=5,
+  Garcia=6,
+  Neimi=7,
+  Colm=8,
+  Artur=9,
+  Lute=10,
+  Natasha=11,
+  Joshua=12,
+  Forde=13,
+  Kyle=14,
+  Tana=15,
+  Amelia=16,
+  Innes=17,
+  Gerik=18,
+  Tethys=19,
+  Marisa=20,
+  LArachel=21,
+  Dozla=22,
+  Saleh=23,
+  Ewan=24,
+  Cormag=25,
+  Rennac=26,
+  Duessel=27,
+  Knoll=28,
+  Myrrh=29,
+  Syrene=30,
+};
+
 struct Checks {
-  u8 found[8];
+  u8 found[12];
 };
 
 int chapterClearFlagIndex(int chapter);
 int holyWeaponFlagIndex(enum HolyWeapon weapon);
+int recruitedUnitFlagIndex(enum RecruitedUnit unit);
 
 #define Ch1Id (1)
 #define Ch2Id (2)
@@ -101,13 +136,14 @@ enum FillerItem {
   MasterSeal=15,
 };
 
-#define NUM_CHECKS (52)
+#define NUM_CHECKS (83)
 
 enum ItemKind {
   ProgLvlCap=0,
   ProgWLv=1,
   HolyWeapon=2,
   FillerItem=3,
+  UnitDeploy=4,
 };
 
 union Payload {
@@ -115,6 +151,7 @@ union Payload {
   enum WeaponType weaponType;
   enum HolyWeapon holyWeapon;
   enum FillerItem fillerItem;
+  enum RecruitedUnit recruitedUnit;
 };
 
 struct IncomingEvent {

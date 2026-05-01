@@ -211,6 +211,9 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
       u16 itemfiller = fillerItemTrueValue(evt->payload.fillerItem);
       NewPopup_ItemGot(parent, target, itemfiller);
       break;
+    case UnitDeploy:
+      NewPopup_NewAlly(parent, recruitedUnitCharId(evt->payload.recruitedUnit));
+      break;
   };
 }
 
@@ -321,6 +324,47 @@ void handleChapterClear(ProcPtr parent, int chapterId) {
 
 void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon hw) {
   handleLocationGet(parent, holyWeaponFlagIndex(hw));
+}
+
+static u8 recruitedUnitCharId(enum RecruitedUnit unit) {
+  switch (unit) {
+    case Seth:     return CHARACTER_SETH;
+    case Franz:    return CHARACTER_FRANZ;
+    case Gilliam:  return CHARACTER_GILLIAM;
+    case Vanessa:  return CHARACTER_VANESSA;
+    case Moulder:  return CHARACTER_MOULDER;
+    case Ross:     return CHARACTER_ROSS;
+    case Garcia:   return CHARACTER_GARCIA;
+    case Neimi:    return CHARACTER_NEIMI;
+    case Colm:     return CHARACTER_COLM;
+    case Artur:    return CHARACTER_ARTUR;
+    case Lute:     return CHARACTER_LUTE;
+    case Natasha:  return CHARACTER_NATASHA;
+    case Joshua:   return CHARACTER_JOSHUA;
+    case Forde:    return CHARACTER_FORDE;
+    case Kyle:     return CHARACTER_KYLE;
+    case Tana:     return CHARACTER_TANA;
+    case Amelia:   return CHARACTER_AMELIA;
+    case Innes:    return CHARACTER_INNES;
+    case Gerik:    return CHARACTER_GERIK;
+    case Tethys:   return CHARACTER_TETHYS;
+    case Marisa:   return CHARACTER_MARISA;
+    case LArachel: return CHARACTER_LARACHEL;
+    case Dozla:    return CHARACTER_DOZLA;
+    case Saleh:    return CHARACTER_SALEH;
+    case Ewan:     return CHARACTER_EWAN;
+    case Cormag:   return CHARACTER_CORMAG;
+    case Rennac:   return CHARACTER_RENNAC;
+    case Duessel:  return CHARACTER_DUESSEL;
+    case Knoll:    return CHARACTER_KNOLL;
+    case Myrrh:    return CHARACTER_MYRRH;
+    case Syrene:   return CHARACTER_SYRENE;
+  }
+  return 0;
+}
+
+void handleUnitRecruited(ProcPtr parent, enum RecruitedUnit unit) {
+  handleLocationGet(parent, recruitedUnitFlagIndex(unit));
 }
 
 const struct ArchipelagoOptions archipelagoOptions = {0};

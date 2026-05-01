@@ -145,6 +145,44 @@ data HolyWeapon
 holyWeaponLong :: HolyWeapon -> String
 holyWeaponLong = (++ " Received") . show @HolyWeapon
 
+data RecruitedUnit
+    = Seth
+    | Franz
+    | Gilliam
+    | Vanessa
+    | Moulder
+    | Ross
+    | Garcia
+    | Neimi
+    | Colm
+    | Artur
+    | Lute
+    | Natasha
+    | Joshua
+    | Forde
+    | Kyle
+    | Tana
+    | Amelia
+    | Innes
+    | Gerik
+    | Tethys
+    | Marisa
+    | LArachel
+    | Dozla
+    | Saleh
+    | Ewan
+    | Cormag
+    | Rennac
+    | Duessel
+    | Knoll
+    | Myrrh
+    | Syrene
+    deriving (Show, Enum, Bounded, Typeable, Generic)
+
+recruitedUnitLong :: RecruitedUnit -> String
+recruitedUnitLong LArachel = "L'Arachel Recruited"
+recruitedUnitLong u = show u ++ " Recruited"
+
 -- CR-soon cam: Instead of doing this, we should make [FillerItem] a newtype of
 -- [Int] and simply include the item ID.
 data FillerItem
@@ -217,6 +255,7 @@ instance Enum Chapter where
 data Location
     = ChapterClear Chapter
     | HolyWeaponGet HolyWeapon
+    | UnitRecruited RecruitedUnit
     deriving (Show, Typeable, Generic)
     deriving (Bounded) via (BE Location)
     deriving (Enum) via (BE Location)
@@ -237,6 +276,7 @@ data Item
     | ProgressiveWLv WeaponType
     | HolyWeaponPut HolyWeapon
     | FillerPlacement FillerItem
+    | UnitDeployment RecruitedUnit
     deriving (Show, Typeable, Generic)
     deriving (Bounded) via (BE Item)
     deriving (Enum) via (BE Item)
@@ -246,10 +286,11 @@ itemName ProgressiveLevelCap = "Progressive Level Cap"
 itemName (ProgressiveWLv weap) = "Progressive Weapon Level (" ++ show weap ++ ")"
 itemName (HolyWeaponPut hw) = show hw
 itemName (FillerPlacement f) = show f
+itemName (UnitDeployment u) = recruitedUnitLong u
 
 -- XXX: We could automatically derive these from the definition of `Item`, but
 -- it's a lot of complex type-level machinery for very little gain.
-data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem
+data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem | UnitDeploy
     deriving (Show, Enum, Bounded, Typeable)
 
 itemkind :: Item -> ItemKind
@@ -257,6 +298,7 @@ itemkind ProgressiveLevelCap = ProgLvlCap
 itemkind (ProgressiveWLv _) = ProgWLv
 itemkind (HolyWeaponPut _) = HolyWeapon
 itemkind (FillerPlacement _) = FillerItem
+itemkind (UnitDeployment _) = UnitDeploy
 
 progWLvName :: String
 progWLvName = "weaponType"
@@ -266,6 +308,9 @@ holyWeaponKindName = "holyWeapon"
 
 fillerItemKindName :: String
 fillerItemKindName = "fillerItem"
+
+recruitedUnitKindName :: String
+recruitedUnitKindName = "recruitedUnit"
 
 emitSetPayload :: (Monad m) => (String -> m ()) -> String -> Item -> m ()
 emitSetPayload emitLn prefix item =
@@ -277,6 +322,8 @@ emitSetPayload emitLn prefix item =
             emitLn $ prefix ++ holyWeaponKindName ++ " = " ++ show holyWeapon ++ ";"
         (FillerPlacement fillerItem) ->
             emitLn $ prefix ++ fillerItemKindName ++ " = " ++ show fillerItem ++ ";"
+        (UnitDeployment unit) ->
+            emitLn $ prefix ++ recruitedUnitKindName ++ " = " ++ show unit ++ ";"
 
 emitCPayloadUnion :: (Monad m) => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do
@@ -287,6 +334,8 @@ emitCPayloadUnion emitLn = do
         "  enum " ++ show (typeRep @HolyWeapon) ++ " " ++ holyWeaponKindName ++ ";"
     emitLn $
         "  enum " ++ show (typeRep @FillerItem) ++ " " ++ fillerItemKindName ++ ";"
+    emitLn $
+        "  enum " ++ show (typeRep @RecruitedUnit) ++ " " ++ recruitedUnitKindName ++ ";"
     emitLn $ "};"
 
 emitCEnum ::
@@ -335,6 +384,8 @@ emitConnectorConfigH emitLn = do
     emitLn ""
     emitCEnum @HolyWeapon emitLn
     emitLn ""
+    emitCEnum @RecruitedUnit emitLn
+    emitLn ""
     emitLn "struct Checks {"
     emitLn $ "  u8 found[" ++ show locationBytes ++ "];"
     emitLn "};"
@@ -342,6 +393,8 @@ emitConnectorConfigH emitLn = do
     emitLn $ "int chapterClearFlagIndex(int chapter);"
     emitLn $
         "int holyWeaponFlagIndex(enum " ++ show (typeRep @HolyWeapon) ++ " weapon);"
+    emitLn $
+        "int recruitedUnitFlagIndex(enum " ++ show (typeRep @RecruitedUnit) ++ " unit);"
     emitLn ""
     -- CR-soon cam: change this to use allChapters
     forM_ [1 .. 20] $ \i -> do
@@ -411,6 +464,17 @@ emitConnectorAccessorsC emitLn = do
     emitLn $ "  }"
     emitLn $ "}"
     emitLn ""
+    emitLn $
+        "int recruitedUnitFlagIndex(enum " ++ show (typeRep @RecruitedUnit) ++ " unit) {"
+    emitLn $ "  switch (unit) {"
+    forM_ [minBound @RecruitedUnit .. maxBound] $ \unit -> do
+        emitLn $ "    case " ++ show unit ++ ":"
+        emitLn $ "      return " ++ show (fromEnum (UnitRecruited unit)) ++ ";"
+    emitLn $ "    default:"
+    emitLn $ "      return -1;"
+    emitLn $ "  }"
+    emitLn $ "}"
+    emitLn ""
     emitLn $ "void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {"
     emitLn $ "  switch (id) {"
     forM_ [minBound @Item .. maxBound] $ \item -> do
@@ -428,6 +492,7 @@ emitPythonData emitLn = do
     emitLn "locations = ["
     forM_ [minBound @Chapter .. maxBound] $ emitLn . ("  " ++) . formatChapterClear
     forM_ [minBound @HolyWeapon .. maxBound] $ emitLn . ("  " ++) . formatHolyWeapon
+    forM_ [minBound @RecruitedUnit .. maxBound] $ emitLn . ("  " ++) . formatRecruitedUnit
     emitLn "]"
     emitLn ""
     emitLn "items = ["
@@ -472,6 +537,13 @@ emitPythonData emitLn = do
             "\"Complete Tower of Valni " ++ show i ++ "\""
         formatChapterText (Ruins i) =
             "\"Complete Lagdou Ruins " ++ show i ++ "\""
+
+    formatRecruitedUnit u =
+        "("
+            ++ show (recruitedUnitLong u)
+            ++ ", "
+            ++ show (fromEnum $ UnitRecruited u)
+            ++ "),"
 
     formatItem item = "(" ++ show (itemName item) ++ ", " ++ show (fromEnum item) ++ "),"
 
