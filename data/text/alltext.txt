@@ -53,3 +53,27 @@ Ends the map.[X]
 # # DeathLinkText
 
 Death Link![X]
+
+# # CanDeployText
+
+Can now deploy: [X]
+
+# # SethDeployPrefixText
+
+Seth Deployment:[X]
+
+# # SethDeploySText
+
+S[X]
+
+# # SethDeployEText
+
+E[X]
+
+# # SethDeployTText
+
+T[X]
+
+# # SethDeployHText
+
+H[X]

@@ -183,6 +183,10 @@ recruitedUnitLong :: RecruitedUnit -> String
 recruitedUnitLong LArachel = "L'Arachel Recruited"
 recruitedUnitLong u = show u ++ " Recruited"
 
+recruitedUnitDeploy :: RecruitedUnit -> String
+recruitedUnitDeploy LArachel = "Deploy L'Arachel"
+recruitedUnitDeploy u = "Deploy " ++ show u
+
 -- CR-soon cam: Instead of doing this, we should make [FillerItem] a newtype of
 -- [Int] and simply include the item ID.
 data FillerItem
@@ -277,6 +281,7 @@ data Item
     | HolyWeaponPut HolyWeapon
     | FillerPlacement FillerItem
     | UnitDeployment RecruitedUnit
+    | ProgressiveSethDeploy
     deriving (Show, Typeable, Generic)
     deriving (Bounded) via (BE Item)
     deriving (Enum) via (BE Item)
@@ -286,11 +291,12 @@ itemName ProgressiveLevelCap = "Progressive Level Cap"
 itemName (ProgressiveWLv weap) = "Progressive Weapon Level (" ++ show weap ++ ")"
 itemName (HolyWeaponPut hw) = show hw
 itemName (FillerPlacement f) = show f
-itemName (UnitDeployment u) = recruitedUnitLong u
+itemName (UnitDeployment u) = recruitedUnitDeploy u
+itemName ProgressiveSethDeploy = "Progressive Seth Deployment"
 
 -- XXX: We could automatically derive these from the definition of `Item`, but
 -- it's a lot of complex type-level machinery for very little gain.
-data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem | UnitDeploy
+data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem | UnitDeploy | ProgSethDeploy
     deriving (Show, Enum, Bounded, Typeable)
 
 itemkind :: Item -> ItemKind
@@ -299,6 +305,7 @@ itemkind (ProgressiveWLv _) = ProgWLv
 itemkind (HolyWeaponPut _) = HolyWeapon
 itemkind (FillerPlacement _) = FillerItem
 itemkind (UnitDeployment _) = UnitDeploy
+itemkind ProgressiveSethDeploy = ProgSethDeploy
 
 progWLvName :: String
 progWLvName = "weaponType"
@@ -324,6 +331,7 @@ emitSetPayload emitLn prefix item =
             emitLn $ prefix ++ fillerItemKindName ++ " = " ++ show fillerItem ++ ";"
         (UnitDeployment unit) ->
             emitLn $ prefix ++ recruitedUnitKindName ++ " = " ++ show unit ++ ";"
+        ProgressiveSethDeploy -> return ()
 
 emitCPayloadUnion :: (Monad m) => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do

@@ -3,3 +3,5 @@ progressiveCaps,both,PROGRESSIVE_CAPS_SIZE,saveProgCaps,loadProgCaps
 checks,both,CHECKED_LOCATION_SIZE,saveChecks,loadChecks
 numReceivedItems,both,4,saveReceivedItemIndex,loadReceivedItemIndex
 convoy,both,(200*2),saveConvoy,loadConvoy
+deployPermits,both,4,saveDeployPermits,loadDeployPermits
+sethDeployStage,both,1,saveSethDeployStage,loadSethDeployStage

@@ -19,6 +19,7 @@
 #include "constants.h"
 #include "archipelago.h"
 #include "progressiveCaps.h"
+#include "deployPermits.h"
 #include "ram_structures.h"
 #include "ParseDefinitions.event.h"
 
@@ -63,6 +64,53 @@ const struct PopupInstruction Popup_DeathLink[] = {
   POPUP_SPACE(1),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
   POPUP_MSG(DeathLinkText),           /* DeathLink! */
+  POPUP_END
+};
+
+const struct PopupInstruction Popup_UnitCanDeploy[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(CanDeployText),           /* Can now deploy! */
+  POPUP_END
+};
+
+const struct PopupInstruction Popup_SethDeployS[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(SethDeployPrefixText),
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(SethDeploySText),
+  POPUP_END
+};
+
+const struct PopupInstruction Popup_SethDeployE[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(SethDeployPrefixText),
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(SethDeployEText),
+  POPUP_END
+};
+
+const struct PopupInstruction Popup_SethDeployT[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(SethDeployPrefixText),
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(SethDeployTText),
+  POPUP_END
+};
+
+const struct PopupInstruction Popup_SethDeployH[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(SethDeployPrefixText),
+  POPUP_SPACE(1),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(SethDeployHText),
   POPUP_END
 };
 
@@ -212,8 +260,27 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
       NewPopup_ItemGot(parent, target, itemfiller);
       break;
     case UnitDeploy:
-      NewPopup_NewAlly(parent, recruitedUnitCharId(evt->payload.recruitedUnit));
+      setDeployPermit(evt->payload.recruitedUnit);
+      NewPopup_Simple(Popup_UnitCanDeploy, 0x60, 0, parent);
       break;
+    case ProgSethDeploy: {
+      u8 stage = *sethDeployStage;
+      if (stage < 4) {
+        stage += 1;
+        *sethDeployStage = stage;
+      }
+      const struct PopupInstruction *popup;
+      switch (stage) {
+        case 1:  popup = Popup_SethDeployS; break;
+        case 2:  popup = Popup_SethDeployE; break;
+        case 3:  popup = Popup_SethDeployT; break;
+        default: popup = Popup_SethDeployH;
+                 setDeployPermit(Seth);
+                 break;
+      }
+      NewPopup_Simple(popup, 0x60, 0, parent);
+      break;
+    }
   };
 }
 
@@ -261,6 +328,7 @@ bool8 HasConvoyAccess() {
 
 void PlayerPhase_MainIdleShim(ProcPtr proc) {
   deathLinkInfo->ready = true;
+  checkAllPlayerUnitsRecruited(proc);
   if (deathLinkInfo->pendingIn) {
     EndPlayerPhaseSideWindows();
     triggerDeathLink();
@@ -326,45 +394,54 @@ void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon hw) {
   handleLocationGet(parent, holyWeaponFlagIndex(hw));
 }
 
-static u8 recruitedUnitCharId(enum RecruitedUnit unit) {
-  switch (unit) {
-    case Seth:     return CHARACTER_SETH;
-    case Franz:    return CHARACTER_FRANZ;
-    case Gilliam:  return CHARACTER_GILLIAM;
-    case Vanessa:  return CHARACTER_VANESSA;
-    case Moulder:  return CHARACTER_MOULDER;
-    case Ross:     return CHARACTER_ROSS;
-    case Garcia:   return CHARACTER_GARCIA;
-    case Neimi:    return CHARACTER_NEIMI;
-    case Colm:     return CHARACTER_COLM;
-    case Artur:    return CHARACTER_ARTUR;
-    case Lute:     return CHARACTER_LUTE;
-    case Natasha:  return CHARACTER_NATASHA;
-    case Joshua:   return CHARACTER_JOSHUA;
-    case Forde:    return CHARACTER_FORDE;
-    case Kyle:     return CHARACTER_KYLE;
-    case Tana:     return CHARACTER_TANA;
-    case Amelia:   return CHARACTER_AMELIA;
-    case Innes:    return CHARACTER_INNES;
-    case Gerik:    return CHARACTER_GERIK;
-    case Tethys:   return CHARACTER_TETHYS;
-    case Marisa:   return CHARACTER_MARISA;
-    case LArachel: return CHARACTER_LARACHEL;
-    case Dozla:    return CHARACTER_DOZLA;
-    case Saleh:    return CHARACTER_SALEH;
-    case Ewan:     return CHARACTER_EWAN;
-    case Cormag:   return CHARACTER_CORMAG;
-    case Rennac:   return CHARACTER_RENNAC;
-    case Duessel:  return CHARACTER_DUESSEL;
-    case Knoll:    return CHARACTER_KNOLL;
-    case Myrrh:    return CHARACTER_MYRRH;
-    case Syrene:   return CHARACTER_SYRENE;
-  }
-  return 0;
-}
 
 void handleUnitRecruited(ProcPtr parent, enum RecruitedUnit unit) {
   handleLocationGet(parent, recruitedUnitFlagIndex(unit));
+}
+
+static const struct { int charId; enum RecruitedUnit unit; } kTrackedChars[] = {
+  { CHARACTER_SETH,     Seth },
+  { CHARACTER_FRANZ,    Franz },
+  { CHARACTER_GILLIAM,  Gilliam },
+  { CHARACTER_VANESSA,  Vanessa },
+  { CHARACTER_MOULDER,  Moulder },
+  { CHARACTER_ROSS,     Ross },
+  { CHARACTER_GARCIA,   Garcia },
+  { CHARACTER_NEIMI,    Neimi },
+  { CHARACTER_COLM,     Colm },
+  { CHARACTER_ARTUR,    Artur },
+  { CHARACTER_LUTE,     Lute },
+  { CHARACTER_NATASHA,  Natasha },
+  { CHARACTER_JOSHUA,   Joshua },
+  { CHARACTER_FORDE,    Forde },
+  { CHARACTER_KYLE,     Kyle },
+  { CHARACTER_TANA,     Tana },
+  { CHARACTER_AMELIA,   Amelia },
+  { CHARACTER_INNES,    Innes },
+  { CHARACTER_GERIK,    Gerik },
+  { CHARACTER_TETHYS,   Tethys },
+  { CHARACTER_MARISA,   Marisa },
+  { CHARACTER_LARACHEL, LArachel },
+  { CHARACTER_DOZLA,    Dozla },
+  { CHARACTER_SALEH,    Saleh },
+  { CHARACTER_EWAN,     Ewan },
+  { CHARACTER_CORMAG,   Cormag },
+  { CHARACTER_RENNAC,   Rennac },
+  { CHARACTER_DUESSEL,  Duessel },
+  { CHARACTER_KNOLL,    Knoll },
+  { CHARACTER_MYRRH,    Myrrh },
+  { CHARACTER_SYRENE,   Syrene },
+};
+
+void checkAllPlayerUnitsRecruited(ProcPtr proc) {
+  if (gPlaySt.chapterStateBits & PLAY_FLAG_EXTRA_MAP) {
+    return;
+  }
+  for (int i = 0; i < (int)(sizeof(kTrackedChars) / sizeof(kTrackedChars[0])); i++) {
+    if (GetUnitFromCharIdAndFaction(kTrackedChars[i].charId, FACTION_ID_BLUE)) {
+      handleUnitRecruited(proc, kTrackedChars[i].unit);
+    }
+  }
 }
 
 const struct ArchipelagoOptions archipelagoOptions = {0};

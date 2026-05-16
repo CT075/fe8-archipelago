@@ -144,6 +144,7 @@ enum ItemKind {
   HolyWeapon=2,
   FillerItem=3,
   UnitDeploy=4,
+  ProgSethDeploy=5,
 };
 
 union Payload {

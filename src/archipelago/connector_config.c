@@ -370,5 +370,8 @@ void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {
       dst->kind = UnitDeploy;
       dst->payload.recruitedUnit = Syrene;
       break;
+    case 66:
+      dst->kind = ProgSethDeploy;
+      break;
   };
 }

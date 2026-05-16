@@ -32,13 +32,13 @@ local ewram_start = 0x2000000
 -- results of the build (or pulling them from the relevant header files). We
 -- should probably look towards populating them automatically eventually.
 
-local flags_offset = 0x026E3C
-local flags_size = 8
-local archipelago_received_item_address = 0x026E44
-local archipelago_received_item_index = 0x026E48
+local flags_offset = 0x026E30
+local flags_size = 12
+local archipelago_received_item_address = 0x026E3C
+local archipelago_received_item_index = 0x026E40
 
 -- ROM addresses
-local slot_name_address = {|ROM_BASE:archipelagoInfo|}
+local slot_name_address = 0xEFD888
 
 local proc_pool_address = 0x024E68
 local proc_size = 0x6C
