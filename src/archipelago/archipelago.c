@@ -369,6 +369,10 @@ void handleLocationGet(ProcPtr parent, int index) {
   int byteIndex = index / 8;
   int bitIndex = index % 8;
 
+  if (checkedLocations->found[byteIndex] & (1 << bitIndex)) {
+    return;
+  }
+
   checkedLocations->found[byteIndex] |= (1 << bitIndex);
 
   const struct LocationItem *item = &locItems[index];

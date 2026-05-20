@@ -38,7 +38,7 @@ local archipelago_received_item_address = 0x026E3C
 local archipelago_received_item_index = 0x026E40
 
 -- ROM addresses
-local slot_name_address = 0xEFD888
+local slot_name_address = 0xEFDB34
 
 local proc_pool_address = 0x024E68
 local proc_size = 0x6C
