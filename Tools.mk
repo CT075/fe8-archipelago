@@ -1,6 +1,13 @@
 # Build tools in bin/
 # These can be called recursively because those tools are all self-contained
 
+UNAME_S := $(shell uname -s)
+
+PYTHON := $(shell python -c 'import sys; print("python" if sys.version_info >= (3,) else "")' 2>/dev/null)
+ifeq ($(PYTHON),)
+PYTHON := python3
+endif
+
 LYN_DIR := $(BIN_DIR)/lyn
 LYN := $(LYN_DIR)/lyn
 
@@ -9,8 +16,13 @@ $(shell mkdir -p $(COLORZCORE_DIR) > /dev/null)
 COLORZCORE := $(BUILD_DIR)/ColorzCore$(EXE)
 EA_STD_LIB_DIR := $(VENDOR_DIR)/EAStandardLibrary
 
+ifeq ($(UNAME_S),Darwin)
+$(LYN_DIR)/Makefile:
+	cd $(LYN_DIR) && cmake . -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DUSE_STATIC_LIBRARIES=OFF
+else
 $(LYN_DIR)/Makefile:
 	cd $(LYN_DIR) && cmake .
+endif
 
 $(LYN): $(LYN_DIR)/Makefile
 	cd $(LYN_DIR) && $(MAKE)
@@ -27,18 +39,31 @@ PNG2DMP := $(PNG2DMP_DIR)/Png2Dmp
 
 # XXX: We should properly be checking every .hs file here, but this is
 # vendored, so they're not likely to change often enough.
+ifeq ($(UNAME_S),Darwin)
+$(PNG2DMP): $(PNG2DMP_DIR)/Png2Dmp.hs $(PNG2DMP_DIR)/Png2Dmp.cabal
+	cd $(PNG2DMP_DIR) && \
+		cabal build --allow-newer && \
+		cp $$(find dist-newstyle -name Png2Dmp -type f -perm +111 | head -1) Png2Dmp
+else
 $(PNG2DMP): $(PNG2DMP_DIR)/Png2Dmp.hs $(PNG2DMP_DIR)/Png2Dmp.cabal
 	cd $(PNG2DMP_DIR) && \
 		cabal build && \
 		cp $(shell cd $(PNG2DMP_DIR) && cabal list-bin Png2Dmp) Png2Dmp
+endif
 
 GENDEFS_DIR := $(BIN_DIR)/export_addresses
 GENDEFS_SRC := $(GENDEFS_DIR)/export_addresses.c
 GENDEFS := $(BUILD_DIR)/export_addresses
 
 # CR cam: these should use `CDEPFLAGS` as well
+# macOS (mach-o) rejects ELF section names and doesn't support -m32 on arm64
+ifeq ($(UNAME_S),Darwin)
+GENDEFS_HOST_CFLAGS := -D'SECTION(x)='
+else
+GENDEFS_HOST_CFLAGS := -m32
+endif
 $(GENDEFS): $(GENDEFS_SRC) include/*
-	$(CC) $(GENDEFS_SRC) -o $(GENDEFS) $(INCFLAGS) -m32
+	$(CC) $(GENDEFS_SRC) -o $(GENDEFS) $(INCFLAGS) $(GENDEFS_HOST_CFLAGS)
 
 .PHONY: ColorzCore
 ColorzCore: $(COLORZCORE)

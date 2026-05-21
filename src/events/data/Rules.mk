@@ -115,7 +115,7 @@ $(d)/ruins7EndScene.dmp \
 $(d)/ruins8EndScene.dmp \
 $(d)/ruins9EndScene.dmp \
 $(d)/ruins10EndScene.dmp &:
-	python $(HERE)/rip_chunks.py $(BASEROM) $(HERE)
+	$(PYTHON) $(HERE)/rip_chunks.py $(BASEROM) $(HERE)
 
 CLEAN := $(CLEAN) $(d)/*.dmp
 
