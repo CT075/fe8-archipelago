@@ -3,10 +3,9 @@
 
 UNAME_S := $(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin)
+PYTHON := $(shell python -c 'import sys; print("python" if sys.version_info >= (3,) else "")' 2>/dev/null)
+ifeq ($(PYTHON),)
 PYTHON := python3
-else
-PYTHON := python
 endif
 
 LYN_DIR := $(BIN_DIR)/lyn
