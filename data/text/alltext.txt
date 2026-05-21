@@ -56,11 +56,11 @@ Death Link![X]
 
 # # CanDeployText
 
-Can now deploy: [X]
+Can deploy a new ally! [X]
 
 # # SethDeployPrefixText
 
-Seth Deployment:[X]
+Seth Deployment: [X]
 
 # # SethDeploySText
 

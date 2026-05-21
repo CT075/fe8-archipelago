@@ -72,7 +72,10 @@ static void resetPrepDeployment(void) {
         if (ru == -1) continue;
         if (IsCharacterForceDeployed(charId)) continue;
         unit->state &= ~US_BIT25;
-        unit->state |= US_NOT_DEPLOYED | US_UNSELECTABLE;
+        unit->state |= US_NOT_DEPLOYED;
+        if (!canDeployUnit((enum RecruitedUnit)ru)) {
+            unit->state |= US_UNSELECTABLE;
+        }
     }
 }
 
@@ -118,10 +121,38 @@ void myPrepInitMapMenu(struct ProcPrepSallyCursor *proc) {
     PrepScreenProc_StartMapMenu(proc);
 }
 
+// If a deploy permit item was written by the Python client while on the world map,
+// apply it now so it takes effect before the prep screen is shown. Other item types
+// wait for player phase where they show proper popups.
+static void applyPendingDeployPermit(void) {
+    if (!receivedAPItem->filled) {
+        return;
+    }
+    struct IncomingEvent evt;
+    unpackAPEventFromId(receivedAPItem->itemId, &evt);
+    if (evt.kind == UnitDeploy) {
+        setDeployPermit(evt.payload.recruitedUnit);
+        receivedAPItem->filled = 0;
+        *receivedItemIndex += 1;
+    } else if (evt.kind == ProgSethDeploy) {
+        u8 stage = *sethDeployStage;
+        if (stage < 4) {
+            stage += 1;
+            *sethDeployStage = stage;
+            if (stage == 4) {
+                setDeployPermit(Seth);
+            }
+        }
+        receivedAPItem->filled = 0;
+        *receivedItemIndex += 1;
+    }
+}
+
 // Hooks the EnablePrepScreenMenu proc call at 0x0859DD14 (pointer at 0x0859DD18).
 // Called on EVERY path that makes the prep screen visible — both initial chapter
 // entry and returns from the unit-list browser — so the guard distinguishes them.
 void myPrepRevealReset(void *unused_proc) {
+    applyPendingDeployPermit();
     u8 chapterTag = (u8)(gPlaySt.chapterIndex) | 0x80;
     if (*lastResetChapter != chapterTag) {
         resetPrepDeployment();
