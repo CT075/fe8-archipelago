@@ -351,7 +351,6 @@ ENDA
 POP
 
 Ch5EndingScene:
-ASMC markNatashaRecruited
 ASMC markCh5Clear
 #incbin "data/ch5EndScene.dmp"
 ENDA
