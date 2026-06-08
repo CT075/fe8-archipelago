@@ -182,22 +182,26 @@ Syrene[X]
 
  can now be deployed![X]
 
-# # SethDeployPrefixText
+# # SethDeployStage1LockedText
 
-Seth Deployment: [X]
+___[X]
 
-# # SethDeploySText
+# # SethDeployStage1OpenText
 
 S[X]
 
-# # SethDeployEText
+# # SethDeployStage2LockedText
 
-E[X]
+__[X]
 
-# # SethDeployTText
+# # SethDeployStage2OpenText
 
-T[X]
+Se[X]
 
-# # SethDeployHText
+# # SethDeployStage3OpenText
 
-H[X]
+Set[X]
+
+# # SethDeployStage3LockedText
+
+_[X]

@@ -198,24 +198,28 @@ __TEXTPROCESS107:
 setText($107, __TEXTPROCESS107)
 
 __TEXTPROCESS108:
-#incbin ".TextEntries/alltextSethDeployPrefixText.fetxt.dmp"
+#incbin ".TextEntries/alltextSethDeployStage1LockedText.fetxt.dmp"
 setText($108, __TEXTPROCESS108)
 
 __TEXTPROCESS109:
-#incbin ".TextEntries/alltextSethDeploySText.fetxt.dmp"
+#incbin ".TextEntries/alltextSethDeployStage1OpenText.fetxt.dmp"
 setText($109, __TEXTPROCESS109)
 
 __TEXTPROCESS10A:
-#incbin ".TextEntries/alltextSethDeployEText.fetxt.dmp"
+#incbin ".TextEntries/alltextSethDeployStage2LockedText.fetxt.dmp"
 setText($10A, __TEXTPROCESS10A)
 
 __TEXTPROCESS10B:
-#incbin ".TextEntries/alltextSethDeployTText.fetxt.dmp"
+#incbin ".TextEntries/alltextSethDeployStage2OpenText.fetxt.dmp"
 setText($10B, __TEXTPROCESS10B)
 
 __TEXTPROCESS10C:
-#incbin ".TextEntries/alltextSethDeployHText.fetxt.dmp"
+#incbin ".TextEntries/alltextSethDeployStage3OpenText.fetxt.dmp"
 setText($10C, __TEXTPROCESS10C)
+
+__TEXTPROCESS10D:
+#incbin ".TextEntries/alltextSethDeployStage3LockedText.fetxt.dmp"
+setText($10D, __TEXTPROCESS10D)
 
 }
 

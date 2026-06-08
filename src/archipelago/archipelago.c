@@ -342,43 +342,36 @@ static const struct PopupInstruction *const kUnitDeployPopups[] = {
   Popup_SyreneCanDeploy,   /* Syrene=30 */
 };
 
-const struct PopupInstruction Popup_SethDeployS[] = {
+const struct PopupInstruction Popup_SethDeployStage1[] = {
   POPUP_SOUND(0x5A),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
-  POPUP_MSG(SethDeployPrefixText),
-  POPUP_SPACE(1),
+  POPUP_MSG(SethDeployStage1OpenText),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
+  POPUP_MSG(SethDeployStage1LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(SethDeploySText),
+  POPUP_MSG(CanDeploySuffixText),
   POPUP_END
 };
 
-const struct PopupInstruction Popup_SethDeployE[] = {
+const struct PopupInstruction Popup_SethDeployStage2[] = {
   POPUP_SOUND(0x5A),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
-  POPUP_MSG(SethDeployPrefixText),
-  POPUP_SPACE(1),
+  POPUP_MSG(SethDeployStage2OpenText),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
+  POPUP_MSG(SethDeployStage2LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(SethDeployEText),
+  POPUP_MSG(CanDeploySuffixText),
   POPUP_END
 };
 
-const struct PopupInstruction Popup_SethDeployT[] = {
+const struct PopupInstruction Popup_SethDeployStage3[] = {
   POPUP_SOUND(0x5A),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
-  POPUP_MSG(SethDeployPrefixText),
-  POPUP_SPACE(1),
+  POPUP_MSG(SethDeployStage3OpenText),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
+  POPUP_MSG(SethDeployStage3LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(SethDeployTText),
-  POPUP_END
-};
-
-const struct PopupInstruction Popup_SethDeployH[] = {
-  POPUP_SOUND(0x5A),
-  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
-  POPUP_MSG(SethDeployPrefixText),
-  POPUP_SPACE(1),
-  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(SethDeployHText),
+  POPUP_MSG(CanDeploySuffixText),
   POPUP_END
 };
 
@@ -538,16 +531,16 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
     const struct PopupInstruction *popup;
     switch (stage) {
     case 1:
-      popup = Popup_SethDeployS;
+      popup = Popup_SethDeployStage1;
       break;
     case 2:
-      popup = Popup_SethDeployE;
+      popup = Popup_SethDeployStage2;
       break;
     case 3:
-      popup = Popup_SethDeployT;
+      popup = Popup_SethDeployStage3;
       break;
     default:
-      popup = Popup_SethDeployH;
+      popup = Popup_SethCanDeploy;
       setDeployPermit(Seth);
       break;
     }
