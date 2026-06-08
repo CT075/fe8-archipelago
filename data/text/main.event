@@ -221,6 +221,10 @@ __TEXTPROCESS10D:
 #incbin ".TextEntries/alltextSethDeployStage3LockedText.fetxt.dmp"
 setText($10D, __TEXTPROCESS10D)
 
+__TEXTPROCESS10E:
+#incbin ".TextEntries/alltextSethDeployPartialSuffixText.fetxt.dmp"
+setText($10E, __TEXTPROCESS10E)
+
 }
 
 #endif // TEXT_INSTALLER_ALLTEXT

@@ -349,7 +349,7 @@ const struct PopupInstruction Popup_SethDeployStage1[] = {
   POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
   POPUP_MSG(SethDeployStage1LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(CanDeploySuffixText),
+  POPUP_MSG(SethDeployPartialSuffixText),
   POPUP_END
 };
 
@@ -360,7 +360,7 @@ const struct PopupInstruction Popup_SethDeployStage2[] = {
   POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
   POPUP_MSG(SethDeployStage2LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(CanDeploySuffixText),
+  POPUP_MSG(SethDeployPartialSuffixText),
   POPUP_END
 };
 
@@ -371,7 +371,7 @@ const struct PopupInstruction Popup_SethDeployStage3[] = {
   POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
   POPUP_MSG(SethDeployStage3LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(CanDeploySuffixText),
+  POPUP_MSG(SethDeployPartialSuffixText),
   POPUP_END
 };
 

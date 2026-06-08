@@ -205,3 +205,7 @@ Set[X]
 # # SethDeployStage3LockedText
 
 _[X]
+
+# # SethDeployPartialSuffixText
+
+ can now be deployed?[X]
