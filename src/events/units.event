@@ -1,4 +1,4 @@
-#include "deployPermits.lyn.event"
+#include "../units/deployPermits.lyn.event"
 
 PUSH
   // Hook start of PrepScreenProc_InitMapMenu (0x080334BC).
@@ -44,5 +44,3 @@ PUSH
   ORG 0x0859DD18
   POIN myPrepRevealReset|1
 POP
-
-#include "markRecruits.event"

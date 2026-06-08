@@ -1,4 +1,0 @@
-// Recruit flag symbols — exposed for use as ASMC targets if needed.
-// Recruit checks are handled by checkAllPlayerUnitsRecruited in archipelago.c,
-// which fires during player phase and sets flags for any unit already in the player army.
-#include "markRecruits.lyn.event"

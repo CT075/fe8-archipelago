@@ -70,28 +70,152 @@ __TEXTPROCESS0E7:
 setText($E7, __TEXTPROCESS0E7)
 
 __TEXTPROCESS0E8:
-#incbin ".TextEntries/alltextCanDeployText.fetxt.dmp"
+#incbin ".TextEntries/alltextSethNameText.fetxt.dmp"
 setText($E8, __TEXTPROCESS0E8)
 
 __TEXTPROCESS0E9:
-#incbin ".TextEntries/alltextSethDeployPrefixText.fetxt.dmp"
+#incbin ".TextEntries/alltextFranzNameText.fetxt.dmp"
 setText($E9, __TEXTPROCESS0E9)
 
 __TEXTPROCESS0EA:
-#incbin ".TextEntries/alltextSethDeploySText.fetxt.dmp"
+#incbin ".TextEntries/alltextGilliamNameText.fetxt.dmp"
 setText($EA, __TEXTPROCESS0EA)
 
 __TEXTPROCESS0EB:
-#incbin ".TextEntries/alltextSethDeployEText.fetxt.dmp"
+#incbin ".TextEntries/alltextVanessaNameText.fetxt.dmp"
 setText($EB, __TEXTPROCESS0EB)
 
 __TEXTPROCESS0EC:
-#incbin ".TextEntries/alltextSethDeployTText.fetxt.dmp"
+#incbin ".TextEntries/alltextMoulderNameText.fetxt.dmp"
 setText($EC, __TEXTPROCESS0EC)
 
 __TEXTPROCESS0ED:
-#incbin ".TextEntries/alltextSethDeployHText.fetxt.dmp"
+#incbin ".TextEntries/alltextRossNameText.fetxt.dmp"
 setText($ED, __TEXTPROCESS0ED)
+
+__TEXTPROCESS0EE:
+#incbin ".TextEntries/alltextGarciaNameText.fetxt.dmp"
+setText($EE, __TEXTPROCESS0EE)
+
+__TEXTPROCESS0EF:
+#incbin ".TextEntries/alltextNeimiNameText.fetxt.dmp"
+setText($EF, __TEXTPROCESS0EF)
+
+__TEXTPROCESS0F0:
+#incbin ".TextEntries/alltextColmNameText.fetxt.dmp"
+setText($F0, __TEXTPROCESS0F0)
+
+__TEXTPROCESS0F1:
+#incbin ".TextEntries/alltextArturNameText.fetxt.dmp"
+setText($F1, __TEXTPROCESS0F1)
+
+__TEXTPROCESS0F2:
+#incbin ".TextEntries/alltextLuteNameText.fetxt.dmp"
+setText($F2, __TEXTPROCESS0F2)
+
+__TEXTPROCESS0F3:
+#incbin ".TextEntries/alltextNatashaNameText.fetxt.dmp"
+setText($F3, __TEXTPROCESS0F3)
+
+__TEXTPROCESS0F4:
+#incbin ".TextEntries/alltextJoshuaNameText.fetxt.dmp"
+setText($F4, __TEXTPROCESS0F4)
+
+__TEXTPROCESS0F5:
+#incbin ".TextEntries/alltextFordeNameText.fetxt.dmp"
+setText($F5, __TEXTPROCESS0F5)
+
+__TEXTPROCESS0F6:
+#incbin ".TextEntries/alltextKyleNameText.fetxt.dmp"
+setText($F6, __TEXTPROCESS0F6)
+
+__TEXTPROCESS0F7:
+#incbin ".TextEntries/alltextTanaNameText.fetxt.dmp"
+setText($F7, __TEXTPROCESS0F7)
+
+__TEXTPROCESS0F8:
+#incbin ".TextEntries/alltextAmeliaNameText.fetxt.dmp"
+setText($F8, __TEXTPROCESS0F8)
+
+__TEXTPROCESS0F9:
+#incbin ".TextEntries/alltextInnesNameText.fetxt.dmp"
+setText($F9, __TEXTPROCESS0F9)
+
+__TEXTPROCESS0FA:
+#incbin ".TextEntries/alltextGerikNameText.fetxt.dmp"
+setText($FA, __TEXTPROCESS0FA)
+
+__TEXTPROCESS0FB:
+#incbin ".TextEntries/alltextTethysNameText.fetxt.dmp"
+setText($FB, __TEXTPROCESS0FB)
+
+__TEXTPROCESS0FC:
+#incbin ".TextEntries/alltextMarisaNameText.fetxt.dmp"
+setText($FC, __TEXTPROCESS0FC)
+
+__TEXTPROCESS0FD:
+#incbin ".TextEntries/alltextLArachelNameText.fetxt.dmp"
+setText($FD, __TEXTPROCESS0FD)
+
+__TEXTPROCESS0FE:
+#incbin ".TextEntries/alltextDozlaNameText.fetxt.dmp"
+setText($FE, __TEXTPROCESS0FE)
+
+__TEXTPROCESS0FF:
+#incbin ".TextEntries/alltextSalehNameText.fetxt.dmp"
+setText($FF, __TEXTPROCESS0FF)
+
+__TEXTPROCESS100:
+#incbin ".TextEntries/alltextEwanNameText.fetxt.dmp"
+setText($100, __TEXTPROCESS100)
+
+__TEXTPROCESS101:
+#incbin ".TextEntries/alltextCormagNameText.fetxt.dmp"
+setText($101, __TEXTPROCESS101)
+
+__TEXTPROCESS102:
+#incbin ".TextEntries/alltextRennacNameText.fetxt.dmp"
+setText($102, __TEXTPROCESS102)
+
+__TEXTPROCESS103:
+#incbin ".TextEntries/alltextDuesselNameText.fetxt.dmp"
+setText($103, __TEXTPROCESS103)
+
+__TEXTPROCESS104:
+#incbin ".TextEntries/alltextKnollNameText.fetxt.dmp"
+setText($104, __TEXTPROCESS104)
+
+__TEXTPROCESS105:
+#incbin ".TextEntries/alltextMyrrhNameText.fetxt.dmp"
+setText($105, __TEXTPROCESS105)
+
+__TEXTPROCESS106:
+#incbin ".TextEntries/alltextSyreneNameText.fetxt.dmp"
+setText($106, __TEXTPROCESS106)
+
+__TEXTPROCESS107:
+#incbin ".TextEntries/alltextCanDeploySuffixText.fetxt.dmp"
+setText($107, __TEXTPROCESS107)
+
+__TEXTPROCESS108:
+#incbin ".TextEntries/alltextSethDeployPrefixText.fetxt.dmp"
+setText($108, __TEXTPROCESS108)
+
+__TEXTPROCESS109:
+#incbin ".TextEntries/alltextSethDeploySText.fetxt.dmp"
+setText($109, __TEXTPROCESS109)
+
+__TEXTPROCESS10A:
+#incbin ".TextEntries/alltextSethDeployEText.fetxt.dmp"
+setText($10A, __TEXTPROCESS10A)
+
+__TEXTPROCESS10B:
+#incbin ".TextEntries/alltextSethDeployTText.fetxt.dmp"
+setText($10B, __TEXTPROCESS10B)
+
+__TEXTPROCESS10C:
+#incbin ".TextEntries/alltextSethDeployHText.fetxt.dmp"
+setText($10C, __TEXTPROCESS10C)
 
 }
 

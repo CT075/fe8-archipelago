@@ -1,5 +1,5 @@
 #include "markEndings.lyn.event"
-#include "../units/main.event"
+#include "units.event"
 
 #define RealCh10EirEndingScene 0x9f43f8
 #define RealCh10EphEndingScene 0x9fac20

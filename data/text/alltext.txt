@@ -54,9 +54,133 @@ Ends the map.[X]
 
 Death Link![X]
 
-# # CanDeployText
+# # SethNameText
 
-Can deploy a new ally! [X]
+Seth[X]
+
+# # FranzNameText
+
+Franz[X]
+
+# # GilliamNameText
+
+Gilliam[X]
+
+# # VanessaNameText
+
+Vanessa[X]
+
+# # MoulderNameText
+
+Moulder[X]
+
+# # RossNameText
+
+Ross[X]
+
+# # GarciaNameText
+
+Garcia[X]
+
+# # NeimiNameText
+
+Neimi[X]
+
+# # ColmNameText
+
+Colm[X]
+
+# # ArturNameText
+
+Artur[X]
+
+# # LuteNameText
+
+Lute[X]
+
+# # NatashaNameText
+
+Natasha[X]
+
+# # JoshuaNameText
+
+Joshua[X]
+
+# # FordeNameText
+
+Forde[X]
+
+# # KyleNameText
+
+Kyle[X]
+
+# # TanaNameText
+
+Tana[X]
+
+# # AmeliaNameText
+
+Amelia[X]
+
+# # InnesNameText
+
+Innes[X]
+
+# # GerikNameText
+
+Gerik[X]
+
+# # TethysNameText
+
+Tethys[X]
+
+# # MarisaNameText
+
+Marisa[X]
+
+# # LArachelNameText
+
+L'Arachel[X]
+
+# # DozlaNameText
+
+Dozla[X]
+
+# # SalehNameText
+
+Saleh[X]
+
+# # EwanNameText
+
+Ewan[X]
+
+# # CormagNameText
+
+Cormag[X]
+
+# # RennacNameText
+
+Rennac[X]
+
+# # DuesselNameText
+
+Duessel[X]
+
+# # KnollNameText
+
+Knoll[X]
+
+# # MyrrhNameText
+
+Myrrh[X]
+
+# # SyreneNameText
+
+Syrene[X]
+
+# # CanDeploySuffixText
+
+ can now be deployed![X]
 
 # # SethDeployPrefixText
 
