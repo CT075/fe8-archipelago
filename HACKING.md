@@ -127,6 +127,8 @@ not even that consistent with it myself).
 
 ### Code style and formatting
 
+- C files should be formatted with `clang-format` according to the
+  `.clang-format` settings at the root of the repository.
 - Prefer C to assembly, except for extremely minor edits.
 - Use the decomp headers over the GBAFE-CLib headers (the latter is only
   vendored in to allow building against some vendored dependencies,
@@ -141,6 +143,9 @@ not even that consistent with it myself).
 - `type *pointer` over `type* pointer`.
 - Avoid using `#incext` and `#inctext` wherever possible. These should pretty
   much always be replaced by invoking the relevant tool in the makefile.
+- Avoid upwards traversal in `#include`s. `#include ../<anything>` is a smell
+  and should be avoided (reorganize directories if needed).
+- Unless completely unavoidable, text files should remain ASCII only.
 
 # Current "major" buglist (unordered)
 
