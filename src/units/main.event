@@ -1,9 +1,9 @@
-#include "../units/deployPermits.lyn.event"
+#include "deployPermits.lyn.event"
 
 PUSH
   // Hook start of PrepScreenProc_InitMapMenu (0x080334BC).
   // Resets recruitable units to undeployed on first prep screen entry each chapter.
-  // r0=proc; r1 used as scratch (safe — only one argument).
+  // r0=proc; r1 used as scratch (safe -- only one argument).
   ORG 0x080334BC
   SHORT 0x4900        // ldr r1, [pc, #0]
   SHORT 0x4708        // bx r1
@@ -30,7 +30,7 @@ PUSH
   SHORT 0x4710        // bx r2
   POIN myPrepCheckCanSelectUnit|1
 
-  // Redirect EnablePrepScreenMenu proc call — INITIAL ENTRY path.
+  // Redirect EnablePrepScreenMenu proc call -- INITIAL ENTRY path.
   // The parent proc (0x0859DBBC) spawns a child proc (script at 0x08A182xx) via
   // opcode-3 at 0x0859DCDC. That child proc has its own CALL EnablePrepScreenMenu
   // at 0x08A182F4 with the funcptr at 0x08A182F8. This is the actual call site for
@@ -38,7 +38,7 @@ PUSH
   ORG 0x08A182F8
   POIN myPrepRevealReset|1
 
-  // Redirect EnablePrepScreenMenu proc call — BROWSER RETURN path.
+  // Redirect EnablePrepScreenMenu proc call -- BROWSER RETURN path.
   // When the user closes the unit-list browser, the parent proc resumes at
   // LABEL 0x3D (0x0859DD0C) and calls EnablePrepScreenMenu at 0x0859DD14.
   ORG 0x0859DD18

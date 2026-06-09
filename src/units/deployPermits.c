@@ -15,7 +15,7 @@
 
 extern void PrepUnit_DrawUnitListNames(struct ProcPrepUnit *proc);
 
-static int charIdToRecruitedUnit(u8 charId) {
+enum RecruitedUnit charIdToRecruitedUnit(u8 charId) {
   switch (charId) {
   case CHARACTER_SETH:
     return Seth;

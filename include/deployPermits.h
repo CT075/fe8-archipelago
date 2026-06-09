@@ -5,6 +5,7 @@
 #include "connector_config.h"
 #include "bmunit.h"
 
+enum RecruitedUnit charIdToRecruitedUnit(u8 charId);
 void setDeployPermit(enum RecruitedUnit unit);
 bool canDeployUnit(enum RecruitedUnit unit);
 
