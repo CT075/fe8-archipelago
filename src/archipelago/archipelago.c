@@ -59,23 +59,24 @@ const struct PopupInstruction Popup_DeathLink[] = {
   POPUP_END
 };
 
+// Text IDs from vanilla FE8 texts.txt (MSG_213 etc.)
 static const u32 kUnitNameTexts[] = {
-  [Seth] = SethNameText,       [Franz] = FranzNameText,
-  [Gilliam] = GilliamNameText, [Vanessa] = VanessaNameText,
-  [Moulder] = MoulderNameText, [Ross] = RossNameText,
-  [Garcia] = GarciaNameText,   [Neimi] = NeimiNameText,
-  [Colm] = ColmNameText,       [Artur] = ArturNameText,
-  [Lute] = LuteNameText,       [Natasha] = NatashaNameText,
-  [Joshua] = JoshuaNameText,   [Forde] = FordeNameText,
-  [Kyle] = KyleNameText,       [Tana] = TanaNameText,
-  [Amelia] = AmeliaNameText,   [Innes] = InnesNameText,
-  [Gerik] = GerikNameText,     [Tethys] = TethysNameText,
-  [Marisa] = MarisaNameText,   [LArachel] = LArachelNameText,
-  [Dozla] = DozlaNameText,     [Saleh] = SalehNameText,
-  [Ewan] = EwanNameText,       [Cormag] = CormagNameText,
-  [Rennac] = RennacNameText,   [Duessel] = DuesselNameText,
-  [Knoll] = KnollNameText,     [Myrrh] = MyrrhNameText,
-  [Syrene] = SyreneNameText,
+  [Seth]    = 0x213, [Franz]   = 0x215,
+  [Gilliam] = 0x214, [Vanessa] = 0x217,
+  [Moulder] = 0x216, [Ross]    = 0x218,
+  [Garcia]  = 0x21B, [Neimi]   = 0x219,
+  [Colm]    = 0x21A, [Artur]   = 0x224,
+  [Lute]    = 0x21D, [Natasha] = 0x21E,
+  [Joshua]  = 0x231, [Forde]   = 0x221,
+  [Kyle]    = 0x222, [Tana]    = 0x233,
+  [Amelia]  = 0x223, [Innes]   = 0x21C,
+  [Gerik]   = 0x225, [Tethys]  = 0x226,
+  [Marisa]  = 0x227, [LArachel]= 0x22A,
+  [Dozla]   = 0x22B, [Saleh]   = 0x228,
+  [Ewan]    = 0x229, [Cormag]  = 0x21F,
+  [Rennac]  = 0x22D, [Duessel] = 0x22E,
+  [Knoll]   = 0x230, [Myrrh]   = 0x22F,
+  [Syrene]  = 0x232,
 };
 
 const struct PopupInstruction Popup_SethDeployStage1[] = {
