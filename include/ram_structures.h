@@ -28,6 +28,12 @@
 #define infoIconCache ((struct InfoCache *)(INFO_ICON_CACHE_ADDR))
 #define DEATH_LINK_INFO_ADDR (INFO_ICON_CACHE_ADDR + sizeof_round(struct InfoCache))
 #define deathLinkInfo ((struct DeathLinkState *)(DEATH_LINK_INFO_ADDR))
+#define DEPLOY_PERMITS_ADDR (DEATH_LINK_INFO_ADDR + sizeof_round(struct DeathLinkState))
+#define deployPermits ((u32 *)(DEPLOY_PERMITS_ADDR))
+#define LAST_RESET_CHAPTER_ADDR (DEPLOY_PERMITS_ADDR + sizeof_round(u32))
+#define lastResetChapter ((u8 *)(LAST_RESET_CHAPTER_ADDR))
+#define SETH_DEPLOY_STAGE_ADDR (LAST_RESET_CHAPTER_ADDR + sizeof_round(u8))
+#define sethDeployStage ((u8 *)(SETH_DEPLOY_STAGE_ADDR))
 
 #endif // RAM_STRUCTURES_H
 

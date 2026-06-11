@@ -27,6 +27,8 @@ struct APReceivedItem {
 
 void handleChapterClear(ProcPtr parent, int chapterNum);
 void handleHolyWeaponGet(ProcPtr parent, enum HolyWeapon weap);
+void handleUnitRecruited(ProcPtr parent, enum RecruitedUnit unit);
+void checkAllPlayerUnitsRecruited(ProcPtr proc);
 
 const u16 *receivedItemEvent(struct IncomingEvent *evt);
 

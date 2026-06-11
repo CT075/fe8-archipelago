@@ -103,6 +103,8 @@ gSaveBlockTypeSizeLookup:
 #include "Modules/checks.lyn.event"
 #include "Modules/receivedItems.lyn.event"
 #include "Modules/convoy200.lyn.event"
+#include "Modules/deployPermits.lyn.event"
+#include "Modules/sethDeployStage.lyn.event"
 
 ALIGN 4
 gGameSaveChunks:

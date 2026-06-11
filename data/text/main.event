@@ -69,6 +69,38 @@ __TEXTPROCESS0E7:
 #incbin ".TextEntries/alltextDeathLinkText.fetxt.dmp"
 setText($E7, __TEXTPROCESS0E7)
 
+__TEXTPROCESS0E8:
+#incbin ".TextEntries/alltextCanDeploySuffixText.fetxt.dmp"
+setText($E8, __TEXTPROCESS0E8)
+
+__TEXTPROCESS0E9:
+#incbin ".TextEntries/alltextSethDeployStage1LockedText.fetxt.dmp"
+setText($E9, __TEXTPROCESS0E9)
+
+__TEXTPROCESS0EA:
+#incbin ".TextEntries/alltextSethDeployStage1OpenText.fetxt.dmp"
+setText($EA, __TEXTPROCESS0EA)
+
+__TEXTPROCESS0EB:
+#incbin ".TextEntries/alltextSethDeployStage2LockedText.fetxt.dmp"
+setText($EB, __TEXTPROCESS0EB)
+
+__TEXTPROCESS0EC:
+#incbin ".TextEntries/alltextSethDeployStage2OpenText.fetxt.dmp"
+setText($EC, __TEXTPROCESS0EC)
+
+__TEXTPROCESS0ED:
+#incbin ".TextEntries/alltextSethDeployStage3OpenText.fetxt.dmp"
+setText($ED, __TEXTPROCESS0ED)
+
+__TEXTPROCESS0EE:
+#incbin ".TextEntries/alltextSethDeployStage3LockedText.fetxt.dmp"
+setText($EE, __TEXTPROCESS0EE)
+
+__TEXTPROCESS0EF:
+#incbin ".TextEntries/alltextSethDeployPartialSuffixText.fetxt.dmp"
+setText($EF, __TEXTPROCESS0EF)
+
 }
 
 #endif // TEXT_INSTALLER_ALLTEXT

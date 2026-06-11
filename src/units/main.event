@@ -1,0 +1,17 @@
+#include "deployPermits.lyn.event"
+
+PUSH
+  // Redirect EnablePrepScreenMenu proc call -- INITIAL ENTRY path.
+  // The parent proc (0x0859DBBC) spawns a child proc (script at 0x08A182xx) via
+  // opcode-3 at 0x0859DCDC. That child proc has its own CALL EnablePrepScreenMenu
+  // at 0x08A182F4 with the funcptr at 0x08A182F8. This is the actual call site for
+  // initial chapter entry.
+  ORG 0x08A182F8
+  POIN PrepScreenReset|1
+
+  // Redirect EnablePrepScreenMenu proc call -- BROWSER RETURN path.
+  // When the user closes the unit-list browser, the parent proc resumes at
+  // LABEL 0x3D (0x0859DD0C) and calls EnablePrepScreenMenu at 0x0859DD14.
+  ORG 0x0859DD18
+  POIN PrepScreenReset|1
+POP
