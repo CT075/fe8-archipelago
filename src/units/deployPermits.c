@@ -178,9 +178,9 @@ static void applyPendingDeployPermit(void) {
 }
 
 // Hooks the EnablePrepScreenMenu proc call at 0x0859DD14 (pointer at 0x0859DD18).
-// Called on EVERY path that makes the prep screen visible — both initial chapter
-// entry and returns from the unit-list browser — so the guard distinguishes them.
-void myPrepRevealReset(void *unused_proc) {
+// Called on EVERY path that makes the prep screen visible -- both initial chapter
+// entry and returns from the unit-list browser -- so the guard distinguishes them.
+void PrepScreenReset(void *unused_proc) {
   applyPendingDeployPermit();
   u8 chapterTag = (u8)(gPlaySt.chapterIndex) | 0x80;
   if (*lastResetChapter != chapterTag) {
@@ -194,7 +194,7 @@ void myPrepRevealReset(void *unused_proc) {
 
 // Replaces PrepCheckCanSelectUnit (0x0809ABD0).
 // Blocks deploying units that lack a permit; otherwise replicates original logic.
-int myPrepCheckCanSelectUnit(struct ProcPrepUnit *proc, struct Unit *unit) {
+int PrepCheckCanSelectUnit(struct ProcPrepUnit *proc, struct Unit *unit) {
   int charId = UNIT_CHAR_ID(unit);
   int ru = charIdToRecruitedUnit((u8)charId);
   if (ru != -1 && !canDeployUnit((enum RecruitedUnit)ru)) {
