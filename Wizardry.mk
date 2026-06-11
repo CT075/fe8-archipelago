@@ -28,11 +28,8 @@ INCFLAGS := $(foreach dir, $(INCLUDE_DIRS), -I "$(dir)")
 
 ARCH := -mcpu=arm7tdmi -mthumb -mthumb-interwork
 
-ifeq ($(UNAME_S),Darwin)
 CFLAGS := $(ARCH) $(INCFLAGS) -Wall -Werror -mtune=arm7tdmi -ffreestanding -mlong-calls -O2 -fno-tree-switch-conversion -Wno-array-parameter -std=gnu11
-else
-CFLAGS := $(ARCH) $(INCFLAGS) -Wall -Werror -mtune=arm7tdmi -ffreestanding -mlong-calls -O2 -fno-tree-switch-conversion -Wno-array-parameter
-endif
+
 ASFLAGS := $(ARCH) $(INCFLAGS)
 
 CDEPFLAGS = -MMD -MT "$*.o" -MT "$*.s" -MF "$(CACHE_DIR)/$(notdir $*).d" -MP
