@@ -150,8 +150,7 @@ bool myCanCharPrepMoved(int charId) {
   return !IsCharacterForceDeployed(charId);
 }
 
-// Replaces PrepScreenProc_InitMapMenu (0x080334BC).
-void myPrepInitMapMenu(struct ProcPrepSallyCursor *proc) {
+void PrepScreenProc_InitMapMenu(struct ProcPrepSallyCursor *proc) {
   proc->unk_58 = 1;
   PrepScreenProc_StartMapMenu(proc);
 }

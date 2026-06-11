@@ -1,14 +1,6 @@
 #include "deployPermits.lyn.event"
 
 PUSH
-  // Hook start of PrepScreenProc_InitMapMenu (0x080334BC).
-  // Resets recruitable units to undeployed on first prep screen entry each chapter.
-  // r0=proc; r1 used as scratch (safe -- only one argument).
-  ORG 0x080334BC
-  SHORT 0x4900        // ldr r1, [pc, #0]
-  SHORT 0x4708        // bx r1
-  POIN myPrepInitMapMenu|1
-
   // Hook start of UnitList_TogglePrepDeployState (0x0809132C).
   // ldr r1,[pc,#0] reads from (0x0809132C+4)&~3 = 0x08091330 (preserves r0=proc).
   ORG 0x0809132C
