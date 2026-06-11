@@ -1,16 +1,18 @@
 #include "event_object.h"
 
-#include <fstream>
-
-#include <iomanip>
 #include <algorithm>
+#include <cassert>
+#include <format>
+#include <ostream>
+#include <string_view>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "elfcpp/elfcpp_file.h"
 #include "elfcpp/arm.h"
 
 #include "core/data_file.h"
 #include "ea/event_section.h"
-#include "util/hex_write.h"
 
 namespace elfcpp {
 
@@ -54,15 +56,7 @@ void event_object::append_from_elf(const char* fileName)
 
 	auto getLocalSymbolName = [this] (int section, int index) -> std::string
 	{
-		std::string result;
-		result.reserve(0x10);
-
-		result.append("_L");
-		util::append_hex(result, mSections.size() + section);
-		result.append("_");
-		util::append_hex(result, index);
-
-		return result;
+		return std::format("_L{0:X}_{1:X}", mSections.size() + section, index);
 	};
 
 	auto getGlobalSymbolName = [] (const char* name) -> std::string
@@ -89,14 +83,12 @@ void event_object::append_from_elf(const char* fileName)
 
 			section.set_name(elfFile.section_name(i));
 
-			section.clear();
-			section.reserve(loc.data_size);
+			section.resize(loc.data_size);
 
 			std::copy(
 				std::next(file.begin(), loc.file_offset),
 				std::next(file.begin(), loc.file_offset+loc.data_size),
-				std::back_inserter(section)
-			);
+				section.begin());
 
 			outMap[i] = true;
 		}
@@ -130,8 +122,13 @@ void event_object::append_from_elf(const char* fileName)
 						? getLocalSymbolName(si, i)
 						: getGlobalSymbolName(readString(nameShdr, sym.get_st_name()).c_str());
 
+					bool is_function = sym.get_st_type() == elfcpp::STT_FUNC;
+
 					mAbsoluteSymbols.push_back(section_data::symbol {
-						name, sym.get_st_value(), false
+						name,
+						sym.get_st_value(),
+						false,
+						is_function,
 					});
 
 					break;
@@ -155,19 +152,19 @@ void event_object::append_from_elf(const char* fileName)
 
 						if ((name == "$t") || (subString == "$t."))
 						{
-							section.set_mapping(sym.get_st_value(), section_data::mapping::Thumb);
+							// section.set_mapping(sym.get_st_value(), section_data::mapping::Thumb);
 							break;
 						}
 
 						if ((name == "$a") || (subString == "$a."))
 						{
-							section.set_mapping(sym.get_st_value(), section_data::mapping::ARM);
+							// section.set_mapping(sym.get_st_value(), section_data::mapping::ARM);
 							break;
 						}
 
 						if ((name == "$d") || (subString == "$d."))
 						{
-							section.set_mapping(sym.get_st_value(), section_data::mapping::Data);
+							// section.set_mapping(sym.get_st_value(), section_data::mapping::Data);
 							break;
 						}
 					}
@@ -177,10 +174,14 @@ void event_object::append_from_elf(const char* fileName)
 					else
 						name = getGlobalSymbolName(name.c_str());
 
+					bool is_local = sym.get_st_bind() == elfcpp::STB_LOCAL;
+					bool is_function = sym.get_st_type() == elfcpp::STT_FUNC;
+
 					section.symbols().push_back(section_data::symbol {
 						name,
 						sym.get_st_value(),
-						(sym.get_st_bind() == elfcpp::STB_LOCAL)
+						is_local,
+						is_function,
 					});
 
 					break;
@@ -382,15 +383,18 @@ void event_object::try_relocate_relatives() {
 }
 
 void event_object::try_relocate_absolutes() {
+	auto absolute_ids = make_absolute_symbol_map();
+
 	for (auto& section : mSections) {
 		section.relocations().erase(
 			std::remove_if(
 				section.relocations().begin(),
 				section.relocations().end(),
-				[this, &section] (const section_data::relocation& relocation) -> bool {
-					for (auto& symbol : mAbsoluteSymbols) {
-						if (symbol.name != relocation.symbolName)
-							continue;
+				[this, &section, &absolute_ids] (const section_data::relocation& relocation) -> bool {
+					auto it = absolute_ids.find(relocation.symbolName);
+
+					if (it != absolute_ids.end()) {
+						auto & symbol = mAbsoluteSymbols[it->second];
 
 						if (auto relocatelet = mRelocator.get_relocatelet(relocation.type)) {
 							if (relocatelet->is_absolute()) {
@@ -423,7 +427,7 @@ void event_object::remove_unnecessary_symbols() {
 				section.symbols().begin(),
 				section.symbols().end(),
 				[this] (const section_data::symbol& symbol) -> bool {
-					if (!symbol.isLocal)
+					if (!symbol.is_local)
 						return false; // symbol may be used outside of the scope of this object
 
 					for (auto& section : mSections)
@@ -454,17 +458,34 @@ void event_object::cleanup() {
 std::vector<event_object::hook> event_object::get_hooks() const {
 	std::vector<hook> result;
 
-	for (auto& absSymbol : mAbsoluteSymbols) {
-		if (!(absSymbol.offset & 0x8000000))
-			continue; // Not in ROM
+	std::unordered_set<std::string_view> symbol_names;
 
-		for (auto& section : mSections) {
-			for (auto& locSymbol : section.symbols()) {
-				if (absSymbol.name != locSymbol.name)
-					continue; // Not same symbol
-
-				result.push_back({ (absSymbol.offset & (~0x8000000)), absSymbol.name });
+	for (auto& section : mSections) {
+		for (auto& locSymbol : section.symbols()) {
+			if (!locSymbol.is_local && !locSymbol.name.empty()) {
+				std::string_view name(locSymbol.name);
+				symbol_names.insert(name);
 			}
+		}
+	}
+
+	for (auto& absSymbol : mAbsoluteSymbols) {
+		if (symbol_names.contains(std::string_view(absSymbol.name))) {
+			if (absSymbol.offset < 0x08000000 || absSymbol.offset >= 0x0A000000) {
+				std::string message(std::format("attempting to replace `{0}`, which is not in ROM (reference address: 0x{1:08X})",
+					absSymbol.name, absSymbol.offset));
+
+				throw std::runtime_error(message);
+			}
+
+			if (!absSymbol.is_function) {
+				std::string message(std::format("attempting to replace `{0}`, which is not a function",
+					absSymbol.name));
+
+				throw std::runtime_error(message);
+			}
+
+			result.push_back({ (absSymbol.offset - 0x08000000), absSymbol.name });
 		}
 	}
 
@@ -474,57 +495,25 @@ std::vector<event_object::hook> event_object::get_hooks() const {
 void event_object::write_events(std::ostream& output) const {
 	unsigned offset = 0;
 
+	/* we do this here but this should really be something that have already */
+	auto abs_symbol_map = make_absolute_symbol_map();
+
 	for (auto& section : mSections) {
-		event_section events; // = section.make_events();
-		events.resize(section.size());
-
 		output << "ALIGN 4" << std::endl;
-
-		for (auto& relocation : section.relocations())
-		{
-			if (auto relocatelet = mRelocator.get_relocatelet(relocation.type))
-			{
-				// This is probably the worst hack I've ever written
-				// lyn needs a rewrite
-
-				// (I makes sure that relative relocations to known absolute values will reference the value and not the name)
-
-				auto it = std::find_if(
-					mAbsoluteSymbols.begin(),
-					mAbsoluteSymbols.end(),
-					[&] (const section_data::symbol& sym) { return sym.name == relocation.symbolName; });
-
-				auto symName = (it == mAbsoluteSymbols.end())
-					? relocation.symbolName
-					: util::make_hex_string("$", it->offset);
-
-				events.map_code(relocation.offset, relocatelet->make_event_code(
-					section,
-					relocation.offset,
-					symName,
-					relocation.addend
-				));
-			}
-			else if (relocation.type != elfcpp::R_ARM_V4BX) // dirty hack
-				throw std::runtime_error(std::string("unhandled relocation type #").append(std::to_string(relocation.type)));
-		}
-
-		events.compress_codes();
-		events.optimize();
 
 		if (std::any_of(
 			section.symbols().begin(),
 			section.symbols().end(),
 
 			[] (const section_data::symbol& sym) {
-				return !sym.isLocal;
+				return !sym.is_local;
 			}
 		)) {
 			output << "PUSH" << std::endl;
 			int currentOffset = 0;
 
 			for (auto& symbol : section.symbols()) {
-				if (symbol.isLocal)
+				if (symbol.is_local)
 					continue;
 
 				output << "ORG CURRENTOFFSET+$" << std::hex << (symbol.offset - currentOffset) << ";"
@@ -535,12 +524,13 @@ void event_object::write_events(std::ostream& output) const {
 			output << "POP" << std::endl;
 		}
 
+		// TODO: this should never be true?
 		if (std::any_of(
 			section.symbols().begin(),
 			section.symbols().end(),
 
 			[] (const section_data::symbol& sym) {
-				return sym.isLocal;
+				return sym.is_local;
 			}
 		)) {
 			output << "{" << std::endl;
@@ -549,7 +539,7 @@ void event_object::write_events(std::ostream& output) const {
 			int currentOffset = 0;
 
 			for (auto& symbol : section.symbols()) {
-				if (!symbol.isLocal)
+				if (!symbol.is_local)
 					continue;
 
 				output << "ORG CURRENTOFFSET+$" << std::hex << (symbol.offset - currentOffset) << ";"
@@ -559,11 +549,11 @@ void event_object::write_events(std::ostream& output) const {
 
 			output << "POP" << std::endl;
 
-			events.write_to_stream(output, section);
+			write_section_data_event(output, section, abs_symbol_map);
 
 			output << "}" << std::endl;
 		} else {
-			events.write_to_stream(output, section);
+			write_section_data_event(output, section, abs_symbol_map);
 		}
 
 		offset += section.size();
@@ -571,6 +561,94 @@ void event_object::write_events(std::ostream& output) const {
 		if (unsigned misalign = (offset % 4))
 			offset += (4 - misalign);
 	}
+}
+
+void event_object::write_section_data_event(
+	std::ostream& output,
+	const section_data& section,
+	const std::unordered_map<std::string_view, size_t>& abs_symbol_map) const
+{
+	constexpr size_t ALIGNMENT_MASK = 0b111; // 4, 2, 1
+
+	size_t prev_tail_offset = 0;
+
+	for (auto& relocation : section.relocations())
+	{
+		// write any bytes we skipped over
+
+		if (prev_tail_offset != relocation.offset)
+		{
+			assert(prev_tail_offset < relocation.offset);
+
+			int alignment = prev_tail_offset & ALIGNMENT_MASK;
+
+			std::span<const unsigned char> bytes(
+				section.data() + prev_tail_offset,
+				relocation.offset - prev_tail_offset);
+
+			write_event_bytes(output, alignment, bytes);
+		}
+
+		// translate relocation into event
+
+		if (auto relocatelet = mRelocator.get_relocatelet(relocation.type))
+		{
+			// This is probably the worst hack I've ever written
+			// lyn needs a rewrite
+
+			// (I makes sure that relative relocations to known absolute values will reference the value and not the name)
+
+			auto it = abs_symbol_map.find(relocation.symbolName);
+
+			auto symName = (it == abs_symbol_map.end())
+				? relocation.symbolName
+				: std::format("${0:X}", mAbsoluteSymbols[it->second].offset);
+
+			event_code code(relocatelet->make_event_code(
+				section,
+				relocation.offset,
+				symName,
+				relocation.addend));
+
+			int alignment = relocation.offset & ALIGNMENT_MASK;
+
+			if ((alignment % code.code_align()) == 0)
+				code.write_to_stream(output);
+			else
+				code.write_to_stream_misaligned(output);
+
+			output << std::endl;
+
+			prev_tail_offset = relocation.offset + code.code_size();
+		}
+		else if (relocation.type != elfcpp::R_ARM_V4BX) // another dirty hack
+			throw std::runtime_error(std::format("unhandled relocation type #{0}", relocation.type));
+	}
+
+	// write any bytes left over
+
+	if (prev_tail_offset != section.size())
+	{
+		assert(prev_tail_offset < section.size());
+
+		int alignment = prev_tail_offset & ALIGNMENT_MASK;
+
+		std::span<const unsigned char> bytes(
+			section.data() + prev_tail_offset,
+			section.size() - prev_tail_offset);
+
+		write_event_bytes(output, alignment, bytes);
+	}
+}
+
+std::unordered_map<std::string_view, size_t> event_object::make_absolute_symbol_map() const {
+	std::unordered_map<std::string_view, size_t> result;
+
+	for (size_t i = 0; i < mAbsoluteSymbols.size(); i++) {
+		result.insert({ mAbsoluteSymbols[i].name, i });
+	}
+
+	return result;
 }
 
 } // namespace lyn
