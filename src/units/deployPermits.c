@@ -113,11 +113,7 @@ static void resetPrepDeployment(void) {
   }
 }
 
-// Replaces UnitList_TogglePrepDeployState (0x0809132C).
-// - Resets deployment to required-only on first browser open each chapter.
-// - Allows undeploying any unit freely.
-// - Blocks deploying units that lack a permit; plays error sound when blocked.
-void myUnitListToggle(struct UnitListScreenProc *proc) {
+void UnitList_TogglePrepDeployState(struct UnitListScreenProc *proc) {
   int cursor = proc->unk_30;
   struct SortedUnitEnt *ent = gSortedUnits[cursor];
   if (!ent || !ent->unit)
@@ -140,9 +136,7 @@ void myUnitListToggle(struct UnitListScreenProc *proc) {
   UnitList_DeployUnit(unit, proc);
 }
 
-// Replaces CanCharacterBePrepMoved (0x0803374C).
-// Blocks map-placement of recruitable units that lack a deploy permit.
-bool myCanCharPrepMoved(int charId) {
+bool CanCharacterBePrepMoved(int charId) {
   int ru = charIdToRecruitedUnit((u8)charId);
   if (ru != -1 && !canDeployUnit((enum RecruitedUnit)ru)) {
     return false;
