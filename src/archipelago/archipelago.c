@@ -93,7 +93,8 @@ const struct PopupInstruction Popup_SethDeployStage1[] = {
   POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
   POPUP_MSG(SethDeployStage1LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(SethDeployPartialSuffixText),
+  POPUP_MSG(CanDeploySuffixText),
+  POPUP_MSG(QuestionMarkText),
   POPUP_END
 };
 
@@ -104,7 +105,8 @@ const struct PopupInstruction Popup_SethDeployStage2[] = {
   POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
   POPUP_MSG(SethDeployStage2LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(SethDeployPartialSuffixText),
+  POPUP_MSG(CanDeploySuffixText),
+  POPUP_MSG(QuestionMarkText),
   POPUP_END
 };
 
@@ -115,7 +117,8 @@ const struct PopupInstruction Popup_SethDeployStage3[] = {
   POPUP_COLOR(TEXT_COLOR_SYSTEM_GRAY),
   POPUP_MSG(SethDeployStage3LockedText),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-  POPUP_MSG(SethDeployPartialSuffixText),
+  POPUP_MSG(CanDeploySuffixText),
+  POPUP_MSG(QuestionMarkText),
   POPUP_END
 };
 
@@ -271,6 +274,7 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
       POPUP_MSG(kUnitNameTexts[unit]),
       POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
       POPUP_MSG(CanDeploySuffixText),
+      POPUP_MSG(ExclamationText),
       POPUP_END,
     };
     NewPopup_Simple(popup, 0x60, 0, parent);
@@ -321,7 +325,7 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
       POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
       POPUP_MSG(kClassNameTexts[cls]),
       POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-      POPUP_MSG(0x022), /* .[.] */
+      POPUP_MSG(ExclamationText),
       POPUP_END,
     };
     NewPopup_Simple(popup, 0x60, 0, parent);

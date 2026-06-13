@@ -56,7 +56,7 @@ Death Link![X]
 
 # # CanDeploySuffixText
 
- can now be deployed![X]
+ can now be deployed[X]
 
 # # SethDeployStage1LockedText
 
@@ -82,10 +82,14 @@ Set[X]
 
 _[X]
 
-# # SethDeployPartialSuffixText
-
- can now be deployed?[X]
-
 # # CanPromoteToPrefixText
 
 Units can now be promoted to [X]
+
+# # ExclamationText
+
+![X]
+
+# # QuestionMarkText
+
+?[X]

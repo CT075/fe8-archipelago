@@ -98,12 +98,16 @@ __TEXTPROCESS0EE:
 setText($EE, __TEXTPROCESS0EE)
 
 __TEXTPROCESS0EF:
-#incbin ".TextEntries/alltextSethDeployPartialSuffixText.fetxt.dmp"
+#incbin ".TextEntries/alltextCanPromoteToPrefixText.fetxt.dmp"
 setText($EF, __TEXTPROCESS0EF)
 
 __TEXTPROCESS0F0:
-#incbin ".TextEntries/alltextCanPromoteToPrefixText.fetxt.dmp"
+#incbin ".TextEntries/alltextExclamationText.fetxt.dmp"
 setText($F0, __TEXTPROCESS0F0)
+
+__TEXTPROCESS0F1:
+#incbin ".TextEntries/alltextQuestionMarkText.fetxt.dmp"
+setText($F1, __TEXTPROCESS0F1)
 
 }
 
