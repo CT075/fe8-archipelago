@@ -34,6 +34,8 @@
 #define lastResetChapter ((u8 *)(LAST_RESET_CHAPTER_ADDR))
 #define SETH_DEPLOY_STAGE_ADDR (LAST_RESET_CHAPTER_ADDR + sizeof_round(u8))
 #define sethDeployStage ((u8 *)(SETH_DEPLOY_STAGE_ADDR))
+#define PROMO_PERMITS_ADDR (SETH_DEPLOY_STAGE_ADDR + sizeof_round(u8))
+#define promoPermits ((u32 *)(PROMO_PERMITS_ADDR))
 
 #endif // RAM_STRUCTURES_H
 

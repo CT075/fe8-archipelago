@@ -1,18 +1,18 @@
 #ifndef ARCHIPELAGO_H
 #define ARCHIPELAGO_H
 
+#include "constants/items.h"
 #include "global.h"
 #include "proc.h"
-#include "constants/items.h"
 
 #include "connector_config.h"
 
 #define SLOT_NAME_MAX 64
 
 enum LocationItemKind {
-  Empty=0,
-  APItem=1,
-  SelfItem=2,
+  Empty = 0,
+  APItem = 1,
+  SelfItem = 2,
 };
 
 struct LocationItem {
@@ -41,21 +41,23 @@ struct DeathLinkState {
 // CR cam: This should come from `Generate.hs` so we can ensure that this
 // struct definition doesn't drift from the python code that sets it
 enum __attribute__((__packed__)) LockpickUsability {
-  Vanilla=0,
-  GlobalLockpicks=1,
-  GlobalRoguePick=2,
+  Vanilla = 0,
+  GlobalLockpicks = 1,
+  GlobalRoguePick = 2,
 };
 
 enum __attribute__((__packed__)) DeathLinkKind {
-  None=0,
-  OnGameOver=1,
-  OnAnyDeath=2,
+  None = 0,
+  OnGameOver = 1,
+  OnAnyDeath = 2,
 };
 
 struct ArchipelagoOptions {
   bool superDemonKing;
   enum LockpickUsability lockpickUsability;
   enum DeathLinkKind deathLinkKind;
+  // When false, promotion is not gated behind AP items (vanilla behavior).
+  bool promotionUnlocks;
 };
 
 struct ArchipelagoInfo {

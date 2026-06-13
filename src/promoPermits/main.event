@@ -1,0 +1,13 @@
+#include "promoPermits.lyn.event"
+
+PUSH
+  // Repoint the usability functions of the first two promotion-select menu
+  // items (gMenuItem_PromoSel at 0x08B12954, sizeof(MenuItemDef) = 0x24,
+  // isAvailable at +0x0C). Vanilla uses MenuAlwaysEnabled, which is shared
+  // by many menus and cannot be replaced wholesale. The third item's
+  // usability goes through Check3rdTraineeEnabled, which is replaced by name.
+  ORG 0xB12960
+  POIN PromoSelMenuItemUsability|1
+  ORG 0xB12984
+  POIN PromoSelMenuItemUsability|1
+POP

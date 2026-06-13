@@ -21,6 +21,7 @@
 #include "constants.h"
 #include "deployPermits.h"
 #include "progressiveCaps.h"
+#include "promoPermits.h"
 #include "ram_structures.h"
 
 const struct PopupInstruction Popup_GotAPItem[] = {
@@ -61,22 +62,28 @@ const struct PopupInstruction Popup_DeathLink[] = {
 
 // Text IDs from vanilla FE8 texts.txt (MSG_213 etc.)
 static const u32 kUnitNameTexts[] = {
-  [Seth]    = 0x213, [Franz]   = 0x215,
-  [Gilliam] = 0x214, [Vanessa] = 0x217,
-  [Moulder] = 0x216, [Ross]    = 0x218,
-  [Garcia]  = 0x21B, [Neimi]   = 0x219,
-  [Colm]    = 0x21A, [Artur]   = 0x224,
-  [Lute]    = 0x21D, [Natasha] = 0x21E,
-  [Joshua]  = 0x231, [Forde]   = 0x221,
-  [Kyle]    = 0x222, [Tana]    = 0x233,
-  [Amelia]  = 0x223, [Innes]   = 0x21C,
-  [Gerik]   = 0x225, [Tethys]  = 0x226,
-  [Marisa]  = 0x227, [LArachel]= 0x22A,
-  [Dozla]   = 0x22B, [Saleh]   = 0x228,
-  [Ewan]    = 0x229, [Cormag]  = 0x21F,
-  [Rennac]  = 0x22D, [Duessel] = 0x22E,
-  [Knoll]   = 0x230, [Myrrh]   = 0x22F,
-  [Syrene]  = 0x232,
+  [Seth] = 0x213,    [Franz] = 0x215,    [Gilliam] = 0x214, [Vanessa] = 0x217,
+  [Moulder] = 0x216, [Ross] = 0x218,     [Garcia] = 0x21B,  [Neimi] = 0x219,
+  [Colm] = 0x21A,    [Artur] = 0x224,    [Lute] = 0x21D,    [Natasha] = 0x21E,
+  [Joshua] = 0x231,  [Forde] = 0x221,    [Kyle] = 0x222,    [Tana] = 0x233,
+  [Amelia] = 0x223,  [Innes] = 0x21C,    [Gerik] = 0x225,   [Tethys] = 0x226,
+  [Marisa] = 0x227,  [LArachel] = 0x22A, [Dozla] = 0x22B,   [Saleh] = 0x228,
+  [Ewan] = 0x229,    [Cormag] = 0x21F,   [Rennac] = 0x22D,  [Duessel] = 0x22E,
+  [Knoll] = 0x230,   [Myrrh] = 0x22F,    [Syrene] = 0x232,
+};
+
+// Text IDs from vanilla FE8 texts.txt (MSG_2C2 etc.). Both gender variants
+// of a class share a name text. The trainee entries are the plain class
+// names, also used by the tier-3 classes the items unlock.
+static const u32 kClassNameTexts[] = {
+  [Paladin] = 0x2C2,      [General] = 0x2C4,    [Hero] = 0x2C7,
+  [Swordmaster] = 0x2C9,  [Assassin] = 0x2CA,   [Sniper] = 0x2CC,
+  [Ranger] = 0x2CD,       [WyvernLord] = 0x2CF, [WyvernKnight] = 0x2D0,
+  [Sage] = 0x2D2,         [MageKnight] = 0x2D3, [Bishop] = 0x2D4,
+  [Druid] = 0x2E2,        [Summoner] = 0x2E3,   [Rogue] = 0x2DB,
+  [GreatKnight] = 0x2E0,  [Warrior] = 0x2DD,    [Berserker] = 0x2DF,
+  [FalconKnight] = 0x2E8, [Valkyrie] = 0x2EB,   [Journeyman] = 0x2D8,
+  [Pupil] = 0x2D9,        [Recruit] = 0x2DA,
 };
 
 const struct PopupInstruction Popup_SethDeployStage1[] = {
@@ -302,6 +309,22 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
       }
       NewPopup_Simple(popup, 0x60, 0, parent);
     }
+    break;
+  }
+  case PromoUnlock: {
+    enum PromotedClass cls = evt->payload.promotedClass;
+    setPromoPermit(cls);
+    struct PopupInstruction popup[] = {
+      POPUP_SOUND(0x5A),
+      POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+      POPUP_MSG(CanPromoteToPrefixText),
+      POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+      POPUP_MSG(kClassNameTexts[cls]),
+      POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+      POPUP_MSG(0x022), /* .[.] */
+      POPUP_END,
+    };
+    NewPopup_Simple(popup, 0x60, 0, parent);
     break;
   }
   };

@@ -187,6 +187,48 @@ recruitedUnitDeploy :: RecruitedUnit -> String
 recruitedUnitDeploy LArachel = "Deploy L'Arachel"
 recruitedUnitDeploy u = "Deploy " ++ show u
 
+-- One constructor per promoted class an Archipelago item can unlock. Both
+-- gender variants of a class share one item. Great Lord is intentionally
+-- absent (always unlocked), as are the trainee (2) classes. The trainee
+-- constructors gate the tier-3 "super trainee" classes but are displayed
+-- without the "(3)" suffix.
+data PromotedClass
+    = Paladin
+    | General
+    | Hero
+    | Swordmaster
+    | Assassin
+    | Sniper
+    | Ranger
+    | WyvernLord
+    | WyvernKnight
+    | Sage
+    | MageKnight
+    | Bishop
+    | Druid
+    | Summoner
+    | Rogue
+    | GreatKnight
+    | Warrior
+    | Berserker
+    | FalconKnight
+    | Valkyrie
+    | Journeyman
+    | Pupil
+    | Recruit
+    deriving (Show, Enum, Bounded, Typeable, Generic)
+
+promotedClassName :: PromotedClass -> String
+promotedClassName WyvernLord = "Wyvern Lord"
+promotedClassName WyvernKnight = "Wyvern Knight"
+promotedClassName MageKnight = "Mage Knight"
+promotedClassName GreatKnight = "Great Knight"
+promotedClassName FalconKnight = "Falcon Knight"
+promotedClassName c = show c
+
+promotedClassLong :: PromotedClass -> String
+promotedClassLong = (++ " Promotion") . promotedClassName
+
 -- CR-soon cam: Instead of doing this, we should make [FillerItem] a newtype of
 -- [Int] and simply include the item ID.
 data FillerItem
@@ -282,6 +324,7 @@ data Item
     | FillerPlacement FillerItem
     | UnitDeployment RecruitedUnit
     | ProgressiveSethDeploy
+    | PromotionUnlock PromotedClass
     deriving (Show, Typeable, Generic)
     deriving (Bounded) via (BE Item)
     deriving (Enum) via (BE Item)
@@ -293,10 +336,11 @@ itemName (HolyWeaponPut hw) = show hw
 itemName (FillerPlacement f) = show f
 itemName (UnitDeployment u) = recruitedUnitDeploy u
 itemName ProgressiveSethDeploy = "Progressive Seth Deployment"
+itemName (PromotionUnlock c) = promotedClassLong c
 
 -- XXX: We could automatically derive these from the definition of `Item`, but
 -- it's a lot of complex type-level machinery for very little gain.
-data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem | UnitDeploy | ProgSethDeploy
+data ItemKind = ProgLvlCap | ProgWLv | HolyWeapon | FillerItem | UnitDeploy | ProgSethDeploy | PromoUnlock
     deriving (Show, Enum, Bounded, Typeable)
 
 itemkind :: Item -> ItemKind
@@ -306,6 +350,7 @@ itemkind (HolyWeaponPut _) = HolyWeapon
 itemkind (FillerPlacement _) = FillerItem
 itemkind (UnitDeployment _) = UnitDeploy
 itemkind ProgressiveSethDeploy = ProgSethDeploy
+itemkind (PromotionUnlock _) = PromoUnlock
 
 progWLvName :: String
 progWLvName = "weaponType"
@@ -318,6 +363,9 @@ fillerItemKindName = "fillerItem"
 
 recruitedUnitKindName :: String
 recruitedUnitKindName = "recruitedUnit"
+
+promotedClassKindName :: String
+promotedClassKindName = "promotedClass"
 
 emitSetPayload :: (Monad m) => (String -> m ()) -> String -> Item -> m ()
 emitSetPayload emitLn prefix item =
@@ -332,6 +380,8 @@ emitSetPayload emitLn prefix item =
         (UnitDeployment unit) ->
             emitLn $ prefix ++ recruitedUnitKindName ++ " = " ++ show unit ++ ";"
         ProgressiveSethDeploy -> return ()
+        (PromotionUnlock cls) ->
+            emitLn $ prefix ++ promotedClassKindName ++ " = " ++ show cls ++ ";"
 
 emitCPayloadUnion :: (Monad m) => (String -> m ()) -> m ()
 emitCPayloadUnion emitLn = do
@@ -344,6 +394,8 @@ emitCPayloadUnion emitLn = do
         "  enum " ++ show (typeRep @FillerItem) ++ " " ++ fillerItemKindName ++ ";"
     emitLn $
         "  enum " ++ show (typeRep @RecruitedUnit) ++ " " ++ recruitedUnitKindName ++ ";"
+    emitLn $
+        "  enum " ++ show (typeRep @PromotedClass) ++ " " ++ promotedClassKindName ++ ";"
     emitLn $ "};"
 
 emitCEnum ::
@@ -430,6 +482,8 @@ emitConnectorConfigH emitLn = do
     emitLn ""
     emitCEnum @FillerItem emitLn
     emitLn ""
+    emitCEnum @PromotedClass emitLn
+    emitLn ""
     emitLn $ "#define NUM_CHECKS (" ++ show numLocations ++ ")"
     emitLn ""
     emitCEnum @ItemKind emitLn
@@ -511,6 +565,7 @@ emitPythonData emitLn = do
     -- CR-soon cam: compute these from `offsetof` instead of hardcoding
     emitLn "LOCKPICK_USABILITY_OFFS = {|ROM_BASE:archipelagoOptions|}+1"
     emitLn "DEATH_LINK_KIND_OFFS = {|ROM_BASE:archipelagoOptions|}+2"
+    emitLn "PROMOTION_UNLOCKS_OFFS = {|ROM_BASE:archipelagoOptions|}+3"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"

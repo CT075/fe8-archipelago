@@ -136,6 +136,32 @@ enum FillerItem {
   MasterSeal=15,
 };
 
+enum PromotedClass {
+  Paladin=0,
+  General=1,
+  Hero=2,
+  Swordmaster=3,
+  Assassin=4,
+  Sniper=5,
+  Ranger=6,
+  WyvernLord=7,
+  WyvernKnight=8,
+  Sage=9,
+  MageKnight=10,
+  Bishop=11,
+  Druid=12,
+  Summoner=13,
+  Rogue=14,
+  GreatKnight=15,
+  Warrior=16,
+  Berserker=17,
+  FalconKnight=18,
+  Valkyrie=19,
+  Journeyman=20,
+  Pupil=21,
+  Recruit=22,
+};
+
 #define NUM_CHECKS (83)
 
 enum ItemKind {
@@ -145,6 +171,7 @@ enum ItemKind {
   FillerItem=3,
   UnitDeploy=4,
   ProgSethDeploy=5,
+  PromoUnlock=6,
 };
 
 union Payload {
@@ -153,6 +180,7 @@ union Payload {
   enum HolyWeapon holyWeapon;
   enum FillerItem fillerItem;
   enum RecruitedUnit recruitedUnit;
+  enum PromotedClass promotedClass;
 };
 
 struct IncomingEvent {

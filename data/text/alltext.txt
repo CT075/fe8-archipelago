@@ -85,3 +85,7 @@ _[X]
 # # SethDeployPartialSuffixText
 
  can now be deployed?[X]
+
+# # CanPromoteToPrefixText
+
+Units can now be promoted to [X]

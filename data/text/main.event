@@ -101,6 +101,10 @@ __TEXTPROCESS0EF:
 #incbin ".TextEntries/alltextSethDeployPartialSuffixText.fetxt.dmp"
 setText($EF, __TEXTPROCESS0EF)
 
+__TEXTPROCESS0F0:
+#incbin ".TextEntries/alltextCanPromoteToPrefixText.fetxt.dmp"
+setText($F0, __TEXTPROCESS0F0)
+
 }
 
 #endif // TEXT_INSTALLER_ALLTEXT
