@@ -1,2 +1,21 @@
 #include debug.lyn.event
 #include "MenuLib/ManualInstall.event"
+
+#ifdef DEBUG_PROMO_QUICKSTART
+// Franz and Gilliam join in Chapter 1 ready to promote: bump their joining
+// unit definitions (the "label35" load group at 0x8B417C) to level 10 and put
+// a Knight Crest (0x65) in each inventory. Byte +3 packs
+// autolevel:1 | allegiance:2 | level:5, so level 10 = 0x50.
+PUSH
+  // Franz (0x8B417C): level byte, then Knight Crest over his second vulnerary.
+  ORG 0x8B417F
+  BYTE 0x50
+  ORG 0x8B418B
+  BYTE 0x65
+  // Gilliam (0x8B4190): level byte, then Knight Crest in his empty second slot.
+  ORG 0x8B4193
+  BYTE 0x50
+  ORG 0x8B419D
+  BYTE 0x65
+POP
+#endif

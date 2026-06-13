@@ -105,3 +105,11 @@ all: hack $(CONNECTOR_CONFIG_PY)
 
 debug: EAFLAGS := $(EAFLAGS) -D:'DEBUG=1'
 debug: $(TARGET)
+
+# Testing-only build for promotion gating: Franz and Gilliam join Chapter 1
+# at level 10 with Knight Crests, all deploy permits are granted after the
+# prologue, and the promotion-unlocks option byte is forced on. Delete
+# $(TARGET) when switching between this and `hack`, since the flag change
+# alone does not invalidate the target.
+debug-promo: EAFLAGS := $(EAFLAGS) -D:'DEBUG=1' -D:'DEBUG_PROMO_QUICKSTART=1'
+debug-promo: $(TARGET)

@@ -470,10 +470,21 @@ CALL PrologueEndingScene
 ENDA
 POP
 
+#ifdef DEBUG_PROMO_QUICKSTART
+// Testing-only prologue ending (build with `make debug-promo`): same as the
+// normal one, but first grants every deploy permit so units stay fieldable
+// at prep screens without a connected client.
+PrologueEndingScene:
+ASMC markPrologueClear
+ASMC debugPromoQuickstart
+#incbin "data/prologueEndScene.dmp"
+ENDA
+#else
 PrologueEndingScene:
 ASMC markPrologueClear
 #incbin "data/prologueEndScene.dmp"
 ENDA
+#endif
 
 PUSH
 ORG RealTower1EndingScene
