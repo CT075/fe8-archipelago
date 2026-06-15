@@ -36,6 +36,8 @@
 #define sethDeployStage ((u8 *)(SETH_DEPLOY_STAGE_ADDR))
 #define PROMO_PERMITS_ADDR (SETH_DEPLOY_STAGE_ADDR + sizeof_round(u8))
 #define promoPermits ((u32 *)(PROMO_PERMITS_ADDR))
+#define POPUP_BUFFER_ADDR (PROMO_PERMITS_ADDR + sizeof_round(u32))
+#define popupBuffer ((struct PopupInstruction *)(POPUP_BUFFER_ADDR))
 
 #endif // RAM_STRUCTURES_H
 

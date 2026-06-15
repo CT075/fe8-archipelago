@@ -86,6 +86,53 @@ static const u32 kClassNameTexts[] = {
   [Pupil] = 0x2D9,        [Recruit] = 0x2DA,
 };
 
+// These popups show a name that depends on a runtime value, so the name text
+// id cannot be baked into a fixed instruction list. NewPopup_Simple only keeps
+// a pointer that the popup proc reads over later frames, so the instructions
+// must outlive this call (no stack), and lyn cannot emit writable .data
+// statics while ROM is read-only -- so the working copy lives in managed RAM
+// (popupBuffer). These ROM templates are copied there and the POPUP_DYNAMIC_MSG
+// slot is replaced with the chosen name's text id before each popup.
+#define POPUP_DYNAMIC_MSG 0xFFFF /* placeholder text id, set at runtime */
+
+const struct PopupInstruction Popup_UnitCanDeploy[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(POPUP_DYNAMIC_MSG), /* unit name */
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(CanDeploySuffixText),
+  POPUP_MSG(ExclamationText),
+  POPUP_END,
+};
+
+const struct PopupInstruction Popup_CanPromoteTo[] = {
+  POPUP_SOUND(0x5A),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(CanPromoteToPrefixText),
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
+  POPUP_MSG(POPUP_DYNAMIC_MSG), /* class name */
+  POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
+  POPUP_MSG(ExclamationText),
+  POPUP_END,
+};
+
+// Copy a ROM popup template into popupBuffer, fill the dynamic name slot with
+// nameTextId, and show it. The copy lets the popup proc keep reading valid
+// instructions after this function returns.
+static void
+showNamePopup(ProcPtr parent, const struct PopupInstruction *tmpl, u32 nameTextId) {
+  int i = 0;
+  do {
+    popupBuffer[i] = tmpl[i];
+    if (popupBuffer[i].opcode == POPUP_OP_MSG &&
+        popupBuffer[i].data == POPUP_DYNAMIC_MSG) {
+      popupBuffer[i].data = nameTextId;
+    }
+  }
+  while (tmpl[i++].opcode != POPUP_OP_END);
+  NewPopup_Simple(popupBuffer, 0x60, 0, parent);
+}
+
 const struct PopupInstruction Popup_SethDeployStage1[] = {
   POPUP_SOUND(0x5A),
   POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
@@ -268,16 +315,7 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
   case UnitDeploy: {
     enum RecruitedUnit unit = evt->payload.recruitedUnit;
     setDeployPermit(unit);
-    struct PopupInstruction popup[] = {
-      POPUP_SOUND(0x5A),
-      POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
-      POPUP_MSG(kUnitNameTexts[unit]),
-      POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-      POPUP_MSG(CanDeploySuffixText),
-      POPUP_MSG(ExclamationText),
-      POPUP_END,
-    };
-    NewPopup_Simple(popup, 0x60, 0, parent);
+    showNamePopup(parent, Popup_UnitCanDeploy, kUnitNameTexts[unit]);
     break;
   }
   case ProgSethDeploy: {
@@ -288,15 +326,7 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
     }
     if (stage == 4) {
       setDeployPermit(Seth);
-      struct PopupInstruction popup[] = {
-        POPUP_SOUND(0x5A),
-        POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
-        POPUP_MSG(kUnitNameTexts[Seth]),
-        POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-        POPUP_MSG(CanDeploySuffixText),
-        POPUP_END,
-      };
-      NewPopup_Simple(popup, 0x60, 0, parent);
+      showNamePopup(parent, Popup_UnitCanDeploy, kUnitNameTexts[Seth]);
     }
     else {
       const struct PopupInstruction *popup;
@@ -318,17 +348,7 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
   case PromoUnlock: {
     enum PromotedClass cls = evt->payload.promotedClass;
     setPromoPermit(cls);
-    struct PopupInstruction popup[] = {
-      POPUP_SOUND(0x5A),
-      POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-      POPUP_MSG(CanPromoteToPrefixText),
-      POPUP_COLOR(TEXT_COLOR_SYSTEM_BLUE),
-      POPUP_MSG(kClassNameTexts[cls]),
-      POPUP_COLOR(TEXT_COLOR_SYSTEM_WHITE),
-      POPUP_MSG(ExclamationText),
-      POPUP_END,
-    };
-    NewPopup_Simple(popup, 0x60, 0, parent);
+    showNamePopup(parent, Popup_CanPromoteTo, kClassNameTexts[cls]);
     break;
   }
   };
