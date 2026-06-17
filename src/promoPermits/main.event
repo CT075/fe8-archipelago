@@ -11,13 +11,3 @@ PUSH
   ORG 0xB12984
   POIN PromoSelMenuItemUsability|1
 POP
-
-#ifdef DEBUG_PROMO_QUICKSTART
-PUSH
-  // Testing builds are played without seed patching, which is what normally
-  // sets archipelagoOptions.promotionUnlocks. Force the option on so the
-  // gating under test is active.
-  ORG archipelagoOptions+3
-  BYTE 1
-POP
-#endif
