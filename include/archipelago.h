@@ -56,6 +56,8 @@ struct ArchipelagoOptions {
   bool superDemonKing;
   enum LockpickUsability lockpickUsability;
   enum DeathLinkKind deathLinkKind;
+  bool enableLevelCaps;
+  bool enableWeaponLevelCaps;
 };
 
 struct ArchipelagoInfo {

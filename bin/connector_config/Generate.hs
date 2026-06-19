@@ -511,6 +511,8 @@ emitPythonData emitLn = do
     -- CR-soon cam: compute these from `offsetof` instead of hardcoding
     emitLn "LOCKPICK_USABILITY_OFFS = {|ROM_BASE:archipelagoOptions|}+1"
     emitLn "DEATH_LINK_KIND_OFFS = {|ROM_BASE:archipelagoOptions|}+2"
+    emitLn "LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+3"
+    emitLn "WEAPON_LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+4"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"
