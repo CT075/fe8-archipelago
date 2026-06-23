@@ -189,9 +189,9 @@ recruitedUnitDeploy u = "Deploy " ++ show u
 
 -- One constructor per promoted class an Archipelago item can unlock. Both
 -- gender variants of a class share one item. Great Lord is intentionally
--- absent (always unlocked), as are the trainee (2) classes. The trainee
--- constructors gate the tier-3 "super trainee" classes but are displayed
--- without the "(3)" suffix.
+-- absent (always unlocked), as are all trainee (1) promotions.
+-- The trainee constructors gate the tier-3 "super trainee" classes 
+-- but are displayed without the "(3)" suffix.
 data PromotedClass
     = Paladin
     | General
