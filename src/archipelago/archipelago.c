@@ -120,7 +120,7 @@ const struct PopupInstruction Popup_CanPromoteTo[] = {
 // nameTextId, and show it. The copy lets the popup proc keep reading valid
 // instructions after this function returns.
 static void
-showNamePopup(ProcPtr parent, const struct PopupInstruction *tmpl, u32 nameTextId) {
+swapTextId(ProcPtr parent, const struct PopupInstruction *tmpl, u32 nameTextId) {
   int i = 0;
   do {
     popupBuffer[i] = tmpl[i];
@@ -315,7 +315,7 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
   case UnitDeploy: {
     enum RecruitedUnit unit = evt->payload.recruitedUnit;
     setDeployPermit(unit);
-    showNamePopup(parent, Popup_UnitCanDeploy, kUnitNameTexts[unit]);
+    swapTextId(parent, Popup_UnitCanDeploy, kUnitNameTexts[unit]);
     break;
   }
   case ProgSethDeploy: {
@@ -326,7 +326,7 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
     }
     if (stage == 4) {
       setDeployPermit(Seth);
-      showNamePopup(parent, Popup_UnitCanDeploy, kUnitNameTexts[Seth]);
+      swapTextId(parent, Popup_UnitCanDeploy, kUnitNameTexts[Seth]);
     }
     else {
       const struct PopupInstruction *popup;
@@ -348,7 +348,7 @@ void giveAPEventReward(ProcPtr parent, struct IncomingEvent *evt) {
   case PromoUnlock: {
     enum PromotedClass cls = evt->payload.promotedClass;
     setPromoPermit(cls);
-    showNamePopup(parent, Popup_CanPromoteTo, kClassNameTexts[cls]);
+    swapTextId(parent, Popup_CanPromoteTo, kClassNameTexts[cls]);
     break;
   }
   };

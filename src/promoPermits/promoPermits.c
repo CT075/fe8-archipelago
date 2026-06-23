@@ -198,25 +198,9 @@ u8 ClassChgMenuItem_OnSelect(struct MenuProc *pmenu, struct MenuItemProc *pmitem
 }
 
 // Replaces the vanilla check (which requires having beaten both routes) so
-// the super-trainee path is available from the start. The trainee (2)
-// classes themselves are not gated; only promotion out of them into the (3)
-// classes is.
+// the super-trainee path is available from the start.
 bool Check3rdTraineeEnabled(void) {
-  struct GlobalSaveInfo info;
-
-  if (archipelagoOptions.promotionUnlocks)
-    return true;
-
-  if (!ReadGlobalSaveInfo(&info)) {
-    InitGlobalSaveInfodata();
-    ReadGlobalSaveInfo(&info);
-  }
-
-  if (info.Eirk_mode_easy || info.Eirk_mode_norm || info.Eirk_mode_hard)
-    if (info.Ephy_mode_easy || info.Ephy_mode_norm || info.Ephy_mode_hard)
-      return true;
-
-  return false;
+  return true;
 }
 
 // Replaces the vanilla usability check for promotion items (Hero Crest,
