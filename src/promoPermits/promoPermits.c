@@ -199,9 +199,7 @@ u8 ClassChgMenuItem_OnSelect(struct MenuProc *pmenu, struct MenuItemProc *pmitem
 
 // Replaces the vanilla check (which requires having beaten both routes) so
 // the super-trainee path is available from the start.
-bool Check3rdTraineeEnabled(void) {
-  return true;
-}
+bool Check3rdTraineeEnabled(void) { return true; }
 
 // Replaces the vanilla usability check for promotion items (Hero Crest,
 // Master Seal, ...). Replicates the vanilla logic, but a class-list match
@@ -209,25 +207,6 @@ bool Check3rdTraineeEnabled(void) {
 s8 CanUnitUsePromotionItem(struct Unit *unit, int item) {
   const u8 *classList = NULL;
   const u8 *it;
-
-  if (unit->pCharacterData->number == CHARACTER_EIRIKA ||
-      unit->pCharacterData->number == CHARACTER_EPHRAIM) {
-    switch (GetItemIndex(item)) {
-    case ITEM_LUNARBRACE:
-      classList = gItemUseJidList_LunarBrace;
-      break;
-    case ITEM_SOLARBRACE:
-      classList = gItemUseJidList_SolarBrace;
-      break;
-    }
-
-    if (classList) {
-      for (it = classList; *it; it++) {
-        if (unit->pClassData->number == *it)
-          return hasPermittedPromotionTarget(unit);
-      }
-    }
-  }
 
   if (unit->level < 10)
     return FALSE;
