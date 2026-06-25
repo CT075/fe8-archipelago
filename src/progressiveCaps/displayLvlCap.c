@@ -1,12 +1,12 @@
 #include "global.h"
 
-#include "statscreen.h"
 #include "fontgrp.h"
-#include "scene.h"
 #include "helpbox.h"
+#include "scene.h"
+#include "statscreen.h"
 
-#include "constants.h"
 #include "archipelago.h"
+#include "constants.h"
 #include "progressiveCaps.h"
 #include "ram_structures.h"
 
@@ -15,11 +15,9 @@
 // CR cam: this is hardcoded into [alltext.txt]
 #define LEVEL_CAP_ID_BASE 0x00DE
 
-int selectLevelCapTextId() {
-  return LEVEL_CAP_ID_BASE + progressiveCaps->lvlCapStage;
-}
+int selectLevelCapTextId() { return LEVEL_CAP_ID_BASE + progressiveCaps->lvlCapStage; }
 
-void StartHelpBoxExt(const struct HelpBoxInfo* info, int unk) {
+void StartHelpBoxExt(const struct HelpBoxInfo *info, int unk) {
   struct HelpBoxProc *proc;
   int wContent, hContent;
 
@@ -43,14 +41,16 @@ void StartHelpBoxExt(const struct HelpBoxInfo* info, int unk) {
 
   proc->info = info;
 
-  proc->timer    = 0;
+  proc->timer = 0;
   proc->timerMax = 12;
 
   proc->item = 0;
   proc->mid = info->mid;
 
-  // CR cam: it feels bad to hardcode this but it's easier than the alternatives
-  if (proc->mid == LEVEL_HELP_TEXT) {
+  // CR cam: it feels bad to hardcode this but it's easier than the alternatives.
+  // When level caps are disabled, leave proc->mid as the ROM's default Level
+  // help text instead of swapping in the level-cap text.
+  if (proc->mid == LEVEL_HELP_TEXT && archipelagoOptions.enableLevelCaps) {
     proc->mid = selectLevelCapTextId();
   }
 
