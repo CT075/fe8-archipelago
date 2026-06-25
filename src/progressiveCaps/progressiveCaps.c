@@ -3,34 +3,34 @@
 #include "global.h"
 
 #include "bmbattle.h"
-#include "bmunit.h"
 #include "bmitem.h"
-#include "variables.h"
-#include "statscreen.h"
-#include "icon.h"
-#include "hardware.h"
+#include "bmunit.h"
 #include "constants/items.h"
+#include "hardware.h"
+#include "icon.h"
+#include "statscreen.h"
+#include "variables.h"
 
-#include "constants.h"
 #include "archipelago.h"
+#include "constants.h"
 #include "progressiveCaps.h"
 #include "ram_structures.h"
 
 int GetStatIncrease(int growth);
-int GetUnitExpLevel(struct Unit*);
+int GetUnitExpLevel(struct Unit *);
 
 int getLevelCap() {
-  return 10 + progressiveCaps->lvlCapStage*5;
+  return archipelagoOptions.enableLevelCaps ? 10 + progressiveCaps->lvlCapStage * 5
+                                            : TRUE_LEVEL_CAP*2;
 }
 
 void bumpLevelCap() {
   progressiveCaps->lvlCapStage += 1;
 
-  for (int i = 0 ; i < BLUE_UNIT_MAX ; i += 1) {
+  for (int i = 0; i < BLUE_UNIT_MAX; i += 1) {
     struct Unit *unit = &gUnitArrayBlue[i];
-    if (   unit->exp == UNIT_EXP_DISABLED
-        && GetUnitExpLevel(unit) < getLevelCap()
-        && unit->level < TRUE_LEVEL_CAP) {
+    if (unit->exp == UNIT_EXP_DISABLED && GetUnitExpLevel(unit) < getLevelCap() &&
+        unit->level < TRUE_LEVEL_CAP) {
       unit->exp = 0;
     }
   }
@@ -65,13 +65,14 @@ void enforceLevelCap(struct BattleUnit *bu) {
       bu->expGain -= bu->unit.exp;
       bu->unit.exp = UNIT_EXP_DISABLED;
     }
-  } else if (GetUnitExpLevel(&bu->unit) >= getLevelCap()) {
+  }
+  else if (GetUnitExpLevel(&bu->unit) >= getLevelCap()) {
     bu->expGain -= bu->unit.exp;
     bu->unit.exp = UNIT_EXP_DISABLED;
   }
 }
 
-void UnitAutolevelRealistic(struct Unit* unit) {
+void UnitAutolevelRealistic(struct Unit *unit) {
   struct BattleUnit tmpBattleUnit;
   short levelsLeft;
 
@@ -103,10 +104,10 @@ void battleUnitLevelUp(struct BattleUnit *bu, bool isAutolevel) {
       enforceLevelCap(bu);
     }
 
-    growthBonus = (bu->unit.state & US_GROWTH_BOOST) ? 5: 0;
+    growthBonus = (bu->unit.state & US_GROWTH_BOOST) ? 5 : 0;
     statGainTotal = 0;
 
-    bu->changeHP  = GetStatIncrease(bu->unit.pCharacterData->growthHP + growthBonus);
+    bu->changeHP = GetStatIncrease(bu->unit.pCharacterData->growthHP + growthBonus);
     statGainTotal += bu->changeHP;
 
     bu->changePow = GetStatIncrease(bu->unit.pCharacterData->growthPow + growthBonus);
@@ -170,9 +171,7 @@ void battleUnitLevelUp(struct BattleUnit *bu, bool isAutolevel) {
   }
 }
 
-void CheckBattleUnitLevelUp(struct BattleUnit *bu) {
-  battleUnitLevelUp(bu, false);
-}
+void CheckBattleUnitLevelUp(struct BattleUnit *bu) { battleUnitLevelUp(bu, false); }
 
 void checkBattleUnitLevelUpUncapped(struct BattleUnit *bu) {
   battleUnitLevelUp(bu, true);
@@ -180,22 +179,22 @@ void checkBattleUnitLevelUpUncapped(struct BattleUnit *bu) {
 
 u8 *weaponLvlStage(int wType) {
   switch (wType) {
-    case ITYPE_SWORD:
-      return &progressiveCaps->swordLvlCapStage;
-    case ITYPE_LANCE:
-      return &progressiveCaps->lanceLvlCapStage;
-    case ITYPE_AXE:
-      return &progressiveCaps->axeLvlCapStage;
-    case ITYPE_BOW:
-      return &progressiveCaps->bowLvlCapStage;
-    case ITYPE_ANIMA:
-      return &progressiveCaps->animaLvlCapStage;
-    case ITYPE_LIGHT:
-      return &progressiveCaps->lightLvlCapStage;
-    case ITYPE_DARK:
-      return &progressiveCaps->darkLvlCapStage;
-    case ITYPE_STAFF:
-      return &progressiveCaps->staffLvlCapStage;
+  case ITYPE_SWORD:
+    return &progressiveCaps->swordLvlCapStage;
+  case ITYPE_LANCE:
+    return &progressiveCaps->lanceLvlCapStage;
+  case ITYPE_AXE:
+    return &progressiveCaps->axeLvlCapStage;
+  case ITYPE_BOW:
+    return &progressiveCaps->bowLvlCapStage;
+  case ITYPE_ANIMA:
+    return &progressiveCaps->animaLvlCapStage;
+  case ITYPE_LIGHT:
+    return &progressiveCaps->lightLvlCapStage;
+  case ITYPE_DARK:
+    return &progressiveCaps->darkLvlCapStage;
+  case ITYPE_STAFF:
+    return &progressiveCaps->staffLvlCapStage;
   }
   return &progressiveCaps->swordLvlCapStage;
 }
@@ -204,66 +203,75 @@ void bumpWeaponLevelCap(enum WeaponType wtype) {
   // CR-someday cam: This cast takes advantage of the specific ordering of the
   // weapon type listing in `Generate.hs`, which is not strictly a good idea,
   // but is unlikely to actually cause issues.
-  u8 *stage = weaponLvlStage((int) wtype);
+  u8 *stage = weaponLvlStage((int)wtype);
   *stage += 1;
 }
 
 int weaponLvlStageToWExp(u8 stage) {
   switch (stage) {
-    case 0:
-      return WPN_EXP_C;
-    case 1:
-      return WPN_EXP_B;
-    case 2:
-      return WPN_EXP_A;
-    default:
-      return WPN_EXP_S;
+  case 0:
+    return WPN_EXP_C;
+  case 1:
+    return WPN_EXP_B;
+  case 2:
+    return WPN_EXP_A;
+  default:
+    return WPN_EXP_S;
   }
 }
 
-int partyWeaponLevel(int wType) {
-  return weaponLvlStageToWExp(*weaponLvlStage(wType));
-}
+int partyWeaponLevel(int wType) { return weaponLvlStageToWExp(*weaponLvlStage(wType)); }
 
 int GetItemAwardedExp(int item) {
-  return 0;
+  return archipelagoOptions.enableWeaponLevelCaps ? 0 : GetItemData(item)->weaponExp;
 }
 
 int getPlayerUnitWeaponRank(struct Unit *unit, int wType) {
-  // !!x = 0 for x = 0 and 1 otherwise, so a weapon is usable iff the given
-  // unit has any rank for that weapon at all and the slot's weapon rank is
-  // high enough.
-  return (!!unit->pClassData->baseRanks[wType]) * partyWeaponLevel(wType);
+  if (archipelagoOptions.enableWeaponLevelCaps) {
+    // !!x = 0 for x = 0 and 1 otherwise, so a weapon is usable iff the given
+    // unit has any rank for that weapon at all and the slot's weapon rank is
+    // high enough.
+    return (!!unit->pClassData->baseRanks[wType]) * partyWeaponLevel(wType);
+  }
+
+  if (!unit->pClassData->baseRanks[wType])
+    return 0;
+  // Use the unit's own (vanilla) ranks. Randomized units have these
+  // set up by the randomizer to match their new class; non-randomized units
+  // keep their original ranks. Weapon exp earned in combat raises them.
+  return unit->ranks[wType];
 }
 
 int getUnitWeaponRank(struct Unit *unit, int wType) {
   switch (UNIT_FACTION(unit)) {
-    case FACTION_BLUE:
-      return getPlayerUnitWeaponRank(unit, wType);
+  case FACTION_BLUE:
+    return getPlayerUnitWeaponRank(unit, wType);
 
-    case FACTION_RED:
-    case FACTION_GREEN:
-      return unit->ranks[wType];
+  case FACTION_RED:
+  case FACTION_GREEN:
+    return unit->ranks[wType];
   }
 
   return unit->ranks[wType];
 }
 
 // CR cam: set this by class
-//int GetUnitBestWRankType(struct Unit *unit);
+// int GetUnitBestWRankType(struct Unit *unit);
 
 void ComputeBattleUnitWeaponRankBonuses(struct BattleUnit *bu) {
   if (bu->weapon) {
     int wType = GetItemType(bu->weapon);
 
     switch (UNIT_FACTION(&(bu->unit))) {
-      case FACTION_BLUE:
-        if (wType < 8 && partyWeaponLevel(wType) >= WPN_EXP_S) {
-          bu->battleHitRate += 10;
-          bu->battleCritRate += 15;
-        }
-        break;
-      default:
+    case FACTION_BLUE:
+      // Use the unit's effective rank so this works whether weapon level caps
+      // are enabled (party rank) or disabled (the unit's own vanilla rank).
+      if (wType < 8 && getUnitWeaponRank(&bu->unit, wType) >= WPN_EXP_S) {
+        bu->battleHitRate += 10;
+        bu->battleCritRate += 15;
+      }
+      break;
+    default:
     }
   }
 }
@@ -311,45 +319,46 @@ s8 CanUnitUseWeapon(struct Unit *unit, int item) {
         return FALSE;
   }
 
-  if ((unit->statusIndex == UNIT_STATUS_SILENCED) && (GetItemAttributes(item) & IA_MAGIC))
+  if ((unit->statusIndex == UNIT_STATUS_SILENCED) &&
+      (GetItemAttributes(item) & IA_MAGIC))
     return FALSE;
 
   int wRank = GetItemRequiredExp(item);
   int uRank = getUnitWeaponRank(unit, GetItemType(item));
 
   switch (ITEM_INDEX(item)) {
-    case ITEM_SWORD_SIEGLINDE:
-      if (IS_EIRIKA(unit)) {
-        wRank = WPN_EXP_E;
-      }
-      break;
-    case ITEM_LANCE_SIEGMUND:
-      if (IS_EPHRAIM(unit)) {
-        wRank = WPN_EXP_E;
-      }
-      break;
-    case ITEM_SWORD_RAPIER:
-      if (IS_EIRIKA(unit)) {
-        wRank = WPN_EXP_E;
-      }
-      else {
-        return FALSE;
-      }
-      break;
-    case ITEM_LANCE_REGINLEIF:
-      if (IS_EPHRAIM(unit)) {
-        wRank = WPN_EXP_E;
-      }
-      else {
-        return FALSE;
-      }
-      break;
+  case ITEM_SWORD_SIEGLINDE:
+    if (IS_EIRIKA(unit)) {
+      wRank = WPN_EXP_E;
+    }
+    break;
+  case ITEM_LANCE_SIEGMUND:
+    if (IS_EPHRAIM(unit)) {
+      wRank = WPN_EXP_E;
+    }
+    break;
+  case ITEM_SWORD_RAPIER:
+    if (IS_EIRIKA(unit)) {
+      wRank = WPN_EXP_E;
+    }
+    else {
+      return FALSE;
+    }
+    break;
+  case ITEM_LANCE_REGINLEIF:
+    if (IS_EPHRAIM(unit)) {
+      wRank = WPN_EXP_E;
+    }
+    else {
+      return FALSE;
+    }
+    break;
   }
 
   return (uRank >= wRank) ? TRUE : FALSE;
 }
 
-s8 CanUnitUseStaff(struct Unit* unit, int item) {
+s8 CanUnitUseStaff(struct Unit *unit, int item) {
   if (item == 0)
     return FALSE;
 
@@ -377,20 +386,21 @@ void DisplayWeaponExp(int num, int x, int y, int wtype) {
   int wexp = getUnitWeaponRank(gStatScreen.unit, wtype);
 
   // Display weapon type icon
-  DrawIcon(gUiTmScratchA + TILEMAP_INDEX(x, y),
-    0x70 + wtype, // TODO: icon id definitions
-    TILEREF(0, STATSCREEN_BGPAL_EXTICONS));
+  DrawIcon(
+      gUiTmScratchA + TILEMAP_INDEX(x, y),
+      0x70 + wtype, // TODO: icon id definitions
+      TILEREF(0, STATSCREEN_BGPAL_EXTICONS)
+  );
 
-  color = wexp >= WPN_EXP_S
-    ? TEXT_COLOR_SYSTEM_GREEN
-    : TEXT_COLOR_SYSTEM_BLUE;
+  color = wexp >= WPN_EXP_S ? TEXT_COLOR_SYSTEM_GREEN : TEXT_COLOR_SYSTEM_BLUE;
 
   // Display rank letter
-  PutSpecialChar(gUiTmScratchA + TILEMAP_INDEX(x + 4, y),
-    color,
-    GetDisplayRankStringFromExp(wexp));
+  PutSpecialChar(
+      gUiTmScratchA + TILEMAP_INDEX(x + 4, y), color, GetDisplayRankStringFromExp(wexp)
+  );
 
-  DrawStatBarGfx(0x401 + num*6, 5,
-    gUiTmScratchC + TILEMAP_INDEX(x + 2, y + 1), TILEREF(0, STATSCREEN_BGPAL_6),
-    0x22, 0, 0);
+  DrawStatBarGfx(
+      0x401 + num * 6, 5, gUiTmScratchC + TILEMAP_INDEX(x + 2, y + 1),
+      TILEREF(0, STATSCREEN_BGPAL_6), 0x22, 0, 0
+  );
 }
