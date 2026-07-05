@@ -561,13 +561,14 @@ emitPythonData emitLn = do
     forM_ [minBound @Item .. maxBound] $ emitLn . ("  " ++) . formatItem
     emitLn "]"
     emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
-    emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}"
-    -- CR-soon cam: compute these from `offsetof` instead of hardcoding
-    emitLn "LOCKPICK_USABILITY_OFFS = {|ROM_BASE:archipelagoOptions|}+1"
-    emitLn "DEATH_LINK_KIND_OFFS = {|ROM_BASE:archipelagoOptions|}+2"
-    emitLn "LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+3"
-    emitLn "WEAPON_LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+4"
-    emitLn "PROMOTION_UNLOCKS_OFFS = {|ROM_BASE:archipelagoOptions|}+5"
+    -- The `fake_*Offs` symbols are `offsetof` values exported by
+    -- `bin/export_addresses/export_addresses.c`.
+    emitLn "SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_superDemonKingOffs|}"
+    emitLn "LOCKPICK_USABILITY_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_lockpickUsabilityOffs|}"
+    emitLn "DEATH_LINK_KIND_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_deathLinkKindOffs|}"
+    emitLn "LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableLevelCapsOffs|}"
+    emitLn "WEAPON_LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableWeaponLevelCapsOffs|}"
+    emitLn "PROMOTION_UNLOCKS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_promotionUnlocksOffs|}"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"

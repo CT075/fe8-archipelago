@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "progressiveCaps.h"
 #include "archipelago.h"
+#include "progressiveCaps.h"
 #include "ram_structures.h"
 
 int main(int argc, char *argv[]) {
@@ -32,15 +32,49 @@ int main(int argc, char *argv[]) {
     printf("%08X receivedAPItem\n", RECEIVED_AP_ITEM_ADDR);
     printf("%08X receivedItemIndex\n", RECEIVED_ITEM_INDEX_ADDR);
     printf("%08X checkedLocations\n", CHECKED_LOCATIONS_ADDR);
-    printf("%08X deathLinkIn\n", DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, pendingIn));
-    printf("%08X deathLinkOut\n", DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, pendingOut));
-    printf("%08X deathLinkReady\n", DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, ready));
+    printf(
+        "%08X deathLinkIn\n",
+        DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, pendingIn)
+    );
+    printf(
+        "%08X deathLinkOut\n",
+        DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, pendingOut)
+    );
+    printf(
+        "%08X deathLinkReady\n",
+        DEATH_LINK_INFO_ADDR + offsetof(struct DeathLinkState, ready)
+    );
     // Fake symbols are a hack to reuse [populate_with_symbols] infrastructure
-    // to export the necessary [sizeof] data.
+    // to export the necessary [offsetof]/[sizeof] data.
     //
     // arm-none-eabi-gcc and modern gcc handle enum sizes differently, so this
-    // doesn't work properly anyway.
-    //printf("%08X fake_locItemSize\n", sizeof_round(struct LocationItem));
+    // is only safe for structs whose fields have a fixed size on both
+    // compilers (e.g. [__packed__] enums), which [ArchipelagoOptions] does.
+    printf(
+        "%08X fake_superDemonKingOffs\n",
+        (unsigned)offsetof(struct ArchipelagoOptions, superDemonKing)
+    );
+    printf(
+        "%08X fake_lockpickUsabilityOffs\n",
+        (unsigned)offsetof(struct ArchipelagoOptions, lockpickUsability)
+    );
+    printf(
+        "%08X fake_deathLinkKindOffs\n",
+        (unsigned)offsetof(struct ArchipelagoOptions, deathLinkKind)
+    );
+    printf(
+        "%08X fake_enableLevelCapsOffs\n",
+        (unsigned)offsetof(struct ArchipelagoOptions, enableLevelCaps)
+    );
+    printf(
+        "%08X fake_enableWeaponLevelCapsOffs\n",
+        (unsigned)offsetof(struct ArchipelagoOptions, enableWeaponLevelCaps)
+    );
+    printf(
+        "%08X fake_promotionUnlocksOffs\n",
+        (unsigned)offsetof(struct ArchipelagoOptions, promotionUnlocks)
+    );
+    // printf("%08X fake_locItemSize\n", sizeof_round(struct LocationItem));
   }
   else {
     printf("usage: ./export_addresses [Event/Sym]");

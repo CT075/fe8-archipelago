@@ -182,12 +182,12 @@ items = [
   ("Recruit Promotion", 89),
 ]
 SLOT_NAME_ADDR = {|archipelagoInfo|}
-SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}
-LOCKPICK_USABILITY_OFFS = {|ROM_BASE:archipelagoOptions|}+1
-DEATH_LINK_KIND_OFFS = {|ROM_BASE:archipelagoOptions|}+2
-LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+3
-WEAPON_LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+4
-PROMOTION_UNLOCKS_OFFS = {|ROM_BASE:archipelagoOptions|}+5
+SUPER_DEMON_KING_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_superDemonKingOffs|}
+LOCKPICK_USABILITY_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_lockpickUsabilityOffs|}
+DEATH_LINK_KIND_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_deathLinkKindOffs|}
+LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableLevelCapsOffs|}
+WEAPON_LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableWeaponLevelCapsOffs|}
+PROMOTION_UNLOCKS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_promotionUnlocksOffs|}
 LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}
 LOCATION_INFO_SIZE = 4
 ARCHIPELAGO_RECEIVED_ITEM_ADDR = {|receivedAPItem|}
