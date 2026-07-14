@@ -373,5 +373,97 @@ void unpackAPEventFromId(u16 id, struct IncomingEvent *dst) {
     case 66:
       dst->kind = ProgSethDeploy;
       break;
+    case 67:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Paladin;
+      break;
+    case 68:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = General;
+      break;
+    case 69:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Hero;
+      break;
+    case 70:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Swordmaster;
+      break;
+    case 71:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Assassin;
+      break;
+    case 72:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Sniper;
+      break;
+    case 73:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Ranger;
+      break;
+    case 74:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = WyvernLord;
+      break;
+    case 75:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = WyvernKnight;
+      break;
+    case 76:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Sage;
+      break;
+    case 77:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = MageKnight;
+      break;
+    case 78:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Bishop;
+      break;
+    case 79:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Druid;
+      break;
+    case 80:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Summoner;
+      break;
+    case 81:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Rogue;
+      break;
+    case 82:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = GreatKnight;
+      break;
+    case 83:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Warrior;
+      break;
+    case 84:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Berserker;
+      break;
+    case 85:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = FalconKnight;
+      break;
+    case 86:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Valkyrie;
+      break;
+    case 87:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Journeyman;
+      break;
+    case 88:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Pupil;
+      break;
+    case 89:
+      dst->kind = PromoUnlock;
+      dst->payload.promotedClass = Recruit;
+      break;
   };
 }

@@ -7,7 +7,8 @@ EVENTS_$(d) := $(d)/progCaps.lyn.event \
 	$(d)/receivedItems.lyn.event \
 	$(d)/convoy200.lyn.event \
 	$(d)/deployPermits.lyn.event \
-	$(d)/sethDeployStage.lyn.event
+	$(d)/sethDeployStage.lyn.event \
+	$(d)/promoPermits.lyn.event
 
 EVENTS := $(EVENTS) $(EVENTS_$(d))
 CLEAN := $(CLEAN) $(EVENTS_$(d)) $(d)/*.o

@@ -5,3 +5,4 @@ numReceivedItems,both,4,saveReceivedItemIndex,loadReceivedItemIndex
 convoy,both,(200*2),saveConvoy,loadConvoy
 deployPermits,both,4,saveDeployPermits,loadDeployPermits
 sethDeployStage,both,1,saveSethDeployStage,loadSethDeployStage
+promoPermits,both,4,savePromoPermits,loadPromoPermits

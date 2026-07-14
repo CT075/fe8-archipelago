@@ -11,6 +11,7 @@
 #include "archipelago/main.event"
 #include "events/main.event"
 #include "units/main.event"
+#include "promoPermits/main.event"
 #include "superFormortiis/superFormortiis.lyn.event"
 #include "moveCostFix/moveCosts.lyn.event"
 #include "DangerZone/DangerZone.event"
