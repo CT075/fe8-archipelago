@@ -10,34 +10,6 @@
 
 typedef enum text_colors TextColor;
 
-const struct SSTextDispInfo sPage0TextInfo[] = {
-  /*
-  { gStatScreen.text + STATSCREEN_TEXT_SKLLABEL, gUiTmScratchA + TILEMAP_INDEX(1, 3),
-    TEXT_COLOR_0123, 0, &gMid_Skl },
-  { gStatScreen.text + STATSCREEN_TEXT_SPDLABEL, gUiTmScratchA + TILEMAP_INDEX(1, 5),
-    TEXT_COLOR_0456, 0, &gMid_Spd },
-  { gStatScreen.text + STATSCREEN_TEXT_LCKLABEL, gUiTmScratchA + TILEMAP_INDEX(1, 7),
-    TEXT_COLOR_0789, 0, &gMid_Lck },
-  { gStatScreen.text + STATSCREEN_TEXT_DEFLABEL, gUiTmScratchA + TILEMAP_INDEX(1, 9),
-    TEXT_COLOR_0ABC, 0, &gMid_Def },
-  { gStatScreen.text + STATSCREEN_TEXT_RESLABEL, gUiTmScratchA + TILEMAP_INDEX(1, 11),
-    TEXT_COLOR_0DEF, 0, &gMid_Res },
-  */
-  { gStatScreen.text + STATSCREEN_TEXT_MOVLABEL, gUiTmScratchA + TILEMAP_INDEX(9, 1),
-    TEXT_COLOR_SYSTEM_GOLD, 0, &gMid_Mov },
-  { gStatScreen.text + STATSCREEN_TEXT_CONLABEL, gUiTmScratchA + TILEMAP_INDEX(9, 3),
-    TEXT_COLOR_SYSTEM_GOLD, 0, &gMid_Con },
-  { gStatScreen.text + STATSCREEN_TEXT_AIDLABEL, gUiTmScratchA + TILEMAP_INDEX(9, 5),
-    TEXT_COLOR_SYSTEM_GOLD, 0, &gMid_Aid },
-  { gStatScreen.text + STATSCREEN_TEXT_RESCUENAME, gUiTmScratchA + TILEMAP_INDEX(9, 7),
-    TEXT_COLOR_SYSTEM_GOLD, 0, &gMid_Trv },
-  { gStatScreen.text + STATSCREEN_TEXT_AFFINLABEL, gUiTmScratchA + TILEMAP_INDEX(9, 9),
-    TEXT_COLOR_SYSTEM_GOLD, 0, &gMid_Affin },
-  { gStatScreen.text + STATSCREEN_TEXT_STATUS, gUiTmScratchA + TILEMAP_INDEX(9, 11),
-    TEXT_COLOR_SYSTEM_GOLD, 0, &gMid_Cnd },
-  {}, // end
-};
-
 TextColor selectGrowthColor(u8 growth) {
   if ((gStatScreen.unit->index & 0xC0) != FACTION_BLUE) {
     return TEXT_COLOR_SYSTEM_GOLD;
