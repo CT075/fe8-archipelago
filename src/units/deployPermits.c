@@ -1,4 +1,5 @@
 #include "deployPermits.h"
+#include "archipelago.h"
 #include "bmmap.h"
 #include "bmudisp.h"
 #include "bmunit.h"
@@ -88,6 +89,9 @@ enum RecruitedUnit charIdToRecruitedUnit(u8 charId) {
 void setDeployPermit(enum RecruitedUnit unit) { *deployPermits |= (1u << (int)unit); }
 
 bool canDeployUnit(enum RecruitedUnit unit) {
+  if (!archipelagoOptions.recruitChecksEnabled) {
+    return true;
+  }
   return (*deployPermits >> (int)unit) & 1;
 }
 
@@ -189,7 +193,7 @@ static void applyPendingPermit(void) {
 void PrepScreenReset(void *unused_proc) {
   applyPendingPermit();
   u8 chapterTag = (u8)(gPlaySt.chapterIndex) | 0x80;
-  if (*lastResetChapter != chapterTag) {
+  if (archipelagoOptions.recruitChecksEnabled && *lastResetChapter != chapterTag) {
     resetPrepDeployment();
     RefreshEntityBmMaps();
     RefreshUnitSprites();

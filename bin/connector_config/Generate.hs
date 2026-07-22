@@ -569,6 +569,7 @@ emitPythonData emitLn = do
     emitLn "LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableLevelCapsOffs|}"
     emitLn "WEAPON_LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableWeaponLevelCapsOffs|}"
     emitLn "PROMOTION_UNLOCKS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_promotionUnlocksOffs|}"
+    emitLn "RECRUIT_CHECKS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_recruitChecksEnabledOffs|}"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"

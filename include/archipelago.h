@@ -59,6 +59,7 @@ struct ArchipelagoOptions {
   bool enableLevelCaps;
   bool enableWeaponLevelCaps;
   bool promotionUnlocks;
+  bool recruitChecksEnabled;
 };
 
 struct ArchipelagoInfo {

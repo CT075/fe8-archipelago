@@ -188,6 +188,7 @@ DEATH_LINK_KIND_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_deathLinkKindOffs|
 LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableLevelCapsOffs|}
 WEAPON_LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableWeaponLevelCapsOffs|}
 PROMOTION_UNLOCKS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_promotionUnlocksOffs|}
+RECRUIT_CHECKS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_recruitChecksEnabledOffs|}
 LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}
 LOCATION_INFO_SIZE = 4
 ARCHIPELAGO_RECEIVED_ITEM_ADDR = {|receivedAPItem|}

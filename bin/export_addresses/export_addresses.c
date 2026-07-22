@@ -74,6 +74,10 @@ int main(int argc, char *argv[]) {
         "%08X fake_promotionUnlocksOffs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, promotionUnlocks)
     );
+    printf(
+        "%08X fake_recruitChecksEnabledOffs\n",
+        (unsigned)offsetof(struct ArchipelagoOptions, recruitChecksEnabled)
+    );
     // printf("%08X fake_locItemSize\n", sizeof_round(struct LocationItem));
   }
   else {
