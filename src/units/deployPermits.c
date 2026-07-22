@@ -8,6 +8,7 @@
 #include "global.h"
 #include "m4a.h"
 #include "prepscreen.h"
+#include "promoPermits.h"
 #include "ram_structures.h"
 #include "types.h"
 #include "unitlistscreen.h"
@@ -149,10 +150,10 @@ void PrepScreenProc_InitMapMenu(struct ProcPrepSallyCursor *proc) {
   PrepScreenProc_StartMapMenu(proc);
 }
 
-// If a deploy permit item was written by the Python client while on the world map,
-// apply it now so it takes effect before the prep screen is shown. Other item types
-// wait for player phase where they show proper popups.
-static void applyPendingDeployPermit(void) {
+// If a deploy or promotion permit item was written by the Python client while on
+// the world map, apply it now so it takes effect before the prep screen is shown.
+// Other item types wait for player phase where they show proper popups.
+static void applyPendingPermit(void) {
   if (!receivedAPItem->filled) {
     return;
   }
@@ -175,13 +176,18 @@ static void applyPendingDeployPermit(void) {
     receivedAPItem->filled = 0;
     *receivedItemIndex += 1;
   }
+  else if (evt.kind == PromoUnlock) {
+    setPromoPermit(evt.payload.promotedClass);
+    receivedAPItem->filled = 0;
+    *receivedItemIndex += 1;
+  }
 }
 
 // Hooks the EnablePrepScreenMenu proc call at 0x0859DD14 (pointer at 0x0859DD18).
 // Called on EVERY path that makes the prep screen visible -- both initial chapter
 // entry and returns from the unit-list browser -- so the guard distinguishes them.
 void PrepScreenReset(void *unused_proc) {
-  applyPendingDeployPermit();
+  applyPendingPermit();
   u8 chapterTag = (u8)(gPlaySt.chapterIndex) | 0x80;
   if (*lastResetChapter != chapterTag) {
     resetPrepDeployment();
