@@ -491,8 +491,12 @@ static const struct {
   { CHARACTER_SYRENE, Syrene },
 };
 
+// Don't fire recruitment checks in chapter 5x
+#define CH_5X_CHAPTER_INDEX 0x05
+
 void checkAllPlayerUnitsRecruited(ProcPtr proc) {
-  if (gPlaySt.chapterStateBits & PLAY_FLAG_EXTRA_MAP) {
+  if ((gPlaySt.chapterStateBits & PLAY_FLAG_EXTRA_MAP) ||
+      gPlaySt.chapterIndex == CH_5X_CHAPTER_INDEX) {
     return;
   }
   for (int i = 0; i < (int)(sizeof(kTrackedChars) / sizeof(kTrackedChars[0])); i++) {
