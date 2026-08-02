@@ -60,6 +60,37 @@ struct ArchipelagoOptions {
   bool enableWeaponLevelCaps;
   bool promotionUnlocks;
   bool recruitChecksEnabled;
+  bool freeSeth;
+  bool freeFranz;
+  bool freeGilliam;
+  bool freeVanessa;
+  bool freeMoulder;
+  bool freeRoss;
+  bool freeGarcia;
+  bool freeNeimi;
+  bool freeColm;
+  bool freeArtur;
+  bool freeLute;
+  bool freeNatasha;
+  bool freeJoshua;
+  bool freeForde;
+  bool freeKyle;
+  bool freeTana;
+  bool freeAmelia;
+  bool freeInnes;
+  bool freeGerik;
+  bool freeTethys;
+  bool freeMarisa;
+  bool freeLArachel;
+  bool freeDozla;
+  bool freeEwan;
+  bool freeCormag;
+  bool freeRennac;
+  bool freeDuessel;
+  bool freeKnoll;
+  bool freeMyrrh;
+  bool freeSyrene;
+  bool freeSaleh;
 };
 
 struct ArchipelagoInfo {

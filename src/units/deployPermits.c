@@ -92,7 +92,76 @@ bool canDeployUnit(enum RecruitedUnit unit) {
   if (!archipelagoOptions.recruitChecksEnabled) {
     return true;
   }
-  return (*deployPermits >> (int)unit) & 1;
+  return ((*deployPermits >> (int)unit) & 1) || (freeDeployUnit & 1);
+}
+
+bool freeDeployUnit(enum RecruitedUnit unit) {
+  switch(unit)
+  case Seth:
+    return archipelagoOptions.freeSeth;
+  case Franz:
+    return archipelagoOptions.freeFranz;
+  case Gilliam:
+    return archipelagoOptions.freeGilliam;
+  case Vanessa:
+    return archipelagoOptions.freeVanessa;
+  case Moulder:
+    return archipelagoOptions.freeMoulder;
+  case Ross:
+    return archipelagoOptions.freeRoss;
+  case Garcia:
+    return archipelagoOptions.freeGarcia;
+  case Neimi:
+    return archipelagoOptions.freeNeimi;
+  case Colm:
+    return archipelagoOptions.freeColm;
+  case Artur:
+    return archipelagoOptions.freeArtur;
+  case Lute:
+    return archipelagoOptions.freeLute;
+  case Natasha:
+    return archipelagoOptions.freeNatasha;
+  case Joshua:
+    return archipelagoOptions.freeJoshua;
+  case Forde:
+    return archipelagoOptions.freeForde;
+  case Kyle:
+    return archipelagoOptions.freeKyle;
+  case Tana:
+    return archipelagoOptions.freeTana;
+  case Amelia:
+    return archipelagoOptions.freeAmelia;
+  case Innes:
+    return archipelagoOptions.freeInnes;
+  case Gerik:
+    return archipelagoOptions.freeGerik;
+  case Tethys:
+    return archipelagoOptions.freeTethys;
+  case Marisa:
+    return archipelagoOptions.freeMarisa;
+  case LArachel:
+    return archipelagoOptions.freeLArachel;
+  case Dozla:
+    return archipelagoOptions.freeDozla;
+  case Saleh:
+    return archipelagoOptions.freeSaleh;
+  case Ewan:
+    return archipelagoOptions.freeEwan;
+  case Cormag:
+    return archipelagoOptions.freeCormag;
+  case Rennac:
+    return archipelagoOptions.freeRennac;
+  case Duessel:
+    return archipelagoOptions.freeDuessel;
+  case Knoll:
+    return archipelagoOptions.freeKnoll;
+  case Myrrh:
+    return archipelagoOptions.freeMyrrh;
+  case Syrene:
+    return archipelagoOptions.freeSyrene;
+  default:
+    return -1;
+
 }
 
 // Iterates all player units and resets recruitable ones to undeployed.
