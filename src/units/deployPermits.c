@@ -88,15 +88,8 @@ enum RecruitedUnit charIdToRecruitedUnit(u8 charId) {
 
 void setDeployPermit(enum RecruitedUnit unit) { *deployPermits |= (1u << (int)unit); }
 
-bool canDeployUnit(enum RecruitedUnit unit) {
-  if (!archipelagoOptions.recruitChecksEnabled) {
-    return true;
-  }
-  return ((*deployPermits >> (int)unit) & 1) || (freeDeployUnit & 1);
-}
-
 bool freeDeployUnit(enum RecruitedUnit unit) {
-  switch(unit)
+  switch(unit){
   case Seth:
     return archipelagoOptions.freeSeth;
   case Franz:
@@ -161,7 +154,14 @@ bool freeDeployUnit(enum RecruitedUnit unit) {
     return archipelagoOptions.freeSyrene;
   default:
     return -1;
+  }
+}
 
+bool canDeployUnit(enum RecruitedUnit unit) {
+  if (!archipelagoOptions.recruitChecksEnabled) {
+    return true;
+  }
+  return ((*deployPermits >> (int)unit) & 1) || (freeDeployUnit(unit) & 1);
 }
 
 // Iterates all player units and resets recruitable ones to undeployed.
