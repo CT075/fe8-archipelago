@@ -26,7 +26,7 @@
 import Prelude hiding (head, last)
 
 import Control.Monad (forM_)
-import qualified Data.List.Extra as List
+import qualified Data.List as List
 import Data.List.NonEmpty (NonEmpty ((:|)), head, last, toList)
 import GHC.Generics
 import System.Environment (getArgs)
