@@ -601,7 +601,9 @@ emitPythonData emitLn = do
     emitLn "FREE_KNOLL = {|ROM_BASE:archipelagoOptions|}+{|fake_freeKnollOffs|}"
     emitLn "FREE_JOSHUA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeJoshuaOffs|}"
     emitLn "FREE_SYRENE = {|ROM_BASE:archipelagoOptions|}+{|fake_freeSyreneOffs|}"
-    emitLn "FREE_TANA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeTanaOffs|}"
+    -- Tana breaks the ability to save the game, the code for tana to work is still active
+    -- just this output breaks saving.
+    --emitLn "FREE_TANA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeTanaOffs|}"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"
