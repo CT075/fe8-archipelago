@@ -79,127 +79,127 @@ int main(int argc, char *argv[]) {
         (unsigned)offsetof(struct ArchipelagoOptions, recruitChecksEnabled)
     );
     printf(
-        "%08X fake_freeSethOffs\n",
+        "%08X fake_free\"Seth\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeSeth)
     );
     printf(
-        "%08X fake_freeFranzOffs\n",
+        "%08X fake_free\"Franz\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeFranz)
     );
     printf(
-        "%08X fake_freeGilliamOffs\n",
+        "%08X fake_free\"Gilliam\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeGilliam)
     );
     printf(
-        "%08X fake_freeVanessaOffs\n",
+        "%08X fake_free\"Vanessa\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeVanessa)
     );
     printf(
-        "%08X fake_freeMoulderOffs\n",
+        "%08X fake_free\"Moulder\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeMoulder)
     );
     printf(
-        "%08X fake_freeRossOffs\n",
+        "%08X fake_free\"Ross\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeRoss)
     );
     printf(
-        "%08X fake_freeGarciaOffs\n",
+        "%08X fake_free\"Garcia\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeGarcia)
     );
     printf(
-        "%08X fake_freeNeimiOffs\n",
+        "%08X fake_free\"Neimi\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeNeimi)
     );
     printf(
-        "%08X fake_freeColmOffs\n",
+        "%08X fake_free\"Colm\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeColm)
     );
     printf(
-        "%08X fake_freeArturOffs\n",
+        "%08X fake_free\"Artur\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeArtur)
     );
     printf(
-        "%08X fake_freeLuteOffs\n",
+        "%08X fake_free\"Lute\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeLute)
     );
     printf(
-        "%08X fake_freeNatashaOffs\n",
+        "%08X fake_free\"Natasha\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeNatasha)
     );
     printf(
-        "%08X fake_freeJoshuaOffs\n",
+        "%08X fake_free\"Joshua\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeJoshua)
     );
     printf(
-        "%08X fake_freeFordeOffs\n",
+        "%08X fake_free\"Forde\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeForde)
     );
     printf(
-        "%08X fake_freeKyleOffs\n",
+        "%08X fake_free\"Kyle\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeKyle)
     );
     printf(
-        "%08X fake_freeTanaOffs\n",
+        "%08X fake_free\"Tana\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeTana)
     );
     printf(
-        "%08X fake_freeAmeliaOffs\n",
+        "%08X fake_free\"Amelia\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeAmelia)
     );
     printf(
-        "%08X fake_freeInnesOffs\n",
+        "%08X fake_free\"Innes\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeInnes)
     );
     printf(
-        "%08X fake_freeGerikOffs\n",
+        "%08X fake_free\"Gerik\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeGerik)
     );
     printf(
-        "%08X fake_freeTethysOffs\n",
+        "%08X fake_free\"Tethys\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeTethys)
     );
     printf(
-        "%08X fake_freeMarisaOffs\n",
+        "%08X fake_free\"Marisa\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeMarisa)
     );
     printf(
-        "%08X fake_freeLArachelOffs\n",
+        "%08X fake_free\"L\'Arachel\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeLArachel)
     );
     printf(
-        "%08X fake_freeDozlaOffs\n",
+        "%08X fake_free\"Dozla\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeDozla)
     );
     printf(
-        "%08X fake_freeSalehOffs\n",
+        "%08X fake_free\"Saleh\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeSaleh)
     );
     printf(
-        "%08X fake_freeEwanOffs\n",
+        "%08X fake_free\"Ewan\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeEwan)
     );
     printf(
-        "%08X fake_freeCormagOffs\n",
+        "%08X fake_free\"Cormag\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeCormag)
     );
     printf(
-        "%08X fake_freeRennacOffs\n",
+        "%08X fake_free\"Rennac\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeRennac)
     );
     printf(
-        "%08X fake_freeDuesselOffs\n",
+        "%08X fake_free\"Duessel\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeDuessel)
     );
     printf(
-        "%08X fake_freeKnollOffs\n",
+        "%08X fake_free\"Knoll\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeKnoll)
     );
     printf(
-        "%08X fake_freeMyrrhOffs\n",
+        "%08X fake_free\"Myrrh\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeMyrrh)
     );
     printf(
-        "%08X fake_freeSyreneOffs\n",
+        "%08X fake_free\"Syrene\"Offs\n",
         (unsigned)offsetof(struct ArchipelagoOptions, freeSyrene)
     );
     // printf("%08X fake_locItemSize\n", sizeof_round(struct LocationItem));

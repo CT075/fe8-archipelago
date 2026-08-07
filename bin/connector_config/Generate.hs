@@ -184,6 +184,10 @@ recruitedUnitLong :: RecruitedUnit -> String
 recruitedUnitLong LArachel = "L'Arachel Recruited"
 recruitedUnitLong u = show u ++ " Recruited"
 
+recruitedUnitShort :: RecruitedUnit -> String
+recruitedUnitShort LArachel = "L'Arachel"
+recruitedUnitShort u = show u
+
 recruitedUnitDeploy :: RecruitedUnit -> String
 recruitedUnitDeploy LArachel = "Deploy L'Arachel"
 recruitedUnitDeploy u = "Deploy " ++ show u
@@ -561,6 +565,9 @@ emitPythonData emitLn = do
     emitLn "items = ["
     forM_ [minBound @Item .. maxBound] $ emitLn . ("  " ++) . formatItem
     emitLn "]"
+    emitLn "FREE_UNIT_LOC = {"
+    forM_ [minBound @RecruitedUnit .. maxBound] $ emitLn . ("  " ++) . formatFreeUnit
+    emitLn "}"
     emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
     -- The `fake_*Offs` symbols are `offsetof` values exported by
     -- `bin/export_addresses/export_addresses.c`.
@@ -571,39 +578,6 @@ emitPythonData emitLn = do
     emitLn "WEAPON_LEVEL_CAPS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_enableWeaponLevelCapsOffs|}"
     emitLn "PROMOTION_UNLOCKS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_promotionUnlocksOffs|}"
     emitLn "RECRUIT_CHECKS_OFFS = {|ROM_BASE:archipelagoOptions|}+{|fake_recruitChecksEnabledOffs|}"
-    emitLn "FREE_SETH = {|ROM_BASE:archipelagoOptions|}+{|fake_freeSethOffs|}"
-    emitLn "FREE_FRANZ = {|ROM_BASE:archipelagoOptions|}+{|fake_freeFranzOffs|}"
-    emitLn "FREE_GILLIAM = {|ROM_BASE:archipelagoOptions|}+{|fake_freeGilliamOffs|}"
-    emitLn "FREE_VANESSA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeVanessaOffs|}"
-    emitLn "FREE_MOULDER = {|ROM_BASE:archipelagoOptions|}+{|fake_freeMoulderOffs|}"
-    emitLn "FREE_ROSS = {|ROM_BASE:archipelagoOptions|}+{|fake_freeRossOffs|}"
-    emitLn "FREE_GARCIA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeGarciaOffs|}"
-    emitLn "FREE_NEIMI = {|ROM_BASE:archipelagoOptions|}+{|fake_freeNeimiOffs|}"
-    emitLn "FREE_COLM = {|ROM_BASE:archipelagoOptions|}+{|fake_freeColmOffs|}"
-    emitLn "FREE_ARTUR = {|ROM_BASE:archipelagoOptions|}+{|fake_freeArturOffs|}"
-    emitLn "FREE_LUTE = {|ROM_BASE:archipelagoOptions|}+{|fake_freeLuteOffs|}"
-    emitLn "FREE_NATASHA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeNatashaOffs|}"
-    emitLn "FREE_JOSHUA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeJoshuaOffs|}"
-    emitLn "FREE_FORDE = {|ROM_BASE:archipelagoOptions|}+{|fake_freeFordeOffs|}"
-    emitLn "FREE_KYLE = {|ROM_BASE:archipelagoOptions|}+{|fake_freeKyleOffs|}"
-    -- Tana breaks the ability to save the game, the code for tana to work is still active
-    -- just this output breaks saving.
-    --emitLn "FREE_TANA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeTanaOffs|}"
-    emitLn "FREE_AMELIA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeAmeliaOffs|}"
-    emitLn "FREE_INNES = {|ROM_BASE:archipelagoOptions|}+{|fake_freeInnesOffs|}"
-    emitLn "FREE_GERIK = {|ROM_BASE:archipelagoOptions|}+{|fake_freeGerikOffs|}"
-    emitLn "FREE_TETHYS = {|ROM_BASE:archipelagoOptions|}+{|fake_freeTethysOffs|}"
-    emitLn "FREE_MARISA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeMarisaOffs|}"
-    emitLn "FREE_LARACHEL = {|ROM_BASE:archipelagoOptions|}+{|fake_freeLArachelOffs|}"
-    emitLn "FREE_DOZLA = {|ROM_BASE:archipelagoOptions|}+{|fake_freeDozlaOffs|}"
-    emitLn "FREE_SALEH = {|ROM_BASE:archipelagoOptions|}+{|fake_freeSalehOffs|}"
-    emitLn "FREE_EWAN = {|ROM_BASE:archipelagoOptions|}+{|fake_freeEwanOffs|}"
-    emitLn "FREE_CORMAG = {|ROM_BASE:archipelagoOptions|}+{|fake_freeCormagOffs|}"
-    emitLn "FREE_RENNAC = {|ROM_BASE:archipelagoOptions|}+{|fake_freeRennacOffs|}"
-    emitLn "FREE_DUESSEL = {|ROM_BASE:archipelagoOptions|}+{|fake_freeDuesselOffs|}"
-    emitLn "FREE_KNOLL = {|ROM_BASE:archipelagoOptions|}+{|fake_freeKnollOffs|}"
-    emitLn "FREE_MYRRH = {|ROM_BASE:archipelagoOptions|}+{|fake_freeMyrrhOffs|}"
-    emitLn "FREE_SYRENE = {|ROM_BASE:archipelagoOptions|}+{|fake_freeSyreneOffs|}"
     emitLn "LOCATION_INFO_OFFS = {|ROM_BASE:locItems|}"
     -- CR-someday cam: compute this from `sizeof(LocationItem)` instead of hardcoding
     emitLn "LOCATION_INFO_SIZE = 4"
@@ -645,6 +619,12 @@ emitPythonData emitLn = do
             ++ ", "
             ++ show (fromEnum $ UnitRecruited u)
             ++ "),"
+    formatFreeUnit u =
+        ""
+            ++ show (recruitedUnitShort u)
+            ++ ": {|ROM_BASE:archipelagoOptions|}+{|fake_free"
+            ++ show (recruitedUnitShort u)
+            ++ "Offs|},"
 
     formatItem item = "(" ++ show (itemName item) ++ ", " ++ show (fromEnum item) ++ "),"
 
