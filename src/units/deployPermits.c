@@ -154,7 +154,7 @@ bool freeDeployUnit(enum RecruitedUnit unit) {
   case Syrene:
     return archipelagoOptions.freeSyrene;
   default:
-    return -1;
+    return false;
   }
 }
 
@@ -162,7 +162,7 @@ bool canDeployUnit(enum RecruitedUnit unit) {
   if (!archipelagoOptions.recruitChecksEnabled) {
     return true;
   }
-  return ((*deployPermits >> (int)unit) & 1) || (freeDeployUnit(unit) & 1);
+  return ((*deployPermits >> (int)unit) & 1) || (freeDeployUnit(unit));
 }
 
 // Iterates all player units and resets recruitable ones to undeployed.

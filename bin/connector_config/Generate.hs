@@ -293,7 +293,7 @@ instance Bounded Chapter where
 
 instance Enum Chapter where
     toEnum i =
-        case allChapters Main.!? i of
+        case allChapters !? i of
             Just c -> c
             Nothing -> error $ "invalid chapter index " ++ show i
 
