@@ -623,7 +623,7 @@ emitPythonData emitLn = do
         ""
             ++ show (recruitedUnitShort u)
             ++ ": {|ROM_BASE:archipelagoOptions|}+{|fake_free"
-            ++ show (recruitedUnitShort u)
+            ++ id (recruitedUnitShort u)
             ++ "Offs|},"
 
     formatItem item = "(" ++ show (itemName item) ++ ", " ++ show (fromEnum item) ++ "),"
