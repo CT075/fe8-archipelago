@@ -491,12 +491,20 @@ static const struct {
   { CHARACTER_SYRENE, Syrene },
 };
 
+// Don't fire recruitment checks in chapter 5x
+#define CH_5X_CHAPTER_INDEX 0x05
+
 void checkAllPlayerUnitsRecruited(ProcPtr proc) {
-  if (gPlaySt.chapterStateBits & PLAY_FLAG_EXTRA_MAP) {
+  if ((gPlaySt.chapterStateBits & PLAY_FLAG_EXTRA_MAP) ||
+      gPlaySt.chapterIndex == CH_5X_CHAPTER_INDEX) {
     return;
   }
   for (int i = 0; i < (int)(sizeof(kTrackedChars) / sizeof(kTrackedChars[0])); i++) {
-    if (GetUnitFromCharIdAndFaction(kTrackedChars[i].charId, FACTION_ID_BLUE)) {
+    struct Unit *unit =
+        GetUnitFromCharIdAndFaction(kTrackedChars[i].charId, FACTION_ID_BLUE);
+    // Units marked away (US_BIT16) are in the roster but not recruited yet;
+    // FE8 uses this for Ephraim's party between the end of 5x and chapter 8.
+    if (unit && !(unit->state & US_BIT16)) {
       handleUnitRecruited(proc, kTrackedChars[i].unit);
     }
   }

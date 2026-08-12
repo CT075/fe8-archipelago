@@ -123,6 +123,8 @@ gGameSaveChunks:
 	DeclSaveChunk($0DB0, $0018, MSa_SaveDungeonState, MSa_LoadDungeonState) // Valni/Lagdou permanent data
 #include save_chunks.gen.event
 
+	DeclSaveChunk(0, 0, 0, clearLastResetChapter) // Force prep deploy reset on next chapter entry
+
 	// free up to $1344 ($57C free bytes)
 
 	DeclSaveChunkEnd

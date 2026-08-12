@@ -1,4 +1,5 @@
 #include "deployPermits.h"
+#include "archipelago.h"
 #include "bmmap.h"
 #include "bmudisp.h"
 #include "bmunit.h"
@@ -16,6 +17,7 @@
 
 extern void PrepUnit_DrawUnitListNames(struct ProcPrepUnit *proc);
 
+// Returns FreeUnit for characters without a recruit check (the lords, Orson).
 enum RecruitedUnit charIdToRecruitedUnit(u8 charId) {
   switch (charId) {
   case CHARACTER_SETH:
@@ -81,13 +83,16 @@ enum RecruitedUnit charIdToRecruitedUnit(u8 charId) {
   case CHARACTER_SYRENE:
     return Syrene;
   default:
-    return -1;
+    return FreeUnit;
   }
 }
 
 void setDeployPermit(enum RecruitedUnit unit) { *deployPermits |= (1u << (int)unit); }
 
 bool canDeployUnit(enum RecruitedUnit unit) {
+  if (!archipelagoOptions.recruitChecksEnabled) {
+    return true;
+  }
   return (*deployPermits >> (int)unit) & 1;
 }
 
@@ -102,7 +107,7 @@ static void resetPrepDeployment(void) {
       continue;
     int charId = UNIT_CHAR_ID(unit);
     int ru = charIdToRecruitedUnit((u8)charId);
-    if (ru == -1)
+    if (ru == FreeUnit)
       continue;
     if (IsCharacterForceDeployed(charId))
       continue;
@@ -130,7 +135,7 @@ void UnitList_TogglePrepDeployState(struct UnitListScreenProc *proc) {
   // Not deployed — check permit before allowing deploy.
   int charId = UNIT_CHAR_ID(unit);
   int ru = charIdToRecruitedUnit((u8)charId);
-  if (ru != -1 && !canDeployUnit((enum RecruitedUnit)ru)) {
+  if (ru != FreeUnit && !canDeployUnit((enum RecruitedUnit)ru)) {
     m4aSongNumStart(0x6c);
     return;
   }
@@ -139,7 +144,7 @@ void UnitList_TogglePrepDeployState(struct UnitListScreenProc *proc) {
 
 bool CanCharacterBePrepMoved(int charId) {
   int ru = charIdToRecruitedUnit((u8)charId);
-  if (ru != -1 && !canDeployUnit((enum RecruitedUnit)ru)) {
+  if (ru != FreeUnit && !canDeployUnit((enum RecruitedUnit)ru)) {
     return false;
   }
   return !IsCharacterForceDeployed(charId);
@@ -189,7 +194,7 @@ static void applyPendingPermit(void) {
 void PrepScreenReset(void *unused_proc) {
   applyPendingPermit();
   u8 chapterTag = (u8)(gPlaySt.chapterIndex) | 0x80;
-  if (*lastResetChapter != chapterTag) {
+  if (archipelagoOptions.recruitChecksEnabled && *lastResetChapter != chapterTag) {
     resetPrepDeployment();
     RefreshEntityBmMaps();
     RefreshUnitSprites();
@@ -203,7 +208,7 @@ void PrepScreenReset(void *unused_proc) {
 int PrepCheckCanSelectUnit(struct ProcPrepUnit *proc, struct Unit *unit) {
   int charId = UNIT_CHAR_ID(unit);
   int ru = charIdToRecruitedUnit((u8)charId);
-  if (ru != -1 && !canDeployUnit((enum RecruitedUnit)ru)) {
+  if (ru != FreeUnit && !canDeployUnit((enum RecruitedUnit)ru)) {
     m4aSongNumStart(0x6c);
     return 0;
   }
