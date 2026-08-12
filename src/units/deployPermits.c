@@ -17,7 +17,7 @@
 
 extern void PrepUnit_DrawUnitListNames(struct ProcPrepUnit *proc);
 
-// Returns 31 for characters that are not recruit checks (the lords, Orson).
+// Returns FreeUnit for characters without a recruit check (the lords, Orson).
 enum RecruitedUnit charIdToRecruitedUnit(u8 charId) {
   switch (charId) {
   case CHARACTER_SETH:
@@ -83,7 +83,7 @@ enum RecruitedUnit charIdToRecruitedUnit(u8 charId) {
   case CHARACTER_SYRENE:
     return Syrene;
   default:
-    return (enum RecruitedUnit)31;
+    return FreeUnit;
   }
 }
 
@@ -107,7 +107,7 @@ static void resetPrepDeployment(void) {
       continue;
     int charId = UNIT_CHAR_ID(unit);
     int ru = charIdToRecruitedUnit((u8)charId);
-    if (ru == 31)
+    if (ru == FreeUnit)
       continue;
     if (IsCharacterForceDeployed(charId))
       continue;
@@ -135,7 +135,7 @@ void UnitList_TogglePrepDeployState(struct UnitListScreenProc *proc) {
   // Not deployed — check permit before allowing deploy.
   int charId = UNIT_CHAR_ID(unit);
   int ru = charIdToRecruitedUnit((u8)charId);
-  if (ru != 31 && !canDeployUnit((enum RecruitedUnit)ru)) {
+  if (ru != FreeUnit && !canDeployUnit((enum RecruitedUnit)ru)) {
     m4aSongNumStart(0x6c);
     return;
   }
@@ -144,7 +144,7 @@ void UnitList_TogglePrepDeployState(struct UnitListScreenProc *proc) {
 
 bool CanCharacterBePrepMoved(int charId) {
   int ru = charIdToRecruitedUnit((u8)charId);
-  if (ru != 31 && !canDeployUnit((enum RecruitedUnit)ru)) {
+  if (ru != FreeUnit && !canDeployUnit((enum RecruitedUnit)ru)) {
     return false;
   }
   return !IsCharacterForceDeployed(charId);
@@ -208,7 +208,7 @@ void PrepScreenReset(void *unused_proc) {
 int PrepCheckCanSelectUnit(struct ProcPrepUnit *proc, struct Unit *unit) {
   int charId = UNIT_CHAR_ID(unit);
   int ru = charIdToRecruitedUnit((u8)charId);
-  if (ru != 31 && !canDeployUnit((enum RecruitedUnit)ru)) {
+  if (ru != FreeUnit && !canDeployUnit((enum RecruitedUnit)ru)) {
     m4aSongNumStart(0x6c);
     return 0;
   }

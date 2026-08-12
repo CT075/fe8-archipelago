@@ -398,19 +398,24 @@ emitCPayloadUnion emitLn = do
         "  enum " ++ show (typeRep @PromotedClass) ++ " " ++ promotedClassKindName ++ ";"
     emitLn $ "};"
 
+-- [extras] are C-only members appended after the constructors and numbered
+-- consecutively. Use them for sentinels, which must not be added to the
+-- Haskell type: that would give them Archipelago locations and items and shift
+-- every subsequent flag index.
 emitCEnum ::
     forall a.
     forall m.
     (Monad m, Bounded a, Enum a, Show a, Typeable a) =>
+    [String] ->
     (String -> m ()) ->
     m ()
-emitCEnum emitLn = do
+emitCEnum extras emitLn = do
     emitLn $ "enum " ++ show (typeRep @a) ++ " {"
-    forM_ [minBound @a .. maxBound] $ \v ->
-        let name = show v
-            i = show $ fromEnum v
-         in emitLn $ "  " ++ name ++ "=" ++ i ++ ","
+    forM_ (zip names [(0 :: Int) ..]) $ \(name, i) ->
+        emitLn $ "  " ++ name ++ "=" ++ show i ++ ","
     emitLn "};"
+  where
+    names = map show [minBound @a .. maxBound] ++ extras
 
 headerLines :: [String]
 headerLines =
@@ -442,9 +447,9 @@ emitConnectorConfigH emitLn = do
     emitLn ""
     emitLn $ "#include \"global.h\""
     emitLn ""
-    emitCEnum @HolyWeapon emitLn
+    emitCEnum @HolyWeapon [] emitLn
     emitLn ""
-    emitCEnum @RecruitedUnit emitLn
+    emitCEnum @RecruitedUnit ["FreeUnit"] emitLn
     emitLn ""
     emitLn "struct Checks {"
     emitLn $ "  u8 found[" ++ show locationBytes ++ "];"
@@ -478,15 +483,15 @@ emitConnectorConfigH emitLn = do
                 ++ show (fromEnum $ Ruins i)
                 ++ ")"
     emitLn ""
-    emitCEnum @WeaponType emitLn
+    emitCEnum @WeaponType [] emitLn
     emitLn ""
-    emitCEnum @FillerItem emitLn
+    emitCEnum @FillerItem [] emitLn
     emitLn ""
-    emitCEnum @PromotedClass emitLn
+    emitCEnum @PromotedClass [] emitLn
     emitLn ""
     emitLn $ "#define NUM_CHECKS (" ++ show numLocations ++ ")"
     emitLn ""
-    emitCEnum @ItemKind emitLn
+    emitCEnum @ItemKind [] emitLn
     emitLn ""
     emitCPayloadUnion emitLn
     emitLn ""

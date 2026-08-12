@@ -53,6 +53,7 @@ enum RecruitedUnit {
   Knoll=28,
   Myrrh=29,
   Syrene=30,
+  FreeUnit=31,
 };
 
 struct Checks {
