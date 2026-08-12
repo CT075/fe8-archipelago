@@ -35,6 +35,7 @@ import System.IO (hPutStrLn, stderr)
 import Text.Read (readMaybe)
 import Type.Reflection
 
+
 -------------------- Generics Magic --------------------
 
 -- Note to maintainers: Don't touch anything in this section unless you already
@@ -182,6 +183,10 @@ data RecruitedUnit
 recruitedUnitLong :: RecruitedUnit -> String
 recruitedUnitLong LArachel = "L'Arachel Recruited"
 recruitedUnitLong u = show u ++ " Recruited"
+
+recruitedUnitShort :: RecruitedUnit -> String
+recruitedUnitShort LArachel = "L'Arachel"
+recruitedUnitShort u = show u
 
 recruitedUnitDeploy :: RecruitedUnit -> String
 recruitedUnitDeploy LArachel = "Deploy L'Arachel"
@@ -565,6 +570,9 @@ emitPythonData emitLn = do
     emitLn "items = ["
     forM_ [minBound @Item .. maxBound] $ emitLn . ("  " ++) . formatItem
     emitLn "]"
+    emitLn "FREE_UNIT_LOC = {"
+    forM_ [minBound @RecruitedUnit .. maxBound] $ emitLn . ("  " ++) . formatFreeUnit
+    emitLn "}"
     emitLn "SLOT_NAME_ADDR = {|archipelagoInfo|}"
     -- The `fake_*Offs` symbols are `offsetof` values exported by
     -- `bin/export_addresses/export_addresses.c`.
@@ -616,6 +624,12 @@ emitPythonData emitLn = do
             ++ ", "
             ++ show (fromEnum $ UnitRecruited u)
             ++ "),"
+    formatFreeUnit u =
+        ""
+            ++ show (recruitedUnitShort u)
+            ++ ": {|ROM_BASE:archipelagoOptions|}+{|fake_free"
+            ++ id (recruitedUnitShort u)
+            ++ "Offs|},"
 
     formatItem item = "(" ++ show (itemName item) ++ ", " ++ show (fromEnum item) ++ "),"
 
