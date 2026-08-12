@@ -23,17 +23,11 @@ POSTPROCESS := $(BIN_DIR)/postprocess.py
 
 POPULATED_CONNECTOR_CONFIG := $(BUILD_DIR)/connector_config.py
 
-BLANK_WEAPON_RANKS_HS := $(BIN_DIR)/blank_weapon_ranks/BlankWeaponRanks.hs
-BLANK_WEAPON_RANKS := $(BUILD_DIR)/blank_weapon_ranks.event
-
 $(ARCHIPELAGO_DEFS): $(GENDEFS) $(RAM_STRUCTURES_H)
 	$(GENDEFS) Event > $@
 
 $(RAM_SYMS): $(GENDEFS) $(RAM_STRUCTURES_H)
 	$(GENDEFS) Sym > $@
-
-$(BLANK_WEAPON_RANKS): $(BLANK_WEAPON_RANKS_HS)
-	runhaskell -Wall $< > $@
 
 include/connector_config.h: $(BIN_DIR)/connector_config/Generate.hs
 	runhaskell -Wall $< H > $@
@@ -60,7 +54,7 @@ $(SUSP_CHUNKS_GEN_EVENT): $(BIN_DIR)/save_alloc.py data/save_chunks.csv
 
 SYMBOLS := $(TARGET:.gba=.sym)
 
-EVENTS := $(EVENT_MAIN) $(ARCHIPELAGO_DEFS) $(BLANK_WEAPON_RANKS)
+EVENTS := $(EVENT_MAIN) $(ARCHIPELAGO_DEFS)
 
 hack: $(BASEPATCH)
 

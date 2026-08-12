@@ -6,7 +6,6 @@
 	ORG FreeSpace
 
   #include "_build/archipelagoDefs.event"
-  #include "_build/blank_weapon_ranks.event"
   #include "src/main.event"
   #include "data/main.event"
 
