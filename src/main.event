@@ -25,6 +25,7 @@
 #include "deathlink/deathlink.lyn.event"
 #include "summonfix/main.event"
 #include "growthDisplay/main.event"
+#include "skirmishSpawn/skirmishSpawn.lyn.event"
 
 #ifdef DEBUG
 #include "debug/main.event"

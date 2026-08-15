@@ -20,6 +20,10 @@ struct LocationItem {
   u16 id;
 };
 
+// Patched at generation time: every location the seed actually created gets an
+// [APItem]/[SelfItem] entry, so [Empty] means "not a location in this seed".
+extern const struct LocationItem locItems[NUM_CHECKS];
+
 struct APReceivedItem {
   u16 itemId;
   u8 filled;

@@ -45,6 +45,7 @@ MAIN_$(d): $(d)/data/final1ephEndScene.dmp
 MAIN_$(d): $(d)/data/final2eirEndScene.dmp
 MAIN_$(d): $(d)/data/final2ephEndScene.dmp
 MAIN_$(d): $(d)/data/prologueEndScene.dmp
+MAIN_$(d): $(d)/data/skirmishEndScene.dmp
 
 EVENTS_$(d) := MAIN_$(d) $(d)/markEndings.lyn.event
 

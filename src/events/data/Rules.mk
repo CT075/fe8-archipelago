@@ -57,7 +57,8 @@ $(d)/ruins6EndScene.dmp \
 $(d)/ruins7EndScene.dmp \
 $(d)/ruins8EndScene.dmp \
 $(d)/ruins9EndScene.dmp \
-$(d)/ruins10EndScene.dmp : HERE := $(d)
+$(d)/ruins10EndScene.dmp \
+$(d)/skirmishEndScene.dmp : HERE := $(d)
 
 $(d)/ch10eirEndScene.dmp \
 $(d)/ch10ephEndScene.dmp \
@@ -114,7 +115,8 @@ $(d)/ruins6EndScene.dmp \
 $(d)/ruins7EndScene.dmp \
 $(d)/ruins8EndScene.dmp \
 $(d)/ruins9EndScene.dmp \
-$(d)/ruins10EndScene.dmp &:
+$(d)/ruins10EndScene.dmp \
+$(d)/skirmishEndScene.dmp &:
 	$(PYTHON) $(HERE)/rip_chunks.py $(BASEROM) $(HERE)
 
 CLEAN := $(CLEAN) $(d)/*.dmp

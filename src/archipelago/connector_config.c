@@ -12,25 +12,25 @@ int chapterClearFlagIndex(int chapterId) {
 int holyWeaponFlagIndex(enum HolyWeapon weapon) {
   switch (weapon) {
     case Sieglinde:
-      return 42;
-    case Siegmund:
-      return 43;
-    case Gleipnir:
-      return 44;
-    case Garm:
-      return 45;
-    case Nidhogg:
-      return 46;
-    case Vidofnir:
-      return 47;
-    case Excalibur:
-      return 48;
-    case Audhulma:
-      return 49;
-    case Ivaldi:
-      return 50;
-    case Latona:
       return 51;
+    case Siegmund:
+      return 52;
+    case Gleipnir:
+      return 53;
+    case Garm:
+      return 54;
+    case Nidhogg:
+      return 55;
+    case Vidofnir:
+      return 56;
+    case Excalibur:
+      return 57;
+    case Audhulma:
+      return 58;
+    case Ivaldi:
+      return 59;
+    case Latona:
+      return 60;
     default:
       return -1;
   }
@@ -39,67 +39,67 @@ int holyWeaponFlagIndex(enum HolyWeapon weapon) {
 int recruitedUnitFlagIndex(enum RecruitedUnit unit) {
   switch (unit) {
     case Seth:
-      return 52;
-    case Franz:
-      return 53;
-    case Gilliam:
-      return 54;
-    case Vanessa:
-      return 55;
-    case Moulder:
-      return 56;
-    case Ross:
-      return 57;
-    case Garcia:
-      return 58;
-    case Neimi:
-      return 59;
-    case Colm:
-      return 60;
-    case Artur:
       return 61;
-    case Lute:
+    case Franz:
       return 62;
-    case Natasha:
+    case Gilliam:
       return 63;
-    case Joshua:
+    case Vanessa:
       return 64;
-    case Forde:
+    case Moulder:
       return 65;
-    case Kyle:
+    case Ross:
       return 66;
-    case Tana:
+    case Garcia:
       return 67;
-    case Amelia:
+    case Neimi:
       return 68;
-    case Innes:
+    case Colm:
       return 69;
-    case Gerik:
+    case Artur:
       return 70;
-    case Tethys:
+    case Lute:
       return 71;
-    case Marisa:
+    case Natasha:
       return 72;
-    case LArachel:
+    case Joshua:
       return 73;
-    case Dozla:
+    case Forde:
       return 74;
-    case Saleh:
+    case Kyle:
       return 75;
-    case Ewan:
+    case Tana:
       return 76;
-    case Cormag:
+    case Amelia:
       return 77;
-    case Rennac:
+    case Innes:
       return 78;
-    case Duessel:
+    case Gerik:
       return 79;
-    case Knoll:
+    case Tethys:
       return 80;
-    case Myrrh:
+    case Marisa:
       return 81;
-    case Syrene:
+    case LArachel:
       return 82;
+    case Dozla:
+      return 83;
+    case Saleh:
+      return 84;
+    case Ewan:
+      return 85;
+    case Cormag:
+      return 86;
+    case Rennac:
+      return 87;
+    case Duessel:
+      return 88;
+    case Knoll:
+      return 89;
+    case Myrrh:
+      return 90;
+    case Syrene:
+      return 91;
     default:
       return -1;
   }
