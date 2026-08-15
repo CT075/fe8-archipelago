@@ -61,6 +61,9 @@ chunks = [
     ("ruins8EndScene", 0x9FEA58, 0x9FEA74),
     ("ruins9EndScene", 0x9FF228, 0x9FF244),
     ("ruins10EndScene", 0x9FF330, 0x9FF354),
+    # EventScr_SkirmishCommonEnd: one dispatcher shared by every world map
+    # skirmish, keyed on the chapter index the skirmish map loaded.
+    ("skirmishEndScene", 0x9FFD64, 0x9FFE84),
 ]
 
 

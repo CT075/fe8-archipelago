@@ -65,6 +65,9 @@ include $(dir)/Rules.mk
 dir := $(d)/promoPermits
 include $(dir)/Rules.mk
 
+dir := $(d)/skirmishSpawn
+include $(dir)/Rules.mk
+
 EVENTS_$(d) := $(d)/_FE8EssentialFixes.event $(d)/main.event \
 	$(d)/InlineFix2_GenerateBestMovementScript.event
 

@@ -106,6 +106,15 @@ int recruitedUnitFlagIndex(enum RecruitedUnit unit);
 #define Ruins8Id (39)
 #define Ruins9Id (40)
 #define Ruins10Id (41)
+#define SkirmishZahaWoodsId (42)
+#define SkirmishAdlasPlainsId (43)
+#define SkirmishTerasPlateauId (44)
+#define SkirmishHamillCanyonId (45)
+#define SkirmishBethroenId (46)
+#define SkirmishZaalbulMarshId (47)
+#define SkirmishNarubeRiverId (48)
+#define SkirmishNelerasPeakId (49)
+#define SkirmishMelkaenCoastId (50)
 
 enum WeaponType {
   Sword=0,
@@ -163,7 +172,7 @@ enum PromotedClass {
   Recruit=22,
 };
 
-#define NUM_CHECKS (83)
+#define NUM_CHECKS (92)
 
 enum ItemKind {
   ProgLvlCap=0,

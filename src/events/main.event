@@ -1,5 +1,9 @@
 #include "markEndings.lyn.event"
 
+// The relocated scenes below start at CURRENTOFFSET, and event commands must be
+// 4-aligned. Don't rely on the blob above happening to end on a word boundary.
+ALIGN 4
+
 #define RealCh10EirEndingScene 0x9f43f8
 #define RealCh10EphEndingScene 0x9fac20
 #define RealCh11EirEndingScene 0x9f4a7c
@@ -56,6 +60,8 @@
 #define RealRuins8EndingScene 0x9FEA58
 #define RealRuins9EndingScene 0x9FF228
 #define RealRuins10EndingScene 0x9FF330
+// EventScr_SkirmishCommonEnd, run by CallEndEvent for every skirmish victory
+#define RealSkirmishCommonEnd 0x9FFD64
 
 PUSH
 ORG RealCh10EirEndingScene
@@ -671,5 +677,18 @@ POP
 Ruins10EndingScene:
 ASMC markRuins10Clear
 #incbin "data/ruins10EndScene.dmp"
+ENDA
+
+PUSH
+ORG RealSkirmishCommonEnd
+CALL SkirmishEndScene
+ENDA
+POP
+
+// The relocated blob is the vanilla per-site dispatcher; every operand in it is
+// an absolute literal, so it runs unchanged from its new home.
+SkirmishEndScene:
+ASMC markSkirmishClear
+#incbin "data/skirmishEndScene.dmp"
 ENDA
 

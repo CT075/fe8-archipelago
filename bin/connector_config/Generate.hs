@@ -255,6 +255,33 @@ data FillerItem
     | MasterSeal
     deriving (Show, Enum, Bounded, Typeable, Generic)
 
+-- World map nodes where FE8 can spawn a skirmish, in [gWMMonsterSpawnLocations]
+-- order (the ROM indexes a parallel table by spawn slot, so don't reorder
+-- these). Melkaen Coast only spawns monsters in the Creature Campaign, so the
+-- apworld gates it behind the Lagdou Ruins option.
+data SkirmishSite
+    = ZahaWoods
+    | AdlasPlains
+    | TerasPlateau
+    | HamillCanyon
+    | Bethroen
+    | ZaalbulMarsh
+    | NarubeRiver
+    | NelerasPeak
+    | MelkaenCoast
+    deriving (Show, Enum, Bounded, Eq, Typeable, Generic)
+
+skirmishSiteName :: SkirmishSite -> String
+skirmishSiteName ZahaWoods = "Za'ha Woods"
+skirmishSiteName AdlasPlains = "Adlas Plains"
+skirmishSiteName TerasPlateau = "Teras Plateau"
+skirmishSiteName HamillCanyon = "Hamill Canyon"
+skirmishSiteName Bethroen = "Bethroen"
+skirmishSiteName ZaalbulMarsh = "Za'albul Marsh"
+skirmishSiteName NarubeRiver = "Narube River"
+skirmishSiteName NelerasPeak = "Neleras Peak"
+skirmishSiteName MelkaenCoast = "Melkaen Coast"
+
 data Chapter
     = Prologue
     | -- For now, we treat Eirika and Ephraim versions of the same map as the
@@ -262,6 +289,7 @@ data Chapter
       C Int
     | Tower Int
     | Ruins Int
+    | Skirmish SkirmishSite
     | C5x
     | Endgame1
     | Endgame2
@@ -284,6 +312,7 @@ allChapters =
         ++ [Endgame1, Endgame2]
         ++ (Tower <$> [1 .. 8])
         ++ (Ruins <$> [1 .. 10])
+        ++ (Skirmish <$> [minBound .. maxBound])
 
 -- We can't use [GBoundedEnum] here because we have custom bounds on the [Int]s
 -- in [C], [Tower] and [Ruins].
@@ -487,6 +516,13 @@ emitConnectorConfigH emitLn = do
                 ++ "Id ("
                 ++ show (fromEnum $ Ruins i)
                 ++ ")"
+    forM_ [minBound @SkirmishSite .. maxBound] $ \s ->
+        emitLn $
+            "#define Skirmish"
+                ++ show s
+                ++ "Id ("
+                ++ show (fromEnum $ Skirmish s)
+                ++ ")"
     emitLn ""
     emitCEnum @WeaponType [] emitLn
     emitLn ""
@@ -617,6 +653,7 @@ emitPythonData emitLn = do
             "\"Complete Tower of Valni " ++ show i ++ "\""
         formatChapterText (Ruins i) =
             "\"Complete Lagdou Ruins " ++ show i ++ "\""
+        formatChapterText (Skirmish s) = show (skirmishSiteName s ++ " Skirmish")
 
     formatRecruitedUnit u =
         "("
